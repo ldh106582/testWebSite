@@ -33,7 +33,7 @@
 
                 expect(titleSpy.length).toBe(1);
 
-                expect(titleSpy.text()).toContain('제목');
+                expect(titleSpy[0].text()).toContain('제목');
             });
             test('items 변수 랜더링', async () => {
                 wrapper.vm.items = mockItems;
