@@ -21,16 +21,14 @@ import axios from '@/axios';
 
 const items = ref({})
 
-function getBoard () 
-{
+function getBoard () {
   axios.get('/board')
     .then((res) => {
     items.value = res.data.result;
   });
 }
 
-function getContent() 
-{
+function getContent() {
   alert('게시판 이동')
 }
 
