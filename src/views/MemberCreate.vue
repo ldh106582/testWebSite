@@ -9,12 +9,12 @@
                     </v-col>
                     <v-form fast-fail @submit.prevent="createMember" style="width: 100%;">
                         <v-col class="d-flex" style="width: 100%;"> 
-                            <v-text-field data-test="userId" v-model="userId" :rules="firstNameRules" label="아이디 (ID)" style="width: 70%; margin-right: 2%;" 
-                            @input="errorId" />
+                            <v-text-field data-test="userId" v-model="user.userId" :rules="firstNameRules" label="아이디 (ID)" style="width: 70%; margin-right: 2%;" 
+                            @input="errorId('userId')" />
                             <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck">중복확인</v-btn>
                         </v-col>
-                        <v-col> <v-text-field data-test="userPw" v-model="userPW" :rules="lastNameRules" label="패스워드 (Password)" /> </v-col>
-                        <v-col> <v-text-field data-test="userName" v-model="userName" :rules="lastNameRules" label="이름 (name)" /> </v-col>
+                        <v-col> <v-text-field data-test="userPw" v-model="user.userPw" :rules="lastNameRules" label="패스워드 (Password)" @input="errorId('userPw')" /> </v-col>
+                        <v-col> <v-text-field data-test="userName" v-model="user.userName" :rules="lastNameRules" label="이름 (name)" @input="errorId('userName')" /> </v-col>
                         <v-col><v-btn class="mt-2" type="submit" block>Submit</v-btn></v-col>
                     </v-form>
                 </v-sheet>
@@ -32,12 +32,15 @@ const intro = `회원가입 페이지 입니다. <div class="welcome"> 안녕하
 const typedText = ref('');
 let index = 0;
 let speed = 50;
-const userId = ref('');
-const userPw = ref('');
-const userName = ref('');
+const user = ref({
+    userId : '',
+    userPw: '',
+    userName: ''
+});
 const errorMSG = ref('한글은 입력하실 수 없습니다.');
 const errorUserId = ref('이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.');
 const confirmId = ref('Id 중복 체크를 반드시 진행하셔야 합니다.')
+const errorTrim = ref('공백은 포함될 수 없습니다.')
 const checkId = ref(false)
 
 function typing () {
@@ -48,19 +51,25 @@ function typing () {
     }
 };
 
-function errorId () {
-    const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(userId.value);
+function errorId (u) {
+
+    const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(user.value.userId);
 
     if (hasKorean) {
-        userId.value = '';
+        user.value.userId = '';
         return alert (errorMSG.value);
     }
 
+    if (user.value[u].includes(" ")) {
+        user.value[u] = user.value[u].replace(" ", "");
+        return alert(errorTrim.value);
+    }
 };
 
 function idCheck () {
-    axios.get('/idCheck')
-    .then((res) => {
+    axios.get('/idCheck', {
+        userId: user.value.userId,
+    }).then((res) => {
         const data = res.data.result;
 
         if(data.code) {
@@ -73,10 +82,24 @@ function idCheck () {
 };
 
 function createMember() {
-    
+
     if(checkId === false) {
         return alert(errorUserId)
-    } 
+    };
+
+    axios.post('/create-member', {
+        userId: user.value.userId,
+        userPw: user.value.userPw,
+        userName: user.value.userName
+    }).then((res) => {
+        const data = res.error;
+
+        if (data) {
+            alert('회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.');
+        } else {
+            alert('회원가입이 완료 되었씁니다.')
+        }
+    });
 
 }
 
