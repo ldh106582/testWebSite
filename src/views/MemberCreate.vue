@@ -3,18 +3,18 @@
         <v-row>
             <v-col class="d-flex justify-center align-center" style="height: 100vh;">
                 <v-sheet class="mx-auto" width="40%" height="48vh">
-                    <v-col style="margin-bottom: 1.5%; width: 100%;"> <!--class="typing-container"-->
+                    <v-col style="margin-bottom: 1.5%; width: 100%; height: 30%;"> <!--class="typing-container"-->
                         <div class="member-create" id="intro" v-html="typedText"></div> <!---->
                         <div id="cursor"></div>
                     </v-col>
                     <v-form fast-fail @submit.prevent="createMember" style="width: 100%;">
                         <v-col class="d-flex" style="width: 100%;"> 
                             <v-text-field data-test="userId" v-model="user.userId" :rules="firstNameRules" label="아이디 (ID)" style="width: 70%; margin-right: 2%;" 
-                            @input="errorId('userId')" />
+                            @input="errorMember('userId')" />
                             <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck">중복확인</v-btn>
                         </v-col>
-                        <v-col> <v-text-field data-test="userPw" v-model="user.userPw" :rules="lastNameRules" label="패스워드 (Password)" @input="errorId('userPw')" /> </v-col>
-                        <v-col> <v-text-field data-test="userName" v-model="user.userName" :rules="lastNameRules" label="이름 (name)" @input="errorId('userName')" /> </v-col>
+                        <v-col v-if="checkId === true"> <v-text-field data-test="userPw" v-model="user.userPw" :rules="lastNameRules" label="패스워드 (Password)" @input="errorMember('userPw')" /> </v-col>
+                        <v-col v-if="user.userPw !== '' "> <v-text-field data-test="userName" v-model="user.userName" :rules="lastNameRules" label="이름 (name)" @input="errorMember('userName')" /> </v-col>
                         <v-col><v-btn class="mt-2" type="submit" block>Submit</v-btn></v-col>
                     </v-form>
                 </v-sheet>
@@ -27,20 +27,15 @@
 import { ref, onMounted } from 'vue';
 import axios from '@/axios';
 
-
 const intro = `회원가입 페이지 입니다. <div class="welcome"> 안녕하세요. It 시험을 공부할 수 있는 공간에 오신 것을 환영합니다.</div> <div class="welcome"> 여러분들의 미래를 응원합니다.</div> `;
 const typedText = ref('');
 let index = 0;
-let speed = 50;
+let speed = 25;
 const user = ref({
     userId : '',
     userPw: '',
     userName: ''
 });
-const errorMSG = ref('한글은 입력하실 수 없습니다.');
-const errorUserId = ref('이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.');
-const confirmId = ref('Id 중복 체크를 반드시 진행하셔야 합니다.')
-const errorTrim = ref('공백은 포함될 수 없습니다.')
 const checkId = ref(false)
 
 function typing () {
@@ -51,41 +46,60 @@ function typing () {
     }
 };
 
-function errorId (u) {
+function errorMember (u) {
 
+    const errorMsg = '한글은 입력하실 수 없습니다.';
+    const errorTrim = '공백은 포함될 수 없습니다.';
     const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(user.value.userId);
 
     if (hasKorean) {
         user.value.userId = '';
-        return alert (errorMSG.value);
+        return alert (errorMsg);
     }
-
+    
     if (user.value[u].includes(" ")) {
         user.value[u] = user.value[u].replace(" ", "");
-        return alert(errorTrim.value);
+        return alert (errorTrim);
     }
 };
 
 function idCheck () {
+
+    const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
+    const useUserId = '사용 가능한 아이디 입니다.';
+
     axios.get('/idCheck', {
-        userId: user.value.userId,
-    }).then((res) => {
-        const data = res.data.result;
-
-        if(data.code) {
-            return alert(errorUserId);
+        params: {
+            userId: user.value.userId,
         }
-        
-        checkId = true;
+    }).then((res) => {
+        const data = res.data.error;
 
+        if (data) {
+            return alert (errorUserId);
+        } else {
+            alert (useUserId);
+            checkId.value = true;
+        }
     });
 };
 
 function createMember() {
 
-    if(checkId === false) {
-        return alert(errorUserId)
+    const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
+    const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
+    const seccesMember = '회원가입이 완료 되었습니다.';
+    const comfirmData = '아이디 '
+
+    if (checkId.value === false) {
+        return alert (confirmId)
     };
+
+    if (user.value.userPw === "") {
+        return alert ('비밀번호를 반드시 입력해야 합니다.');
+    } else if (user.value.userName === "") {
+        return alert ('이름을 반드시 입력해야 합니다.');
+    }
 
     axios.post('/create-member', {
         userId: user.value.userId,
@@ -95,15 +109,13 @@ function createMember() {
         const data = res.error;
 
         if (data) {
-            alert('회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.');
+            alert (errorMember);
         } else {
-            alert('회원가입이 완료 되었씁니다.')
+            alert (seccesMember);
         }
     });
 
 }
-
-
 
 onMounted (() => {
     typing ();
