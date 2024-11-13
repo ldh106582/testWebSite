@@ -64,7 +64,6 @@ function errorMember (u) {
 };
 
 function idCheck () {
-
     const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
     const useUserId = '사용 가능한 아이디 입니다.';
 
@@ -89,7 +88,6 @@ function createMember() {
     const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
     const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
     const seccesMember = '회원가입이 완료 되었습니다.';
-    const comfirmData = '아이디 '
 
     if (checkId.value === false) {
         return alert (confirmId)
@@ -106,7 +104,7 @@ function createMember() {
         userPw: user.value.userPw,
         userName: user.value.userName
     }).then((res) => {
-        const data = res.error;
+        const data = res.data.error;
 
         if (data) {
             alert (errorMember);

@@ -1,13 +1,14 @@
-import { describe, test, expect, vi, beforeEach } from "vitest";
+import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import axios from "@/axios";
-import { mount } from "@vue/test-utils";
+import { flushPromises, mount } from "@vue/test-utils";
 import MemberCreate from "@/views/MemberCreate.vue";
 import { ref } from "vue";
 
 describe('Member Create', () => {
     
     let wrapper;
-    let axiosSpy;
+    let axiosGetSpy;
+    let axiosPostSpy;
     const user = ref({
         userId: 'test',
         userPw: '1234',
@@ -17,10 +18,14 @@ describe('Member Create', () => {
     beforeEach(() => {
         wrapper = mount(MemberCreate);
 
-        axiosSpy = vi.spyOn(axios, 'get').mockReturnValue({
+        axiosGetSpy = vi.spyOn(axios, 'get').mockReturnValue({
             status: 200,
-            data: { userId: 'test123' }
-        })
+            data: { res: { error: true } }
+        });
+
+        axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValue({ 
+           data: { error: true } // 응답 데이터에서 error가 true
+        });
     });
 
     describe('errorMember 함수 ', () => {
@@ -48,16 +53,105 @@ describe('Member Create', () => {
     describe('idcheck 함수', () => {
         test('userId가 중복일 경우', async() => {
             const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
-
-            wrapper.vm.idCheck(user.userId);
-            const res = await axios.get('/idCheck', {
-                params: {
-                    userId: user.userId
-                }
+            axios.get.mockResolvedValueOnce({
+                data: { error: true }
             });
             window.alert = vi.fn();
 
-            expect(window.alert).toBeCalledWith(errorUserId);
+            await wrapper.vm.idCheck();
+
+            wrapper.vm.$nextTick();
+
+            expect(window.alert).toHaveBeenCalledWith(errorUserId);
+        });
+        test('userId 사용 가능할 때', async() => {
+            const useUserId = '사용 가능한 아이디 입니다.';
+            axios.get.mockResolvedValueOnce({
+                data: { error: false }
+            });
+
+            await wrapper.vm.idCheck();
+
+            wrapper.vm.$nextTick();
+
+            expect(window.alert).toHaveBeenCalledWith(useUserId);
+        });
+    });
+    describe('createMember 함수', () => {
+        describe('error 발생', () => {
+            test('Id 중복 체크를 하지 않았을 때', () => {
+                const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
+                const checkId = false;
+                window.alert = vi.fn();
+    
+                wrapper.vm.createMember(checkId);
+    
+                expect(window.alert).toBeCalledWith(confirmId);
+            });
+            test('비밀번호 입력하지 않았을 때', async () => {
+                const checkPw = '비밀번호를 반드시 입력해야 합니다.';
+                wrapper.vm.checkId = true;
+                wrapper.vm.user.userPw = '';
+                const userPwSpy = wrapper.vm.user.userPw;
+                window.alert = vi.fn();
+    
+                await wrapper.vm.$nextTick();
+    
+                wrapper.vm.createMember(userPwSpy);
+    
+                expect(window.alert).toBeCalledWith(checkPw);
+            });
+            test('이름을 입력하지 않았을 때', async () => {
+                const checkName = '이름을 반드시 입력해야 합니다.';
+                wrapper.vm.checkId = true;
+                wrapper.vm.user.userPw = 'test12';
+                const userPwSpy = wrapper.vm.user.userPw;
+                window.alert = vi.fn();
+    
+                await wrapper.vm.$nextTick();
+    
+                wrapper.vm.createMember(userPwSpy);
+    
+                expect(window.alert).toBeCalledWith(checkName);
+            });
+        });
+        describe('axios post 핸들러', () => {
+            test('예상하지 못한 오류 발생', async () => {
+                const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
+                wrapper.vm.checkId = true;
+                wrapper.vm.user = user.value;
+                window.alert = vi.fn();
+            
+                axios.post.mockResolvedValueOnce({
+                    data: { error: true }
+                });
+            
+                await wrapper.vm.createMember();
+            
+                await flushPromises();
+            
+                expect(axios.post).toHaveBeenCalledWith('/create-member', user.value);
+            
+                expect(window.alert).toBeCalledWith(errorMember);
+            });
+            test('회원가입을 성공', async () => {
+                const seccesMember = '회원가입이 완료 되었습니다.';
+                wrapper.vm.checkId = true;
+                wrapper.vm.user = user.value;
+                window.alert = vi.fn();
+            
+                axios.post.mockResolvedValueOnce({
+                    data: { error: false }
+                });
+
+                await wrapper.vm.createMember();
+            
+                await flushPromises();
+            
+                expect(axios.post).toHaveBeenCalledWith('/create-member', user.value);
+            
+                expect(window.alert).toBeCalledWith(seccesMember);
+            })
         });
     });
 });
