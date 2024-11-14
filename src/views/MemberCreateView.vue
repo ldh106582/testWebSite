@@ -1,7 +1,7 @@
 <template>
     <v-container fluid fill-height>
         <v-row>
-            <v-col class="d-flex justify-center align-center" style="height: 100vh;">
+            <v-col class="d-flex justify-center align-center" style="height: 93vh;">
                 <v-sheet class="mx-auto" width="40%" height="48vh">
                     <v-col style="margin-bottom: 1.5%; width: 100%; height: 30%;"> <!--class="typing-container"-->
                         <div class="member-create" id="intro" v-html="typedText"></div> <!---->
@@ -9,12 +9,15 @@
                     </v-col>
                     <v-form fast-fail @submit.prevent="createMember" style="width: 100%;">
                         <v-col class="d-flex" style="width: 100%;"> 
-                            <v-text-field data-test="userId" v-model="user.userId" :rules="firstNameRules" label="아이디 (ID)" style="width: 70%; margin-right: 2%;" 
-                            @input="errorMember('userId')" />
+                            <v-text-field data-test="userId" v-model="user.userId" label="아이디 (ID)" class="userId" 
+                            @input="errorMember('userId')" :rules="rulesId" />
                             <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck">중복확인</v-btn>
                         </v-col>
-                        <v-col v-if="checkId === true"> <v-text-field data-test="userPw" v-model="user.userPw" :rules="lastNameRules" label="패스워드 (Password)" @input="errorMember('userPw')" /> </v-col>
-                        <v-col v-if="user.userPw !== '' "> <v-text-field data-test="userName" v-model="user.userName" :rules="lastNameRules" label="이름 (name)" @input="errorMember('userName')" /> </v-col>
+                        <v-col v-if="checkId">
+                            <v-text-field data-test="userPw" v-model="user.userPw" type="password" 
+                            :rules="rulesPw" label="패스워드 (Password)" @input="errorMember('userPw')" />
+                        </v-col>
+                        <v-col v-if="checkPw"> <v-text-field data-test="userName" v-model="user.userName" label="이름 (name)" @input="errorMember('userName')" /> </v-col>
                         <v-col><v-btn class="mt-2" type="submit" block>Submit</v-btn></v-col>
                     </v-form>
                 </v-sheet>
@@ -26,6 +29,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from '@/axios';
+import { useRouter } from 'vue-router'
 
 const intro = `회원가입 페이지 입니다. <div class="welcome"> 안녕하세요. It 시험을 공부할 수 있는 공간에 오신 것을 환영합니다.</div> <div class="welcome"> 여러분들의 미래를 응원합니다.</div> `;
 const typedText = ref('');
@@ -35,8 +39,34 @@ const user = ref({
     userId : '',
     userPw: '',
     userName: ''
+    
 });
-const checkId = ref(false)
+const checkId = ref(false);
+const checkPw =  ref(false)
+const rulesId = ref([
+    v => {
+        const idPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const validId = '아이디는 패스워드를 찾는데 중요한 데이터 입니다. 이메일 형식으로 작성해주세요.'
+        if (!idPattern.test(v)) {
+            return validId;
+        } else {
+            return true;
+        }
+    }
+]);
+const rulesPw = ref([
+    v => {
+        const pwPattern = /[!@#$%^&*(),.?":{}|<>]/;
+        const validPw = '특수문자가 반드시 포함되어야 합니다.';
+        if (!pwPattern.test(v)) {
+            return validPw; 
+        } else {
+            return checkPw.value = true;
+        }
+    }
+]);
+
+const router = useRouter();
 
 function typing () {
     if(index < intro.length) {
@@ -63,11 +93,11 @@ function errorMember (u) {
     }
 };
 
-function idCheck () {
+async function idCheck () {
     const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
     const useUserId = '사용 가능한 아이디 입니다.';
 
-    axios.get('/idCheck', {
+    await axios.get('/idCheck', {
         params: {
             userId: user.value.userId,
         }
@@ -83,7 +113,7 @@ function idCheck () {
     });
 };
 
-function createMember() {
+async function createMember() {
 
     const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
     const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
@@ -99,7 +129,7 @@ function createMember() {
         return alert ('이름을 반드시 입력해야 합니다.');
     }
 
-    axios.post('/create-member', {
+    await axios.post('/create-member', {
         userId: user.value.userId,
         userPw: user.value.userPw,
         userName: user.value.userName
@@ -110,6 +140,7 @@ function createMember() {
             alert (errorMember);
         } else {
             alert (seccesMember);
+            return router.push('/login-page')
         }
     });
 
@@ -156,6 +187,11 @@ ul, li, dl, dt, dd, p, span{margin:0;padding:0}
     50% {
         opacity: 0;
     }
+}
+
+.userId{
+    width: 70%;
+    margin-right: 2%;
 }
 
 </style>

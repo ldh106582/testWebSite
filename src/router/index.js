@@ -9,8 +9,13 @@ const routes = [
     {
         path: '/member-create',
         name : 'member-create',
-        component: () => import('@/views/MemberCreate.vue'),
-    }
+        component: () => import('@/views/MemberCreateView.vue'),
+    },
+    {
+        path: '/login-page',
+        name : 'login-page',
+        component: () => import('@/views/LoginPageView.vue'),
+    },
 ]
 
 const router = createRouter({

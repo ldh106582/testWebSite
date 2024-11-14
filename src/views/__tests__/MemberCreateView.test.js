@@ -1,8 +1,10 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import axios from "@/axios";
 import { flushPromises, mount } from "@vue/test-utils";
-import MemberCreate from "@/views/MemberCreate.vue";
+import MemberCreate from "@/views/MemberCreateView.vue";
+import LoginPageView from '@/views/LoginPageView.vue';
 import { ref } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 describe('Member Create', () => {
     
@@ -15,8 +17,29 @@ describe('Member Create', () => {
         userName: 'test'
     });
 
-    beforeEach(() => {
-        wrapper = mount(MemberCreate);
+    beforeEach(async() => {
+        const router = createRouter({
+            history: createWebHistory(),
+            routes: [
+                {
+                    path: '/login-page',
+                    name: 'login-page',
+                    component: LoginPageView
+                }
+            ]
+        });
+
+        router.push({
+            path: '/login-page',
+        });
+
+        await router.isReady()
+
+        wrapper = mount(MemberCreate, {
+            global: {
+                plugins: [router]
+            }
+        });
 
         axiosGetSpy = vi.spyOn(axios, 'get').mockReturnValue({
             status: 200,
@@ -28,6 +51,34 @@ describe('Member Create', () => {
         });
     });
 
+    describe('rules 변수', () => {
+        describe('rulesPw 변수 테스트', () => {
+            test('비밀번호가 특수문자가 없을 경우', () => {
+                const mockPw = 'test12';
+                const errorPw = '특수문자가 반드시 포함되어야 합니다.';
+                const validPw = wrapper.vm.rulesPw[0](mockPw);
+                expect(validPw).toBe(errorPw);
+            });
+            test('비밀번호가 특수문자가 포함되었을 경우', () => {
+                const mockPw = 'test12!';
+                const validPw = wrapper.vm.rulesPw[0](mockPw);
+                expect(validPw).toBe(true);
+            });
+        });
+        describe('rulesId 변수 테스트', () => {
+            test('@가 포함되지 않았을 경우 테스트', () => {
+                const mockId = "test"
+                const idCehck = '아이디는 패스워드를 찾는데 중요한 데이터 입니다. 이메일 형식으로 작성해주세요.';
+                const validId = wrapper.vm.rulesId[0](mockId);
+                expect(validId).toBe(idCehck);
+            });
+            test('아이디가 @가 포함되었을 경우', () => {
+                const mockId = 'test@naver.com';
+                const validId = wrapper.vm.rulesId[0](mockId);
+                expect(validId).toBe(true);
+            });
+        });
+    });
     describe('errorMember 함수 ', () => {
         test('errorMember 함수 userId 한국어 입력 오류', () => {
             const errorMsg = '한글은 입력하실 수 없습니다.';

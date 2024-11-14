@@ -1,7 +1,9 @@
 <template>
   <v-layout class="rounded rounded-md">
-    <v-app-bar title="IT 자격증 사이트">
-      <v-btn class="mr-5" @click="createMember">회원가입</v-btn>
+    <v-app-bar>
+      <v-col class="header" @click="mainPage">IT 개발자 자격증 사이트</v-col>
+      <v-btn class="createMember mr-5" @click="createMember">회원가입</v-btn>
+      <v-btn class="createMember mr-5" @click="login">로그인</v-btn>
     </v-app-bar>
 
     <v-navigation-drawer>
@@ -24,7 +26,6 @@
 
 <script setup>
 import { defineOptions, ref } from 'vue';
-
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -40,12 +41,25 @@ const lists = ref([
   {title : '리눅스마스터 2급 실기'}
   ]);
 
-  function createMember() {
-    console.log("dh : " + router)
+  function mainPage () {
+    router.push('/')
+  }
+
+  function createMember () {
     router.push('/member-create');
   };
+
+  function login () {
+    router.push('/login-page')
+  }
 </script>
 
 <style scoped>
+.header:hover{
+  cursor: pointer;
+}
 
+.createMember {
+  border: 1px solid silver;
+}
 </style>
