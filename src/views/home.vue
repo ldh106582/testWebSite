@@ -1,11 +1,16 @@
 <template>
-      <div class="d-flex" style="width: 100%;">
+  <v-container fluid="">
+    <v-col>
+      <div class="d-flex">
         <chartView class="chart" />
         <announcementView class="announcment"/>
       </div>
+
       <div class="d-flex" style="width: 100%;">
         <Welcome class="welcome" />
       </div>
+    </v-col>
+  </v-container>
 </template>
 
 <script setup>
@@ -17,12 +22,11 @@ import Welcome from '@/components/Welcome.vue'
 <style scoped>
 .announcment{
   width: 50%;
-  border: 1px solid silver;
 }
 
 .chart{
-  width: 50%;
-  border: 1px solid silver;
+    width: 50%;
+    border: 1px solid silver;
 }
 
 .welcome{

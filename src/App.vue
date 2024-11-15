@@ -6,19 +6,15 @@
       <v-btn class="createMember mr-5" @click="login">로그인</v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer>
+    <v-navigation-drawer class="sideBar">
       <v-list density="compact" nav>
-        <v-list-item
-          v-for="(list, index) in lists"
-          :key="index"
-          :title="list.title"
-          :to="list.path" 
-          prepend-icon="mdi-text-box-outline">
+        <v-list-item class="sideBar-text" v-for="(list, index) in lists" :key="index"  :title="list.title"
+          :to="list.path" prepend-icon="mdi-text-box-outline">
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-main class="align-center justify-center" style="min-height: 300px;">
+    <v-main class="sideBar-main align-center justify-center">
       <router-view />
     </v-main>
   </v-layout>
@@ -61,5 +57,20 @@ const lists = ref([
 
 .createMember {
   border: 1px solid silver;
+}
+
+.sideBar{
+  background-color: rgb(26, 32, 53);
+}
+
+.sideBar-text{
+  color: rgb(255, 255, 255);
+  box-shadow: rgba(69, 65, 78, 0.06) 4px 4px 10px 0px;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.sideBar-main{
+  background-color: #F9F9F9;
 }
 </style>

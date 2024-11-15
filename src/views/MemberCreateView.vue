@@ -39,7 +39,6 @@ const user = ref({
     userId : '',
     userPw: '',
     userName: ''
-    
 });
 const checkId = ref(false);
 const checkPw =  ref(false)
@@ -118,6 +117,7 @@ async function createMember() {
     const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
     const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
     const seccesMember = '회원가입이 완료 되었습니다.';
+    const data = '';
 
     if (checkId.value === false) {
         return alert (confirmId)
@@ -135,14 +135,14 @@ async function createMember() {
         userName: user.value.userName
     }).then((res) => {
         const data = res.data.error;
-
-        if (data) {
-            alert (errorMember);
-        } else {
-            alert (seccesMember);
-            return router.push('/login-page')
-        }
     });
+
+    if (data) {
+        alert (errorMember);
+    } else {
+        alert (seccesMember);
+        router.push('/login-page')
+    }
 
 }
 
