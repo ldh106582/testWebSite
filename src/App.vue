@@ -70,7 +70,5 @@ const lists = ref([
   font-weight: 200;
 }
 
-.sideBar-main{
-  background-color: #F9F9F9;
-}
+
 </style>

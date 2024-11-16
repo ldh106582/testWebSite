@@ -3,8 +3,8 @@
         <v-row>
             <v-col class="d-flex justify-center align-center" style="height: 93vh;">
                 <v-sheet class="mx-auto" width="40%" height="48vh">
-                    <v-col style="margin-bottom: 1.5%; width: 100%; height: 30%;"> <!--class="typing-container"-->
-                        <div class="member-create" id="intro" v-html="typedText"></div> <!---->
+                    <v-col style="margin-bottom: 1.5%; width: 100%; height: 30%;">
+                        <div class="member-create" id="intro" v-html="typedText"></div> 
                         <div id="cursor"></div>
                     </v-col>
                     <v-form fast-fail @submit.prevent="createMember" style="width: 100%;">

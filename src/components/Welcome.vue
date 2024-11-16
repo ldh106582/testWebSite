@@ -16,6 +16,8 @@
 <style scoped>
 .item{
   text-align: center;
+  max-height: 30vh;
+  height: 30vh;
 }
 
 #title{
