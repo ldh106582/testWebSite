@@ -35,11 +35,7 @@ const intro = `회원가입 페이지 입니다. <div class="welcome"> 안녕하
 const typedText = ref('');
 let index = 0;
 let speed = 25;
-const user = ref([
-    { userId : '' },
-    { userPw: '' },
-    { userName: '' }
-]);
+const user = ref([]);
 const checkId = ref(false);
 const checkPw =  ref(false)
 const rulesId = ref([
@@ -96,8 +92,6 @@ async function idCheck () {
     const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
     const useUserId = '사용 가능한 아이디 입니다.';
 
-    console.log(user[0].userId)
-
     await axios.get('/user-data-check', {
         params: {
             userId: user.value.userId,
@@ -119,7 +113,6 @@ async function createMember() {
     const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
     const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
     const seccesMember = '회원가입이 완료 되었습니다.';
-    const data = '';
 
     if (checkId.value === false) {
         return alert (confirmId)
@@ -127,7 +120,7 @@ async function createMember() {
 
     if (user.value.userPw === "") {
         return alert ('비밀번호를 반드시 입력해야 합니다.');
-    } else if (user.value.userName === "") {
+    } else if (user.value.userPw !== "" && user.value.userName === "") {
         return alert ('이름을 반드시 입력해야 합니다.');
     }
 

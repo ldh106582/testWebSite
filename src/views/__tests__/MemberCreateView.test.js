@@ -11,11 +11,7 @@ describe('Member Create', () => {
     let wrapper;
     let axiosGetSpy;
     let axiosPostSpy;
-    const user = ref({
-        userId: 'test',
-        userPw: '1234',
-        userName: 'test'
-    });
+    const user = ref([]);
 
     beforeEach(async() => {
         const router = createRouter({
@@ -156,21 +152,27 @@ describe('Member Create', () => {
                 const checkName = '이름을 반드시 입력해야 합니다.';
                 wrapper.vm.checkId = true;
                 wrapper.vm.user.userPw = 'test12';
-                const userPwSpy = wrapper.vm.user.userPw;
+                wrapper.vm.user.userName = '';
+                const userNameSpy = wrapper.vm.user.userName;
                 window.alert = vi.fn();
     
                 await wrapper.vm.$nextTick();
     
-                wrapper.vm.createMember(userPwSpy);
+                wrapper.vm.createMember(userNameSpy);
     
                 expect(window.alert).toBeCalledWith(checkName);
             });
         });
         describe('axios post 핸들러', () => {
+            const mockUser = [{
+                userId: 'test',
+                userPw: 'test12!',
+                userName: 'tester'
+            }]
             test('예상하지 못한 오류 발생', async () => {
                 const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
                 wrapper.vm.checkId = true;
-                wrapper.vm.user = user.value;
+                wrapper.vm.user = mockUser[0];
                 window.alert = vi.fn();
             
                 axios.post.mockResolvedValueOnce({ data: { error: true } });
@@ -186,7 +188,7 @@ describe('Member Create', () => {
             test('회원가입을 성공', async () => {
                 const seccesMember = '회원가입이 완료 되었습니다.';
                 wrapper.vm.checkId = true;
-                wrapper.vm.user = user.value;
+                wrapper.vm.user = mockUser[0];
                 window.alert = vi.fn();
             
                 axios.post.mockResolvedValueOnce({
@@ -197,7 +199,7 @@ describe('Member Create', () => {
             
                 await flushPromises();
             
-                expect(axios.post).toHaveBeenCalledWith('/create-member', user.value);
+                expect(axios.post).toHaveBeenCalledWith('/create-member', wrapper.vm.user);
             
                 expect(window.alert).toBeCalledWith(seccesMember);
             })
