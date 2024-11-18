@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, test, expect, vi, beforeEach } from "vitest";
 import axios from "@/axios";
 import { flushPromises, mount } from "@vue/test-utils";
 import MemberCreate from "@/views/MemberCreateView.vue";
@@ -173,16 +173,14 @@ describe('Member Create', () => {
                 wrapper.vm.user = user.value;
                 window.alert = vi.fn();
             
-                axios.post.mockResolvedValueOnce({
-                    data: { error: true }
-                });
+                axios.post.mockResolvedValueOnce({ data: { error: true } });
             
                 await wrapper.vm.createMember();
-            
+                
+                await wrapper.vm.$nextTick();
                 await flushPromises();
             
-                expect(axios.post).toHaveBeenCalledWith('/create-member', user.value);
-            
+                expect(axios.post).toHaveBeenCalledWith('/create-member', wrapper.vm.user);
                 expect(window.alert).toBeCalledWith(errorMember);
             });
             test('회원가입을 성공', async () => {

@@ -1,6 +1,6 @@
 <template>
-  <v-col cols="12" lg="12" sm="12" xm="12">
-    <v-table style="border: 1px solid red;">
+  <v-container>
+    <v-table>
       <thead>
         <tr data-test="title">
           <th class="title"> 제목 </th>
@@ -14,14 +14,17 @@
         </tr>
       </tbody>
     </v-table>
-  </v-col>
+  </v-container>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from '@/axios';
 
-const items = ref({})
+const items = ref([
+  {
+    board_title: '1', board_checkNum: '1'
+  }])
 
 function getBoard () {
   axios.get('/board')

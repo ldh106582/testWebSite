@@ -1,7 +1,7 @@
 <template>
     <v-container fluid="">
-        <v-row cols="12" lg="12" style="width: 100%; border: 1px solid red;">
-            <v-col cols="12" lg="12" sm="12" xs="12" >
+        <v-row>
+            <v-col>
                 <canvas ref="myChart"> </canvas>
                 <div id="licens">
                     <button @click="updateChart">정보처리기사</button>

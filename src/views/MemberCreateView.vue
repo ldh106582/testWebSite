@@ -18,7 +18,7 @@
                             :rules="rulesPw" label="패스워드 (Password)" @input="errorMember('userPw')" />
                         </v-col>
                         <v-col v-if="checkPw"> <v-text-field data-test="userName" v-model="user.userName" label="이름 (name)" @input="errorMember('userName')" /> </v-col>
-                        <v-col><v-btn class="mt-2" type="submit" block>Submit</v-btn></v-col>
+                        <v-col><v-btn class="mt-2" color="rgb(26, 32, 53)" type="submit" block>Submit</v-btn></v-col>
                     </v-form>
                 </v-sheet>
             </v-col>
@@ -35,11 +35,11 @@ const intro = `회원가입 페이지 입니다. <div class="welcome"> 안녕하
 const typedText = ref('');
 let index = 0;
 let speed = 25;
-const user = ref({
-    userId : '',
-    userPw: '',
-    userName: ''
-});
+const user = ref([
+    { userId : '' },
+    { userPw: '' },
+    { userName: '' }
+]);
 const checkId = ref(false);
 const checkPw =  ref(false)
 const rulesId = ref([
@@ -96,7 +96,9 @@ async function idCheck () {
     const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
     const useUserId = '사용 가능한 아이디 입니다.';
 
-    await axios.get('/idCheck', {
+    console.log(user[0].userId)
+
+    await axios.get('/user-data-check', {
         params: {
             userId: user.value.userId,
         }
@@ -135,14 +137,14 @@ async function createMember() {
         userName: user.value.userName
     }).then((res) => {
         const data = res.data.error;
+        
+        if (data) {
+            alert (errorMember);
+        } else {
+            alert (seccesMember);
+            router.push('/login-page')
+        }
     });
-
-    if (data) {
-        alert (errorMember);
-    } else {
-        alert (seccesMember);
-        router.push('/login-page')
-    }
 
 }
 
