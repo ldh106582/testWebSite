@@ -52,4 +52,15 @@ describe('LoginPageView', ()=> {
         
         
     });
+    describe('findId, findPw함수', () => {
+        // test('아이디 찾기 함수 호출', () => {
+        //     wrapper.vm.findId();
+
+
+        // });
+        // test('비밀번호 찾기 함수 호출', () => {
+        //     wrapper.vm.findPw();
+        // });
+
+    });
 })

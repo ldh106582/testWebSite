@@ -16,6 +16,16 @@ const routes = [
         name : 'login-page',
         component: () => import('@/views/LoginPageView.vue'),
     },
+    {
+        path: '/find-id',
+        name : 'find-id',
+        component: () => import('@/views/FindIdView.vue'),
+    },
+    {
+        path: '/find-pw',
+        name : 'find-pw',
+        component: () => import('@/views/FindPwView.vue'),
+    },
 ]
 
 const router = createRouter({

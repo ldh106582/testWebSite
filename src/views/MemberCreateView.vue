@@ -11,7 +11,7 @@
                         <v-col class="d-flex" style="width: 100%;"> 
                             <v-text-field data-test="userId" v-model="user.userId" label="아이디 (ID)" class="userId" 
                             @input="errorMember('userId')" :rules="rulesId" />
-                            <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck">중복확인</v-btn>
+                            <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck" :disabled="!validEmail">중복확인</v-btn>
                         </v-col>
                         <v-col v-if="checkId">
                             <v-text-field data-test="userPw" v-model="user.userPw" type="password" 
@@ -29,7 +29,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from '@/axios';
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 
 const intro = `회원가입 페이지 입니다. <div class="welcome"> 안녕하세요. It 시험을 공부할 수 있는 공간에 오신 것을 환영합니다.</div> <div class="welcome"> 여러분들의 미래를 응원합니다.</div> `;
 const typedText = ref('');
@@ -37,15 +37,17 @@ let index = 0;
 let speed = 25;
 const user = ref([]);
 const checkId = ref(false);
-const checkPw =  ref(false)
+const checkPw =  ref(false);
+const validEmail = ref(false);
 const rulesId = ref([
     v => {
         const idPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const validId = '아이디는 패스워드를 찾는데 중요한 데이터 입니다. 이메일 형식으로 작성해주세요.'
+        const validId = '아이디는 패스워드를 찾는데 중요한 데이터 입니다. 이메일 형식으로 작성해주세요.';
         if (!idPattern.test(v)) {
-            return validId;
+            return validId; // 오류 메시지 반환
         } else {
-            return true;
+            validEmail.value = true; // 유효한 경우
+            return true
         }
     }
 ]);
