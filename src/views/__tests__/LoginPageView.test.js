@@ -1,7 +1,7 @@
 import { describe, test, vi, expect, beforeEach } from "vitest";
 import LoginPageView from "@/views/LoginPageView.vue";
-import axios from "@/axios";
 import { mount } from "@vue/test-utils";
+import { useRoute } from "vue-router";
 
 describe('LoginPageView', ()=> {
     let wrapper;
@@ -53,11 +53,11 @@ describe('LoginPageView', ()=> {
         
     });
     describe('findId, findPw함수', () => {
-        // test('아이디 찾기 함수 호출', () => {
-        //     wrapper.vm.findId();
+        test('아이디 찾기 함수 호출', () => {
+            wrapper.vm.findId();
 
 
-        // });
+        });
         // test('비밀번호 찾기 함수 호출', () => {
         //     wrapper.vm.findPw();
         // });
