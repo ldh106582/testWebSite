@@ -14,18 +14,18 @@ const routes = [
     {
         path: '/login-page',
         name : 'login-page',
-        component: () => import('@/views/LoginPageView.vue'),
+        component: () => import('@/views/MemberLoginPageView.vue'),
     },
     {
         path: '/find-id',
         name : 'find-id',
-        component: () => import('@/views/FindIdView.vue'),
+        component: () => import('@/views/MemberFindIdView.vue'),
     },
-    // {
-    //     path: '/find-pw',
-    //     name : 'find-pw',
-    //     component: () => import('@/views/FindPwView.vue'),
-    // },
+    {
+        path: '/find-pw',
+        name : 'find-pw',
+        component: () => import('@/views/MemberFindPwView.vue'),
+    },
 ]
 
 const router = createRouter({

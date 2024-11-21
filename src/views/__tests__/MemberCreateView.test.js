@@ -2,7 +2,7 @@ import { describe, test, expect, vi, beforeEach } from "vitest";
 import axios from "@/axios";
 import { flushPromises, mount } from "@vue/test-utils";
 import MemberCreate from "@/views/MemberCreateView.vue";
-import LoginPageView from '@/views/LoginPageView.vue';
+import MemberLoginPageView from '@/views/MemberLoginPageView.vue';
 import { ref } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -20,7 +20,7 @@ describe('Member Create', () => {
                 {
                     path: '/login-page',
                     name: 'login-page',
-                    component: LoginPageView
+                    component: MemberLoginPageView
                 }
             ]
         });

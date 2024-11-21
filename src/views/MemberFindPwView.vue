@@ -1,11 +1,9 @@
 <template>
-    <div>ddddd</div>
+    <div>dddd</div>
 </template>
 
 <script setup>
-
 </script>
 
 <style scoped>
-
 </style>
