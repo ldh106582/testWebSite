@@ -126,6 +126,7 @@ async function createMember() {
         return alert ('이름을 반드시 입력해야 합니다.');
     }
 
+    console.log(user.value.userId)
     await axios.post('/create-member', {
         userId: user.value.userId,
         userPw: user.value.userPw,

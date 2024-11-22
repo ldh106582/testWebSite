@@ -2,7 +2,7 @@ import { describe, test, vi, expect, beforeEach } from "vitest";
 import MemberLoginPageView from "@/views/MemberLoginPageView.vue";
 import { mount } from "@vue/test-utils";
 import { createRouter, createWebHistory } from "vue-router";
-import MemberFindIdView from "../MemberFindIdView.vue";
+import MemberFindIdView from "../MemberFindPwView.vue";
 
 describe('LoginPageView', ()=> {
     let wrapper;

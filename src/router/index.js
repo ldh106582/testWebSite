@@ -19,7 +19,7 @@ const routes = [
     {
         path: '/find-id',
         name : 'find-id',
-        component: () => import('@/views/MemberFindIdView.vue'),
+        component: () => import('@/views/MemberFindPwView.vue'),
     },
     {
         path: '/find-pw',
