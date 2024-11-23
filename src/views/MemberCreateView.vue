@@ -10,7 +10,7 @@
                     <v-form fast-fail @submit.prevent="createMember" style="width: 100%;">
                         <v-col class="d-flex" style="width: 100%;"> 
                             <v-text-field data-test="userId" v-model="user.userId" label="아이디 (ID)" class="userId" 
-                            @input="errorMember('userId')" :rules="rulesId" />
+                            @input="errorMember('userId')" :rules="rulesId" :disabled="checkId" />
                             <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck" :disabled="!validEmail">중복확인</v-btn>
                         </v-col>
                         <v-col v-if="checkId">
@@ -99,7 +99,7 @@ async function idCheck () {
             userId: user.value.userId,
         }
     }).then((res) => {
-        const data = res.data.error;
+        const data = res.data.result;
 
         if (data) {
             return alert (errorUserId);

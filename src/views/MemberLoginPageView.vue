@@ -44,7 +44,7 @@ function login () {
             userPw: user.value.userPw
         }
     }).then((res) => {
-        const data = res.data.error;
+        const data = res.error;
 
         if (data) {
             return alert (errorLogin);

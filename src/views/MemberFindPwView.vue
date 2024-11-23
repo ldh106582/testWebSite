@@ -20,22 +20,42 @@
 <script setup>
 import { ref } from 'vue';
 import axios from '@/axios';
+import { useRoute } from 'vue-router';
+
+const router = useRoute();
 
 const userId = ref('');
+const temporaryPw = ref('');
+
+function newCreatePw () {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*';
+    const numbers = '123456789'
+
+    temporaryPw.value += numbers[Math.floor(Math.random() * numbers.length)];
+
+    for(let i = 0; i < 7; i++) {
+        let randomIndex = Math.floor(Math.random() * chars.length);
+        temporaryPw.value += chars[randomIndex];
+    }
+}
 
 function findPw () {
-    const errorMsg = '존쟈하는 아이디가 없습니다.';
-    const confrimMsg = '작성하신 이메일로 임시 비밀전호를 전송하였습니다.';
+    const errorMsg = '존재하는 아이디가 없습니다.';
+    const confrimMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
 
     axios.get('/findpw-email', {
-        userId: userId.value
-    }).then(res => {
-        const data = res.data.error;
+        params: {
+            userId: userId.value,
+            userPw : temporaryPw.value,
+        }
+    }).then((res) => {
+        const data = res.data.result;
 
         if (data) {
             return alert(errorMsg);
         } else {
-            return alert(confrimMsg);
+            alert(confrimMsg);
+            // return router.push('/');
         }
     });
 }
