@@ -43,7 +43,7 @@ describe('Member Create', () => {
         });
 
         axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValue({ 
-           data: { result: true } // 응답 데이터에서 error가 true
+           data: { error: true } // 응답 데이터에서 error가 true
         });
     });
 

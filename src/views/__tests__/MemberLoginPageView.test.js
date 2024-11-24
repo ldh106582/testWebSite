@@ -3,7 +3,6 @@ import MemberLoginPageView from "@/views/MemberLoginPageView.vue";
 import { mount } from "@vue/test-utils";
 import { createRouter, createWebHistory } from "vue-router";
 import MemberFindIdView from "../MemberFindPwView.vue";
-import { createPinia, setActivePinia } from "pinia";
 
 
 describe('LoginPageView', ()=> {
@@ -21,8 +20,6 @@ describe('LoginPageView', ()=> {
     });
 
     beforeEach(() => {
-        setActivePinia(createPinia());
-
         wrapper = mount(MemberLoginPageView, {
             global: {
                 plugins: [router],

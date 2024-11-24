@@ -7,7 +7,7 @@
                         <div class="member-create" id="intro" v-html="typedText"></div> 
                         <div id="cursor"></div>
                     </v-col>
-                    <v-form fast-fail @submit.prevent="createMember" @keyup.enter="submit" style="width: 100%;">
+                    <v-form fast-fail @submit.prevent="createMember" style="width: 100%;">
                         <v-col class="d-flex" style="width: 100%;"> 
                             <v-text-field data-test="userId" v-model="user.userId" label="아이디 (ID)" class="userId" 
                             @input="errorMember('userId')" :rules="rulesId" />
@@ -126,6 +126,7 @@ async function createMember() {
         return alert ('이름을 반드시 입력해야 합니다.');
     }
 
+    console.log(user.value.userId)
     await axios.post('/create-member', {
         userId: user.value.userId,
         userPw: user.value.userPw,
