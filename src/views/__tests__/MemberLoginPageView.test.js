@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import MemberFindIdView from "../MemberFindPwView.vue";
 import { createPinia, setActivePinia } from "pinia";
 
+
 describe('LoginPageView', ()=> {
     let wrapper;
     const routes = [

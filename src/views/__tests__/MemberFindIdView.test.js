@@ -1,6 +1,6 @@
 import { describe,test,expect, beforeEach } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
-import MemberFindPwView from '@/views/MemberFindPwView.vue';
+import MemberFindIdView from '@/views/MemberFindIdView.vue';
 import axios from "@/axios";
 
 describe('MemberFindIdView', () => {
@@ -8,7 +8,7 @@ describe('MemberFindIdView', () => {
     const alertSpy = vi.spyOn(window, 'alert');
 
     beforeEach(() => {
-        wrapper = mount(MemberFindPwView);
+        wrapper = mount(MemberFindIdView);
 
         vi.spyOn(axios, 'get').mockResolvedValue({
             data: {error : false }
@@ -26,7 +26,7 @@ describe('MemberFindIdView', () => {
 
     describe('findId', () => {
         test('axios get 호출 성공 시 alert 확인', async() => {
-            const confrimMsg = "작성하신 이메일로 임시 비밀전호를 전송하였습니다.";
+            const confrimMsg = '작성하신 이메일로 전송하였습니다.';
             const userId = 'test'
             wrapper.vm.userId = userId;
 
@@ -36,7 +36,7 @@ describe('MemberFindIdView', () => {
 
             await flushPromises();
             await wrapper.vm.$nextTick();
-            await wrapper.vm.findPw();
+            await wrapper.vm.findId();
 
             expect(axios.get).toBeCalledTimes(1);
             expect(axios.get).toHaveBeenCalledWith('/user-data-check',  { userId: userId });
@@ -54,7 +54,7 @@ describe('MemberFindIdView', () => {
 
             await flushPromises();
             await wrapper.vm.$nextTick();
-            await wrapper.vm.findPw();
+            await wrapper.vm.findId();
 
             expect(axios.get).toBeCalledTimes(1);
             expect(axios.get).toHaveBeenCalledWith('/user-data-check',  { userId: userId });

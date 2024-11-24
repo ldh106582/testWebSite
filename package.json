@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest --environment jsdom",
     "onetest": "vitest --environment jsdom src/views/__tests__/MemberCreateView.test.js"
+
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
