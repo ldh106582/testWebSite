@@ -22,24 +22,42 @@ import { ref } from 'vue';
 import axios from '@/axios';
 
 const userId = ref('');
+let temporaryPw = ref('');
 
-function findPw () {
-    const errorMsg = '존쟈하는 아이디가 없습니다.';
-    const confrimMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
+async function findPw () {
+    const errorMsg = '존재하는 아이디가 없습니다.';
+    const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
+
+    templatePassword();
 
     axios.get('/findpw-email', {
-        userId: userId.value
+        params: {
+            userId: userId.value,
+            userPw: temporaryPw.value
+        }
     }).then(res => {
         const data = res.data.result;
 
         if (data) {
             return alert(errorMsg);
         } else {
-            return alert(confrimMsg);
+            return alert(confirmMsg);
         }
     });
 }
 
+function templatePassword () {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*';
+    const numbers = '123456789';
+    temporaryPw.value = '';
+
+    temporaryPw.value += numbers[Math.floor(Math.random() * numbers.length)];
+
+	for(let i = 0; i < 6; i++) {
+        let randomIndex = Math.floor(Math.random() * chars.length);
+        temporaryPw.value += chars[randomIndex];
+	}
+}
 </script>
 
 <style scoped>

@@ -43,7 +43,7 @@ describe('MemberFindIdView', () => {
             expect(alertSpy).toBeCalledWith(confrimMsg);
         });
         test('axios get 호출 실패 시 alert 확인', async() => {
-            const confrimMsg = '존쟈하는 아이디가 없습니다.';
+            const confrimMsg = '존재하는 아이디가 없습니다.';
             const userId = 'test'
             wrapper.vm.userId = userId;
 
