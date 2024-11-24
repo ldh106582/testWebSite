@@ -20,15 +20,16 @@
 <script setup>
 import { ref } from 'vue';
 import axios from '@/axios';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 const userId = ref('');
 let temporaryPw = ref('');
 
+const auth = useAuthStore();
+
 async function findPw () {
     const errorMsg = '존재하는 아이디가 없습니다.';
     const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
-
-    templatePassword();
 
     axios.get('/findpw-email', {
         params: {
@@ -37,19 +38,20 @@ async function findPw () {
         }
     }).then(res => {
         const data = res.data.result;
+        const userData = res.data.rows[0].user_id;
 
         if (data) {
-            return alert(errorMsg);
+            return alert (errorMsg);
         } else {
-            return alert(confirmMsg);
+            auth.login (userData);
+            return alert (confirmMsg);
         }
     });
 }
 
-function templatePassword () {
+function templatePw () {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*';
     const numbers = '123456789';
-    temporaryPw.value = '';
 
     temporaryPw.value += numbers[Math.floor(Math.random() * numbers.length)];
 
@@ -57,6 +59,7 @@ function templatePassword () {
         let randomIndex = Math.floor(Math.random() * chars.length);
         temporaryPw.value += chars[randomIndex];
 	}
+    return temporaryPw.value
 }
 </script>
 

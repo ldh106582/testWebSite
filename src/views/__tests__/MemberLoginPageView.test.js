@@ -2,24 +2,32 @@ import { describe, test, vi, expect, beforeEach } from "vitest";
 import MemberLoginPageView from "@/views/MemberLoginPageView.vue";
 import { mount } from "@vue/test-utils";
 import { createRouter, createWebHistory } from "vue-router";
+import MemberFindPwView from "@/views/MemberFindPwView.vue";
+import { createPinia, setActivePinia } from "pinia";
 
 
 describe('LoginPageView', ()=> {
     let wrapper;
-    // const routes = [
-    //     {
-    //         path: '/find-Pw',
-    //         component: MemberFindIdView
-    //     }
-    // ];
+    const routes = [
+        {
+            path: '/find-Pw',
+            component: MemberFindPwView
+        }
+    ];
 
-    // let router = createRouter({
-    //     history: createWebHistory(),
-    //     routes: routes,
-    // });
+    let router = createRouter({
+        history: createWebHistory(),
+        routes: routes,
+    });
 
     beforeEach(() => {
-        wrapper = mount(MemberLoginPageView);
+        setActivePinia(createPinia());
+        
+        wrapper = mount(MemberLoginPageView, {
+            global: {
+                plugins: [router]
+            }
+        });
     });
     describe("UI 페이지", () => {
         test('login btn', async () => {
@@ -65,7 +73,7 @@ describe('LoginPageView', ()=> {
         
         
     });
-    describe('findId, findPw함수', () => {
+    describe('findPw함수', () => {
         test('비밀번호 찾기 함수 호출',async () => {
             await router.isReady();
 

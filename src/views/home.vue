@@ -30,7 +30,7 @@ import Welcome from '@/components/Welcome.vue'
 <style scoped>
 .announcement {
   width: 100%;
-  height: auto; /* 높이를 자동으로 설정하여 비율을 유지 */
+  height: auto;
   border: 1px solid silver;
   border-radius: 1.5%;
 }

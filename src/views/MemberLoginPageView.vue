@@ -25,8 +25,10 @@
 <script setup>
 import axios from '@/axios';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+import { useAuthStore } from "@/stores/useAuthStore";
 
+const auth = useAuthStore();
 const router = useRouter();
 const user = ref([]);
 
@@ -45,10 +47,12 @@ function login () {
         }
     }).then((res) => {
         const data = res.data.result;
+        const userData = res.data.rows[0].user_id;
 
         if (data) {
             return alert (errorLogin);
         } else {
+            auth.login(userData);
             return router.push('/');
         }
     });
@@ -57,7 +61,6 @@ function login () {
 function findPw () {
     router.push('/find-pw');
 }
-
 
 </script>
 
