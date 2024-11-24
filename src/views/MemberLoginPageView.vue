@@ -14,7 +14,6 @@
                     </v-form>
 
                     <v-col style="justify-content: space-between;" class="d-flex pa-0 ma-0 mt-2" cols="12" lg="12" sm="12">
-                        <button id="Id" class="find" @click="findId">아이디 찾기</button>
                         <button class="find" @click="findPw">비밀번호 찾기</button>
                     </v-col>
                 </v-col>
@@ -45,7 +44,7 @@ function login () {
             userPw: user.value.userPw
         }
     }).then((res) => {
-        const data = res.error;
+        const data = res.data.result;
 
         if (data) {
             return alert (errorLogin);
@@ -53,10 +52,6 @@ function login () {
             return router.push('/');
         }
     });
-}
-
-function findId () {
-    router.push('/find-id');
 }
 
 function findPw () {

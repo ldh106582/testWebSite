@@ -99,9 +99,10 @@ async function idCheck () {
             userId: user.value.userId,
         }
     }).then((res) => {
-        const data = res.data.error;
+        const data = res.data.result;
+        const userId = res.data.rows[0].user_id;
 
-        if (data) {
+        if (data || userId !== undefined) {
             return alert (errorUserId);
         } else {
             alert (useUserId);
@@ -113,7 +114,7 @@ async function idCheck () {
 async function createMember() {
 
     const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
-    const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
+    const errorMember = '회원가입이 불가합니다. 잠시후 다시 시도해주시길 바랍니다.';
     const seccesMember = '회원가입이 완료 되었습니다.';
 
     if (checkId.value === false) {
@@ -126,13 +127,12 @@ async function createMember() {
         return alert ('이름을 반드시 입력해야 합니다.');
     }
 
-    console.log(user.value.userId)
     await axios.post('/create-member', {
         userId: user.value.userId,
         userPw: user.value.userPw,
         userName: user.value.userName
     }).then((res) => {
-        const data = res.data.error;
+        const data = res.data.result;
         
         if (data) {
             alert (errorMember);

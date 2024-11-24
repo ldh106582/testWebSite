@@ -39,11 +39,11 @@ describe('Member Create', () => {
 
         axiosGetSpy = vi.spyOn(axios, 'get').mockReturnValue({
             status: 200,
-            data: { res: { error: true } }
+            data: { result: true }
         });
 
         axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValue({ 
-           data: { error: true } // 응답 데이터에서 error가 true
+           data: { result: true } // 응답 데이터에서 error가 true
         });
     });
 
@@ -101,7 +101,7 @@ describe('Member Create', () => {
         test('userId가 중복일 경우', async() => {
             const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
             axios.get.mockResolvedValueOnce({
-                data: { error: true }
+                data: {  result: true, rows: [{ user_id: "test" }] }
             });
             window.alert = vi.fn();
 
@@ -114,7 +114,7 @@ describe('Member Create', () => {
         test('userId 사용 가능할 때', async() => {
             const useUserId = '사용 가능한 아이디 입니다.';
             axios.get.mockResolvedValueOnce({
-                data: { error: false }
+                data: { result: false, rows: [{ user_id: undefined }] }
             });
 
             await wrapper.vm.idCheck();
@@ -170,12 +170,14 @@ describe('Member Create', () => {
                 userName: 'tester'
             }]
             test('예상하지 못한 오류 발생', async () => {
-                const errorMember = '회원가입이 불가합니다. ldh106582@naver.com 메일로 문의 바랍니다.';
+                const errorMember = '회원가입이 불가합니다. 잠시후 다시 시도해주시길 바랍니다.';
                 wrapper.vm.checkId = true;
                 wrapper.vm.user = mockUser[0];
                 window.alert = vi.fn();
             
-                axios.post.mockResolvedValueOnce({ data: { error: true } });
+                axios.post.mockResolvedValueOnce({ 
+                    data: { result: true } 
+                });
             
                 await wrapper.vm.createMember();
                 
@@ -192,7 +194,7 @@ describe('Member Create', () => {
                 window.alert = vi.fn();
             
                 axios.post.mockResolvedValueOnce({
-                    data: { error: false }
+                    data: { result: false }
                 });
 
                 await wrapper.vm.createMember();
