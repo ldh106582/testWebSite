@@ -46,12 +46,8 @@ function login () {
             userPw: user.value.userPw
         }
     }).then((res) => {
-<<<<<<< HEAD
         const data = res.data.result;
         const userId = res.data.rows[0].user_id;
-=======
-        const data = res.data.error;
->>>>>>> parent of 898c3b0 (auth 설정중)
 
         if (data) {
             return alert (errorLogin);

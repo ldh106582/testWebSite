@@ -26,7 +26,8 @@ describe('MemberFindIdView', () => {
 
     describe('findId', () => {
         test('axios get 호출 성공 시 alert 확인', async() => {
-            const confrimMsg = '작성하신 이메일로 전송하였습니다.';
+            const confrimMsg = "작성하신 이메일로 임시 비밀전호를 전송하였습니다.";
+
             const userId = 'test'
             wrapper.vm.userId = userId;
 
