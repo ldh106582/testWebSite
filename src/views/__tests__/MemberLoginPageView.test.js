@@ -69,8 +69,22 @@ describe('LoginPageView', ()=> {
                 expect(window.alert).toBeCalledWith(mockCheckLogin);
             });
         });
+        
+        
     });
-    describe('findPw함수', () => {
+    describe('findId, findPw함수', () => {
+        test('아이디 찾기 함수 호출', async() => {
+            await router.isReady();            
+
+            const push = vi.spyOn(router, 'push');
+
+            await wrapper.vm.$nextTick();
+            wrapper.vm.findId();
+            
+            expect(push).toHaveBeenCalledTimes(1);
+            expect(push).toHaveBeenCalledWith('/find-id');
+
+        });
         test('비밀번호 찾기 함수 호출',async () => {
             await router.isReady();
 

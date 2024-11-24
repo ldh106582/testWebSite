@@ -39,7 +39,7 @@ describe('Member Create', () => {
 
         axiosGetSpy = vi.spyOn(axios, 'get').mockReturnValue({
             status: 200,
-            data: { res: { result: true } }
+            data: { res: { error: true } }
         });
 
         axiosPostSpy = vi.spyOn(axios, 'post').mockResolvedValue({ 
@@ -101,7 +101,7 @@ describe('Member Create', () => {
         test('userId가 중복일 경우', async() => {
             const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
             axios.get.mockResolvedValueOnce({
-                data: { result: true }
+                data: { error: true }
             });
             window.alert = vi.fn();
 

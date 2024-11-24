@@ -22,9 +22,9 @@
 
 <script setup>
 import { defineOptions, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
 defineOptions({
   name: 'App',
