@@ -23,10 +23,8 @@
 <script setup>
 import { defineOptions, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/useAuthStore';
 
 const router = useRouter();
-const auth = useAuthStore();
 
 defineOptions({
   name: 'App',

@@ -25,7 +25,7 @@
 <script setup>
 import axios from '@/axios';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const user = ref([]);
@@ -33,6 +33,7 @@ const user = ref([]);
 function login () {
     const checkLogin = '아이디 비밀번호 모두 입력해야 합니다.';
     const errorLogin = '일치하는 아이디와 비밀번호가 없습니다.';
+    const errorMsg = '진행 중 오류가 발생했습니다.';
 
     if (user.value.userId === '' || user.value.userPw == '') {
         return alert (checkLogin);
@@ -44,12 +45,15 @@ function login () {
             userPw: user.value.userPw
         }
     }).then((res) => {
-        const data = res.error;
+        const data = res.data.result;
+        const userId = res.data.rows[0].user_id;
 
         if (data) {
             return alert (errorLogin);
-        } else {
+        } else if (userId !== undefined) {
             return router.push('/');
+        } else {
+            return alert (errorMsg);
         }
     });
 }
@@ -57,7 +61,6 @@ function login () {
 function findPw () {
     router.push('/find-pw');
 }
-
 
 </script>
 
