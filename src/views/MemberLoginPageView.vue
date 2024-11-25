@@ -40,19 +40,17 @@ function login () {
         return alert (checkLogin);
     }
 
-    axios.get('/user-data-check', {
-        params: {
-            userId : user.value.userId,
-            userPw: user.value.userPw
-        }
+    axios.post('/login', {
+        userId : user.value.userId,
+        userPw: user.value.userPw
     }).then((res) => {
         const data = res.data.result;
-        const userData = res.data.rows[0].user_id;
+        const userInfo = res.data;
 
         if (data) {
             return alert (errorLogin);
         } else {
-            auth.login(userData);
+            auth.login (userInfo);
             return router.push('/');
         }
     });

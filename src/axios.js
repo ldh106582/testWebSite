@@ -1,16 +1,20 @@
 import axios from 'axios';
 
 const instance = axios.create({
-   baseURL: 'http://localhost:3000/'
+  baseURL: 'http://localhost:3000/'
 });
 
-axios.interceptors.request.use(function (res) {
-    
-    return res;
-  }, function (error) {
-    // 요청 오류가 있는 작업 수행
-    return Promise.reject(error);
-  });
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('Authorization')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+      config.headers["Content-Type"] = "application/json"
+    } else {
+       // Do something... Usually logout user.
+    }
+    return config
+  }
+)
 
-   
   export default instance

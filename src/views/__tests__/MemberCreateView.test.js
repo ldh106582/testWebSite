@@ -127,7 +127,7 @@ describe('Member Create', () => {
     describe('createMember 함수', () => {
         describe('error 발생', () => {
             test('Id 중복 체크를 하지 않았을 때', () => {
-                const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
+                const confirmId = 'ID 중복 체크를 반드시 진행하셔야 합니다.';
                 const checkId = false;
                 window.alert = vi.fn();
     

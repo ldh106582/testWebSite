@@ -1,27 +1,47 @@
 import { defineStore } from "pinia";
+import axios from "@/axios";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         isAuthenticated: false,
-        user: null
+        userId: null,
+        userInfo: null
     }),
     actions: {
-        login (userId) {
-            this.isAuthenticated = true;
-            this.user = userId;
-            localStorage.setItem('user', userId);
-        },
-        logout (userId) {
-            this.isAuthenticated = false;
-            this.user = null;
-            localStorage.removeItem('user');
-        },
-        initialize () {
-            const user = localStorage.getItem('user');
-            if (user) {
-                this.isAuthenticated = true,
-                this.user = user;
+        initialize() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                this.isAuthenticated = true;
+                this.getMemberInfo();
             }
-        }
-    },
+        },
+        login(userInfo) {
+            this.isAuthenticated = true;
+            this.userId = userInfo.rows[0].user_id;
+            localStorage.setItem('token', userInfo.token);
+            this.getMemberInfo();
+        },
+        logout() {
+            this.isAuthenticated = false;
+            this.userId = null;
+            localStorage.removeItem('token');
+        },
+        getMemberInfo() {
+            const token = localStorage.getItem('token');
+            
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            axios.get('/member-info', config)
+                .then(res => {
+                    const userInfo = res.data.rows[0];
+                    this.userId = userInfo.user_id;
+                })
+                .catch(error => {
+                    console.error('회원 정보 가져오기 실패:', error);
+                });
+        },
+    }
 });

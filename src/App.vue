@@ -2,8 +2,16 @@
   <v-layout class="rounded rounded-md">
     <v-app-bar>
       <v-col class="header" @click="mainPage">IT 개발자 자격증 사이트</v-col>
-      <v-btn class="createMember mr-5" @click="createMember">회원가입</v-btn>
-      <v-btn class="createMember mr-5" @click="login">로그인</v-btn>
+      <v-row>
+        <v-col align="end" v-if="auth.isAuthenticated === false">
+          <v-btn class="createMember mr-5" @click="createMember">회원가입</v-btn>
+          <v-btn class="createMember mr-5" @click="login">로그인</v-btn>
+        </v-col>
+        <v-col align="end" v-if="auth.isAuthenticated === true">
+          <v-btn class="createMember mr-5" @click="Mypage">{{ auth.userId }} 님 반갑습니다.</v-btn>
+          <v-btn class="createMember mr-5" @click="logout">로그아웃</v-btn>
+        </v-col>
+      </v-row>
     </v-app-bar>
 
     <v-navigation-drawer class="sideBar">
@@ -22,9 +30,11 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+import { useAuthStore } from './stores/useAuthStore';
 
-const router = useRouter()
+const router = useRouter();
+const auth = useAuthStore();
 
 defineOptions({
   name: 'App',
@@ -46,7 +56,15 @@ const lists = ref([
   };
 
   function login () {
-    router.push('/login-page')
+    router.push('/login-page');
+  }
+
+  function logout () {
+    if(!confirm('로그아웃 하시겠습니까??')) return;
+
+    auth.logout(auth.userId);
+
+    router.push('/');
   }
 </script>
 

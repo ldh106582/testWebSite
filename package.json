@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest --environment jsdom",
-    "onetest": "vitest --environment jsdom src/views/__tests__/MemberLoginPageView.test.js"
+    "onetest": "vitest --environment jsdom src/views/__tests__/MemberFindIdView.test.js"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",

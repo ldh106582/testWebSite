@@ -21,6 +21,11 @@ const routes = [
         name : 'find-pw',
         component: () => import('@/views/MemberFindPwView.vue'),
     },
+    {
+        path: '/create-pw',
+        name : 'create-pw',
+        component: () => import('@/views/MemberNewCreateView.vue'),
+    },
 ]
 
 const router = createRouter({

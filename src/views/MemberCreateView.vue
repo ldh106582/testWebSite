@@ -113,7 +113,7 @@ async function idCheck () {
 
 async function createMember() {
 
-    const confirmId = 'Id 중복 체크를 반드시 진행하셔야 합니다.';
+    const confirmId = 'ID 중복 체크를 반드시 진행하셔야 합니다.';
     const errorMember = '회원가입이 불가합니다. 잠시후 다시 시도해주시길 바랍니다.';
     const seccesMember = '회원가입이 완료 되었습니다.';
 

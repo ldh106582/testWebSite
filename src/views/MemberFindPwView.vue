@@ -21,10 +21,12 @@
 import { ref } from 'vue';
 import axios from '@/axios';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useRouter } from 'vue-router';
 
 const userId = ref('');
 let temporaryPw = ref('');
 
+const router = useRouter();
 const auth = useAuthStore();
 
 async function findPw () {
@@ -43,8 +45,9 @@ async function findPw () {
         if (data) {
             return alert (errorMsg);
         } else {
-            auth.login (userData);
-            return alert (confirmMsg);
+            alert (confirmMsg);
+            // auth로그인 함수 호출함
+            return router.push('/create-pw')
         }
     });
 }

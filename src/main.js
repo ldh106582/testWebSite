@@ -1,13 +1,18 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
-import vuetify from './plugins/vuetify'
-import router from './router/index'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import App from './App.vue';
+import vuetify from './plugins/vuetify';
+import router from './router/index';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 const app = createApp(App);
 const pinia = createPinia();
+app.use(pinia);
 
 app.use(router)
 app.use(vuetify);
-app.use(pinia);
+
+const authStore = useAuthStore();
+authStore.initialize();
+
 app.mount('#app');
