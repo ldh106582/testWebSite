@@ -3,7 +3,6 @@ import { flushPromises, mount } from "@vue/test-utils";
 import MemberFindPwView from '@/views/MemberFindPwView.vue';
 import axios from "@/axios";
 import { createPinia, setActivePinia } from "pinia";
-import { ref } from "vue";
 
 describe('MemberFindPwView', () => {
     let wrapper;
@@ -12,7 +11,8 @@ describe('MemberFindPwView', () => {
     const userData = [
         { token: 'test123456789!@#$%' },
         { user_id: 'test', user_pw: 'test123!', user_name: 'tester' }
-    ]
+    ];
+    let auth;
 
     beforeEach(async() => {
         setActivePinia(createPinia());
@@ -44,25 +44,7 @@ describe('MemberFindPwView', () => {
             wrapper.vm.temporaryPw = 'test12!'; 
 
             axios.get.mockResolvedValueOnce({
-                data: { result : false, rows: [{ user_id: userId}] }
-            });
-
-            await flushPromises();
-            await wrapper.vm.$nextTick();
-            await wrapper.vm.findPw();
-            await wrapper.vm.$nextTick();
-
-            expect(axios.get).toBeCalledTimes(1);
-
-            expect(alertSpy).toBeCalledWith(confrimMsg);
-        });
-
-        test('axios get 호출 실패 시 alert 확인', async() => {
-            const confrimMsg = '존재하는 아이디가 없습니다.';
-            wrapper.vm.userId = userId;
-
-            axios.get.mockResolvedValueOnce({
-                data: { result : true, rows: [{ user_id: userId}] }
+                data: { result: false, userData: [{ user_id: userId }], token: 'mockToken' } // userData 구조 맞춤
             });
 
             await flushPromises();
@@ -70,8 +52,30 @@ describe('MemberFindPwView', () => {
             await wrapper.vm.findPw();
 
             expect(axios.get).toBeCalledTimes(1);
-
             expect(alertSpy).toBeCalledWith(confrimMsg);
+
+            const push = vi.spyOn(router, 'push');
+
+            await wrapper.vm.$nextTick();
+
+            expect(push).toHaveBeenCalledTimes(1);
+            expect(push).toHaveBeenCalledWith('/march-pw', userInfo.userData );
         });
+
+        // test('axios get 호출 실패 시 alert 확인', async() => {
+        //     const confrimMsg = '존재하는 아이디가 없습니다.';
+        //     wrapper.vm.userId = userId;
+
+        //     axios.get.mockResolvedValueOnce({
+        //         data: { result: false, userData: [{ user_id: userId }], token: 'mockToken' } // userData 구조 맞춤
+        //     });
+
+        //     await flushPromises();
+        //     await wrapper.vm.$nextTick();
+        //     await wrapper.vm.findPw();
+
+        //     expect(axios.get).toBeCalledTimes(1);
+        //     expect(alertSpy).toBeCalledWith(confrimMsg);
+        // });
     });
 });

@@ -49,9 +49,9 @@ async function findPw () {
         } else {
             alert (confirmMsg);
 
-            auth.login(userInfo)
+            auth.login (userInfo)
             
-            return router.push( '/march-pw', userInfo.userData )
+            return router.push('/march-pw', userInfo.userData )
         }
     });
 }
