@@ -33,6 +33,8 @@ async function findPw () {
     const errorMsg = '존재하는 아이디가 없습니다.';
     const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
 
+    templatePw();
+
     axios.get('/findpw-email', {
         params: {
             userId: userId.value,
@@ -40,14 +42,16 @@ async function findPw () {
         }
     }).then(res => {
         const data = res.data.result;
-        const userData = res.data.rows[0].user_id;
+        const userInfo = res.data;
 
         if (data) {
             return alert (errorMsg);
         } else {
             alert (confirmMsg);
-            // auth로그인 함수 호출함
-            return router.push('/create-pw')
+
+            auth.login(userInfo)
+            
+            return router.push( '/march-pw', userInfo.userData )
         }
     });
 }
@@ -55,6 +59,7 @@ async function findPw () {
 function templatePw () {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*';
     const numbers = '123456789';
+    temporaryPw.value = '';
 
     temporaryPw.value += numbers[Math.floor(Math.random() * numbers.length)];
 

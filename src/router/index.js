@@ -22,10 +22,14 @@ const routes = [
         component: () => import('@/views/MemberFindPwView.vue'),
     },
     {
-        path: '/create-pw',
-        name : 'create-pw',
-        component: () => import('@/views/MemberNewCreateView.vue'),
+        path: '/march-pw',
+        name : 'march-pw',
+        component: () => import('@/views/MemberMarchPwView.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
     },
+    
 ]
 
 const router = createRouter({

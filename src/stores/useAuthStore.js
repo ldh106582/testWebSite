@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
         },
         login(userInfo) {
             this.isAuthenticated = true;
-            this.userId = userInfo.rows[0].user_id;
+            this.userId = userInfo.userData[0].user_id;
             localStorage.setItem('token', userInfo.token);
             this.getMemberInfo();
         },

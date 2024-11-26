@@ -1,12 +1,12 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import MemberNewCreateView from "@/views/MemberNewCreateView.vue";
+import MemberMarchPwView from "@/views/MemberMarchPwView.vue";
 
-describe('MemberNewCreateView', () => {
+describe('MemberMarchPwView', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = mount(MemberNewCreateView);
+        wrapper = mount(MemberMarchPwView);
     });
     describe('', () => {
         
