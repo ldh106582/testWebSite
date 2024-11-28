@@ -8,8 +8,8 @@
                     </v-col>
 
                     <v-col class="pa-0" cols="12" lg="10" sm="10" style="height: auto;">
-                        <v-text-field v-model="userId">  </v-text-field>
-                        <v-btn data-test="btn" @click="findPw" color="rgb(26, 32, 53)" width="100%">비밀번호 찾기</v-btn>
+                        <v-text-field v-model="userId" label="아이디 입력" @keydown.enter="findPw" focused></v-text-field>
+                        <v-btn data-test="btn" color="rgb(26, 32, 53)" width="100%" type="submit" @click="findPw">비밀번호 찾기</v-btn>
                     </v-col>
                 </v-col>
             </v-col>
@@ -21,19 +21,23 @@
 import { ref } from 'vue';
 import axios from '@/axios';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useRouter } from 'vue-router';
+import router from '@/router';
 
 const userId = ref('');
 let temporaryPw = ref('');
 
-const router = useRouter();
-const auth = useAuthStore();
+const auth = useAuthStore ();
 
 async function findPw () {
+    const checkId = '아이디를 입력해주세요.';
     const errorMsg = '존재하는 아이디가 없습니다.';
     const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
 
+    if (userId.value === '') return alert (checkId);
+
     temporaryPw.value = templatePw();
+
+    console.log("본 : " + temporaryPw.value)
 
     axios.get('/findpw-email', {
         params: {
@@ -49,9 +53,15 @@ async function findPw () {
         } else {
             alert (confirmMsg);
 
-            auth.login (userInfo)
-            
-            return router.push('/march-pw', userInfo.userData )
+            auth.login (userInfo);
+
+            router.push({ 
+                path: '/change-pw', 
+                query: { 
+                    userId: userId.value,
+                    userPw: userInfo.userData[0].user_pw,
+                } 
+            });
         }
     });
 }
@@ -59,6 +69,7 @@ async function findPw () {
 function templatePw () {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*';
     const numbers = '123456789';
+
     temporaryPw.value = '';
 
     temporaryPw.value += numbers[Math.floor(Math.random() * numbers.length)];
@@ -67,6 +78,7 @@ function templatePw () {
         let randomIndex = Math.floor(Math.random() * chars.length);
         temporaryPw.value += chars[randomIndex];
 	}
+    return temporaryPw.value
 }
 </script>
 

@@ -2,18 +2,18 @@
     <v-container fluid fill-height>
         <v-row justify="center" align="center" >
             <v-col cols="12"  lg="5" sm="12" class="d-flex justify-center align-center" style="height: 93vh;">
-                <v-col cols="12"  lg="12" sm="12">
-                    <v-col cols="12" lg="12" sm="12" class="login-title pa-0 mb-4">
+                <v-col cols="auto">
+                    <v-col cols="auto" class="login-title pa-0 mb-4">
                         <p>로그인 페이지</p>
                     </v-col>
 
-                    <v-form data-test="login" @submit.prevent="login" cols="12" lg="12" sm="12" style="height: auto;">
+                    <v-form data-test="login" cols="12" lg="12" sm="12" style="height: auto;" @submit.prevent="login">
                         <v-text-field class="id" type="text" v-model="user.userId"></v-text-field>
                         <v-text-field class="pw" type="password" v-model="user.userPw"></v-text-field>
-                        <v-btn type="submit" color="rgb(26, 32, 53)" width="100%">로그인</v-btn>
+                        <v-btn color="rgb(26, 32, 53)" width="100%" type="submit">로그인</v-btn>
                     </v-form>
 
-                    <v-col style="justify-content: space-between;" class="d-flex pa-0 ma-0 mt-2" cols="12" lg="12" sm="12">
+                    <v-col cols="12" lg="12" sm="12" class="d-flex pa-0 ma-0 mt-2" style="justify-content: space-between;">
                         <button class="find" @click="findPw">비밀번호 찾기</button>
                     </v-col>
                 </v-col>

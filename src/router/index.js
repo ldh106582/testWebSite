@@ -22,9 +22,9 @@ const routes = [
         component: () => import('@/views/MemberFindPwView.vue'),
     },
     {
-        path: '/march-pw',
-        name : 'march-pw',
-        component: () => import('@/views/MemberMarchPwView.vue'),
+        path: '/change-pw',
+        name : 'change-pw',
+        component: () => import('@/views/MemberChangePwView.vue'),
         meta: {
             isAisAuthenticated: true
         }

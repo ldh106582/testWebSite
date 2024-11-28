@@ -7,18 +7,22 @@
                         <div class="member-create" id="intro" v-html="typedText"></div> 
                         <div id="cursor"></div>
                     </v-col>
-                    <v-form fast-fail @submit.prevent="createMember" style="width: 100%;">
+                    <v-form style="width: 100%;" @submit.prevent="createMember" fast-fail>
                         <v-col class="d-flex" style="width: 100%;"> 
-                            <v-text-field data-test="userId" v-model="user.userId" label="아이디 (ID)" class="userId" 
+                            <v-text-field data-test="userId" class="userId" v-model="user.userId" label="아이디 (ID)" 
                             @input="errorMember('userId')" :rules="rulesId" />
                             <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck" :disabled="!validEmail">중복확인</v-btn>
                         </v-col>
                         <v-col v-if="checkId">
-                            <v-text-field data-test="userPw" v-model="user.userPw" type="password" 
-                            :rules="rulesPw" label="패스워드 (Password)" @input="errorMember('userPw')" />
+                            <v-text-field data-test="userPw" type="password" v-model="user.userPw"
+                            label="패스워드 (Password)" @input="errorMember('userPw')" :rules="rulesPw"/>
                         </v-col>
-                        <v-col v-if="checkPw"> <v-text-field data-test="userName" v-model="user.userName" label="이름 (name)" @input="errorMember('userName')" /> </v-col>
-                        <v-col><v-btn class="mt-2" color="rgb(26, 32, 53)" type="submit" block>Submit</v-btn></v-col>
+                        <v-col v-if="checkPw">
+                            <v-text-field data-test="userName" v-model="user.userName" label="이름 (name)" @input="errorMember('userName')" />
+                        </v-col>
+                        <v-col>
+                            <v-btn class="mt-2" color="rgb(26, 32, 53)" type="submit" block>회원가입</v-btn>
+                        </v-col>
                     </v-form>
                 </v-sheet>
             </v-col>

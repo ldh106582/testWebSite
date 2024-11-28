@@ -8,14 +8,14 @@
                     </v-col>
 
                     <v-col>
-                        <v-text-field cols="12" hide-details type="text" v-model="userPw" label="임시 비밀전호"></v-text-field>
+                        <v-text-field cols="12" type="text" v-model="userPw" label="임시 비밀전호" hide-details readonly></v-text-field>
                     </v-col>
                     <v-col>
-                        <v-text-field cols="12" type="password" v-model="newPw" label="새로운 비밀전호" :rules="rulesPw"></v-text-field>
+                        <v-text-field cols="12" type="password" v-model="newPw" label="새로운 비밀전호" @keydown.enter="changePw" focused :rules="rulesPw"></v-text-field>
                     </v-col>
 
                     <v-col class="mt-2" cols="12" lg="12" sm="12">
-                        <v-btn color="rgb(26, 32, 53)" width="100%" @click="marchPw">비밀번호 변경</v-btn>
+                        <v-btn color="rgb(26, 32, 53)" width="100%" @click="changePw">비밀번호 변경</v-btn>
                     </v-col>
                 
                 </v-col>
@@ -25,8 +25,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import router from '@/router';
+import axios from '@/axios';
 
 const userPw = ref('');
 const newPw = ref('');
@@ -40,11 +41,26 @@ const rulesPw = ref([
     }
 ]);
 
-const router = useRouter();
+function changePw() { 
+    const checkPw = '새로운 비밀번호를 입력해주세요';
 
-function marchPw() {
-    
+    if (newPw.value === '') return alert (checkPw);
+
+    axios.get('/chage-pw', {
+        params: {
+            userId: router.currentRoute.value.query.userId,
+            userPw: newPw.value
+        }
+    }).then( res => {
+        const data = res.data;
+
+        console.log(data)
+    });
 }
+
+onMounted(() => {
+    userPw.value = router.currentRoute.value.query.userPw;
+})
 
 </script>
 
