@@ -29,7 +29,7 @@ describe('Member Create', () => {
             path: '/login-page',
         });
 
-        await router.isReady()
+        await router.isReady();
 
         wrapper = mount(MemberCreate, {
             global: {

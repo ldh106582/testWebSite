@@ -33,7 +33,7 @@ async function findPw () {
     const errorMsg = '존재하는 아이디가 없습니다.';
     const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
 
-    templatePw();
+    temporaryPw.value = templatePw();
 
     axios.get('/findpw-email', {
         params: {
@@ -67,7 +67,6 @@ function templatePw () {
         let randomIndex = Math.floor(Math.random() * chars.length);
         temporaryPw.value += chars[randomIndex];
 	}
-    return temporaryPw.value
 }
 </script>
 

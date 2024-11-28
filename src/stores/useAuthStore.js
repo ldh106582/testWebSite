@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         login(userInfo) {
+            console.log("sh : ", userInfo.userData[0])
             this.isAuthenticated = true;
             this.userId = userInfo.userData[0].user_id;
             localStorage.setItem('token', userInfo.token);
