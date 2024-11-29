@@ -24,7 +24,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import router from '@/router';
 
 const userId = ref('');
-let temporaryPw = ref('');
+const temporaryPw = ref('');
 
 const auth = useAuthStore ();
 
@@ -34,11 +34,9 @@ async function findPw () {
     const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
 
     if (userId.value === '') return alert (checkId);
-
+    
     temporaryPw.value = templatePw();
-
-    console.log("본 : " + temporaryPw.value)
-
+    
     axios.get('/findpw-email', {
         params: {
             userId: userId.value,
@@ -69,16 +67,15 @@ async function findPw () {
 function templatePw () {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*';
     const numbers = '123456789';
+    let password = '';
 
-    temporaryPw.value = '';
-
-    temporaryPw.value += numbers[Math.floor(Math.random() * numbers.length)];
-
+    password += numbers[Math.floor(Math.random() * numbers.length)];
 	for(let i = 0; i < 6; i++) {
         let randomIndex = Math.floor(Math.random() * chars.length);
-        temporaryPw.value += chars[randomIndex];
+        password += chars[randomIndex];
 	}
-    return temporaryPw.value
+    return password
+
 }
 </script>
 

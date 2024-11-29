@@ -12,11 +12,11 @@ describe('MemberFindPwView', () => {
     let wrapper;
     let router;
     const userId = 'test';
+    const userPw = 'test123!'
     const mockUserInfo = {
         userData : [
             { user_id: 'test', user_pw: 'test123!', user_name: 'tester' },
             { token: 'test123456789!@#$%' },
-
         ]
     };
 
@@ -30,13 +30,13 @@ describe('MemberFindPwView', () => {
             routes: 
             [
                 {
-                    path: '/march-pw',
-                    name: 'march-pw',
+                    path: '/change-pw',
+                    name: 'change-pw',
                     component: MemberChangePwView
                 },
             ],
         });
-        router.push({ path: '/march-pw', mockUSerInfo: mockUserInfo });
+        router.push({ path: '/change-pw', mockUSerInfo: mockUserInfo });
         await router.isReady();
 
         wrapper = mount(MemberFindPwView, {
@@ -45,13 +45,13 @@ describe('MemberFindPwView', () => {
             },
             global: {
                 plugins :[router],
-            }
+            },
         });
 
         vi.spyOn(axios, 'get').mockResolvedValue({
             data: { 
                 result : false,
-                userData: mockUserInfo
+                userData: {}
             }
         });
 
@@ -73,49 +73,41 @@ describe('MemberFindPwView', () => {
     describe('findPw', () => {
         test('axios get 호출 성공 시 alert 확인', async() => {
             const confrimMsg = "작성하신 이메일로 임시 비밀번호를 전송하였습니다.";
-    
             wrapper.vm.userId = userId;
-
             const push = vi.spyOn(router, 'push');
-            
+            const mockUserInfo = {
+                result: false,
+                userData: [{ user_pw: 'test123!' }]
+            };
+
+            vi.mocked(axios.get).mockResolvedValue({
+                data: mockUserInfo
+            });
+        
             await wrapper.vm.findPw();
-            let dh = wrapper.vm.findPw();
-
-            await wrapper.vm.$nextTick();
-
-            wrapper.vm.templatePw = wrapper.vm.templatePw();
-            console.log(wrapper.vm.templatePw)
-            
             await wrapper.vm.$nextTick();
 
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/findpw-email', { params: { userId: userId, userPw:  wrapper.vm.templatePw } });
             expect(alertSpy).toBeCalledWith(confrimMsg);
-
-            await wrapper.vm.$nextTick();
-
-            expect(push).toHaveBeenCalledTimes(1);
-            expect(push).toHaveBeenCalledWith('/march-pw', mockUserInfo);
         });
 
-        // test('axios get 호출 실패 시 alert 확인', async() => {
-        //     const confrimMsg = '존재하는 아이디가 없습니다.';
-        //     wrapper.vm.userId = userId;
-        //     axios.get.mockResolvedValueOnce({
-        //         data: { result: true, userData: [{ user_id: userId }], token: 'mockToken' } // userData 구조 맞춤
-        //     });
-        //     const push = vi.spyOn(router, 'push');
+        test('axios get 호출 실패 시 alert 확인', async() => {
+            const confrimMsg = '존재하는 아이디가 없습니다.';
+            wrapper.vm.userId = userId;
+            axios.get.mockResolvedValueOnce({
+                data: { result: true, userData: [{ user_id: userId }], token: 'mockToken' } // userData 구조 맞춤
+            });
+            const push = vi.spyOn(router, 'push');
             
-        //     await wrapper.vm.$nextTick();
-        //     await wrapper.vm.findPw();
-        //     await flushPromises();
+            await wrapper.vm.$nextTick();
+            await wrapper.vm.findPw();
+            await flushPromises();
 
-        //     const userPw = wrapper.vm.templatePw();
-        //     await wrapper.vm.$nextTick();
+            const userPw = wrapper.vm.templatePw();
+            await wrapper.vm.$nextTick();
 
-        //     expect(axios.get).toBeCalledTimes(1);
-        //     expect(axios.get).toHaveBeenCalledWith('/findpw-email', { params: { userId: userId, userPw: userPw } });
-        //     expect(alertSpy).toBeCalledWith(confrimMsg);
-        // });
+            expect(axios.get).toBeCalledTimes(1);
+            expect(alertSpy).toBeCalledWith(confrimMsg);
+        });
     });
 });

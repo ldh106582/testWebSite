@@ -43,18 +43,23 @@ const rulesPw = ref([
 
 function changePw() { 
     const checkPw = '새로운 비밀번호를 입력해주세요';
+    const errorMsg = '예상하지 못한 오류가 발생하였습니다. 잠시 후 다시 시도해주세요';
+    const successMsg = '비밀번호가 정상적으로 변경되었습니다.';
 
     if (newPw.value === '') return alert (checkPw);
 
-    axios.get('/chage-pw', {
-        params: {
-            userId: router.currentRoute.value.query.userId,
-            userPw: newPw.value
-        }
+    axios.put('/change-pw', {
+        userId: router.currentRoute.value.query.userId,
+        userPw: newPw.value
     }).then( res => {
         const data = res.data;
 
-        console.log(data)
+        if (data.result) {
+            return alert (errorMsg);
+        } else {
+            alert (successMsg);
+            return router.push('/');
+        }
     });
 }
 
