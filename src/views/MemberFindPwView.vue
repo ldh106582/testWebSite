@@ -37,7 +37,7 @@ async function findPw () {
     
     temporaryPw.value = templatePw();
     
-    axios.get('/findpw-email', {
+    axios.get('/changepw-email', {
         params: {
             userId: userId.value,
             userPw: temporaryPw.value
@@ -54,7 +54,7 @@ async function findPw () {
             auth.login (userInfo);
 
             router.push({ 
-                path: '/change-pw', 
+                path: '/member-changepw', 
                 query: { 
                     userId: userId.value,
                     userPw: userInfo.userData[0].user_pw,

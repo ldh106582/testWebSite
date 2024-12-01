@@ -18,7 +18,7 @@ describe('Member Create', () => {
             history: createWebHistory(),
             routes: [
                 {
-                    path: '/login-page',
+                    path: '/member-page',
                     name: 'login-page',
                     component: MemberLoginPageView
                 }
@@ -26,7 +26,7 @@ describe('Member Create', () => {
         });
 
         router.push({
-            path: '/login-page',
+            path: '/member-page',
         });
 
         await router.isReady();
@@ -184,7 +184,7 @@ describe('Member Create', () => {
                 await wrapper.vm.$nextTick();
                 await flushPromises();
             
-                expect(axios.post).toHaveBeenCalledWith('/create-member', wrapper.vm.user);
+                expect(axios.post).toHaveBeenCalledWith('/member-create', wrapper.vm.user);
                 expect(window.alert).toBeCalledWith(errorMember);
             });
             test('회원가입을 성공', async () => {
@@ -201,7 +201,7 @@ describe('Member Create', () => {
             
                 await flushPromises();
             
-                expect(axios.post).toHaveBeenCalledWith('/create-member', wrapper.vm.user);
+                expect(axios.post).toHaveBeenCalledWith('/member-create', wrapper.vm.user);
             
                 expect(window.alert).toBeCalledWith(seccesMember);
             })

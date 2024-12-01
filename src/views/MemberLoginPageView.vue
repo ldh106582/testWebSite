@@ -57,7 +57,7 @@ function login () {
 }
 
 function findPw () {
-    router.push('/find-pw');
+    router.push('/member-findpw');
 }
 
 </script>

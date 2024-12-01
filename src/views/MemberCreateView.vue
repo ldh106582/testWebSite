@@ -98,7 +98,7 @@ async function idCheck () {
     const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
     const useUserId = '사용 가능한 아이디 입니다.';
 
-    await axios.get('/user-data-check', {
+    await axios.get('/member-check', {
         params: {
             userId: user.value.userId,
         }
@@ -131,7 +131,7 @@ async function createMember() {
         return alert ('이름을 반드시 입력해야 합니다.');
     }
 
-    await axios.post('/create-member', {
+    await axios.post('/member-create', {
         userId: user.value.userId,
         userPw: user.value.userPw,
         userName: user.value.userName
@@ -142,7 +142,7 @@ async function createMember() {
             alert (errorMember);
         } else {
             alert (seccesMember);
-            router.push('/login-page')
+            router.push('/member-page')
         }
     });
 

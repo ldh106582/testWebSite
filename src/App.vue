@@ -56,7 +56,7 @@ const lists = ref([
   };
 
   function login () {
-    router.push('/login-page');
+    router.push('/member-page');
   }
 
   function logout () {

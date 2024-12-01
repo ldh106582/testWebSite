@@ -24,14 +24,14 @@ describe('MemberChangePwView', () => {
             history: createWebHistory(),
             routes: [
                 {
-                    path: '/login-page',
-                    name: 'login-page',
+                    path: '/member-page',
+                    name: 'member-page',
                     component: MemberLoginPageView
                 }
             ]
         });
         
-        await router.push({ path: '/change-pw', query: { userId: mockUserId, userPw: mockNewPw } });
+        await router.push({ path: '/member-changepw', query: { userId: mockUserId, userPw: mockNewPw } });
         await router.isReady();
 
         vi.spyOn(axios, 'put').mockResolvedValueOnce({
@@ -69,7 +69,7 @@ describe('MemberChangePwView', () => {
             await wrapper.vm.$nextTick();
 
             expect(axios.put).toBeCalledTimes(1);
-            expect(axios.put).toHaveBeenCalledWith('/change-pw', { params: { 
+            expect(axios.put).toHaveBeenCalledWith('member-changepw', { params: { 
                 userId: mockUserId,
                 userPw: mockNewPw 
             } });
@@ -91,7 +91,7 @@ describe('MemberChangePwView', () => {
             await wrapper.vm.$nextTick();
 
             expect(axios.put).toBeCalledTimes(1);
-            expect(axios.put).toHaveBeenCalledWith('/change-pw', { params: { 
+            expect(axios.put).toHaveBeenCalledWith('/member-changepw', { params: { 
                 userId: mockUserId,
                 userPw: mockNewPw 
             } });

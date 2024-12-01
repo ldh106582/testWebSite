@@ -12,17 +12,17 @@ const routes = [
         component: () => import('@/views/MemberCreateView.vue'),
     },
     {
-        path: '/login-page',
-        name : 'login-page',
+        path: '/member-login',
+        name : 'member-login',
         component: () => import('@/views/MemberLoginPageView.vue'),
     },
     {
-        path: '/find-pw',
-        name : 'find-pw',
+        path: '/member-findpw',
+        name : 'member-findpw',
         component: () => import('@/views/MemberFindPwView.vue'),
     },
     {
-        path: '/change-pw',
+        path: '/member-changepw',
         name : 'change-pw',
         component: () => import('@/views/MemberChangePwView.vue'),
         meta: {

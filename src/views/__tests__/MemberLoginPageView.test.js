@@ -10,7 +10,7 @@ describe('LoginPageView', ()=> {
     let wrapper;
     const routes = [
         {
-            path: '/find-Pw',
+            path: '/member-findpw',
             component: MemberFindPwView
         }
     ];
@@ -83,7 +83,7 @@ describe('LoginPageView', ()=> {
             wrapper.vm.findPw();
         
             expect(push).toHaveBeenCalledTimes(1);
-            expect(push).toHaveBeenCalledWith('/find-pw');
+            expect(push).toHaveBeenCalledWith('/member-findpw');
         });
     });
 })

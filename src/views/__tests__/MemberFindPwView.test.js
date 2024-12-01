@@ -30,13 +30,13 @@ describe('MemberFindPwView', () => {
             routes: 
             [
                 {
-                    path: '/change-pw',
-                    name: 'change-pw',
+                    path: '/member-changepw',
+                    name: 'member-changepw',
                     component: MemberChangePwView
                 },
             ],
         });
-        router.push({ path: '/change-pw', mockUSerInfo: mockUserInfo });
+        router.push({ path: '/member-changepw', mockUSerInfo: mockUserInfo });
         await router.isReady();
 
         wrapper = mount(MemberFindPwView, {
