@@ -16,8 +16,13 @@
 
     <v-navigation-drawer class="sideBar">
       <v-list density="compact" nav>
-        <v-list-item class="sideBar-text" v-for="(list, index) in lists" :key="index"  :title="list.title"
-          :to="list.path" prepend-icon="mdi-text-box-outline">
+        <v-list-item class="sideBar-text" 
+        v-for="(list, index) in lists" 
+        :key="index"  
+        :title="list.title"
+        :to="list.path" prepend-icon="mdi-text-box-outline"
+        @click="e => onClick(e)"
+        >
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -41,11 +46,17 @@ defineOptions({
 });
 
 const lists = ref([
-  {title: '정보처리기사(실기)'}, 
-  {title: 'SQLD'},
-  {title : '네트워크 관리사 2급 (실기)'}, 
-  {title : '리눅스마스터 2급 실기'}
+  { title: '정보처리기사(실기)', (e) => push(e, '/')}, 
+  { title: 'SQLD' },
+  { title : '네트워크 관리사 2급 (실기)' }, 
+  { title : '리눅스마스터 2급 실기' }
   ]);
+
+  function push(e, routeName) {
+    if (e.ctrlKey) return window.open(routeName, '_blank');
+
+    router.push(routeName);
+  }
 
   function mainPage () {
     router.push('/')
@@ -60,7 +71,7 @@ const lists = ref([
   }
 
   function logout () {
-    if(!confirm('로그아웃 하시겠습니까??')) return;
+    if (!confirm('로그아웃 하시겠습니까??')) return;
 
     auth.logout(auth.userId);
 
@@ -88,5 +99,8 @@ const lists = ref([
   font-weight: 200;
 }
 
+.sideBar-text:hover {
+  cursor: pointer;
+}
 
 </style>

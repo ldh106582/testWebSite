@@ -70,7 +70,7 @@ function templatePw () {
     let password = '';
 
     password += numbers[Math.floor(Math.random() * numbers.length)];
-	for(let i = 0; i < 6; i++) {
+	for (let i = 0; i < 6; i++) {
         let randomIndex = Math.floor(Math.random() * chars.length);
         password += chars[randomIndex];
 	}
