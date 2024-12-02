@@ -46,7 +46,7 @@ defineOptions({
 });
 
 const lists = ref([
-  { title: '정보처리기사(실기)', (e) => push(e, '/')}, 
+  { title: '정보처리기사(실기)', }, 
   { title: 'SQLD' },
   { title : '네트워크 관리사 2급 (실기)' }, 
   { title : '리눅스마스터 2급 실기' }
