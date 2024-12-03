@@ -23,8 +23,16 @@ const routes = [
     },
     {
         path: '/member-changepw',
-        name : 'change-pw',
+        name : 'member-changepw',
         component: () => import('@/views/MemberChangePwView.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
+        path: '/information',
+        name : 'information',
+        component: () => import('../../nuxt-app/pages/information.vue'),
         meta: {
             isAisAuthenticated: true
         }

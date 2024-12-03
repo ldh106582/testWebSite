@@ -20,8 +20,10 @@
         v-for="(list, index) in lists" 
         :key="index"  
         :title="list.title"
-        :to="list.path" prepend-icon="mdi-text-box-outline"
-        @click="e => onClick(e)"
+        :to="list.path"
+        prepend-icon="mdi-text-box-outline"
+        nuxt-link
+        @click="() => onClick(list.title)"
         >
         </v-list-item>
       </v-list>
@@ -46,10 +48,10 @@ defineOptions({
 });
 
 const lists = ref([
-  { title: '정보처리기사(실기)', }, 
-  { title: 'SQLD' },
-  { title : '네트워크 관리사 2급 (실기)' }, 
-  { title : '리눅스마스터 2급 실기' }
+  { title: '정보처리기사(실기)', path: '/information'}, 
+  { title: 'SQLD', path: '/sqld' },
+  { title : '네트워크 관리사 2급 (실기)', path: '/network' }, 
+  { title : '리눅스마스터 2급 실기', path: '/linux' }
   ]);
 
   function push(e, routeName) {
