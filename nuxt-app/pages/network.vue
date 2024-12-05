@@ -1,8 +1,9 @@
 <template>
-    <div>정보처리기사</div>
+    <h1>network</h1>
 </template>
 
 <script setup>
+
 </script>
 
 <style scoped>

@@ -37,6 +37,31 @@ const routes = [
             isAisAuthenticated: true
         }
     },
+    {
+        path: '/sqld',
+        name : 'sqld',
+        component: () => import('../../nuxt-app/pages/sqld.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
+        path: '/network',
+        name : 'network',
+        component: () => import('../../nuxt-app/pages/network.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
+        path: '/linux',
+        name : 'linux',
+        component: () => import('../../nuxt-app/pages/linux.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    
     
 ]
 
