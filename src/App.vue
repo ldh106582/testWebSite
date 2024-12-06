@@ -69,7 +69,7 @@ const lists = ref([
   };
 
   function login () {
-    router.push('/member-page');
+    router.push('/member-login');
   }
 
   function logout () {
