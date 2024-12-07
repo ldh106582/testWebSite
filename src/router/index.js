@@ -34,15 +34,15 @@ const routes = [
         name : 'information',
         component: () => import('../../nuxt-app/pages/information.vue'),
         meta: {
-            isAisAuthenticated: true
-        }
+            isAisAuthenticated: false,
+        },
     },
     {
         path: '/sqld',
         name : 'sqld',
         component: () => import('../../nuxt-app/pages/sqld.vue'),
         meta: {
-            isAisAuthenticated: true
+            isAisAuthenticated: false
         }
     },
     {
@@ -50,7 +50,7 @@ const routes = [
         name : 'network',
         component: () => import('../../nuxt-app/pages/network.vue'),
         meta: {
-            isAisAuthenticated: true
+            isAisAuthenticated: false
         }
     },
     {
@@ -58,10 +58,9 @@ const routes = [
         name : 'linux',
         component: () => import('../../nuxt-app/pages/linux.vue'),
         meta: {
-            isAisAuthenticated: true
+            isAisAuthenticated: false
         }
     },
-    
     
 ]
 

@@ -15,18 +15,7 @@
     </v-app-bar>
 
     <v-navigation-drawer class="sideBar">
-      <v-list density="compact" nav>
-        <v-list-item class="sideBar-text" 
-        v-for="(list, index) in lists" 
-        :key="index"  
-        :title="list.title"
-        :to="list.path"
-        prepend-icon="mdi-text-box-outline"
-        nuxt-link
-        @click="() => onClick(list.title)"
-        >
-        </v-list-item>
-      </v-list>
+      <v-list-item title="정보처리기사"  value="정보처리기사" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/information')" />
     </v-navigation-drawer>
 
     <v-main class="sideBar-main align-center justify-center">
@@ -37,27 +26,32 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import router from '@/router/index';
 import { useAuthStore } from './stores/useAuthStore';
 
-const router = useRouter();
+// const router = useRouter();
 const auth = useAuthStore();
 
 defineOptions({
   name: 'App',
 });
 
-const lists = ref([
-  { title: '정보처리기사(실기)', path: '/information'}, 
-  { title: 'SQLD', path: '/sqld' },
-  { title : '네트워크 관리사 2급 (실기)', path: '/network' }, 
-  { title : '리눅스마스터 2급 실기', path: '/linux' }
-  ]);
+const lists = [
+  [ '정보처리기사(실기)', (e) => push(e, '/information') ], 
+  [ 'SQLD', (e) => push(e, '/sqld')],
+  [ '네트워크 관리사 2급 (실기)', (e) => push(e, '/network') ], 
+  [ '리눅스마스터 2급 실기',  (e) => push(e, '/linux') ],
+];
 
   function push(e, routeName) {
     if (e.ctrlKey) return window.open(routeName, '_blank');
 
-    router.push(routeName);
+    router.push({
+      path: routeName, 
+      query: {
+        userId: auth.userId
+      }
+    });
   }
 
   function mainPage () {

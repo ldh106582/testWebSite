@@ -18,8 +18,11 @@
 import { ref } from 'vue';
 import router from '@/router';
 
+const userId = ref('');
+
 function testStart() {
-    
+    userId.value = router.currentRoute.value.query.userId
+
 }
 
 </script>
