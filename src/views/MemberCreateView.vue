@@ -145,7 +145,6 @@ async function createMember() {
             router.push('/member-page')
         }
     });
-
 }
 
 onMounted (() => {
