@@ -69,10 +69,10 @@ describe('MemberChangePwView', () => {
             await wrapper.vm.$nextTick();
 
             expect(axios.put).toBeCalledTimes(1);
-            expect(axios.put).toHaveBeenCalledWith('member-changepw', { params: { 
+            expect(axios.put).toHaveBeenCalledWith('/member-changepw', { 
                 userId: mockUserId,
                 userPw: mockNewPw 
-            } });
+            });
             expect(alertSpy).toBeCalledWith(successMsg);
         });
 
@@ -91,10 +91,10 @@ describe('MemberChangePwView', () => {
             await wrapper.vm.$nextTick();
 
             expect(axios.put).toBeCalledTimes(1);
-            expect(axios.put).toHaveBeenCalledWith('/member-changepw', { params: { 
+            expect(axios.put).toHaveBeenCalledWith('/member-changepw', { 
                 userId: mockUserId,
                 userPw: mockNewPw 
-            } });
+            });
             expect(alertSpy).toBeCalledWith(errorMsg);
 
         });

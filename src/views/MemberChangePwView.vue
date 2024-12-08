@@ -48,7 +48,7 @@ function changePw() {
 
     if (newPw.value === '') return alert (checkPw);
 
-    axios.put('/change-pw', {
+    axios.put('/member-changepw', {
         userId: router.currentRoute.value.query.userId,
         userPw: newPw.value
     }).then( res => {

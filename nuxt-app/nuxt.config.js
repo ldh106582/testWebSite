@@ -1,6 +1,7 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
+import { defineVitestConfig } from '@nuxt/test-utils/config';
 
-export default {
+export default defineVitestConfig({
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -41,6 +42,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxt/test-utils/module'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -64,5 +66,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  test: {
+    environment: 'nuxt',
   }
-}
+})
