@@ -16,7 +16,10 @@
 
     <v-navigation-drawer class="sideBar">
       <v-list-item title="정보처리기사"  value="정보처리기사" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/information')" />
-    </v-navigation-drawer>
+      <v-list-item title="SQLD"  value="SQLD" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/sqld')" />
+      <v-list-item title="네트워크 관리사 2급"  value="네트워크 관리사 2급" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/network')" />
+      <v-list-item title="리눅스마스터 2급"  value="리눅스마스터 2급" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/linux')" />
+      </v-navigation-drawer>
 
     <v-main class="sideBar-main align-center justify-center">
       <router-view />

@@ -23,6 +23,12 @@ const userId = ref('');
 function testStart() {
     userId.value = router.currentRoute.value.query.userId
 
+    router.push({
+        path: '/information-test', 
+        query: {
+            userId: userId.value
+        }
+    })
 }
 
 </script>

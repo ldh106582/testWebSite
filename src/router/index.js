@@ -61,6 +61,14 @@ const routes = [
             isAisAuthenticated: false
         }
     },
+    {
+        path: '/information-test',
+        name: 'information-test',
+        component: () => import('../../nuxt-app/pages/information_test.vue'),
+        meta: {
+            isAisAuthenticated: false
+        }
+    }
     
 ]
 
