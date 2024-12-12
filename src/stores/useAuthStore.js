@@ -13,6 +13,8 @@ export const useAuthStore = defineStore('auth', {
             if (token) {
                 this.isAuthenticated = true;
                 this.getMemberInfo();
+            } else {
+                this.logout(); // 토큰이 없으면 로그아웃 처리
             }
         },
         login(userInfo) {
