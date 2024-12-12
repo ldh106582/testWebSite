@@ -2,7 +2,10 @@
     <v-container fluid>
         <v-row>
             <v-col>
-
+                <h3> 문제 </h3>
+            </v-col>
+            <v-col>
+                <p>내용</p>
             </v-col>
         </v-row>
     </v-container>
