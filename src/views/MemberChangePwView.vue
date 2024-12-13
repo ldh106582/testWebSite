@@ -8,7 +8,7 @@
                     </v-col>
 
                     <v-col>
-                        <v-text-field cols="12" type="text" v-model="userPw" label="임시 비밀전호" hide-details readonly></v-text-field>
+                        <v-text-field cols="12" type="text" v-model="userPw" label="임시 비밀전호" hide-details ></v-text-field>
                     </v-col>
                     <v-col>
                         <v-text-field cols="12" type="password" v-model="newPw" label="새로운 비밀전호" @keydown.enter="changePw" focused :rules="rulesPw"></v-text-field>

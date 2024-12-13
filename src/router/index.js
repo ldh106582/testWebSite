@@ -30,6 +30,22 @@ const routes = [
         }
     },
     {
+        path: '/exam-create',
+        name: 'exam-create',
+        component: () => import('@/views/ExamCreateView.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
+        path: '/exam-update',
+        name: 'exam-update',
+        component: () => import('@/views/ExamUpdateeView.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
         path: '/information',
         name : 'information',
         component: () => import('../../nuxt-app/pages/information.vue'),

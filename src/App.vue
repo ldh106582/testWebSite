@@ -6,9 +6,9 @@
         IT 개발자 자격증 사이트
       </v-toolbar-title>
 
-      <router-link to="/member-login" v-if="!auth.user"> Login </router-link>
-      <span style="margin-Right: 30px;">{{auth.user? auth.user.email : ""}}</span>
-      <v-btn @click="logout" v-if="auth.user" style="margin-right: 21px;" >Logout</v-btn>
+      <router-link to="/member-login" v-if="!auth.userId"> Login </router-link>
+      <span style="margin-Right: 30px;">{{auth.userId? auth.userId: ""}}</span>
+      <v-btn @click="logout" v-if="auth.userId" style="margin-right: 21px;" >Logout</v-btn>
     </v-app-bar>
 
     <!-- <v-app-bar>
@@ -31,7 +31,7 @@
       <v-list-item title="네트워크 관리사 2급"  value="네트워크 관리사 2급" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/network')" />
       <v-list-item title="리눅스마스터 2급"  value="리눅스마스터 2급" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/linux')" />
       
-      <v-list density="compact" nav>
+      <v-list density="compact" nav v-if="auth.userId === user[0]">
         <v-list-group  class="sideBar-text" prepend-icon="mdi-text-box-outline" >
           <template v-slot:activator="{ props }">
             <v-list-item
@@ -64,6 +64,8 @@ import { ref } from 'vue';
 import router from '@/router/index';
 import { useAuthStore } from './stores/useAuthStore';
 
+const user = ref(['admin'])
+
 // const router = useRouter();
 const auth = useAuthStore();
 
@@ -72,9 +74,8 @@ defineOptions({
 });
 
 const eaxms = [
-  ['견적 요청', 'mdi-pencil', ],
-  ['견적 조회', 'mdi-magnify',],
-  ['견적 현황', 'mdi-view-list',],
+  ['시험문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
+  ['시험문제 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
 ]
 
 const lists = [
@@ -110,6 +111,7 @@ const lists = [
 
     router.push('/');
   }
+
 </script>
 
 <style scoped>
