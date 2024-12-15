@@ -36,14 +36,12 @@ export const useAuthStore = defineStore('auth', {
                     'Authorization': `Bearer ${token}`
                 }
             };
-            axios.get('/member-info', config)
-                .then(res => {
-                    const userInfo = res.data.rows[0];
-                    this.userId = userInfo.user_id;
-                })
-                .catch(error => {
-                    console.error('회원 정보 가져오기 실패:', error);
-                });
+            axios.get('/member-info', config).then(res => {
+                const userInfo = res.data.rows; // 'rows'로 수정
+                this.userId = userInfo[0].user_id; // 배열에서 첫 번째 요소 접근
+            }).catch(error => {
+                console.error("Error fetching member info:", error);
+            });
         },
     }
 });

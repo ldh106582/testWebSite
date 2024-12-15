@@ -60,8 +60,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import moment from 'moment';
+import { ref, onMounted } from 'vue';
+import useMomet from '@/mixins/useMoment';
 
 const examSelect = ref(['정보처리기사', 'SQLD', '네트워크관리사2급', '리눅스마스터2급']);
 const examType = ref(['주관식', '객관식', '서술형', '단답형']);
@@ -85,14 +85,20 @@ const examQuestion = ref('');
 const examExplanation = ref('');
 const examFeedback = ref('');
 const examCreate = ref([]);
+const useMoments = useMomet(); 
+
 
 function examCreateSave () {
 
     examCreate.value = [examSelect.value.value, examType.value.value, difficulty.value.value, eaxmYear.value.value, eaxmAcademicYear.value.value, 
     examScore.value, examNumber.value, examQuestion.value, examExplanation.value, examFeedback.value];
 
-
+    
 }
+
+onMounted (() => {
+    console.log(useMoments.getToday())
+})
 
 </script>
 
