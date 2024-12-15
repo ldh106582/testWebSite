@@ -30,6 +30,14 @@ const routes = [
         }
     },
     {
+        path: '/examType-create',
+        name: 'examType-create',
+        component: () => import('@/views/ExamTypeCreatView.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
         path: '/exam-create',
         name: 'exam-create',
         component: () => import('@/views/ExamCreateView.vue'),

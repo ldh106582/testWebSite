@@ -74,6 +74,7 @@ defineOptions({
 });
 
 const eaxms = [
+  ['시험유형 추가 및 수정', 'mdi-card-minus', (e) => push(e, '/examType-create')],
   ['시험문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
   ['시험문제 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
 ]

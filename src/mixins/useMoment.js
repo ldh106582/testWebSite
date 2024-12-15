@@ -1,10 +1,15 @@
 import moment from "moment";
 
-export default function useMomet () {
+export default function useMoment () {
 
-    function getToday() {
+    function getToday (today) {
         return moment(new Date())
     }
 
-    return { getToday }
+    function getCreateAt () {
+        const today = moment().format('YYYY-MM-DD HH:mm:ss');
+        return today
+    }
+
+    return { getToday, getCreateAt }
 };

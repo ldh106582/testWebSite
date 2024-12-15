@@ -61,7 +61,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import useMomet from '@/mixins/useMoment';
+import useMoment from '@/mixins/useMoment.js';
+import axios from '@/axios';
 
 const examSelect = ref(['정보처리기사', 'SQLD', '네트워크관리사2급', '리눅스마스터2급']);
 const examType = ref(['주관식', '객관식', '서술형', '단답형']);
@@ -85,7 +86,8 @@ const examQuestion = ref('');
 const examExplanation = ref('');
 const examFeedback = ref('');
 const examCreate = ref([]);
-const useMoments = useMomet(); 
+const useMoments = useMoment();
+const today = useMoments.getCreateAt();
 
 
 function examCreateSave () {
@@ -93,12 +95,17 @@ function examCreateSave () {
     examCreate.value = [examSelect.value.value, examType.value.value, difficulty.value.value, eaxmYear.value.value, eaxmAcademicYear.value.value, 
     examScore.value, examNumber.value, examQuestion.value, examExplanation.value, examFeedback.value];
 
+    // 추가 수정 필요
+    axios.get('/exam-create', {
+        params :{
+            create_at : today,
+            examCreate: examCreate.value
+        }
+    }).then(res, () => {
+        // console.log(res.data.rows);
+    });
     
 }
-
-onMounted (() => {
-    console.log(useMoments.getToday())
-})
 
 </script>
 
