@@ -125,7 +125,9 @@ describe('Member Create', () => {
         });
     });
     describe('createMember 함수', () => {
+        
         describe('error 발생', () => {
+
             test('Id 중복 체크를 하지 않았을 때', () => {
                 const confirmId = 'ID 중복 체크를 반드시 진행하셔야 합니다.';
                 const checkId = false;
@@ -135,6 +137,7 @@ describe('Member Create', () => {
     
                 expect(window.alert).toBeCalledWith(confirmId);
             });
+
             test('비밀번호 입력하지 않았을 때', async () => {
                 const checkPw = '비밀번호를 반드시 입력해야 합니다.';
                 wrapper.vm.checkId = true;
@@ -148,6 +151,7 @@ describe('Member Create', () => {
     
                 expect(window.alert).toBeCalledWith(checkPw);
             });
+
             test('이름을 입력하지 않았을 때', async () => {
                 const checkName = '이름을 반드시 입력해야 합니다.';
                 wrapper.vm.checkId = true;
@@ -163,6 +167,7 @@ describe('Member Create', () => {
                 expect(window.alert).toBeCalledWith(checkName);
             });
         });
+
         describe('axios post 핸들러', () => {
             const mockUser = [{
                 userId: 'test',
