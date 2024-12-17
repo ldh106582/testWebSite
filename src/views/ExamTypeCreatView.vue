@@ -13,7 +13,7 @@
                 <v-text-field variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험" v-model="examSubject"></v-text-field>
             </v-col>
             <v-col style="text-align: end;" class="py-0">
-                <v-btn color="primary" @click="searchExam">조회하기</v-btn>
+                <v-btn data-test="search" color="primary" @click="searchExam">조회하기</v-btn>
             </v-col>
         </v-row>
         <v-row v-if="isSearch">
@@ -21,7 +21,7 @@
                 <h3>시험 확인하기</h3>
             </v-col>
             <v-col cols="12" v-for="(examData, index) in examDatas" :key="index">
-
+                <v-col></v-col>
             </v-col>
         </v-row>
         <v-row>

@@ -1,14 +1,16 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import axios from "@/axios";
 import ExamTypeCreatView from "@/views/ExamTypeCreatView.vue";
-import { mount } from "@vue/test-utils";
+import { flushPromises, mount } from "@vue/test-utils";
 
 describe('ExamTypeCreatView', () => {
     let wrapper;
-    const alertSpy = vi.spyOn(window, 'alert');
     const mockExamSubject = 'testSubject';
     const mockExamDescription = "test description";
     
+    const alertSpy = vi.spyOn(window, 'alert');
+    const confirmSpy = vi.spyOn(window, 'confirm');
+
     beforeEach(() => {
         vi.spyOn(axios, 'get').mockResolvedValueOnce({
             data: {
@@ -20,15 +22,51 @@ describe('ExamTypeCreatView', () => {
         wrapper = mount(ExamTypeCreatView);
     });
 
+    describe('v-if isSearch 확인', () => {
+        
+        test('true 일 경우', async () => {
+            // const btn = wrapper.vm.find('[data-test="search"]')
+            // await btn.trigger('click');
+
+            // await wrapper.vm.$nextTick();
+
+            // wrapper.vm.isSearch = true;
+
+        });
+
+        test('false 일 경우', () => {
+
+        })
+
+    });
+
+    describe('searchExamType 함수', () => {
+
+        test('axios get 연결 확인', () => {
+
+        });
+
+        test('axios 연결 성공 시 alert', () => {
+
+        });
+        
+        test('axios 연결 실패 시 alert', () => {
+
+        });
+
+    });
+
     describe('createEaxmType 함수', () => {
 
-        test('axios get 연결확인', () => {
+        test('axios get 연결확인', async () => {
 
             wrapper.vm.examSubject = mockExamSubject;
             wrapper.vm.examDescription = mockExamDescription;
 
-            wrapper.vm.createEaxmType();
             wrapper.vm.$nextTick();
+
+            wrapper.vm.createEaxmType();
+            await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
             expect(axios.get).toHaveBeenCalledWith('/create-examType', {
@@ -39,7 +77,7 @@ describe('ExamTypeCreatView', () => {
             })
         });
 
-        test('axios get 성공', () => {
+        test('axios get 성공 시 alert', () => {
 
             const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
 
@@ -59,7 +97,7 @@ describe('ExamTypeCreatView', () => {
 
         });
 
-        test('axios get 실패', async () => {
+        test('axios 연결 실패 시 alert', async () => {
             const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
 
             wrapper.vm.examSubject = mockExamSubject;
