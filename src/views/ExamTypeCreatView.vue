@@ -53,7 +53,7 @@ function searchExamType () {
 
     if (examSubject.value === '') return alert (nullMsg)
 
-    axios.get('/search-eaxm', {
+    axios.get('/search-exam', {
         params: {
             examSubject: examSubject.value. replace(/ /g, '')
         }

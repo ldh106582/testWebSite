@@ -76,7 +76,7 @@ describe('MemberChangePwView', () => {
             expect(alertSpy).toBeCalledWith(successMsg);
         });
 
-        test('axios put 호출 실패 시 결과 확인', async() => {
+        test('axios put 호출 실패 시 결과 확인', async() => {   
             const errorMsg = '예상하지 못한 오류가 발생하였습니다. 잠시 후 다시 시도해주세요';
             wrapper.vm.newPw = mockNewPw;
             wrapper.vm.router.currentRoute.value.query.userId = mockUserId;
