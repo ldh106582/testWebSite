@@ -16,14 +16,14 @@
                 <v-btn data-test="search" color="primary" @click="searchExam">조회하기</v-btn>
             </v-col>
         </v-row>
-        <v-row v-if="isSearch">
-            <v-col cols="12" class="mt-5">
+        <!-- <v-row v-if="isSearch">
+            <v-col cols="12" class="ma-0">
                 <h3>시험 확인하기</h3>
             </v-col>
-            <v-col cols="12" v-for="(examData, index) in examDatas" :key="index">
-                <v-col></v-col>
+            <v-col style="border: 1px solid red;" cols="12" class="pa-0 mx-3" v-for="(examData, index) in examDatas" :key="index">
+                <span class="ma-0" > {{ examData.type_name }}</span>
             </v-col>
-        </v-row>
+        </v-row> -->
         <v-row>
             <v-col cols="12" class="py-0">
                 <h3>설명</h3>
@@ -32,7 +32,7 @@
                 <v-textarea variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDescription"></v-textarea>
             </v-col>
             <v-col cols="12" class="py-0" style="text-align: end;">
-                <v-btn color="blue" @click="createEaxmType">저장</v-btn>
+                <v-btn color="blue" :disabled="isSearch" @click="createEaxmType">저장</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -44,27 +44,27 @@ import axios from '@/axios';
 
 const examSubject = ref('');
 const examDescription = ref('');
-const examDatas = ref([]);
-const isSearch = ref(false);
+const isSearch = ref(true);
 
-function searchExamType () {
-    const errorMsg = '데이터가 존재하지 않습니다.';
+function searchExam () {
+    const errorMsg = '데이터를 등록해주세요.';
+    const resultMsg = '해당하는 시험은 이미 존재합니다.'
     const nullMsg = '주제를 입력해주세요';
 
     if (examSubject.value === '') return alert (nullMsg)
 
-    axios.get('/search-exam', {
+    axios.get('/search-examType', {
         params: {
-            examSubject: examSubject.value. replace(/ /g, '')
+            examSubject: examSubject.value.replace(/ /g, '')
         }
     }).then(res => {
-        const data = res.data
+        const data = res.data;
 
-        if (data) {
+        if (data.result || data.rows.length === 0) {
             alert (errorMsg);
+            isSearch.value = false;
         } else {
-            examDatas.value = data.rows;
-
+            alert (resultMsg);
             isSearch.value = true;
         }
     });
@@ -83,7 +83,7 @@ function createEaxmType () {
     
     axios.get('/create-examType', {
         params: {
-            examSubject: examSubject.value. replace(/ /g, ''),
+            examSubject: examSubject.value.replace(/ /g, ''),
             examDescription: examDescription.value
         }
     }).then(res => {

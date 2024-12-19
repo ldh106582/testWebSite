@@ -16,7 +16,8 @@ describe('ExamTypeCreatView', () => {
         vi.spyOn(axios, 'get').mockResolvedValueOnce({
             data: {
                 status: 200,
-                result: false
+                result: false,
+                rows: []
             }
         });
 
@@ -49,12 +50,11 @@ describe('ExamTypeCreatView', () => {
     });
 
     describe('searchExamType 함수', () => {
-
         test('examSubject 공백일 경우', async () => {
             const nullMsg = '주제를 입력해주세요';
 
             wrapper.vm.examSubject = '';
-            wrapper.vm.searchExamType();
+            wrapper.vm.searchExam();
             await wrapper.vm.$nextTick();
 
             expect(alertSpy).toBeCalledWith(nullMsg);
@@ -65,12 +65,12 @@ describe('ExamTypeCreatView', () => {
             wrapper.vm.examSubject = mockExamSubject;
             wrapper.vm.isSearch = true;
 
-            wrapper.vm.searchExamType();
+            wrapper.vm.searchExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/search-exam', {
+            expect(axios.get).toHaveBeenCalledWith('/search-examType', {
                 params: {
                     examSubject: 'testSubject',
                 }
@@ -78,18 +78,19 @@ describe('ExamTypeCreatView', () => {
         });
 
         test('axios 연결 성공 시 alert', async () => {
-            const errorMsg = '데이터가 존재하지 않습니다.';
-
+            const errorMsg = '데이터를 등록해주세요.';
+            const mockExamSubject = 'mock exam subject';
             wrapper.vm.examSubject = mockExamSubject;
             wrapper.vm.isSearch = true;
-
+        
             vi.spyOn(axios, 'get').mockResolvedValueOnce({
                 data: {
-                    result : true
+                    result: true,
+                    rows: []
                 }
             });
-
-            wrapper.vm.searchExamType();
+        
+            await wrapper.vm.searchExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
@@ -100,18 +101,16 @@ describe('ExamTypeCreatView', () => {
             wrapper.vm.examSubject = mockExamSubject;
             wrapper.vm.isSearch = true;
 
-            wrapper.vm.searchExamType();
+            wrapper.vm.searchExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
-
         });
 
     });
 
     describe('createEaxmType 함수', () => {
-
         test('axios get 연결확인', async () => {
             confirmSpy.mockReturnValue(true); 
             wrapper.vm.examSubject = mockExamSubject;
