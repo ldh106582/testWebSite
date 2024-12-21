@@ -9,9 +9,9 @@
         <v-col cols="2" class="py-0 pr-0">
             <v-text-field label="시험점수" v-model="examScore"></v-text-field>
         </v-col>
-        <v-col cols="2" class="py-0 pr-0">
+        <!--<v-col cols="2" class="py-0 pr-0">
             <v-select label="시험구분" :items="examSelect" v-model="examSelect.value"></v-select>
-        </v-col>
+        </v-col>-->
         <v-col cols="2" class="py-0 pr-0">
             <v-select label="시험유형"  :items="examType" v-model="examType.value"></v-select>
         </v-col>
@@ -33,6 +33,10 @@
     </v-row>
 
     <v-row>
+        <v-col class="mt-5 pt-5" v-if="isExamType">
+            <h3>시험문제</h3>
+            <v-textarea variant="outlined"v-model="examQuestion"></v-textarea>
+        </v-col>
         <v-col class="mt-5 pt-5">
             <h3>시험문제</h3>
             <v-textarea variant="outlined"v-model="examQuestion"></v-textarea>
@@ -88,6 +92,7 @@ const examFeedback = ref('');
 const examCreate = ref([]);
 const useMoments = useMoment();
 const today = useMoments.getCreateAt();
+const isExamType = ref(false);
 
 
 function examCreateSave () {
