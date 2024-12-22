@@ -33,13 +33,23 @@
     </v-row>
 
     <v-row>
-        <v-col class="mt-5 pt-5" v-if="isExamType">
+        <v-col class="mt-5 pt-5" v-if="examType.value === '단답형'">
             <h3>시험문제</h3>
-            <v-textarea variant="outlined"v-model="examQuestion"></v-textarea>
+            <v-text-field variant="outlined" v-model="examQuestion" />
         </v-col>
-        <v-col class="mt-5 pt-5">
+        <v-col class="mt-5 pt-5" v-else-if="examType.value === '객관식'">
             <h3>시험문제</h3>
-            <v-textarea variant="outlined"v-model="examQuestion"></v-textarea>
+            <v-col v-for="(option, index) in options" :key="index" cols="8" class="d-flex align-center px-0">
+                <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
+                <label :for="index + 1" class="examQuestion-label">
+            <span class="examQuestion-Num">{{ option }}</span>
+        </label>
+        <v-text-field hide-details variant="outlined" v-model="examQuestion" />
+            </v-col>
+        </v-col>
+        <v-col class="mt-5 pt-5" v-if="examType.value === '주관식' || examType.value === '서술형'">
+            <h3>시험문제</h3>
+            <v-textarea variant="outlined" v-model="examQuestion" />
         </v-col>
     </v-row>
     <v-row>
@@ -91,9 +101,8 @@ const examExplanation = ref('');
 const examFeedback = ref('');
 const examCreate = ref([]);
 const useMoments = useMoment();
+const options = ref(['①', '②', '③', '④', '⑤']);
 const today = useMoments.getCreateAt();
-const isExamType = ref(false);
-
 
 function examCreateSave () {
 
@@ -115,5 +124,39 @@ function examCreateSave () {
 </script>
 
 <style scoped>
+.examQuestion {
+    display: none;
+}
 
+.examQuestion-label {
+    position: relative;
+}
+
+.examQuestion-Num ::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+    width: 20px; /* 체크박스의 너비 */
+    height: 20px; /* 체크박스의 높이 */
+}
+
+input[type="radio"]:checked + .examQuestion-label::before {
+    content: '✔'; /* 체크 마크 */
+    color: red; /* 체크 마크 색상 */
+    text-align: center;
+    line-height: 20px; /* 세로 정렬 */
+}
+
+.examQuestion-Num:hover {
+    cursor: pointer;
+}
+
+.examQuestion-Num {
+    font-weight: bold;
+    font-size: 25px;
+    padding-right: 30px;
+}
 </style>
