@@ -38,6 +38,14 @@ const routes = [
         }
     },
     {
+        path: '/examType-update',
+        name: 'examType-update',
+        component: () => import('@/views/ExamTypeUpdateView.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
         path: '/exam-create',
         name: 'exam-create',
         component: () => import('@/views/ExamCreateView.vue'),

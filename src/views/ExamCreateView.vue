@@ -9,9 +9,6 @@
         <v-col cols="2" class="py-0 pr-0">
             <v-text-field label="시험점수" v-model="examScore"></v-text-field>
         </v-col>
-        <!--<v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험구분" :items="examSelect" v-model="examSelect.value"></v-select>
-        </v-col>-->
         <v-col cols="2" class="py-0 pr-0">
             <v-select label="시험유형"  :items="examType" v-model="examType.value"></v-select>
         </v-col>
@@ -106,8 +103,18 @@ const today = useMoments.getCreateAt();
 
 function examCreateSave () {
 
-    examCreate.value = [examSelect.value.value, examType.value.value, difficulty.value.value, eaxmYear.value.value, eaxmAcademicYear.value.value, 
-    examScore.value, examNumber.value, examQuestion.value, examExplanation.value, examFeedback.value];
+    examCreate.value = [
+        { examSelect: examSelect.value.value },
+        { examType: examType.value.value },
+        { difficulty: difficulty.value.value },
+        { eaxmYear: eaxmYear.value.value },
+        { eaxmAcademicYear: eaxmAcademicYear.value.value},
+        { examScore: examScore.value },
+        { examNumber:examNumber.value },
+        { examQuestion: examQuestion.value },
+        { examExplanation: examExplanation.value },
+        { examFeedback: examFeedback.value}
+    ];
 
     // 추가 수정 필요
     axios.get('/exam-create', {

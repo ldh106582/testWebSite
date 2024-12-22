@@ -16,14 +16,6 @@
                 <v-btn data-test="search" color="primary" @click="searchExam">조회하기</v-btn>
             </v-col>
         </v-row>
-        <!-- <v-row v-if="isSearch">
-            <v-col cols="12" class="ma-0">
-                <h3>시험 확인하기</h3>
-            </v-col>
-            <v-col style="border: 1px solid red;" cols="12" class="pa-0 mx-3" v-for="(examData, index) in examDatas" :key="index">
-                <span class="ma-0" > {{ examData.type_name }}</span>
-            </v-col>
-        </v-row> -->
         <v-row>
             <v-col cols="12" class="py-0">
                 <h3>설명</h3>

@@ -26,17 +26,21 @@
     </v-app-bar> -->
 
     <v-navigation-drawer class="sideBar">
-      <v-list-item title="정보처리기사"  value="정보처리기사" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/information')" />
-      <v-list-item title="SQLD"  value="SQLD" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/sqld')" />
-      <v-list-item title="네트워크 관리사 2급"  value="네트워크 관리사 2급" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/network')" />
-      <v-list-item title="리눅스마스터 2급"  value="리눅스마스터 2급" class="sideBar-text" prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/linux')" />
+      <v-list-item title="정보처리기사"  value="정보처리기사" class="sideBar-text" 
+      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/information')" dense />
+      <v-list-item title="SQLD"  value="SQLD" class="sideBar-text" 
+      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/sqld')" dense />
+      <v-list-item title="네트워크 관리사 2급"  value="네트워크 관리사 2급" class="sideBar-text" 
+      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/network')" dense />
+      <v-list-item title="리눅스마스터 2급"  value="리눅스마스터 2급" class="sideBar-text" 
+      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/linux')" dense />
       
       <v-list density="compact" nav v-if="auth.userId === user[0]">
         <v-list-group  class="sideBar-text" prepend-icon="mdi-text-box-outline" >
           <template v-slot:activator="{ props }">
             <v-list-item
               v-bind="props"
-              title="문제"
+              title="시험"
             ></v-list-item>
           </template>
 
@@ -74,9 +78,10 @@ defineOptions({
 });
 
 const eaxms = [
-  ['시험유형 추가 및 수정', 'mdi-card-minus', (e) => push(e, '/examType-create')],
-  ['시험문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
-  ['시험문제 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
+  ['유형 추가', 'mdi-card-minus', (e) => push(e, '/examType-create')],
+  ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/examType-update')],
+  ['문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
+  ['문제 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
 ]
 
 const lists = [
@@ -131,12 +136,19 @@ const lists = [
 .sideBar-text{
   color: rgb(255, 255, 255);
   box-shadow: rgba(69, 65, 78, 0.06) 4px 4px 10px 0px;
-  font-size: 14px;
-  font-weight: 200;
+  line-height: 1.5;
+} 
+
+.sideBar-text :deep(.v-list-item-title) {
+  font-size: 0.8125rem;
 }
 
 .sideBar-text:hover {
   cursor: pointer;
+}
+
+.v-list-item-title {
+  font-size: 0.8125rem;
 }
 
 </style>
