@@ -10,7 +10,16 @@
                 <span class="examType-search"> 시험유형 조회 </span>
             </v-col>
             <v-col cols="12">
-                <v-text-field hide-details variant="outlined" />
+                <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="useexamType.type_name"
+                item-title="type_name" item-value="type_name" :items="useexamType.list"
+                :menu-props="{ maxHeight: '200' }">
+                    <template v-slot:item="{ props, item }">
+                        <v-list-item
+                        v-bind="props"
+                        :title="item.raw.type_name"
+                        ></v-list-item>
+                    </template>
+                </v-autocomplete>
             </v-col>
             <v-col cols="12" class="py-0 px-3 d-flex justify-end">
                 <v-btn color="indigo" >유형조회</v-btn>
@@ -29,8 +38,7 @@
         </v-row>
 
         <v-row class="px-3" v-else>
-            <v-col cols="12" class="examType-search">
-
+            <v-col cols="12" class="examType-search" >
             </v-col>
         </v-row>
     </v-container>
@@ -39,29 +47,13 @@
 <script setup>
 import axios from '@/axios';
 import { ref, onMounted } from 'vue';
+import { useExamTypeStore } from '@/stores/useExamTypeStore';
 
 const examType = ref([]);
 const isCheckData = ref(true);
 
-function examTypeSearch () {
-    const errorMsg = '존재하는 데이터 유형이 없습니다.'
+const useexamType = useExamTypeStore();
 
-    axios.get('/search-examType', {
-
-    }).then(res => {
-        const data = res.data;
-
-        if (data.result) {
-            alert (errorMsg)
-        } else {
-            examType.value = data.rows;
-        }
-    });
-}
-
-onMounted(() => {
-    examTypeSearch();
-})
 </script>
 
 <style lang="css" scoped>
