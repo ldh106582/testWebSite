@@ -48,7 +48,7 @@
                 <v-textarea variant="outlined" hide-details class="examType-description-text" v-model="examStorages.description" />
             </v-col>
             <v-col class="px-1 pt-1 d-flex justify-end" >
-                <!-- <v-btn color="primary" @click="examTypeSave(examStorage.type_id)">저장</v-btn> -->
+                <v-btn color="primary" @click="examTypeSave(examStorage.type_id)">저장</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -68,7 +68,7 @@ function search () {
     const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const typeNameNull = '데이터를 먼저 입력해주세요.';
 
-    if (examTypeStore.type_name === undefined) {return alert (typeNameNull)}
+    if (examTypeStore.type_name === undefined) { return alert (typeNameNull) }
 
     axios.get('/search-examType', {
         params: {
@@ -110,6 +110,20 @@ function examTypeDelete (id) {
 
 function examTypeSave (id) {
 
+    const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
+    const succesMsg = '데이터를 변경하는 성공하였습니다.';
+
+    axios.put('/update-examType', {
+        params: {
+            type_id: id,
+            type_name: examStorages.type_name,
+            description: examStorages.description
+        }
+    }).then(res => {
+        const data = res.data;
+
+        data.result === true ? alert (errorMsg) : alert (succesMsg)
+    });
 }
 
 </script>
