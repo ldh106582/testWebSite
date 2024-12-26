@@ -37,7 +37,7 @@ describe('ExamTypeUpdateView', () => {
             expect(alertSpy).toBeCalledWith(typeNameNull)
         });
         test('axios get 실패 시', () => {
-
+            
         });
     });
 });
