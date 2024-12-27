@@ -81,7 +81,7 @@ function search () {
             alert (errorMsg)
         } else {
             examStorages.value = data.rows[0];
-
+            
             isCheckData.value = false;
         }
     });

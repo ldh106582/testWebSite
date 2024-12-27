@@ -58,6 +58,7 @@ describe('LoginPageView', ()=> {
 
                 expect(window.alert).toBeCalledWith(mockCheckLogin);
             });
+            
             test('비밀번호를 입력 하지 않았을 때', async() => {
                 wrapper.vm.user.userId = 'test';
                 wrapper.vm.user.userId = '';
@@ -70,9 +71,8 @@ describe('LoginPageView', ()=> {
                 expect(window.alert).toBeCalledWith(mockCheckLogin);
             });
         });
-        
-        
     });
+
     describe('findPw함수', () => {
         test('비밀번호 찾기 함수 호출',async () => {
             await router.isReady();
