@@ -31,6 +31,13 @@ describe('ExamTypeUpdateView', () => {
             }
         });
 
+        vi.spyOn(axios, 'delete').mockResolvedValueOnce({
+            data: {
+                status: 200,
+                result: true
+            }
+        });
+
     });
     describe('search 함수', () => {
         test('examTypeStore.type_name이 undefined 일 경우', async () => {
@@ -108,5 +115,23 @@ describe('ExamTypeUpdateView', () => {
 
             });
         });
+        describe('axios 확인', () => {
+            const mockId = 1;
+            test('delete result true일 경우', async () => {
+                const errorMsg ='진행 중 오류를 발견하였습니다.';
+                
+
+                wrapper.vm.examTypeDelete(mockId);
+                await wrapper.vm.$nextTick();
+                await flushPromises();
+
+                expect(axios.delete).toBeCalledTimes(1);
+
+            });
+
+            test('delete result false 일 경우', async () => {
+
+            });
+        })
     });
 });

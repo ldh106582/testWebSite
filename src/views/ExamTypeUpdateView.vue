@@ -102,7 +102,7 @@ function examTypeDelete (id) {
     }).then(res => {
         const data = res.data;
 
-        data.result === true ? alert(errorMsg) : alert (succesMsg);
+        data.result === true ? alert (errorMsg) : alert (succesMsg);
 
     });
 
