@@ -16,7 +16,7 @@ describe('ExamTypeUpdateView', () => {
             type_name: '정보처리기사',
             description: 'test'
         }
-    ]
+    ];
 
 
     beforeEach(() => {
@@ -26,8 +26,8 @@ describe('ExamTypeUpdateView', () => {
 
         vi.spyOn(axios, 'get').mockResolvedValueOnce({
             data: {
-                status: 200,
-                result: true
+                result: true,
+                rows: []
             }
         });
 
@@ -57,39 +57,29 @@ describe('ExamTypeUpdateView', () => {
             const examTypeStore = useExamTypeStore();
             examTypeStore.type_name = '정보처리기사';
 
-            wrapper.vm.search();
             await wrapper.vm.$nextTick();
 
+            wrapper.vm.search();
+            await flushPromises();
+
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/search-examType', {
-                params:{
-                    examSubject: examTypeStore.type_name
-                }
-            });
             expect(alertSpy).toBeCalledWith(errorMsg);
         });
 
         test('axios get 성공 시', async () => {
             const examTypeStore = useExamTypeStore();
             examTypeStore.type_name = '정보처리기사';
-            axios.get.mockResolvedValueOnce({
-                data: {
-                    rows: [{
-                        type_id: 1,
-                        type_name: '정보처리기사',
-                        description: 'test'
-                    }]
-                }
-            });
 
             wrapper.vm.search();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
-            wrapper.vm.examStorages = mockStorage
-
             expect(axios.get).toBeCalledTimes(1);
-            expect(mockStorage).toBe(wrapper.vm.examStorages)
+            expect(axios.get).toHaveBeenCalledWith('/exam-type', {
+                params: {
+                    examSubject: '정보처리기사',
+                }
+            });
         });
     });
 
@@ -116,17 +106,23 @@ describe('ExamTypeUpdateView', () => {
             });
         });
         describe('axios 확인', () => {
-            const mockId = 1;
             test('delete result true일 경우', async () => {
                 const errorMsg ='진행 중 오류를 발견하였습니다.';
-                
+                wrapper.vm.isCheckData = false;
 
-                wrapper.vm.examTypeDelete(mockId);
+                wrapper.vm.examStorages = mockStorage[0];
                 await wrapper.vm.$nextTick();
-                await flushPromises();
+
+                wrapper.vm.examTypeDelete(mockStorage[0].type_id);
+                await flushPromises(); // 모든 비동기 작업 대기
+                await wrapper.vm.$nextTick();
 
                 expect(axios.delete).toBeCalledTimes(1);
-
+                expect(axios.delete).toHaveBeenCalledWith('/exam-type', {
+                    params: {
+                        examSubject: '정보처리기사',
+                    }
+                });
             });
 
             test('delete result false 일 경우', async () => {
