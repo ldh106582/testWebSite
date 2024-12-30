@@ -20,9 +20,10 @@ describe('ExamTypeUpdateView', () => {
 
 
     beforeEach(() => {
-        setActivePinia(createPinia());
-
+        setActivePinia(createPinia());        
         wrapper = mount(ExamTypeUpdateView);
+
+        confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => true);
 
         vi.spyOn(axios, 'get').mockResolvedValueOnce({
             data: {
@@ -32,6 +33,13 @@ describe('ExamTypeUpdateView', () => {
         });
 
         vi.spyOn(axios, 'delete').mockResolvedValueOnce({
+            data: {
+                status: 200,
+                result: true
+            }
+        });
+
+        vi.spyOn(axios, 'put').mockResolvedValueOnce({
             data: {
                 status: 200,
                 result: true
@@ -120,14 +128,68 @@ describe('ExamTypeUpdateView', () => {
                 expect(axios.delete).toBeCalledTimes(1);
                 expect(axios.delete).toHaveBeenCalledWith('/exam-type', {
                     params: {
-                        examSubject: '정보처리기사',
+                        type_id: mockStorage[0].type_id,
                     }
                 });
             });
 
             test('delete result false 일 경우', async () => {
+                const succesMsg = '삭제되었습니다.';
+                wrapper.vm.isCheckData = false;
+                vi.spyOn(axios, 'delete').mockResolvedValueOnce({
+                    data: {
+                        rows: mockStorage
+                    }
+                });
 
+                wrapper.vm.examStorages = mockStorage[0];
+                await wrapper.vm.$nextTick();
+
+                wrapper.vm.examTypeDelete(mockStorage[0].type_id);
+                await wrapper.vm.$nextTick();
+                await flushPromises();
+
+                expect(axios.delete).toBeCalledTimes(1);
+                expect(alertSpy).toBeCalledWith(succesMsg);
             });
-        })
+        });
+    });
+
+    describe('examTypeSave 함수', () => {
+        test('axios put 실패시', async () => {
+            const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
+            wrapper.vm.isCheckData = false;
+
+            wrapper.vm.examStorages = mockStorage[0];
+            await wrapper.vm.$nextTick();
+
+            wrapper.vm.examTypeSave(mockStorage[0].type_id);
+            await wrapper.vm.$nextTick();
+            await flushPromises();
+
+            expect(axios.put).toBeCalledTimes(1);
+            expect(alertSpy).toBeCalledWith(errorMsg);
+
+        });
+        test('axios put 성공 시', async () => {
+            const succesMsg = '데이터를 변경하는 성공하였습니다.';
+            wrapper.vm.isCheckData = false;
+            vi.spyOn(axios, 'put').mockResolvedValueOnce({
+                data: {
+                    rows: mockStorage
+                }
+            });
+
+            wrapper.vm.examStorages = mockStorage[0];
+            await wrapper.vm.$nextTick();
+
+            wrapper.vm.examTypeSave(mockStorage[0].type_id);
+            await wrapper.vm.$nextTick();
+            await flushPromises();
+
+            expect(axios.put).toBeCalledTimes(1);
+            expect(alertSpy).toBeCalledWith(succesMsg);
+
+        });
     });
 });

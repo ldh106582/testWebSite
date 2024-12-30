@@ -95,7 +95,7 @@ function examTypeDelete (id) {
     const succesMsg = '삭제되었습니다.';
 
     if (!confirm (confirmMsg)) { return alert (cancelMsg) };
-    console.log("zzzz12", id)
+    
     axios.delete('/exam-type', {
         params: {
             type_id: id,
