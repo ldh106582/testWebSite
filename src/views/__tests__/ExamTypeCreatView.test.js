@@ -70,9 +70,9 @@ describe('ExamTypeCreatView', () => {
             await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/search-examType', {
+            expect(axios.get).toHaveBeenCalledWith('/examType', {
                 params: {
-                    examSubject: 'testSubject',
+                    type_name: 'testSubject',
                 }
             });
         });

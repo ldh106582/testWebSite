@@ -54,36 +54,12 @@ const routes = [
         }
     },
     {
-        path: '/information',
-        name : 'information',
-        component: () => import('../../nuxt-app/pages/information.vue'),
+        path: '/examType-Description',
+        name : 'examTypeDescription',
+        component: () => import('../../nuxt-app/pages/ExamTypeDescriptionView.vue'),
         meta: {
             isAisAuthenticated: false,
         },
-    },
-    {
-        path: '/sqld',
-        name : 'sqld',
-        component: () => import('../../nuxt-app/pages/sqld.vue'),
-        meta: {
-            isAisAuthenticated: false
-        }
-    },
-    {
-        path: '/network',
-        name : 'network',
-        component: () => import('../../nuxt-app/pages/network.vue'),
-        meta: {
-            isAisAuthenticated: false
-        }
-    },
-    {
-        path: '/linux',
-        name : 'linux',
-        component: () => import('../../nuxt-app/pages/linux.vue'),
-        meta: {
-            isAisAuthenticated: false
-        }
     },
     {
         path: '/information-test',

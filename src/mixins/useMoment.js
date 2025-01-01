@@ -2,7 +2,7 @@ import moment from "moment";
 
 export default function useMoment () {
 
-    function getToday (today) {
+    function getToday (date) {
         return moment(new Date())
     }
 
@@ -11,5 +11,9 @@ export default function useMoment () {
         return today
     }
 
-    return { getToday, getCreateAt }
+    function getUnix (date) {
+        return moment(date).unix();
+    }
+
+    return { getToday, getCreateAt , getUnix}
 };

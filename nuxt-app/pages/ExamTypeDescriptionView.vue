@@ -23,11 +23,16 @@ import router from '@/router';
 import axios from '../../src/axios';
 
 const userId = ref('');
+const typeId = ref(0);
 
 function getExamTypeStorage () {
-    axios.get('/exam', {
+    
+    const route = router.currentRoute.value.query;
+    console.log(route)
+    
+    axios.get('/examType', {
         params: {
-            examType: '정보처리기사'
+            type_id: '정보처리기사'
         }
     }).then(res => {
 

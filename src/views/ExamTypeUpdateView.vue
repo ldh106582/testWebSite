@@ -71,9 +71,9 @@ function search () {
 
     if (examTypeStore.type_name === undefined) { return alert (typeNameNull) }
 
-    axios.get('/exam-type', {
+    axios.get('/examType', {
         params: {
-            examSubject: examTypeStore.type_name
+            type_name: examTypeStore.type_name
         }
     }).then(res => {
         const data = res.data;
@@ -96,7 +96,7 @@ function examTypeDelete (id) {
 
     if (!confirm (confirmMsg)) { return alert (cancelMsg) };
     
-    axios.delete('/exam-type', {
+    axios.delete('/examType', {
         params: {
             type_id: id,
         }
@@ -113,7 +113,7 @@ function examTypeSave (id) {
     const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
     const succesMsg = '데이터를 변경하는 성공하였습니다.';
 
-    axios.put('/exam-type', {
+    axios.put('/examType', {
         params: {
             type_id: id,
             type_name: examStorages.type_name,

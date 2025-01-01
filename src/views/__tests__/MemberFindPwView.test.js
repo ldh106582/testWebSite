@@ -14,7 +14,7 @@ describe('MemberFindPwView', () => {
     const userId = 'test';
     const userPw = 'test123!'
     const mockUserInfo = {
-        userData : [
+        rows : [
             { user_id: 'test', user_pw: 'test123!', user_name: 'tester' },
             { token: 'test123456789!@#$%' },
         ]
@@ -51,7 +51,7 @@ describe('MemberFindPwView', () => {
         vi.spyOn(axios, 'get').mockResolvedValue({
             data: { 
                 result : false,
-                userData: {}
+                rows: {}
             }
         });
 
@@ -77,7 +77,7 @@ describe('MemberFindPwView', () => {
             const push = vi.spyOn(router, 'push');
             const mockUserInfo = {
                 result: false,
-                userData: [{ user_pw: 'test123!' }]
+                rows: [{ user_pw: 'test123!' }]
             };
 
             vi.mocked(axios.get).mockResolvedValue({
@@ -95,7 +95,7 @@ describe('MemberFindPwView', () => {
             const confrimMsg = '존재하는 아이디가 없습니다.';
             wrapper.vm.userId = userId;
             axios.get.mockResolvedValueOnce({
-                data: { result: true, userData: [{ user_id: userId }], token: 'mockToken' } // userData 구조 맞춤
+                data: { result: true, rows: [{ user_id: userId }], token: 'mockToken' }
             });
             const push = vi.spyOn(router, 'push');
             

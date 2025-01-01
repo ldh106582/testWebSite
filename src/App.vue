@@ -27,11 +27,6 @@
 
     <v-navigation-drawer class="sideBar">
       <v-list>
-        <!-- <v-list-item class="sideBar-text"
-        v-if="examTypeStore === ''"
-        >
-        No Exam Data
-        </v-list-item> -->
         <v-list-item 
         class="sideBar-text"
         v-for="(item, i) in examTypeStore.list ? examTypeStore.list : ''"
@@ -77,6 +72,7 @@ import { ref } from 'vue';
 import router from '@/router/index';
 import { useAuthStore } from './stores/useAuthStore';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
+import moment from 'moment';
 
 const user = ref(['admin'])
 const auth = useAuthStore();
@@ -87,12 +83,24 @@ const examTypes = [
   ['문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
 ];
 
+const today = moment().format('YYYY-MM-DD');
+
 defineOptions({
   name: 'App',
 });
 
 function getExamStorage (item , e) {
-  console.log(item.type_id)
+
+  auth.userId = auth.userId === '' ? moment(today).unix() : auth.userId;
+  console.log(auth.userId)
+  
+  router.push({
+    path: '/examType-Description',
+    query: {
+      userId: auth.userId,
+      type_id: item.type_id
+    }
+  });
 }
 
 function push(e, routeName) {

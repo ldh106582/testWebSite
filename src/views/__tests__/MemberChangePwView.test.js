@@ -9,7 +9,7 @@ describe('MemberChangePwView', () => {
     let wrapper;
     let router;
     let mockUserInfo = {
-        userData: [
+        rows: [
             { user_id: 'test', user_pw: 'test123!', user_name: 'tester' },
             { token: 'test123456789!@#$%' },
         ]

@@ -83,9 +83,9 @@ describe('ExamTypeUpdateView', () => {
             await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/exam-type', {
+            expect(axios.get).toHaveBeenCalledWith('/examType', {
                 params: {
-                    examSubject: '정보처리기사',
+                    type_name: '정보처리기사',
                 }
             });
         });
@@ -126,7 +126,7 @@ describe('ExamTypeUpdateView', () => {
                 await wrapper.vm.$nextTick();
 
                 expect(axios.delete).toBeCalledTimes(1);
-                expect(axios.delete).toHaveBeenCalledWith('/exam-type', {
+                expect(axios.delete).toHaveBeenCalledWith('/examType', {
                     params: {
                         type_id: mockStorage[0].type_id,
                     }

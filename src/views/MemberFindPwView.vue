@@ -57,7 +57,7 @@ async function findPw () {
                 path: '/member-changepw', 
                 query: { 
                     userId: userId.value,
-                    userPw: userInfo.userData[0].user_pw,
+                    userPw: userInfo.row[0].user_pw,
                 } 
             });
         }
