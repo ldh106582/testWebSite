@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "@/axios";
-import { ref,onMounted  } from "vue";
+import { ref  } from "vue";
 
 export const useExamTypeStore = defineStore('examTypes', () => {
 
@@ -11,11 +11,11 @@ export const useExamTypeStore = defineStore('examTypes', () => {
             const res = await axios.get('/examTypes');
             list.value = res.data.rows;
         } catch (error) {
-            console.error("Error fetching exam types:", error);
+            console.error('Failed to fetch exam types:', error);
         }
     }
 
-    onMounted(init); // 컴포넌트가 마운트될 때 init 호출
+    init();
 
     return { list, init };
 });

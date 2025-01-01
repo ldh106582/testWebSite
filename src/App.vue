@@ -26,17 +26,26 @@
     </v-app-bar> -->
 
     <v-navigation-drawer class="sideBar">
-      <v-list-item title="정보처리기사"  value="정보처리기사" class="sideBar-text" 
-      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/information')" dense />
-      <v-list-item title="SQLD"  value="SQLD" class="sideBar-text" 
-      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/sqld')" dense />
-      <v-list-item title="네트워크 관리사 2급"  value="네트워크 관리사 2급" class="sideBar-text" 
-      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/network')" dense />
-      <v-list-item title="리눅스마스터 2급"  value="리눅스마스터 2급" class="sideBar-text" 
-      prepend-icon="mdi-text-box-outline" @click="(e) => push(e, '/linux')" dense />
-      
+      <v-list>
+        <!-- <v-list-item class="sideBar-text"
+        v-if="examTypeStore === ''"
+        >
+        No Exam Data
+        </v-list-item> -->
+        <v-list-item 
+        class="sideBar-text"
+        v-for="(item, i) in examTypeStore.list ? examTypeStore.list : ''"
+        :key="i"
+        :title="item.type_name"
+        :value="item.type_id"
+        prepend-icon="mdi-text-box-outline"
+        @click="e => getExamStorage(item, e)"
+        >
+        </v-list-item>
+    </v-list>
+    
       <v-list density="compact" nav v-if="auth.userId === user[0]">
-        <v-list-group  class="sideBar-text" prepend-icon="mdi-text-box-outline" >
+        <v-list-group class="sideBar-text" prepend-icon="mdi-text-box-outline" >
           <template v-slot:activator="{ props }">
             <v-list-item
               v-bind="props"
@@ -45,7 +54,7 @@
           </template>
 
           <v-list-item
-            v-for="([title, icon, onClick], i) in eaxms"
+            v-for="([title, icon, onClick], i) in examTypes"
             :key="i"
             :title="title"
             :prepend-icon="icon"
@@ -67,56 +76,50 @@
 import { ref } from 'vue';
 import router from '@/router/index';
 import { useAuthStore } from './stores/useAuthStore';
+import { useExamTypeStore } from '@/stores/useExamTypeStore';
 
 const user = ref(['admin'])
-
-// const router = useRouter();
 const auth = useAuthStore();
+const examTypeStore = useExamTypeStore();
+const examTypes = [
+  ['유형 추가', 'mdi-card-minus', (e) => push(e, '/examType-create')],
+  ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/examType-update')],
+  ['문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
+];
 
 defineOptions({
   name: 'App',
 });
 
-const eaxms = [
-  ['유형 추가', 'mdi-card-minus', (e) => push(e, '/examType-create')],
-  ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/examType-update')],
-  ['문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
-  ['문제 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
-]
+function getExamStorage (item , e) {
+  console.log(item.type_id)
+}
 
-const lists = [
-  [ '정보처리기사(실기)', (e) => push(e, '/information') ], 
-  [ 'SQLD', (e) => push(e, '/sqld')],
-  [ '네트워크 관리사 2급 (실기)', (e) => push(e, '/network') ], 
-  [ '리눅스마스터 2급 실기',  (e) => push(e, '/linux') ],
-];
+function push(e, routeName) {
+  if (e.ctrlKey) return window.open(routeName, '_blank');
 
-  function push(e, routeName) {
-    if (e.ctrlKey) return window.open(routeName, '_blank');
+  router.push({
+    path: routeName, 
+    query: {
+      userId: auth.userId
+    }
+  });
+}
 
-    router.push({
-      path: routeName, 
-      query: {
-        userId: auth.userId
-      }
-    });
-  }
+function mainPage () {
+  router.push('/')
+}
 
-  function mainPage () {
-    router.push('/')
-  }
+function createMember () {
+  router.push('/member-create');
+};
 
-  function createMember () {
-    router.push('/member-create');
-  };
+function logout () {
+  if (!confirm('로그아웃 하시겠습니까??')) return;
 
-  function logout () {
-    if (!confirm('로그아웃 하시겠습니까??')) return;
-
-    auth.logout(auth.userId);
-
-    router.push('/');
-  }
+  auth.logout(auth.userId);
+  router.push('/');
+}
 
 </script>
 
