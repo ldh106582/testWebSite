@@ -17,8 +17,6 @@ export const useAuthStore = defineStore('auth', () => {
         userId.value = userInfo.rows[0].user_id;
         localStorage.setItem('token', userInfo.token);
 
-        console.log('userId', userInfo.rows[0].user_id)
-
         if (userId.value === '') {
             userId.value = getUnix(today);
             return userId.value
@@ -28,28 +26,28 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     function logout () {
-        isAuthenticated = false;
-        userId = null;
+        isAuthenticated.value = false;
+        userId.value = null;
         localStorage.removeItem('token');
     }
 
-    async function getMemberInfo(userId) {
+    async function getMemberInfo() {
+
         const token = localStorage.getItem('token');
             
         const config = {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        };
+        };  
 
         axios.get('/member-info', config).then(res => {
         });
     }
 
     function initialize () {
-
         const token = localStorage.getItem('token');
-        
+
         if (token) {
             isAuthenticated.value = true;
             getMemberInfo();
