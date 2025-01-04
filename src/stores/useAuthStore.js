@@ -6,56 +6,110 @@ import useMoment from "@/mixins/useMoment";
 
 const { getUnix } = useMoment();
 
-export const useAuthStore = defineStore('auth', () => {
-
+export const useAuthStore = defineStore ('auth', () => {
     const today = moment();
     const isAuthenticated = ref(false);
     const userId = ref(null);
+    const error = ref(null);
+    const isCheckTemp = ref(false);
 
-    async function login ( userInfo ) {
-        isAuthenticated.value = true;
-        userId.value = userInfo.rows[0].user_id;
-        localStorage.setItem('token', userInfo.token);
+    async function login (userInfo) {
+        try {
+            isAuthenticated.value = true;
+            userId.value = userInfo.rows[0].user_id;
+            isTemporary.value = false;
+            localStorage.setItem('token', userInfo.token);
 
-        if (userId.value === '') {
-            userId.value = getUnix(today);
-            return userId.value
-        } else {
+            localStorage.removeItem('tempUserId');
+            localStorage.removeItem('tempCreatedAt');
+
             await getMemberInfo();
+        } catch (err) {
+            console.error('Login error:', err);
+            error.value = 'Failed to login. Please try again.';
+            logout();
+            throw err;
         }
     }
 
     function logout () {
         isAuthenticated.value = false;
         userId.value = null;
-        localStorage.removeItem('token');
-    }
+        error.value = null;
+        isCheckTemp.value = false;
 
-    async function getMemberInfo() {
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('tempUserId');
+        localStorage.removeItem('tempCreatedAt');
+    }
+    
+    async function getMemberInfo () {
+
+        if (isCheckTemp.value) {
+            return {
+                userId: userId.value,
+                isCheckTemp: true,
+                createdAt: localStorage.getItem('tempCreatedAt')
+            };
+        }
 
         const token = localStorage.getItem('token');
+        if (!token) {
+            logout();
+            throw new Error('No token found');
+        }
             
         const config = {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        };  
+        };
 
-        axios.get('/member-info', config).then(res => {
-        });
+        try {
+            const response = await axios.get('/member-info', config);
+            return response.data;
+        } catch (err) {
+            console.error('Failed to fetch member info:', err);
+            
+            if (err.response?.status === 401) {
+                logout();
+                error.value = 'Session expired. Please login again.';
+            } else if (err.response?.status === 500) {
+                error.value = 'Server error. Please try again later.';
+            } else {
+                error.value = 'Failed to fetch member information.';
+            }
+            
+            throw err;
+        }
     }
 
-    function initialize () {
+    async function initialize () {
         const token = localStorage.getItem('token');
 
         if (token) {
             isAuthenticated.value = true;
-            getMemberInfo();
+            isCheckTemp.value = false;
+            await getMemberInfo();
+        } else if (tempId) {
+            userId.value = tempId;
+            isCheckTemp.value = true;
         } else {
-            logout(); // 토큰이 없으면 로그아웃 처리
+            templateUser();
         }
     }
+
+    function templateUser () {
+        const tempId = `temp_${getUnix(today)}`;
+        userId.value = tempId;
+        isCheckTemp.value = true;
+
+        localStorage.setItem('tempUserId', tempId);
+        localStorage.setItem('v', today.format());
+
+        return tempId
+    }
     
-    return {login , logout, getMemberInfo, initialize}
-    
+    return { login, logout, getMemberInfo, initialize, templateUser, isAuthenticated, userId, error }
 });

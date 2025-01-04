@@ -82,8 +82,8 @@ const examTypes = [
   ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/examType-update')],
   ['문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
 ];
-
 const today = moment().format('YYYY-MM-DD');
+const userId = ref('');
 
 defineOptions({
   name: 'App',
@@ -91,13 +91,12 @@ defineOptions({
 
 function getExamStorage (item , e) {
 
-  auth.userId = auth.userId === '' ? moment(today).unix() : auth.userId;
-  console.log(auth.userId)
-  
+  // auth.userId = auth.userId === null ? moment(today).unix() : auth.userId;
+  userId.value = auth.templateUser()
   router.push({
     path: '/examType-Description',
     query: {
-      userId: auth.userId,
+      // userId: auth.userId,
       type_id: item.type_id
     }
   });
