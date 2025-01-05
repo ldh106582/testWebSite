@@ -122,8 +122,8 @@ describe('ExamTypeCreatView', () => {
             await wrapper.vm.$nextTick();
             await flushPromises();
 
-            expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/create-examType', {
+            expect(axios.post).toBeCalledTimes(1);
+            expect(axios.post).toHaveBeenCalledWith('/examType', {
                 params: {
                     examSubject: 'testSubject',
                     examDescription: 'test description'

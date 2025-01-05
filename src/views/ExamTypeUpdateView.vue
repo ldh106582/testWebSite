@@ -11,7 +11,7 @@
             </v-col>
             <v-col cols="12">
                 <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="examTypeStore.type_name"
-                item-title="type_name" item-value="type_name" :items="examTypeStore.list"
+                item-title="type_name" item-value="type_id" :items="examTypeStore.list"
                 :menu-props="{ maxHeight: '200' }">
                     <template v-slot:item="{ props, item }">
                         <v-list-item
@@ -60,7 +60,6 @@ import { ref } from 'vue';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
 
 const isCheckData = ref(true);
-const changeExamStorage = ref({});
 const examStorages = ref([]);
 
 const examTypeStore = useExamTypeStore();
@@ -73,7 +72,7 @@ function search () {
 
     axios.get('/examType', {
         params: {
-            type_name: examTypeStore.type_name
+            type_name: examTypeStore.type_id
         }
     }).then(res => {
         const data = res.data;

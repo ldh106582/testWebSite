@@ -117,7 +117,7 @@ function examCreateSave () {
     ];
 
     // 추가 수정 필요
-    axios.get('/exam-create', {
+    axios.get('/exam', {
         params :{
             create_at : today,
             examCreate: examCreate.value

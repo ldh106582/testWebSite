@@ -3,7 +3,7 @@
         <v-row >
             <v-col style="align-content: center; height: 92vh;">
                 <v-col style="text-align: center;">
-                    <h1>정보처리기사 (실기)</h1>
+                    <h1>{{ examType.type_name }}</h1>
                     <h3>시간 2 시간 30분</h3>
                 </v-col>
                 <v-col style="text-align: center;">
@@ -35,7 +35,7 @@ function getExamTypeStorage () {
             type_id: typeId.value
         }
     }).then(res => {
-        examType.value = res.data.rows
+        examType.value = res.data.rows[0];
     });
 }
 

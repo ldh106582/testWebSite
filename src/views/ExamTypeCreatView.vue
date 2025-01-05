@@ -73,11 +73,9 @@ function createEaxmType () {
         return alert (nullMsg)
     }
     
-    axios.get('/create-examType', {
-        params: {
-            examSubject: examTypeName.value.replace(/ /g, ''),
-            examDescription: examDescription.value
-        }
+    axios.post('/examType', {
+        examSubject: examTypeName.value.replace(/ /g, ''),
+        examDescription: examDescription.value
     }).then(res => {
         const data = res.data
 
