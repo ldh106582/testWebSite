@@ -5,18 +5,35 @@
             <h1 style="border-bottom: 2px solid silver; width: 25%;">시험문제 출제 페이지</h1>
         </v-col>
     </v-row>
+
     <v-row>
+        <v-col cols="12" class="px-3">
+            <h2>시험유형 조회</h2>
+        </v-col>
+        <v-col cols="12" class="px-3 pt-0">
+            <v-autocomplete label="시험유형" item-title="type_name" item-value="type_id"
+            v-model="examTypeStore.type_id" :items="examTypeStore.list" 
+            :menu-props="{ maxHeight: '200' }" >
+                <template v-slot="{ props, item}">
+                    <v-list-item
+                    v-bind="props"
+                    :title="item.raw.type_name">
+                </v-list-item>
+                </template>
+            </v-autocomplete>
+        </v-col>
+    </v-row>
+
+    <v-row >
+        <v-col cols="12" class="px-3">
+            <h2>시험 작성하기</h2>
+        </v-col>
         <v-col cols="2" class="py-0 pr-0">
             <v-text-field label="시험점수" v-model="examScore"></v-text-field>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험유형"  :items="examType" v-model="examType.value"></v-select>
+            <v-select label="시험타입" :items="examType" v-model="examType.value"></v-select>
         </v-col>
-
-    </v-row>
-    <v-row style="border-bottom: 1px solid black">
-
-
         <v-col cols="2" class="py-0 pr-0">
             <v-select label="기출년도" :items="eaxmYear" v-model="eaxmYear.value"></v-select>
         </v-col>
@@ -26,7 +43,6 @@
         <v-col cols="2" class="py-0 pr-0">
             <v-select label="시험난이도" :items="difficulty" v-model="difficulty.value"></v-select>
         </v-col>
-
     </v-row>
 
     <v-row>
@@ -44,9 +60,14 @@
         <v-text-field hide-details variant="outlined" v-model="examQuestion" />
             </v-col>
         </v-col>
-        <v-col class="mt-5 pt-5" v-if="examType.value === '주관식' || examType.value === '서술형'">
+        <!--수정 다 똑같은 답이 적힘 및 문제 자체를 적을 수 있어야함-->
+        <v-col cols="12" class="mt-5 pt-5">
             <h3>시험문제</h3>
             <v-textarea variant="outlined" v-model="examQuestion" />
+        </v-col>
+        <v-col class="mt-5 pt-5" v-if="examType.value === '주관식' || examType.value === '서술형'">
+            <h3>시험문제 예문 & 코드 </h3>
+            <v-textarea variant="outlined" v-model="examQuestionType" />
         </v-col>
     </v-row>
     <v-row>
@@ -63,7 +84,7 @@
     </v-row>
     <v-row>
         <v-col style="text-align: end;" class="pt-0">
-            <v-btn color="indigo" @click="examCreateSave">저장</v-btn>
+            <v-btn color="indigo" :disabled="!examTypeStore.type_id" @click="examCreateSave">저장</v-btn>
         </v-col>
     </v-row>
 
@@ -71,11 +92,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import useMoment from '@/mixins/useMoment.js';
 import axios from '@/axios';
+import { useExamTypeStore } from '@/stores/useExamTypeStore';
 
-const examSelect = ref(['정보처리기사', 'SQLD', '네트워크관리사2급', '리눅스마스터2급']);
+const examTypeStore = useExamTypeStore();
+
 const examType = ref(['주관식', '객관식', '서술형', '단답형']);
 const difficulty = ref(['쉬움', '보통', '어려움']);
 const eaxmYear = ref(['2022','2021', '2022', '2023','2024', '자체출제']);
@@ -104,7 +127,6 @@ const today = useMoments.getCreateAt();
 function examCreateSave () {
 
     examCreate.value = [
-        { examSelect: examSelect.value.value },
         { examType: examType.value.value },
         { difficulty: difficulty.value.value },
         { eaxmYear: eaxmYear.value.value },
@@ -117,11 +139,10 @@ function examCreateSave () {
     ];
 
     // 추가 수정 필요
-    axios.get('/exam', {
-        params :{
-            create_at : today,
-            examCreate: examCreate.value
-        }
+    axios.post('/exam', {
+        type_id : examTypeStore.type_id,
+        create_at : today,
+        examCreate: examCreate.value
     }).then(res, () => {
         // console.log(res.data.rows);
     });

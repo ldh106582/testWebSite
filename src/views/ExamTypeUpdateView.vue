@@ -10,7 +10,7 @@
                 <span class="examType-search"> 시험유형 조회 </span>
             </v-col>
             <v-col cols="12">
-                <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="examTypeStore.type_name"
+                <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="examTypeStore.type_id"
                 item-title="type_name" item-value="type_id" :items="examTypeStore.list"
                 :menu-props="{ maxHeight: '200' }">
                     <template v-slot:item="{ props, item }">
@@ -44,6 +44,9 @@
             <v-col cols="1" class="d-flex align-center px-0 justify-end">
                 <v-btn color="red" @click="examTypeDelete(examStorages.type_id)">삭제</v-btn>
             </v-col>
+            <v-col class="examType-typeName px-1" cols="12" >
+                <v-text-field variant="outlined" hide-details v-model="examStorages.exam_time" />
+            </v-col>
             <v-col cols="12" class="examType-description px-1" >
                 <v-textarea variant="outlined" hide-details class="examType-description-text" v-model="examStorages.description" />
             </v-col>
@@ -61,6 +64,7 @@ import { useExamTypeStore } from '@/stores/useExamTypeStore';
 
 const isCheckData = ref(true);
 const examStorages = ref([]);
+const typeId = ref('');
 
 const examTypeStore = useExamTypeStore();
 
@@ -72,7 +76,7 @@ function search () {
 
     axios.get('/examType', {
         params: {
-            type_name: examTypeStore.type_id
+            type_id: examTypeStore.type_id
         }
     }).then(res => {
         const data = res.data;
@@ -116,6 +120,7 @@ function examTypeSave (id) {
         params: {
             type_id: id,
             type_name: examStorages.type_name,
+            exam_time: examStorages.exam_time,
             description: examStorages.description
         }
     }).then(res => {

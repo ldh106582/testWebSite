@@ -12,23 +12,26 @@ export const useAuthStore = defineStore ('auth', () => {
     const userId = ref(null);
     const error = ref(null);
     const isCheckTemp = ref(false);
+    const tempId = ref('');
 
     async function login (userInfo) {
         try {
             isAuthenticated.value = true;
             userId.value = userInfo.rows[0].user_id;
-            isTemporary.value = false;
-            localStorage.setItem('token', userInfo.token);
+            localStorage.setItem('userId', userId.value );
+            const token = userInfo.token;
+            localStorage.setItem('token', token);
 
-            localStorage.removeItem('tempUserId');
-            localStorage.removeItem('tempCreatedAt');
-
+            if (tempId.value) {
+                isCheckTemp.value = false;
+                localStorage.removeItem('tempUserId');
+                localStorage.removeItem('tempCreatedAt');   
+            }
             await getMemberInfo();
+        
         } catch (err) {
             console.error('Login error:', err);
-            error.value = 'Failed to login. Please try again.';
             logout();
-            throw err;
         }
     }
 
@@ -38,8 +41,8 @@ export const useAuthStore = defineStore ('auth', () => {
         error.value = null;
         isCheckTemp.value = false;
 
-
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
         localStorage.removeItem('tempUserId');
         localStorage.removeItem('tempCreatedAt');
     }
@@ -57,7 +60,6 @@ export const useAuthStore = defineStore ('auth', () => {
         const token = localStorage.getItem('token');
         if (!token) {
             logout();
-            throw new Error('No token found');
         }
             
         const config = {
@@ -70,45 +72,35 @@ export const useAuthStore = defineStore ('auth', () => {
             const response = await axios.get('/member-info', config);
             return response.data;
         } catch (err) {
-            console.error('Failed to fetch member info:', err);
-            
-            if (err.response?.status === 401) {
-                logout();
-                error.value = 'Session expired. Please login again.';
-            } else if (err.response?.status === 500) {
-                error.value = 'Server error. Please try again later.';
-            } else {
-                error.value = 'Failed to fetch member information.';
-            }
-            
-            throw err;
+            console.error('Auth Error', err);
         }
     }
 
     async function initialize () {
         const token = localStorage.getItem('token');
+        const maintaindUserId = localStorage.getItem('userId'); 
+        const maintainTempId = localStorage.getItem('tempUserId');
 
         if (token) {
             isAuthenticated.value = true;
+            userId.value = maintaindUserId;
             isCheckTemp.value = false;
             await getMemberInfo();
-        } else if (tempId) {
-            userId.value = tempId;
+        } else if (maintainTempId) {
+            tempId.value = maintainTempId;
+            userId.value = maintainTempId;
             isCheckTemp.value = true;
-        } else {
-            templateUser();
+            await getMemberInfo();
         }
     }
 
     function templateUser () {
-        const tempId = `temp_${getUnix(today)}`;
-        userId.value = tempId;
+        tempId.value = `temp_${getUnix(today)}`;
+        userId.value = tempId.value;
         isCheckTemp.value = true;
 
-        localStorage.setItem('tempUserId', tempId);
+        localStorage.setItem('tempUserId', tempId.value);
         localStorage.setItem('v', today.format());
-
-        return tempId
     }
     
     return { login, logout, getMemberInfo, initialize, templateUser, isAuthenticated, userId, error }

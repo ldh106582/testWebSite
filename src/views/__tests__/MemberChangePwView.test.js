@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
 import MemberChangePwView from "@/views/MemberChangePwView.vue";
-import MemberLoginPageView from "@/views/MemberLoginPageView.vue";
+import MemberLoginPageView from "@/views/MemberLoginView.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import axios from "@/axios";
 

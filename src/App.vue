@@ -6,24 +6,11 @@
         IT 개발자 자격증 사이트
       </v-toolbar-title>
 
-      <router-link to="/member-login" v-if="!auth.userId"> Login </router-link>
+      <v-btn style="margin-right: 21px;" variant="outlined" @click="templateId" v-if="!auth.userId">임시로그인</v-btn>
+      <router-link variant="outlined"  to="/member-login" v-if="!auth.userId"> Login </router-link>
       <span style="margin-Right: 30px;">{{auth.userId? auth.userId: ""}}</span>
-      <v-btn @click="logout" v-if="auth.userId" style="margin-right: 21px;" >Logout</v-btn>
+      <v-btn style="margin-right: 21px;" @click="logout" v-if="auth.userId" >Logout</v-btn>
     </v-app-bar>
-
-    <!-- <v-app-bar>
-      <v-col class="header" @click="mainPage">IT 개발자 자격증 사이트</v-col>
-      <v-row>
-        <v-col align="end" v-if="auth.isAuthenticated === false">
-          <v-btn class="createMember mr-5" @click="createMember">회원가입</v-btn>
-          <v-btn class="createMember mr-5" @click="login">로그인</v-btn>
-        </v-col>
-        <v-col align="end" v-if="auth.isAuthenticated === true">
-          <v-btn class="createMember mr-5" @click="Mypage">{{ auth.userId }} 님 반갑습니다.</v-btn>
-          <v-btn class="createMember mr-5" @click="logout">로그아웃</v-btn>
-        </v-col>
-      </v-row>
-    </v-app-bar> -->
 
     <v-navigation-drawer class="sideBar">
       <v-list>
@@ -88,6 +75,10 @@ const userId = ref('');
 defineOptions({
   name: 'App',
 });
+
+function templateId () {
+  auth.templateUser();
+}
 
 function getExamStorage (item , e) {
 

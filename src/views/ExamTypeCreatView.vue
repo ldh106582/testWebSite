@@ -10,7 +10,8 @@
                 <h3>주제</h3>
             </v-col>
             <v-col cols="12" class="py-0">
-                <v-text-field variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험" v-model="examTypeName"></v-text-field>
+                <v-text-field variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험 제목"
+                v-model="examName" />
             </v-col>
             <v-col style="text-align: end;" class="py-0">
                 <v-btn data-test="search" color="primary" @click="searchExam">조회하기</v-btn>
@@ -18,10 +19,20 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="py-0">
+                <h3>시험시간</h3>
+            </v-col>
+            <v-col>
+                <v-text-field variant="outlined" placeholder="ex)02시간30분, 01시간, 03시간 등 시험 시간 기재" 
+                v-model="examTime"
+                />
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" class="py-0">
                 <h3>설명</h3>
             </v-col>
             <v-col cols="12" class="pb-0" style="height: 100%;">
-                <v-textarea variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDescription"></v-textarea>
+                <v-textarea variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="description"></v-textarea>
             </v-col>
             <v-col cols="12" class="py-0" style="text-align: end;">
                 <v-btn color="blue" :disabled="isSearch" @click="createEaxmType">저장</v-btn>
@@ -34,8 +45,9 @@
 import { ref } from 'vue';
 import axios from '@/axios';
 
-const examTypeName = ref('');
-const examDescription = ref('');
+const examName = ref('');
+const description = ref('');
+const examTime = ref('');
 const isSearch = ref(true);
 
 function searchExam () {
@@ -43,11 +55,11 @@ function searchExam () {
     const resultMsg = '해당하는 시험은 이미 존재합니다.'
     const nullMsg = '주제를 입력해주세요';
 
-    if (examTypeName.value === '') return alert (nullMsg)
+    if (examName.value === '') return alert (nullMsg)
 
     axios.get('/examType', {
         params: {
-            type_name: examTypeName.value.replace(/ /g, '')
+            type_name: examName.value.replace(/ /g, '')
         }
     }).then(res => {
         const data = res.data;
@@ -69,13 +81,14 @@ function createEaxmType () {
 
     if (!confirm('데이터를 저장하시겠습니까?')) {
         return
-    } else if (examTypeName.value === '') {
+    } else if (examName.value === '') {
         return alert (nullMsg)
     }
     
     axios.post('/examType', {
-        examSubject: examTypeName.value.replace(/ /g, ''),
-        examDescription: examDescription.value
+        type_name: examName.value.replace(/ /g, ''),
+        description: description.value,
+        exam_time: examTime.value
     }).then(res => {
         const data = res.data
 

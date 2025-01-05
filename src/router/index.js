@@ -14,7 +14,7 @@ const routes = [
     {
         path: '/member-login',
         name : 'member-login',
-        component: () => import('@/views/MemberLoginPageView.vue'),
+        component: () => import('@/views/MemberLoginView.vue'),
     },
     {
         path: '/member-findpw',

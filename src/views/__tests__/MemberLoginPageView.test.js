@@ -1,5 +1,5 @@
 import { describe, test, vi, expect, beforeEach } from "vitest";
-import MemberLoginPageView from "@/views/MemberLoginPageView.vue";
+import MemberLoginPageView from "@/views/MemberLoginView.vue";
 import { mount } from "@vue/test-utils";
 import { createRouter, createWebHistory } from "vue-router";
 import MemberFindPwView from "@/views/MemberFindPwView.vue";

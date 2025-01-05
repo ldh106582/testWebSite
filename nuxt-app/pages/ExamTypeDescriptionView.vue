@@ -4,10 +4,10 @@
             <v-col style="align-content: center; height: 92vh;">
                 <v-col style="text-align: center;">
                     <h1>{{ examType.type_name }}</h1>
-                    <h3>시간 2 시간 30분</h3>
+                    <h3>시간:  {{ examType.exam_time  }}</h3>
                 </v-col>
                 <v-col style="text-align: center;">
-                    <v-textarea></v-textarea>
+                    <v-textarea variant="outlined" :value="examType.description" readonly></v-textarea>
                 </v-col>
                 <v-col cols="12" style="text-align: center;">
                     <v-btn style="width: 22%;" color="primary" @click="testStart" >시험 시작하기</v-btn>

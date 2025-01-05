@@ -2,7 +2,7 @@ import { describe, test, expect, vi, beforeEach } from "vitest";
 import axios from "@/axios";
 import { flushPromises, mount } from "@vue/test-utils";
 import MemberCreate from "@/views/MemberCreateView.vue";
-import MemberLoginPageView from '@/views/MemberLoginPageView.vue';
+import MemberLoginPageView from '@/views/MemberLoginView.vue';
 import { ref } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
