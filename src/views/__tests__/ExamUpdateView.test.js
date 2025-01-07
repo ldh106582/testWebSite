@@ -1,5 +1,5 @@
 import { describe, expect, vi, beforeEach, test } from "vitest";
-import ExamTypeUpdateView from '@/views/ExamTypeUpdateView.vue';
+import ExamTypeUpdateView from '@/views/ExamUpdateView.vue';
 import axios from "@/axios";
 import { flushPromises, mount } from "@vue/test-utils";
 import { setActivePinia, createPinia } from "pinia";
@@ -12,12 +12,11 @@ describe('ExamTypeUpdateView', () => {
     let confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => true);
     const mockStorage = [
         {
-            type_id: 1,
-            type_name: '정보처리기사',
-            description: 'test'
+            exam_id: 1,
+            exam_name: '정보처리기사',
+            exam_description: 'test'
         }
     ];
-
 
     beforeEach(() => {
         setActivePinia(createPinia());        
@@ -76,7 +75,7 @@ describe('ExamTypeUpdateView', () => {
 
         test('axios get 성공 시', async () => {
             const examTypeStore = useExamTypeStore();
-            examTypeStore.type_name = '정보처리기사';
+            examTypeStore.exam_name = '정보처리기사';
 
             wrapper.vm.search();
             await wrapper.vm.$nextTick();
@@ -85,7 +84,7 @@ describe('ExamTypeUpdateView', () => {
             expect(axios.get).toBeCalledTimes(1);
             expect(axios.get).toHaveBeenCalledWith('/examType', {
                 params: {
-                    type_name: '정보처리기사',
+                    exam_name: '정보처리기사',
                 }
             });
         });
@@ -128,7 +127,7 @@ describe('ExamTypeUpdateView', () => {
                 expect(axios.delete).toBeCalledTimes(1);
                 expect(axios.delete).toHaveBeenCalledWith('/examType', {
                     params: {
-                        type_id: mockStorage[0].type_id,
+                        exam_id: mockStorage[0].exam_id,
                     }
                 });
             });
@@ -145,7 +144,7 @@ describe('ExamTypeUpdateView', () => {
                 wrapper.vm.examStorages = mockStorage[0];
                 await wrapper.vm.$nextTick();
 
-                wrapper.vm.examTypeDelete(mockStorage[0].type_id);
+                wrapper.vm.examTypeDelete(mockStorage[0].exam_id);
                 await wrapper.vm.$nextTick();
                 await flushPromises();
 
@@ -163,7 +162,7 @@ describe('ExamTypeUpdateView', () => {
             wrapper.vm.examStorages = mockStorage[0];
             await wrapper.vm.$nextTick();
 
-            wrapper.vm.examTypeSave(mockStorage[0].type_id);
+            wrapper.vm.examTypeSave(mockStorage[0].exam_id);
             await wrapper.vm.$nextTick();
             await flushPromises();
 
@@ -183,7 +182,7 @@ describe('ExamTypeUpdateView', () => {
             wrapper.vm.examStorages = mockStorage[0];
             await wrapper.vm.$nextTick();
 
-            wrapper.vm.examTypeSave(mockStorage[0].type_id);
+            wrapper.vm.examTypeSave(mockStorage[0].exam_id);
             await wrapper.vm.$nextTick();
             await flushPromises();
 

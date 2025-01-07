@@ -32,7 +32,7 @@ const routes = [
     {
         path: '/examType-create',
         name: 'examType-create',
-        component: () => import('@/views/ExamTypeCreatView.vue'),
+        component: () => import('@/views/ExamCreatView.vue'),
         meta: {
             isAisAuthenticated: true
         }
@@ -40,15 +40,23 @@ const routes = [
     {
         path: '/examType-update',
         name: 'examType-update',
-        component: () => import('@/views/ExamTypeUpdateView.vue'),
+        component: () => import('@/views/ExamUpdateView.vue'),
         meta: {
             isAisAuthenticated: true
         }
     },
     {
-        path: '/exam-create',
-        name: 'exam-create',
-        component: () => import('@/views/ExamCreateView.vue'),
+        path: '/question-create',
+        name: 'question-create',
+        component: () => import('@/views/QuestionCreateView.vue'),
+        meta: {
+            isAisAuthenticated: true
+        }
+    },
+    {
+        path: '/question-update',
+        name: 'question-update',
+        component: () => import('@/views/QuestionUpdateView.vue'),
         meta: {
             isAisAuthenticated: true
         }

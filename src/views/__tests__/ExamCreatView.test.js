@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import axios from "@/axios";
-import ExamTypeCreatView from "@/views/ExamTypeCreatView.vue";
+import ExamTypeCreatView from "@/views/ExamCreatView.vue";
 import { flushPromises, mount } from "@vue/test-utils";
 
 describe('ExamTypeCreatView', () => {
@@ -70,9 +70,9 @@ describe('ExamTypeCreatView', () => {
             await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/examType', {
+            expect(axios.get).toHaveBeenCalledWith('/exam', {
                 params: {
-                    type_name: 'testSubject',
+                    exam_name: 'testSubject',
                 }
             });
         });
@@ -123,10 +123,11 @@ describe('ExamTypeCreatView', () => {
             await flushPromises();
 
             expect(axios.post).toBeCalledTimes(1);
-            expect(axios.post).toHaveBeenCalledWith('/examType', {
+            expect(axios.post).toHaveBeenCalledWith('/exam', {
                 params: {
-                    examSubject: 'testSubject',
-                    examDescription: 'test description'
+                    exam_name: 'testSubject',
+                    exam_description: 'test description',
+                    exam_time: '02시간 30분'
                 }
             })
         });

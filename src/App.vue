@@ -31,12 +31,31 @@
           <template v-slot:activator="{ props }">
             <v-list-item
               v-bind="props"
-              title="시험"
+              title="시험유형"
             ></v-list-item>
           </template>
 
           <v-list-item
             v-for="([title, icon, onClick], i) in examTypes"
+            :key="i"
+            :title="title"
+            :prepend-icon="icon"
+            :value="title"
+            @click="e => onClick(e)"
+          ></v-list-item>
+        </v-list-group>
+      </v-list>
+      <v-list density="compact" nav v-if="auth.userId === user[0]">
+        <v-list-group class="sideBar-text" prepend-icon="mdi-text-box-outline" >
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              title="시험문제"
+            ></v-list-item>
+          </template>
+
+          <v-list-item
+            v-for="([title, icon, onClick], i) in questions"
             :key="i"
             :title="title"
             :prepend-icon="icon"
@@ -67,7 +86,10 @@ const examTypeStore = useExamTypeStore();
 const examTypes = [
   ['유형 추가', 'mdi-card-minus', (e) => push(e, '/examType-create')],
   ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/examType-update')],
-  ['문제 출제', 'mdi-pencil', (e) => push(e, '/exam-create')],
+];
+const questions = [
+  ['문제 출제', 'mdi-pencil', (e) => push(e, '/question-create')],
+  ['문제 수정 및 삭제', 'mdi-pencil', (e) => push(e, '/question-update')],
 ];
 const today = moment().format('YYYY-MM-DD');
 const userId = ref('');
