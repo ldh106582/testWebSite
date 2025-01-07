@@ -8,7 +8,7 @@ export const useExamTypeStore = defineStore('examTypes', () => {
 
     async function init() {
         try {
-            const res = await axios.get('/examTypes');
+            const res = await axios.get('/exams');
             list.value = res.data.rows;
         } catch (error) {
             console.error('Failed to fetch exam types:', error);

@@ -32,7 +32,7 @@
                 <h3>설명</h3>
             </v-col>
             <v-col cols="12" class="pb-0" style="height: 100%;">
-                <v-textarea variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="description"></v-textarea>
+                <v-textarea variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDescription"></v-textarea>
             </v-col>
             <v-col cols="12" class="py-0" style="text-align: end;">
                 <v-btn color="blue" :disabled="isSearch" @click="createEaxmType">저장</v-btn>
@@ -46,7 +46,7 @@ import { ref } from 'vue';
 import axios from '@/axios';
 
 const examName = ref('');
-const description = ref('');
+const examDescription = ref('');
 const examTime = ref('');
 const isSearch = ref(true);
 
@@ -57,9 +57,9 @@ function searchExam () {
 
     if (examName.value === '') return alert (nullMsg)
 
-    axios.get('/examType', {
+    axios.get('/exam', {
         params: {
-            type_name: examName.value.replace(/ /g, '')
+            exam_name: examName.value.replace(/ /g, '')
         }
     }).then(res => {
         const data = res.data;
@@ -85,9 +85,9 @@ function createEaxmType () {
         return alert (nullMsg)
     }
     
-    axios.post('/examType', {
-        type_name: examName.value.replace(/ /g, ''),
-        description: description.value,
+    axios.post('/exam', {
+        exam_name: examName.value.replace(/ /g, ''),
+        exam_description: examDescription.value,
         exam_time: examTime.value
     }).then(res => {
         const data = res.data

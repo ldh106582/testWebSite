@@ -46,12 +46,17 @@
     </v-row>
 
     <v-row>
-        <v-col class="mt-5 pt-5" v-if="examType.value === '단답형'">
+                <!--수정 다 똑같은 답이 적힘 및 문제 자체를 적을 수 있어야함-->
+        <v-col cols="12" class="pt-3">
             <h3>시험문제</h3>
+            <v-textarea variant="outlined" v-model="examQuestion" />
+        </v-col>
+        <v-col v-if="examType.value === '단답형'">
+            <h3>시험문제 예문 & 코드 </h3>
             <v-text-field variant="outlined" v-model="examQuestion" />
         </v-col>
-        <v-col class="mt-5 pt-5" v-else-if="examType.value === '객관식'">
-            <h3>시험문제</h3>
+        <v-col v-else-if="examType.value === '객관식'">
+            <h3>시험문제 예문 & 코드 </h3>
             <v-col v-for="(option, index) in options" :key="index" cols="8" class="d-flex align-center px-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                 <label :for="index + 1" class="examQuestion-label">
@@ -60,12 +65,8 @@
         <v-text-field hide-details variant="outlined" v-model="examQuestion" />
             </v-col>
         </v-col>
-        <!--수정 다 똑같은 답이 적힘 및 문제 자체를 적을 수 있어야함-->
-        <v-col cols="12" class="mt-5 pt-5">
-            <h3>시험문제</h3>
-            <v-textarea variant="outlined" v-model="examQuestion" />
-        </v-col>
-        <v-col class="mt-5 pt-5" v-if="examType.value === '주관식' || examType.value === '서술형'">
+
+        <v-col v-if="examType.value === '주관식' || examType.value === '서술형'">
             <h3>시험문제 예문 & 코드 </h3>
             <v-textarea variant="outlined" v-model="examQuestionType" />
         </v-col>
