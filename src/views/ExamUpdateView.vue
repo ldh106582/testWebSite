@@ -10,13 +10,13 @@
                 <span class="examType-search"> 시험유형 조회 </span>
             </v-col>
             <v-col cols="12">
-                <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="examTypeStore.type_id"
-                item-title="type_name" item-value="type_id" :items="examTypeStore.list"
+                <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="examTypeStore.exam_id"
+                item-title="exam_name" item-value="exam_id" :items="examTypeStore.list"
                 :menu-props="{ maxHeight: '200' }">
                     <template v-slot:item="{ props, item }">
                         <v-list-item
                         v-bind="props"
-                        :title="item.raw.type_name"
+                        :title="item.raw.exam_name"
                         ></v-list-item>
                     </template>
                 </v-autocomplete>
@@ -42,7 +42,7 @@
                 <v-text-field variant="outlined" hide-details v-model="examStorages.exam_name" />
             </v-col>
             <v-col cols="1" class="d-flex align-center px-0 justify-end">
-                <v-btn color="red" @click="examTypeDelete(examStorages.exam_id)">삭제</v-btn>
+                <v-btn color="red" @click="examDelete(examStorages.exam_id)">삭제</v-btn>
             </v-col>
             <v-col class="examType-typeName px-1" cols="12" >
                 <v-text-field variant="outlined" hide-details v-model="examStorages.exam_time" />
@@ -51,7 +51,7 @@
                 <v-textarea variant="outlined" hide-details class="examType-description-text" v-model="examStorages.exam_description" />
             </v-col>
             <v-col class="px-1 pt-1 d-flex justify-end" >
-                <v-btn color="primary" @click="examTypeSave(examStorages.exam_id)">저장</v-btn>
+                <v-btn color="primary" @click="examSave(examStorages.exam_id)">저장</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -64,7 +64,6 @@ import { useExamTypeStore } from '@/stores/useExamTypeStore';
 
 const isCheckData = ref(true);
 const examStorages = ref([]);
-const examId = ref('');
 
 const examTypeStore = useExamTypeStore();
 
@@ -72,7 +71,7 @@ function search () {
     const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const typeNameNull = '데이터를 먼저 입력해주세요.';
 
-    if (examTypeStore.exam_name === undefined) { return alert (typeNameNull) }
+    if (examTypeStore.exam_id === undefined) { return alert (typeNameNull) }
 
     axios.get('/exam', {
         params: {
@@ -91,7 +90,7 @@ function search () {
     });
 }
 
-function examTypeDelete (id) {
+function examDelete (id) {
     const confirmMsg = '되돌릴 수 없습니다. 정말 삭제하시겠습니까?';
     const cancelMsg = '취소되었습니다.';
     const errorMsg ='진행 중 오류를 발견하였습니다.';
@@ -111,18 +110,18 @@ function examTypeDelete (id) {
     });
 }
 
-function examTypeSave (id) {
+function examSave (id) {
 
     const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
     const succesMsg = '데이터를 변경하는 성공하였습니다.';
 
+    console.log(examStorages.value)
+
     axios.put('/exam', {
-        params: {
-            exam_id: id,
-            exam_name: examStorages.exam_name,
-            exam_time: examStorages.exam_time,
-            exam_description: examStorages.exam_description
-        }
+        exam_id: id,
+        exam_name: examStorages.value.exam_name,
+        exam_time: examStorages.value.exam_time,
+        exam_description: examStorages.value.exam_description
     }).then(res => {
         const data = res.data;
 

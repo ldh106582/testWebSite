@@ -5,15 +5,26 @@ import { flushPromises, mount } from "@vue/test-utils";
 
 describe('ExamTypeCreatView', () => {
     let wrapper;
-    const mockExamSubject = 'testSubject';
+    const mockExamName = '정보처리기사';
     const mockExamDescription = "test description";
+    const mockExamTime = '02시간 30분';
     
-    const alertSpy = vi.spyOn(window, 'alert');
+    let alertSpy = '';
     let confirmSpy = '';
 
     beforeEach(() => {
-        confirmSpy = vi.spyOn(window, 'confirm');
+        confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => false);
+        alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
         vi.spyOn(axios, 'get').mockResolvedValueOnce({
+            data: {
+                status: 200,
+                result: false,
+                rows: []
+            }
+        });
+
+        vi.spyOn(axios, 'post').mockResolvedValueOnce({
             data: {
                 status: 200,
                 result: false,
@@ -49,7 +60,7 @@ describe('ExamTypeCreatView', () => {
 
     });
 
-    describe('searchExamType 함수', () => {
+    describe('searchExam 함수', () => {
         test('examSubject 공백일 경우', async () => {
             const nullMsg = '주제를 입력해주세요';
 
@@ -62,7 +73,7 @@ describe('ExamTypeCreatView', () => {
         });
 
         test('axios get 연결 확인', async() => {
-            wrapper.vm.examSubject = mockExamSubject;
+            wrapper.vm.examName = mockExamName;
             wrapper.vm.isSearch = true;
 
             wrapper.vm.searchExam();
@@ -72,15 +83,14 @@ describe('ExamTypeCreatView', () => {
             expect(axios.get).toBeCalledTimes(1);
             expect(axios.get).toHaveBeenCalledWith('/exam', {
                 params: {
-                    exam_name: 'testSubject',
+                    exam_name: mockExamName,
                 }
             });
         });
 
         test('axios 연결 성공 시 alert', async () => {
             const errorMsg = '데이터를 등록해주세요.';
-            const mockExamSubject = 'mock exam subject';
-            wrapper.vm.examSubject = mockExamSubject;
+            wrapper.vm.examName = mockExamName;
             wrapper.vm.isSearch = true;
         
             vi.spyOn(axios, 'get').mockResolvedValueOnce({
@@ -98,7 +108,7 @@ describe('ExamTypeCreatView', () => {
         });
         
         test('axios 연결 실패 시 alert', async () => {
-            wrapper.vm.examSubject = mockExamSubject;
+            wrapper.vm.examName = mockExamName;
             wrapper.vm.isSearch = true;
 
             wrapper.vm.searchExam();
@@ -110,69 +120,65 @@ describe('ExamTypeCreatView', () => {
 
     });
 
-    describe('createEaxmType 함수', () => {
-        test('axios get 연결확인', async () => {
-            confirmSpy.mockReturnValue(true); 
-            wrapper.vm.examSubject = mockExamSubject;
+    describe('createExam 함수', () => {
+        test('axios post 연결확인', async () => {
+            confirmSpy.mockImplementation(() => true); 
+            wrapper.vm.examName = mockExamName;
             wrapper.vm.examDescription = mockExamDescription;
+            wrapper.vm.examTime = mockExamTime;
             wrapper.vm.isSearch = true;
+            await wrapper.vm.$nextTick();
 
-            wrapper.vm.createEaxmType();
-
+            wrapper.vm.createExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
             expect(axios.post).toBeCalledTimes(1);
             expect(axios.post).toHaveBeenCalledWith('/exam', {
-                params: {
-                    exam_name: 'testSubject',
-                    exam_description: 'test description',
-                    exam_time: '02시간 30분'
-                }
-            })
+                exam_name: mockExamName,
+                exam_description: mockExamDescription,
+                exam_time: mockExamTime
+            });
         });
 
-        test('axios get 성공 시 alert', async () => {
-            confirmSpy.mockReturnValue(true); 
+        test('axios post 성공 시 alert', async () => {
+            confirmSpy.mockImplementation(() => true); 
 
             const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
 
-            wrapper.vm.examSubject = mockExamSubject;
+            wrapper.vm.examName = mockExamName;
             wrapper.vm.examDescription = mockExamDescription;
-
-            vi.spyOn(axios, 'get').mockResolvedValueOnce({
-                data: {
-                    result : false
-                }
-            });
+            wrapper.vm.examTime = mockExamTime;
             
-            await wrapper.vm.createEaxmType();
+            await wrapper.vm.createExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
             expect(alertSpy).toBeCalledWith(successMsg);
-
         });
 
         test('axios 연결 실패 시 alert', async () => {
             const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
-            confirmSpy.mockReturnValue(true); 
-
-            wrapper.vm.examSubject = mockExamSubject;
+        
+            wrapper.vm.examName = mockExamName;
             wrapper.vm.examDescription = mockExamDescription;
-
-            vi.spyOn(axios, 'get').mockResolvedValueOnce({
+            wrapper.vm.examTime = mockExamTime;
+            confirmSpy.mockImplementation(() => true);
+        
+            // result가 true일 경우를 설정
+            vi.spyOn(axios, 'post').mockResolvedValueOnce({
                 data: {
-                    result : true
+                    status: 200,
+                    result: true 
                 }
             });
-
-            await wrapper.vm.createEaxmType();
+        
             await wrapper.vm.$nextTick();
-            
+            await wrapper.vm.createExam();
+            await wrapper.vm.$nextTick();
+            await flushPromises();
+        
             expect(alertSpy).toBeCalledWith(errorMsg);
         });
-
     });
-
-})
+});

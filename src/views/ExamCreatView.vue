@@ -35,7 +35,7 @@
                 <v-textarea variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDescription"></v-textarea>
             </v-col>
             <v-col cols="12" class="py-0" style="text-align: end;">
-                <v-btn color="blue" :disabled="isSearch" @click="createEaxmType">저장</v-btn>
+                <v-btn color="blue" :disabled="isSearch" @click="createExam">저장</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -74,7 +74,7 @@ function searchExam () {
     });
 };
 
-function createEaxmType () {
+function createExam () {
     const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
     const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
     const nullMsg = '주제를 입력해주세요';
@@ -84,14 +84,14 @@ function createEaxmType () {
     } else if (examName.value === '') {
         return alert (nullMsg)
     }
-    
     axios.post('/exam', {
         exam_name: examName.value.replace(/ /g, ''),
         exam_description: examDescription.value,
         exam_time: examTime.value
     }).then(res => {
-        const data = res.data
+        const data = res.data;
 
+        console.log('data.result:', data.result);  // 로그 추가
         if (data.result) {
             alert (errorMsg)
         } else {
