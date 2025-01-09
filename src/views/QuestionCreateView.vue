@@ -29,10 +29,10 @@
             <h2>시험 작성하기</h2>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-text-field label="시험점수" v-model="examScore"></v-text-field>
+            <v-text-field label="시험점수" v-model="questionScore"></v-text-field>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험타입" :items="examType" v-model="examType.value"></v-select>
+            <v-select label="시험타입" :items="questionType" v-model="questionType.value"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
             <v-select label="기출년도" :items="eaxmYear" v-model="eaxmYear.value"></v-select>
@@ -41,7 +41,7 @@
             <v-select label="기출회차" :items="eaxmAcademicYear" v-model="eaxmAcademicYear.value"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험난이도" :items="difficulty" v-model="difficulty.value"></v-select>
+            <v-select label="시험난이도" :items="questionLevel" v-model="questionLevel.value"></v-select>
         </v-col>
     </v-row>
 
@@ -49,38 +49,38 @@
                 <!--수정 다 똑같은 답이 적힘 및 문제 자체를 적을 수 있어야함-->
         <v-col cols="12" class="pt-3">
             <h3>시험문제</h3>
-            <v-textarea variant="outlined" v-model="examQuestion" />
+            <v-textarea variant="outlined" v-model="questionSubject" />
         </v-col>
-        <v-col v-if="examType.value === '단답형'">
+        <v-col v-if="questionType.value === '단답형'">
             <h3>시험문제 예문 & 코드 </h3>
-            <v-text-field variant="outlined" v-model="examQuestion" />
+            <v-text-field variant="outlined" v-model="questionProblem" />
         </v-col>
-        <v-col v-else-if="examType.value === '객관식'">
+        <v-col v-else-if="questionType.value === '객관식'">
             <h3>시험문제 예문 & 코드 </h3>
             <v-col v-for="(option, index) in options" :key="index" cols="8" class="d-flex align-center px-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                 <label :for="index + 1" class="examQuestion-label">
-            <span class="examQuestion-Num">{{ option }}</span>
-        </label>
-        <v-text-field hide-details variant="outlined" v-model="examQuestion" />
+                    <span class="examQuestion-Num">{{ option.No1 }}</span>
+                </label>
+                <v-text-field hide-details variant="outlined" v-model="option.value" />
             </v-col>
         </v-col>
 
-        <v-col v-if="examType.value === '주관식' || examType.value === '서술형'">
+        <v-col v-if="questionType.value === '주관식' || questionType.value === '서술형'">
             <h3>시험문제 예문 & 코드 </h3>
-            <v-textarea variant="outlined" v-model="examQuestionType" />
+            <v-textarea variant="outlined" v-model="questionProblem" />
         </v-col>
     </v-row>
     <v-row>
         <v-col >
             <h3>문제풀이</h3>
-            <v-textarea variant="outlined" v-model="examExplanation"></v-textarea>
+            <v-textarea variant="outlined" v-model="quetionExplanation"></v-textarea>
         </v-col>
     </v-row>
     <v-row>
         <v-col class="pb-0">
             <h3>오답피드백</h3>
-            <v-textarea variant="outlined" v-model="examFeedback"></v-textarea>
+            <v-textarea variant="outlined" v-model="quetionFeedback"></v-textarea>
         </v-col>
     </v-row>
     <v-row>
@@ -100,43 +100,39 @@ import { useExamTypeStore } from '@/stores/useExamTypeStore';
 
 const examTypeStore = useExamTypeStore();
 
-const examType = ref(['주관식', '객관식', '서술형', '단답형']);
-const difficulty = ref(['쉬움', '보통', '어려움']);
+const questionType = ref(['주관식', '객관식', '서술형', '단답형']);
+const questionLevel = ref(['쉬움', '보통', '어려움']);
 const eaxmYear = ref(['2022','2021', '2022', '2023','2024', '자체출제']);
 const eaxmAcademicYear = ref(['1회차','2회차', '3회차', '4회차','5회차', '자체출제']);
-const examScore = ref(0);
+const questionScore = ref(0);
 const examNumber = ref(0);
-const rules = ref([
-    v => {
-        const pattern = 100;
-        const errorNumber = '최대 문제는 100번 까지 입력하실 수 있습니다.'
-        if (v > 100) 
-        {
-            examNumber.value = 0;
-            return alert (errorNumber);
-        }
-    }
-]);
-const examQuestion = ref('');
-const examExplanation = ref('');
-const examFeedback = ref('');
+const questionProblem = ref('');
+const questionSubject = ref('');
+const quetionExplanation = ref('');
+const quetionFeedback = ref('');
 const examCreate = ref([]);
 const useMoments = useMoment();
-const options = ref(['①', '②', '③', '④', '⑤']);
+const options = ref([
+    {No1: '①', value: ''}, 
+    {No1: '②', value: ''}, 
+    {No1: '③', value: ''}, 
+    {No1: '④', value: ''},
+    {No1: '⑤', value: ''} 
+]);
 const today = useMoments.getCreateAt();
 
 function examCreateSave () {
 
     examCreate.value = [
-        { examType: examType.value.value },
-        { difficulty: difficulty.value.value },
+        { examType: questionType.value.value },
+        { difficulty: questionLevel.value.value },
         { eaxmYear: eaxmYear.value.value },
         { eaxmAcademicYear: eaxmAcademicYear.value.value},
-        { examScore: examScore.value },
+        { examScore: questionScore.value },
         { examNumber:examNumber.value },
-        { examQuestion: examQuestion.value },
-        { examExplanation: examExplanation.value },
-        { examFeedback: examFeedback.value}
+        { examQuestion: questionSubject.value },
+        { examExplanation: quetionExplanation.value },
+        { examFeedback: quetionFeedback.value}
     ];
 
     // 추가 수정 필요

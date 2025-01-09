@@ -115,8 +115,6 @@ function examSave (id) {
     const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
     const succesMsg = '데이터를 변경하는 성공하였습니다.';
 
-    console.log(examStorages.value)
-
     axios.put('/exam', {
         exam_id: id,
         exam_name: examStorages.value.exam_name,

@@ -8,6 +8,8 @@ import { useExamTypeStore } from '@/stores/useExamTypeStore';
 describe('ExamTypeUpdateView', () => {
 
     let wrapper = '';
+    const mockExamId = 1;
+    const mockExamName = '정보처리기사';
     const alertSpy = vi.spyOn(window, 'alert');
     let confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => true);
     const mockStorage = [
@@ -50,7 +52,7 @@ describe('ExamTypeUpdateView', () => {
         test('examTypeStore.type_name이 undefined 일 경우', async () => {
             const typeNameNull = '데이터를 먼저 입력해주세요.';
             const examTypeStore = useExamTypeStore();
-            examTypeStore.type_name = undefined;
+            examTypeStore.exam_name = undefined;
             await wrapper.vm.$nextTick();
 
             wrapper.vm.search();
@@ -62,7 +64,7 @@ describe('ExamTypeUpdateView', () => {
         test('axios get 실패 시', async () => {
             const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
             const examTypeStore = useExamTypeStore();
-            examTypeStore.type_name = '정보처리기사';
+            examTypeStore.exam_id = mockExamId;
 
             await wrapper.vm.$nextTick();
 
@@ -75,27 +77,27 @@ describe('ExamTypeUpdateView', () => {
 
         test('axios get 성공 시', async () => {
             const examTypeStore = useExamTypeStore();
-            examTypeStore.exam_name = '정보처리기사';
+            examTypeStore.exam_id = mockExamId;
 
             wrapper.vm.search();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/examType', {
+            expect(axios.get).toHaveBeenCalledWith('/exam', {
                 params: {
-                    exam_name: '정보처리기사',
+                    exam_id: mockExamId,
                 }
             });
         });
     });
 
-    describe('examTypeDelete 함수', () => {
+    describe('examDelete 함수', () => {
         describe('confirm true 일 경우', () => {
             test('confirm true 확인', () => {
                 const confirmMsg = '되돌릴 수 없습니다. 정말 삭제하시겠습니까?';
     
-                wrapper.vm.examTypeDelete();
+                wrapper.vm.examDelete();
                 wrapper.vm.$nextTick();
 
                 expect(confirmSpy).toBeCalledWith(confirmMsg);
@@ -105,7 +107,7 @@ describe('ExamTypeUpdateView', () => {
                 confirmSpy = vi.spyOn(window, 'confirm').mockImplementation(() => false);
                 const cancelMsg = '취소되었습니다.';
 
-                wrapper.vm.examTypeDelete();
+                wrapper.vm.examDelete();
                 wrapper.vm.$nextTick();
 
                 expect(alertSpy).toBeCalledWith(cancelMsg);
@@ -120,12 +122,12 @@ describe('ExamTypeUpdateView', () => {
                 wrapper.vm.examStorages = mockStorage[0];
                 await wrapper.vm.$nextTick();
 
-                wrapper.vm.examTypeDelete(mockStorage[0].type_id);
+                wrapper.vm.examDelete(mockStorage[0].exam_id);
                 await flushPromises(); // 모든 비동기 작업 대기
                 await wrapper.vm.$nextTick();
 
                 expect(axios.delete).toBeCalledTimes(1);
-                expect(axios.delete).toHaveBeenCalledWith('/examType', {
+                expect(axios.delete).toHaveBeenCalledWith('/exam', {
                     params: {
                         exam_id: mockStorage[0].exam_id,
                     }
@@ -144,7 +146,7 @@ describe('ExamTypeUpdateView', () => {
                 wrapper.vm.examStorages = mockStorage[0];
                 await wrapper.vm.$nextTick();
 
-                wrapper.vm.examTypeDelete(mockStorage[0].exam_id);
+                wrapper.vm.examDelete(mockStorage[0].exam_id);
                 await wrapper.vm.$nextTick();
                 await flushPromises();
 
@@ -154,7 +156,7 @@ describe('ExamTypeUpdateView', () => {
         });
     });
 
-    describe('examTypeSave 함수', () => {
+    describe('examSave 함수', () => {
         test('axios put 실패시', async () => {
             const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
             wrapper.vm.isCheckData = false;
@@ -162,7 +164,7 @@ describe('ExamTypeUpdateView', () => {
             wrapper.vm.examStorages = mockStorage[0];
             await wrapper.vm.$nextTick();
 
-            wrapper.vm.examTypeSave(mockStorage[0].exam_id);
+            wrapper.vm.examSave(mockStorage[0].exam_id);
             await wrapper.vm.$nextTick();
             await flushPromises();
 
@@ -182,7 +184,7 @@ describe('ExamTypeUpdateView', () => {
             wrapper.vm.examStorages = mockStorage[0];
             await wrapper.vm.$nextTick();
 
-            wrapper.vm.examTypeSave(mockStorage[0].exam_id);
+            wrapper.vm.examSave(mockStorage[0].exam_id);
             await wrapper.vm.$nextTick();
             await flushPromises();
 

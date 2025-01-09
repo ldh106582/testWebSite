@@ -165,7 +165,6 @@ describe('ExamTypeCreatView', () => {
             wrapper.vm.examTime = mockExamTime;
             confirmSpy.mockImplementation(() => true);
         
-            // result가 true일 경우를 설정
             vi.spyOn(axios, 'post').mockResolvedValueOnce({
                 data: {
                     status: 200,
