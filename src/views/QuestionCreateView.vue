@@ -11,8 +11,8 @@
             <h2>시험유형 조회</h2>
         </v-col>
         <v-col cols="12" class="px-3 pt-0">
-            <v-autocomplete label="시험유형" item-title="type_name" item-value="type_id"
-            v-model="examTypeStore.type_id" :items="examTypeStore.list" 
+            <v-autocomplete label="시험유형" item-title="exam_name" item-value="exam_id"
+            v-model="examTypeStore.exam_id" :items="examTypeStore.list" 
             :menu-props="{ maxHeight: '200' }" >
                 <template v-slot="{ props, item}">
                     <v-list-item
@@ -26,19 +26,19 @@
 
     <v-row >
         <v-col cols="12" class="px-3">
-            <h2>시험 작성하기</h2>
+            <h2>시험 문제 만들기</h2>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-text-field label="시험점수" v-model="questionScore"></v-text-field>
+            <v-text-field label="시험점수" v-model="questionPoint"></v-text-field>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
             <v-select label="시험타입" :items="questionType" v-model="questionType.value"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="기출년도" :items="eaxmYear" v-model="eaxmYear.value"></v-select>
+            <v-select label="기출년도" :items="qeustionYear" v-model="qeustionYear.value"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="기출회차" :items="eaxmAcademicYear" v-model="eaxmAcademicYear.value"></v-select>
+            <v-select label="기출회차" :items="questionAcademicYear" v-model="questionAcademicYear.value"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
             <v-select label="시험난이도" :items="questionLevel" v-model="questionLevel.value"></v-select>
@@ -46,10 +46,18 @@
     </v-row>
 
     <v-row>
-                <!--수정 다 똑같은 답이 적힘 및 문제 자체를 적을 수 있어야함-->
+        <v-col cols="12">
+            <h3>시험 과목</h3>
+        </v-col>
+        <v-col class="py-0">
+            <v-text-field placeholder="SQL, 프로그래밍 언어, 네트워크 분야, OS분야" v-model="questionSubject"/>
+        </v-col>
+    </v-row>
+
+    <v-row>
         <v-col cols="12" class="pt-3">
             <h3>시험문제</h3>
-            <v-textarea variant="outlined" v-model="questionSubject" />
+            <v-textarea variant="outlined" v-model="question" />
         </v-col>
         <v-col v-if="questionType.value === '단답형'">
             <h3>시험문제 예문 & 코드 </h3>
@@ -57,10 +65,10 @@
         </v-col>
         <v-col v-else-if="questionType.value === '객관식'">
             <h3>시험문제 예문 & 코드 </h3>
-            <v-col v-for="(option, index) in options" :key="index" cols="8" class="d-flex align-center px-0">
+            <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                 <label :for="index + 1" class="examQuestion-label">
-                    <span class="examQuestion-Num">{{ option.No1 }}</span>
+                    <span class="examQuestion-Num">{{ option.no1 }}</span>
                 </label>
                 <v-text-field hide-details variant="outlined" v-model="option.value" />
             </v-col>
@@ -85,7 +93,7 @@
     </v-row>
     <v-row>
         <v-col style="text-align: end;" class="pt-0">
-            <v-btn color="indigo" :disabled="!examTypeStore.type_id" @click="examCreateSave">저장</v-btn>
+            <v-btn color="indigo" :disabled="!examTypeStore.exam_id" @click="examCreateSave">저장</v-btn>
         </v-col>
     </v-row>
 
@@ -97,49 +105,54 @@ import { ref } from 'vue';
 import useMoment from '@/mixins/useMoment.js';
 import axios from '@/axios';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
+import router from '@/router';
 
 const examTypeStore = useExamTypeStore();
 
+const questionPoint = ref(0);
 const questionType = ref(['주관식', '객관식', '서술형', '단답형']);
+const qeustionYear = ref(['2022','2021', '2022', '2023','2024', '자체출제']);
+const questionAcademicYear = ref(['1회차','2회차', '3회차', '4회차','5회차', '자체출제']);
 const questionLevel = ref(['쉬움', '보통', '어려움']);
-const eaxmYear = ref(['2022','2021', '2022', '2023','2024', '자체출제']);
-const eaxmAcademicYear = ref(['1회차','2회차', '3회차', '4회차','5회차', '자체출제']);
-const questionScore = ref(0);
-const examNumber = ref(0);
-const questionProblem = ref('');
 const questionSubject = ref('');
+const question = ref('');
+const questionProblem = ref('');
+const questionOptions = ref([
+    {no1: '①', value: ''}, 
+    {no1: '②', value: ''}, 
+    {no1: '③', value: ''}, 
+    {no1: '④', value: ''},
+    {no1: '⑤', value: ''} 
+]);
 const quetionExplanation = ref('');
 const quetionFeedback = ref('');
-const examCreate = ref([]);
 const useMoments = useMoment();
-const options = ref([
-    {No1: '①', value: ''}, 
-    {No1: '②', value: ''}, 
-    {No1: '③', value: ''}, 
-    {No1: '④', value: ''},
-    {No1: '⑤', value: ''} 
-]);
+
 const today = useMoments.getCreateAt();
 
 function examCreateSave () {
+    // router에서 userId 챙겨와야함
+    console.log(router)
+    
+    let questionStorage = [];
 
-    examCreate.value = [
-        { examType: questionType.value.value },
-        { difficulty: questionLevel.value.value },
-        { eaxmYear: eaxmYear.value.value },
-        { eaxmAcademicYear: eaxmAcademicYear.value.value},
-        { examScore: questionScore.value },
-        { examNumber:examNumber.value },
-        { examQuestion: questionSubject.value },
-        { examExplanation: quetionExplanation.value },
-        { examFeedback: quetionFeedback.value}
+    questionStorage = [
+        { question: question.value },
+        { question_points: questionPoint.value },
+        { question_type: questionType.value },
+        { question_year: qeustionYear.value},
+        { question_academic_year: questionAcademicYear.value},
+        { question_level: questionLevel.value },
+        { question_subject: questionSubject.value },
+        { quetion_explanation: quetionExplanation.value },
+        { quetionFeedback: quetionFeedback.value}
     ];
 
     // 추가 수정 필요
     axios.post('/exam', {
-        type_id : examTypeStore.type_id,
+        exam_id : examTypeStore.exam_id,
         create_at : today,
-        examCreate: examCreate.value
+        examCreate: questionStorage.value
     }).then(res, () => {
         // console.log(res.data.rows);
     });
