@@ -82,7 +82,7 @@
     <v-row>
         <v-col cols="2" class="pt-0">
             <h3>정답</h3>
-            <v-textarea variant="outlined" hide-details v-model="problemAnswer"></v-textarea>
+            <v-textarea variant="outlined" hide-details v-model="answer"></v-textarea>
         </v-col>
         <v-col cols="10" class="pt-0">
             <h3>문제풀이</h3>
@@ -120,8 +120,9 @@ const qeustionYear = ref(['2022','2021', '2022', '2023','2024', '자체출제'])
 const questionAcademicYear = ref(['1회차','2회차', '3회차', '4회차','5회차', '자체출제']);
 const questionLevel = ref(['쉬움', '보통', '어려움']);
 const questionSubject = ref('');
-const question = ref('');
-const problemAnswer = ref('');
+const quetionExplanation = ref('');
+const quetionFeedback = ref('');
+const problem = ref('');
 const questionOptions = ref([
     {no1: '①', value: ''}, 
     {no1: '②', value: ''}, 
@@ -129,10 +130,8 @@ const questionOptions = ref([
     {no1: '④', value: ''},
     {no1: '⑤', value: ''} 
 ]);
-const quetionExplanation = ref('');
-const quetionFeedback = ref('');
-
-const problem = ref('');
+const question = ref({});
+const answer = ref({});
 const userId = ref(router.currentRoute.value.query.userId);
 const today = useMoments.getCreateAt();
 
@@ -155,16 +154,16 @@ function examCreateSave () {
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value 
     problemStorages = [
-        { porblem_text: questionOptions.value },
         { problem: questionValue },
-        { answer: problemAnswer.value },
+        { answer: answer.value },
     ];
 
     // 추가 수정 필요
     /*axios.post('/question', {
         exam_id : examTypeStore.exam_id,
         user_id: userId.value,
-        questionStorages: questionStorages
+        questionStorages: questionStorages,
+        problemStorages: problemStorages
     }).then(res, () => {
         // console.log(res.data.rows);
     });*/
