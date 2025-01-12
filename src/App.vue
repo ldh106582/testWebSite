@@ -80,7 +80,7 @@ import { useAuthStore } from './stores/useAuthStore';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import moment from 'moment';
 
-const user = ref(['admin'])
+const user = ref(['admin']);
 const auth = useAuthStore();
 const examTypeStore = useExamTypeStore();
 const examTypes = [
@@ -104,12 +104,10 @@ function templateId () {
 
 function getExamStorage (item , e) {
 
-  // auth.userId = auth.userId === null ? moment(today).unix() : auth.userId;
   userId.value = auth.templateUser()
   router.push({
     path: '/examType-Description',
     query: {
-      // userId: auth.userId,
       type_id: item.type_id
     }
   });

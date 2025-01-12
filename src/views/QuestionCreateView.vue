@@ -57,11 +57,11 @@
     <v-row>
         <v-col cols="12" class="pt-3">
             <h3>시험문제</h3>
-            <v-textarea variant="outlined" v-model="question" />
+            <v-textarea variant="outlined" hide-details v-model="question" />
         </v-col>
         <v-col v-if="questionType.value === '단답형'">
             <h3>시험문제 예문 & 코드 </h3>
-            <v-text-field variant="outlined" v-model="questionProblem" />
+            <v-text-field variant="outlined" hide-details v-model="problem" />
         </v-col>
         <v-col v-else-if="questionType.value === '객관식'">
             <h3>시험문제 예문 & 코드 </h3>
@@ -76,23 +76,27 @@
 
         <v-col v-if="questionType.value === '주관식' || questionType.value === '서술형'">
             <h3>시험문제 예문 & 코드 </h3>
-            <v-textarea variant="outlined" v-model="questionProblem" />
+            <v-textarea variant="outlined" hide-details v-model="problem" />
         </v-col>
     </v-row>
     <v-row>
-        <v-col >
+        <v-col cols="2" class="pt-0">
+            <h3>정답</h3>
+            <v-textarea variant="outlined" hide-details v-model="problemAnswer"></v-textarea>
+        </v-col>
+        <v-col cols="10" class="pt-0">
             <h3>문제풀이</h3>
-            <v-textarea variant="outlined" v-model="quetionExplanation"></v-textarea>
+            <v-textarea variant="outlined" hide-details v-model="quetionExplanation"></v-textarea>
         </v-col>
     </v-row>
     <v-row>
-        <v-col class="pb-0">
+        <v-col class="py-0">
             <h3>오답피드백</h3>
-            <v-textarea variant="outlined" v-model="quetionFeedback"></v-textarea>
+            <v-textarea variant="outlined" hide-details v-model="quetionFeedback"></v-textarea>
         </v-col>
     </v-row>
     <v-row>
-        <v-col style="text-align: end;" class="pt-0">
+        <v-col style="text-align: end;">
             <v-btn color="indigo" :disabled="!examTypeStore.exam_id" @click="examCreateSave">저장</v-btn>
         </v-col>
     </v-row>
@@ -108,6 +112,7 @@ import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import router from '@/router';
 
 const examTypeStore = useExamTypeStore();
+const useMoments = useMoment();
 
 const questionPoint = ref(0);
 const questionType = ref(['주관식', '객관식', '서술형', '단답형']);
@@ -116,7 +121,7 @@ const questionAcademicYear = ref(['1회차','2회차', '3회차', '4회차','5�
 const questionLevel = ref(['쉬움', '보통', '어려움']);
 const questionSubject = ref('');
 const question = ref('');
-const questionProblem = ref('');
+const problemAnswer = ref('');
 const questionOptions = ref([
     {no1: '①', value: ''}, 
     {no1: '②', value: ''}, 
@@ -126,36 +131,43 @@ const questionOptions = ref([
 ]);
 const quetionExplanation = ref('');
 const quetionFeedback = ref('');
-const useMoments = useMoment();
 
+const problem = ref('');
+const userId = ref(router.currentRoute.value.query.userId);
 const today = useMoments.getCreateAt();
 
 function examCreateSave () {
-    // router에서 userId 챙겨와야함
-    console.log(router)
     
-    let questionStorage = [];
+    let questionStorages = [];
+    let problemStorages = [];
 
-    questionStorage = [
+    questionStorages = [
         { question: question.value },
         { question_points: questionPoint.value },
-        { question_type: questionType.value },
-        { question_year: qeustionYear.value},
-        { question_academic_year: questionAcademicYear.value},
-        { question_level: questionLevel.value },
+        { question_type: questionType.value.value },
+        { question_year: qeustionYear.value.value },
+        { question_academic_year: questionAcademicYear.value.value},
+        { question_level: questionLevel.value.value },
         { question_subject: questionSubject.value },
         { quetion_explanation: quetionExplanation.value },
-        { quetionFeedback: quetionFeedback.value}
+        { quetion_feedback: quetionFeedback.value}
+    ];
+
+    const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value 
+    problemStorages = [
+        { porblem_text: questionOptions.value },
+        { problem: questionValue },
+        { answer: problemAnswer.value },
     ];
 
     // 추가 수정 필요
-    axios.post('/exam', {
+    /*axios.post('/question', {
         exam_id : examTypeStore.exam_id,
-        create_at : today,
-        examCreate: questionStorage.value
+        user_id: userId.value,
+        questionStorages: questionStorages
     }).then(res, () => {
         // console.log(res.data.rows);
-    });
+    });*/
     
 }
 
