@@ -55,9 +55,13 @@
     </v-row>
 
     <v-row>
-        <v-col cols="12" class="pt-3">
+        <v-col cols="9" class="pt-0">
             <h3>시험문제</h3>
             <v-textarea variant="outlined" hide-details v-model="question" />
+        </v-col>
+        <v-col cols="3" class="pt-0">
+            <h3>정답</h3>
+            <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
         </v-col>
         <v-col v-if="questionType.value === '단답형'">
             <h3>시험문제 예문 & 코드 </h3>
@@ -80,11 +84,7 @@
         </v-col>
     </v-row>
     <v-row>
-        <v-col cols="2" class="pt-0">
-            <h3>정답</h3>
-            <v-textarea variant="outlined" hide-details v-model="answer"></v-textarea>
-        </v-col>
-        <v-col cols="10" class="pt-0">
+        <v-col cols="12" class="pt-0">
             <h3>문제풀이</h3>
             <v-textarea variant="outlined" hide-details v-model="quetionExplanation"></v-textarea>
         </v-col>
@@ -130,10 +130,15 @@ const questionOptions = ref([
     {no1: '④', value: ''},
     {no1: '⑤', value: ''} 
 ]);
-const question = ref({});
-const answer = ref({});
+const question = ref('');
+const answer = ref('');
+const addResult = ref('답 : ');
 const userId = ref(router.currentRoute.value.query.userId);
 const today = useMoments.getCreateAt();
+
+function addAnswer () {
+    addResult.value += `\n답 : ${answer.value}`;
+}
 
 function examCreateSave () {
     
@@ -152,11 +157,15 @@ function examCreateSave () {
         { quetion_feedback: quetionFeedback.value}
     ];
 
+    
+    console.log(addResult.value)
+
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value 
     problemStorages = [
         { problem: questionValue },
-        { answer: answer.value },
+        { answer: addResult.value },
     ];
+
 
     // 추가 수정 필요
     /*axios.post('/question', {
