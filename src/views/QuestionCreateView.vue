@@ -59,10 +59,10 @@
             <h3>시험문제</h3>
             <v-textarea variant="outlined" hide-details v-model="question" />
         </v-col>
-        <v-col cols="3" class="pt-0">
-            <h3>정답</h3>
-            <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
-        </v-col>
+            <v-col cols="3" class="pt-0">
+                <h3>정답</h3>
+                <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
+            </v-col>
         <v-col v-if="questionType.value === '단답형'">
             <h3>시험문제 예문 & 코드 </h3>
             <v-text-field variant="outlined" hide-details v-model="problem" />
@@ -140,7 +140,7 @@ function addAnswer () {
     addResult.value += `\n답 : ${answer.value}`;
 }
 
-function examCreateSave () {
+async function examCreateSave () {
     
     let questionStorages = [];
     let problemStorages = [];
@@ -156,26 +156,34 @@ function examCreateSave () {
         { quetion_explanation: quetionExplanation.value },
         { quetion_feedback: quetionFeedback.value}
     ];
-
     
-    console.log(addResult.value)
+    let answers = [];
+    const splitAnswer = (addResult.value).split('답 : ');
+    splitAnswer.forEach(s => {
+        if (s !== '') {
+            const jsonAnswer = {
+                '답': s.replace(/\n/g, '')
+            };
+            answers.push(jsonAnswer);
+        }
+    });
 
-    const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value 
+    const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
+
     problemStorages = [
         { problem: questionValue },
-        { answer: addResult.value },
+        { answer: answers },
     ];
 
-
     // 추가 수정 필요
-    /*axios.post('/question', {
+    await axios.post('/question', {
         exam_id : examTypeStore.exam_id,
         user_id: userId.value,
         questionStorages: questionStorages,
         problemStorages: problemStorages
-    }).then(res, () => {
-        // console.log(res.data.rows);
-    });*/
+    }).then(res => {
+        const data = res.data;
+    });
     
 }
 
