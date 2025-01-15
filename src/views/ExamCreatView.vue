@@ -91,7 +91,6 @@ function createExam () {
     }).then(res => {
         const data = res.data;
 
-        console.log('data.result:', data.result);  // 로그 추가
         if (data.result) {
             alert (errorMsg)
         } else {

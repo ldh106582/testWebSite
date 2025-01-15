@@ -124,11 +124,11 @@ const quetionExplanation = ref('');
 const quetionFeedback = ref('');
 const problem = ref('');
 const questionOptions = ref([
-    {no1: '①', value: ''}, 
-    {no1: '②', value: ''}, 
-    {no1: '③', value: ''}, 
-    {no1: '④', value: ''},
-    {no1: '⑤', value: ''} 
+    {no1: '1', value: ''}, 
+    {no1: '2', value: ''}, 
+    {no1: '3', value: ''}, 
+    {no1: '4', value: ''},
+    {no1: '5', value: ''} 
 ]);
 const question = ref('');
 const answer = ref('');
@@ -141,7 +141,8 @@ function addAnswer () {
 }
 
 async function examCreateSave () {
-    
+    const errorMsg = '등록 중 오류가 발생하였습니다. 새로고침 후 다시 시도해주세요.';
+    const sucessMsg = '등록되었습니다.';
     let questionStorages = [];
     let problemStorages = [];
 
@@ -171,11 +172,10 @@ async function examCreateSave () {
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
 
     problemStorages = [
-        { problem: questionValue },
-        { answer: answers },
+        { problem: JSON.stringify(questionValue) },
+        { answer: JSON.stringify(answers) },
     ];
 
-    // 추가 수정 필요
     await axios.post('/question', {
         exam_id : examTypeStore.exam_id,
         user_id: userId.value,
@@ -183,6 +183,11 @@ async function examCreateSave () {
         problemStorages: problemStorages
     }).then(res => {
         const data = res.data;
+
+        console.log("data", data)
+
+        data.result === true ? alert (errorMsg) : alert (sucessMsg)
+
     });
     
 }
