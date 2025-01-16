@@ -54,9 +54,9 @@ const routes = [
         }
     },
     {
-        path: '/question-update',
-        name: 'question-update',
-        component: () => import('@/views/QuestionUpdateView.vue'),
+        path: '/question-list',
+        name: 'question-list',
+        component: () => import('@/views/QuestionListView.vue'),
         meta: {
             isAisAuthenticated: true
         }

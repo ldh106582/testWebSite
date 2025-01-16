@@ -183,11 +183,7 @@ async function examCreateSave () {
         problemStorages: problemStorages
     }).then(res => {
         const data = res.data;
-
-        console.log("data", data)
-
         data.result === true ? alert (errorMsg) : alert (sucessMsg)
-
     });
     
 }

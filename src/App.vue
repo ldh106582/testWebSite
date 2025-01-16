@@ -89,7 +89,7 @@ const examTypes = [
 ];
 const questions = [
   ['문제 출제', 'mdi-pencil', (e) => push(e, '/question-create')],
-  ['문제 수정 및 삭제', 'mdi-pencil', (e) => push(e, '/question-update')],
+  ['문제 리스트', 'mdi-pencil', (e) => push(e, '/question-list')],
 ];
 const today = moment().format('YYYY-MM-DD');
 const userId = ref('');
