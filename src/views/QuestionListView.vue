@@ -46,7 +46,16 @@
                 <v-autocomplete :items="examTypeStore.list" item-title="exam_name" item-value="exam_id" v-model="examTypeStore.exam_id" />
             </v-col>
             <v-col cols="2">
-                <v-select :items="questionType" v-model="selectedType"/>
+                <v-select v-model="selectedType" :items="questionType" multiple>
+                    <template v-slot:selection="{ item, index }">
+                        <v-chip v-if="index < 1">
+                            <span>{{ item.title }}</span>
+                        </v-chip>
+                        <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                            (+{{ value.length - 1 }} others)
+                        </span>
+                    </template>
+                </v-select>
             </v-col>
             <v-col cols="2">
                 <v-select label="시험난이도" :items="questionLevel" v-model="selectedLevel"></v-select>
