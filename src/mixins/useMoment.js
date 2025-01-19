@@ -6,6 +6,11 @@ export default function useMoment () {
         return moment(new Date())
     }
 
+    function getFullDate (date) {
+        const today = moment().format('YYYY-MM-DD');
+        return today
+    }
+
     function getCreateAt () {
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
         return today
@@ -15,5 +20,5 @@ export default function useMoment () {
         return moment(date).unix();
     }
 
-    return { getToday, getCreateAt , getUnix}
+    return { getToday, getCreateAt , getUnix, getFullDate}
 };

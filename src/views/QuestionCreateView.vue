@@ -32,16 +32,16 @@
             <v-text-field label="시험점수" v-model="questionPoint"></v-text-field>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험타입" :items="questionType" v-model="questionType.value"></v-select>
+            <v-select label="시험타입" :items="questionTypes" v-model="selectedType"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="기출년도" :items="qeustionYear" v-model="qeustionYear.value"></v-select>
+            <v-select label="기출년도" :items="questionYears" v-model="selectedYear"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="기출회차" :items="questionAcademicYear" v-model="questionAcademicYear.value"></v-select>
+            <v-select label="기출회차" :items="questionAcademicYears" v-model="selectedAcademicYear"></v-select>
         </v-col>
         <v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험난이도" :items="questionLevel" v-model="questionLevel.value"></v-select>
+            <v-select label="시험난이도" :items="questionLevels" v-model="selectedLevel"></v-select>
         </v-col>
     </v-row>
 
@@ -63,11 +63,11 @@
                 <h3>정답</h3>
                 <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
             </v-col>
-        <v-col v-if="questionType.value === '단답형'">
+        <v-col v-if="questionTypes === '단답형'">
             <h3>시험문제 예문 & 코드 </h3>
             <v-text-field variant="outlined" hide-details v-model="problem" />
         </v-col>
-        <v-col v-else-if="questionType.value === '객관식'">
+        <v-col v-else-if="questionTypes === '객관식'">
             <h3>시험문제 예문 & 코드 </h3>
             <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
@@ -78,7 +78,7 @@
             </v-col>
         </v-col>
 
-        <v-col v-if="questionType.value === '주관식' || questionType.value === '서술형'">
+        <v-col v-if="questionTypes === '주관식' || questionTypes === '서술형'">
             <h3>시험문제 예문 & 코드 </h3>
             <v-textarea variant="outlined" hide-details v-model="problem" />
         </v-col>
@@ -106,19 +106,19 @@
 
 <script setup>
 import { ref } from 'vue';
-import useMoment from '@/mixins/useMoment.js';
 import axios from '@/axios';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import router from '@/router';
+import useQuestionStorage from '@/mixins/useQuestionStorage';
 
 const examTypeStore = useExamTypeStore();
-const useMoments = useMoment();
+const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 
 const questionPoint = ref(0);
-const questionType = ref(['주관식', '객관식', '서술형', '단답형']);
-const qeustionYear = ref(['2022','2021', '2022', '2023','2024', '자체출제']);
-const questionAcademicYear = ref(['1회차','2회차', '3회차', '4회차','5회차', '자체출제']);
-const questionLevel = ref(['쉬움', '보통', '어려움']);
+const selectedType = ref('');
+const selectedYear = ref('');
+const selectedAcademicYear = ref('');
+const selectedLevel = ref('');
 const questionSubject = ref('');
 const quetionExplanation = ref('');
 const quetionFeedback = ref('');
@@ -134,7 +134,6 @@ const question = ref('');
 const answer = ref('');
 const addResult = ref('답 : ');
 const userId = ref(router.currentRoute.value.query.userId);
-const today = useMoments.getCreateAt();
 
 function addAnswer () {
     addResult.value += `\n답 : ${answer.value}`;
@@ -149,10 +148,10 @@ async function examCreateSave () {
     questionStorages = [
         { question: question.value },
         { question_points: questionPoint.value },
-        { question_type: questionType.value.value },
-        { question_year: qeustionYear.value.value },
-        { question_academic_year: questionAcademicYear.value.value},
-        { question_level: questionLevel.value.value },
+        { question_type: selectedType.value },
+        { question_year: selectedYear.value },
+        { question_academic_year: selectedAcademicYear.value},
+        { question_level: selectedLevel.value },
         { question_subject: questionSubject.value },
         { quetion_explanation: quetionExplanation.value },
         { quetion_feedback: quetionFeedback.value}
