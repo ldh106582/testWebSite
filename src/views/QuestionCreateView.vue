@@ -110,9 +110,12 @@ import axios from '@/axios';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import router from '@/router';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
+import moment from 'moment';
+import useMoment from '@/mixins/useMoment';
 
 const examTypeStore = useExamTypeStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
+const { getFullDate } = useMoment();
 
 const questionPoint = ref(0);
 const selectedType = ref('');
@@ -134,6 +137,7 @@ const question = ref('');
 const answer = ref('');
 const addResult = ref('답 : ');
 const userId = ref(router.currentRoute.value.query.userId);
+const today = ref(moment().format('YYYY-MM-DD'));
 
 function addAnswer () {
     addResult.value += `\n답 : ${answer.value}`;
@@ -179,7 +183,8 @@ async function examCreateSave () {
         exam_id : examTypeStore.exam_id,
         user_id: userId.value,
         questionStorages: questionStorages,
-        problemStorages: problemStorages
+        problemStorages: problemStorages,
+        today: getFullDate(today)
     }).then(res => {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (sucessMsg)

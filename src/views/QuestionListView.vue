@@ -127,17 +127,48 @@
             </v-col>
         </v-row>
 
-
+        <v-row>
+            <v-col>
+                <div>
+                    <p>시험 문재 리스트</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>No</td>
+                            <td>시험유형</td>
+                            <td>난이도</td>
+                            <td>출제년도</td>
+                            <td>출제회차</td>
+                            <td>시험문제</td>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr v-for="(rows, index) in questions" :key="index">
+                            <td>{{ index + 1 }}</td>
+                            <td> {{ getFullDate(rows.create_date) }}</td>
+                            <td>{{ rows.question_type}}</td>
+                            <td> {{ rows.question_level }}</td>
+                            <td>{{ rows.question_year }}</td>
+                            <td>{{ rows.question_academic_year }}</td>
+                            <td> {{  rows.question }}</td>
+                        </tr>
+                    </thead>
+                </table>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
+import useMoment from '@/mixins/useMoment';
 
 const examTypeStore = useExamTypeStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
+const { getFullDate } = useMoment();
 
 const selectedTypes = ref([]);
 const isTypeCheckAll = ref(false);
@@ -147,26 +178,35 @@ const selectedYears = ref([]);
 const isYearCheckAll = ref(false);
 const selectedAcademicYears = ref([]);
 const isAchademicCheckAll = ref(false);
+const questions = ref([]);
 
 function selectedTypeAll () {
     isTypeCheckAll.value = !isTypeCheckAll.value;
     isTypeCheckAll.value !== true ? selectedTypes.value = [] : selectedTypes.value = questionTypes.value.slice();
 }
 
-function selectedLevelAll() {
+function selectedLevelAll () {
     isLevelCheckAll.value = !isLevelCheckAll.value;
     isLevelCheckAll.value !== true ? selectedLevels.value = [] : selectedLevels.value = questionLevels.value.slice();
 }
 
-function selectedYearAll() {
+function selectedYearAll () {
     isYearCheckAll.value = !isYearCheckAll.value;
     isYearCheckAll.value !== true ? selectedYears.value = [] : selectedYears.value = questionYears.value.slice();
 }
 
-function selectedAcademicYearAll() {
+function selectedAcademicYearAll () {
     isAchademicCheckAll.value = !isAchademicCheckAll.value;
     isAchademicCheckAll.value !== true ? selectedAcademicYears.value = [] : selectedAcademicYears.value = questionAcademicYears.value.slice();
 }
+
+function search () {
+
+}
+
+onMounted(() => {
+    search();
+});
 
 </script>
 
