@@ -1,7 +1,7 @@
 <template>
     <v-container fluid class="mx-2">
         <v-row>
-            <v-col class="my-5  py-5 px-3">
+            <v-col class="px-3">
                 <h1>시험 문제 리스트</h1>
             </v-col>
         </v-row>
@@ -130,11 +130,11 @@
         <v-row>
             <v-col>
                 <div>
-                    <p>시험 문재 리스트</p>
+                    <p class="question-title">시험 문제 리스트</p>
                 </div>
-                <table>
+                <v-table>
                     <thead>
-                        <tr>
+                        <tr class="question-title-header">
                             <td>No</td>
                             <td>시험유형</td>
                             <td>난이도</td>
@@ -143,7 +143,7 @@
                             <td>시험문제</td>
                         </tr>
                     </thead>
-                    <thead>
+                    <tbody>
                         <tr v-for="(rows, index) in questions" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td> {{ getFullDate(rows.create_date) }}</td>
@@ -153,8 +153,8 @@
                             <td>{{ rows.question_academic_year }}</td>
                             <td> {{  rows.question }}</td>
                         </tr>
-                    </thead>
-                </table>
+                    </tbody>
+                </v-table>
             </v-col>
         </v-row>
     </v-container>
@@ -165,6 +165,7 @@ import { ref, onMounted } from 'vue';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import useMoment from '@/mixins/useMoment';
+import axios from '@/axios';
 
 const examTypeStore = useExamTypeStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
@@ -202,6 +203,21 @@ function selectedAcademicYearAll () {
 
 function search () {
 
+    axios.get('/question-problem-group-desc', {
+        params: {
+            question_type: selectedTypes.value,
+            question_year: selectedYears.value,
+            question_academic_year: selectedAcademicYears.value,
+            question_level: selectedLevels.value
+        }
+    }).then(res => {
+        // res.data.rows.forEach(q => {
+        //     q.create_date = getFullDate(q.create_date);
+        // });
+
+        // questions.value.push(res.data.rows);
+
+    });
 }
 
 onMounted(() => {
@@ -211,5 +227,19 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+.question-title {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.question-title-header{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+td{
+    border-bottom: 1px solid black;
+}
 
 </style>
