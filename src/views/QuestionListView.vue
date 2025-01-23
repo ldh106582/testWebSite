@@ -16,10 +16,10 @@
         </v-row>
         <v-row>
             <v-col cols="2" class="py-0 pl-2">
-                <v-text-field hide-details variant="outlined" type="date" />
+                <v-text-field hide-details variant="outlined" type="date" :max="endDate" v-model="startDate"/>
             </v-col>
             <v-col cols="2" class="py-0 pl-2">
-                <v-text-field hide-details variant="outlined" type="date" max="9999-12-31"/>
+                <v-text-field hide-details variant="outlined" type="date" :min="startDate" max="9999-12-31" v-model="endDate"/>
             </v-col>
         </v-row>
 
@@ -126,7 +126,7 @@
                 </v-select>
             </v-col>
             <v-col class="search">
-                <v-btn color="primary">검색</v-btn>
+                <v-btn color="primary" @click="search">검색</v-btn>
             </v-col>
         </v-row>
 
@@ -161,13 +161,13 @@
         </v-row>
         <v-row  justify="center">
             <v-col cols="1" class="pagenation">
-                <v-btn class="pagenation-btn">이전</v-btn>
+                <v-btn class="pagenation-btn" @click="prevent">이전</v-btn>
             </v-col>
             <v-col cols="2" class="pagenation"> 
-                <div> 1 / 30 </div>
+                <div> {{  page }} 페이지 </div>
             </v-col>
             <v-col cols="1" class="pagenation">
-                <v-btn class="pagenation-btn">다음</v-btn>
+                <v-btn class="pagenation-btn" @click="next">다음</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -179,6 +179,7 @@ import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import useMoment from '@/mixins/useMoment';
 import axios from '@/axios';
+import moment from 'moment';
 
 const examTypeStore = useExamTypeStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
@@ -195,6 +196,8 @@ const isAchademicCheckAll = ref(false);
 const questions = ref([]);
 const page = ref(1);
 const countPage = ref(30);
+const startDate = ref();
+const endDate = ref(moment().format('YYYY-MM-DD'));
 
 function selectedTypeAll () {
     isTypeCheckAll.value = !isTypeCheckAll.value;
@@ -213,6 +216,7 @@ function selectedAcademicYearAll () {
     isAchademicCheckAll.value !== true ? selectedAcademicYears.value = [] : selectedAcademicYears.value = questionAcademicYears.value.slice();
 }
 
+// d여기작성
 function showQuestion () {
 
 }
@@ -221,6 +225,8 @@ function search () {
 
     axios.get('/question-problem-group-desc', {
         params: {
+            start_date: startDate.value,
+            end_date: endDate.value,
             question_type: selectedTypes.value,
             question_year: selectedYears.value,
             question_academic_year: selectedAcademicYears.value,
@@ -235,6 +241,23 @@ function search () {
 
         questions.value = res.data.rows;
     });
+}
+
+function prevent () {
+    const prvMsg = '첫 번째 페이지입니다.';
+    
+    page.value <= 1 ? alert (prvMsg) : page.value--;
+
+    search();
+}
+
+function next () {
+    const nextMsg = '마지막 페이지입니다.';
+
+    const lastNum = questions.value.length / 30;
+    lastNum <= 1 ? alert (nextMsg) : page.value++;
+
+    search();
 }
 
 onMounted(() => {
