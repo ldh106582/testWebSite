@@ -46,6 +46,14 @@ const routes = [
         }
     },
     {
+        path: '/examType-Description',
+        name : 'examTypeDescription',
+        component: () => import('../../nuxt-app/pages/ExamTypeDescriptionView.vue'),
+        meta: {
+            isAisAuthenticated: false,
+        },
+    },
+    {
         path: '/question-create',
         name: 'question-create',
         component: () => import('@/views/QuestionCreateView.vue'),
@@ -62,12 +70,12 @@ const routes = [
         }
     },
     {
-        path: '/examType-Description',
-        name : 'examTypeDescription',
-        component: () => import('../../nuxt-app/pages/ExamTypeDescriptionView.vue'),
+        path: '/question-process',
+        name: 'question-process',
+        component: () => import('@/views/QuestionProcessView.vue'),
         meta: {
-            isAisAuthenticated: false,
-        },
+            isAisAuthenticated: true
+        }
     },
     {
         path: '/information-test',
@@ -76,7 +84,7 @@ const routes = [
         meta: {
             isAisAuthenticated: false
         }
-    }
+    },
     
 ]
 

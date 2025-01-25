@@ -147,7 +147,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(rows, index) in questions" :key="index" id="quesions" @click="showQuestion">
+                        <tr v-for="(rows, index) in questions" :key="index" id="quesions" @click="showQuestion(rows, index)">
                             <td class="question-content"> {{ getFullDate(rows.create_date) }}</td>
                             <td class="question-content">{{ rows.question_type}}</td>
                             <td class="question-content"> {{ rows.question_level }}</td>
@@ -180,6 +180,7 @@ import useQuestionStorage from '@/mixins/useQuestionStorage';
 import useMoment from '@/mixins/useMoment';
 import axios from '@/axios';
 import moment from 'moment';
+import router from '@/router';
 
 const examTypeStore = useExamTypeStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
@@ -217,8 +218,15 @@ function selectedAcademicYearAll () {
 }
 
 // d여기작성
-function showQuestion () {
+function showQuestion (rows, index) {
 
+    router.push({
+        path: '/question-Process',
+        query: {
+            exam_id: rows.exam_id,
+            question_id: rows.question_id 
+        }
+    });
 }
 
 function search () {
