@@ -125,7 +125,7 @@
                     </template>
                 </v-select>
             </v-col>
-            <v-col class="search">
+            <v-col class="search ml-3">
                 <v-btn color="primary" @click="search">검색</v-btn>
             </v-col>
         </v-row>
@@ -217,7 +217,6 @@ function selectedAcademicYearAll () {
     isAchademicCheckAll.value !== true ? selectedAcademicYears.value = [] : selectedAcademicYears.value = questionAcademicYears.value.slice();
 }
 
-// d여기작성
 function showQuestion (rows, index) {
 
     router.push({

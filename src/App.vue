@@ -18,8 +18,8 @@
         class="sideBar-text"
         v-for="(item, i) in examTypeStore.list ? examTypeStore.list : ''"
         :key="i"
-        :title="item.type_name"
-        :value="item.type_id"
+        :title="item.exam_name"
+        :value="item.exam_id"
         prepend-icon="mdi-text-box-outline"
         @click="e => getExamStorage(item, e)"
         >

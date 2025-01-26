@@ -86,13 +86,13 @@
     <v-row>
         <v-col cols="12" class="pt-0">
             <h3>문제풀이</h3>
-            <v-textarea variant="outlined" hide-details v-model="quetionExplanation"></v-textarea>
+            <v-textarea variant="outlined" hide-details v-model="problemExplanation"></v-textarea>
         </v-col>
     </v-row>
     <v-row>
         <v-col class="py-0">
             <h3>오답피드백</h3>
-            <v-textarea variant="outlined" hide-details v-model="quetionFeedback"></v-textarea>
+            <v-textarea variant="outlined" hide-details v-model="problemFeedback"></v-textarea>
         </v-col>
     </v-row>
     <v-row>
@@ -123,8 +123,8 @@ const selectedYear = ref('');
 const selectedAcademicYear = ref('');
 const selectedLevel = ref('');
 const questionSubject = ref('');
-const quetionExplanation = ref('');
-const quetionFeedback = ref('');
+const problemExplanation = ref('');
+const problemFeedback = ref('');
 const problem = ref('');
 const questionOptions = ref([
     {no1: '1', value: ''}, 
@@ -157,8 +157,6 @@ async function examCreateSave () {
         { question_academic_year: selectedAcademicYear.value},
         { question_level: selectedLevel.value },
         { question_subject: questionSubject.value },
-        { quetion_explanation: quetionExplanation.value },
-        { quetion_feedback: quetionFeedback.value}
     ];
     
     let answers = [];
@@ -177,6 +175,8 @@ async function examCreateSave () {
     problemStorages = [
         { problem: JSON.stringify(questionValue) },
         { answer: JSON.stringify(answers) },
+        { problem_explanation: problemExplanation.value },
+        { problem_feedback: problemFeedback.value}
     ];
 
     await axios.post('/question', {
