@@ -130,18 +130,18 @@ function examSave (id) {
 </script>
 
 <style lang="css" scoped>
-.examType-search {
+.exam-search {
     font-weight: bold;
     font-size: 20px;
 }
 
-.examType-search-haeder {
+.exam-search-haeder {
     text-align: center; 
     border: 1px solid silver; 
     border-radius: 8px;
 }
 
-.examType-description{
+.exam-description{
     width: 100%;
 }
 

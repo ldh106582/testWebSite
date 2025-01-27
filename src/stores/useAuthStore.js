@@ -13,12 +13,15 @@ export const useAuthStore = defineStore ('auth', () => {
     const error = ref(null);
     const isCheckTemp = ref(false);
     const tempId = ref('');
+    const isManager = ref(0);
 
     async function login (userInfo) {
         try {
             isAuthenticated.value = true;
             userId.value = userInfo.rows[0].user_id;
+            isManager.value = Boolean(userInfo.rows[0].user_manager);
             localStorage.setItem('userId', userId.value );
+            localStorage.setItem('manager', isManager.value.toString());
             const token = userInfo.token;
             localStorage.setItem('token', token);
 
@@ -38,6 +41,7 @@ export const useAuthStore = defineStore ('auth', () => {
     function logout () {
         isAuthenticated.value = false;
         userId.value = null;
+        isManager.value = 0;
         error.value = null;
         isCheckTemp.value = false;
 
@@ -80,11 +84,13 @@ export const useAuthStore = defineStore ('auth', () => {
         const token = localStorage.getItem('token');
         const maintaindUserId = localStorage.getItem('userId'); 
         const maintainTempId = localStorage.getItem('tempUserId');
+        const maintainManager = localStorage.getItem('manager');
 
         if (token) {
             isAuthenticated.value = true;
             userId.value = maintaindUserId;
             isCheckTemp.value = false;
+            isManager.value = Number(maintainManager);
             await getMemberInfo();
         } else if (maintainTempId) {
             tempId.value = maintainTempId;
@@ -95,13 +101,16 @@ export const useAuthStore = defineStore ('auth', () => {
     }
 
     function templateUser () {
-        tempId.value = `temp_${getUnix(today)}`;
-        userId.value = tempId.value;
-        isCheckTemp.value = true;
 
-        localStorage.setItem('tempUserId', tempId.value);
-        localStorage.setItem('v', today.format());
+        if (userId.value === null) {
+            tempId.value = `temp_${getUnix(today)}`;
+            userId.value = tempId.value;
+            isCheckTemp.value = true;
+
+            localStorage.setItem('tempUserId', tempId.value);
+            localStorage.setItem('v', today.format());
+        }
     }
     
-    return { login, logout, getMemberInfo, initialize, templateUser, isAuthenticated, userId, error }
+    return { login, logout, getMemberInfo, initialize, templateUser, isAuthenticated, userId, error, isManager }
 });

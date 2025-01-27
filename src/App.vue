@@ -26,7 +26,7 @@
         </v-list-item>
     </v-list>
     
-      <v-list density="compact" nav v-if="auth.userId === user[0]">
+      <v-list density="compact" nav v-if="auth.isManager === manager">
         <v-list-group class="sideBar-text" prepend-icon="mdi-text-box-outline" >
           <template v-slot:activator="{ props }">
             <v-list-item
@@ -45,7 +45,8 @@
           ></v-list-item>
         </v-list-group>
       </v-list>
-      <v-list density="compact" nav v-if="auth.userId === user[0]">
+
+      <v-list density="compact" nav v-if="auth.isManager === manager">
         <v-list-group class="sideBar-text" prepend-icon="mdi-text-box-outline" >
           <template v-slot:activator="{ props }">
             <v-list-item
@@ -80,12 +81,12 @@ import { useAuthStore } from './stores/useAuthStore';
 import { useExamTypeStore } from '@/stores/useExamTypeStore';
 import moment from 'moment';
 
-const user = ref(['admin']);
+const manager = ref(1);
 const auth = useAuthStore();
 const examTypeStore = useExamTypeStore();
 const examTypes = [
-  ['유형 추가', 'mdi-card-minus', (e) => push(e, '/examType-create')],
-  ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/examType-update')],
+  ['유형 추가', 'mdi-card-minus', (e) => push(e, '/exam-create')],
+  ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
 ];
 const questions = [
   ['문제 출제', 'mdi-pencil', (e) => push(e, '/question-create')],
@@ -103,12 +104,11 @@ function templateId () {
 }
 
 function getExamStorage (item , e) {
-
   userId.value = auth.templateUser()
   router.push({
     path: '/examType-Description',
     query: {
-      type_id: item.type_id
+      exam_id: item.exam_id
     }
   });
 }

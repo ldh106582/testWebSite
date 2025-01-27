@@ -30,24 +30,24 @@ const routes = [
         }
     },
     {
-        path: '/examType-create',
-        name: 'examType-create',
+        path: '/exam-create',
+        name: 'exam-create',
         component: () => import('@/views/ExamCreatView.vue'),
         meta: {
             isAisAuthenticated: true
         }
     },
     {
-        path: '/examType-update',
-        name: 'examType-update',
+        path: '/exam-update',
+        name: 'exam-update',
         component: () => import('@/views/ExamUpdateView.vue'),
         meta: {
             isAisAuthenticated: true
         }
     },
     {
-        path: '/examType-Description',
-        name : 'examTypeDescription',
+        path: '/exam-Description',
+        name : 'exam-Description',
         component: () => import('../../nuxt-app/pages/ExamTypeDescriptionView.vue'),
         meta: {
             isAisAuthenticated: false,

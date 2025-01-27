@@ -23,16 +23,16 @@ import router from '@/router';
 import axios from '../../src/axios';
 
 const userId = ref('');
-const typeId = ref(0);
+const examId = ref(0);
 const examType = ref([]);
 
 function getExamTypeStorage () {    
     // const route = router.currentRoute.value.query.userId;
-    typeId.value = router.currentRoute.value.query.type_id;
+    examId.value = router.currentRoute.value.query.exam_id;
     
-    axios.get('/examType', {
+    axios.get('/exam', {
         params: {
-            type_id: typeId.value
+            exam_id: examId.value
         }
     }).then(res => {
         examType.value = res.data.rows[0];
