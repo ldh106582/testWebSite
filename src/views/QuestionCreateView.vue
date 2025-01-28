@@ -45,14 +45,14 @@
         </v-col>
     </v-row>
 
-    <v-row>
+    <!-- <v-row>
         <v-col cols="12">
             <h3>시험 과목</h3>
         </v-col>
         <v-col class="py-0">
             <v-text-field placeholder="SQL, 프로그래밍 언어, 네트워크 분야, OS분야" v-model="questionSubject"/>
         </v-col>
-    </v-row>
+    </v-row> -->
 
     <v-row>
         <v-col cols="9" class="pt-0">
@@ -122,7 +122,6 @@ const selectedType = ref('');
 const selectedYear = ref('');
 const selectedAcademicYear = ref('');
 const selectedLevel = ref('');
-const questionSubject = ref('');
 const problemExplanation = ref('');
 const problemFeedback = ref('');
 const problem = ref('');
@@ -156,7 +155,6 @@ async function examCreateSave () {
         { question_year: selectedYear.value },
         { question_academic_year: selectedAcademicYear.value},
         { question_level: selectedLevel.value },
-        { question_subject: questionSubject.value },
     ];
     
     let answers = [];

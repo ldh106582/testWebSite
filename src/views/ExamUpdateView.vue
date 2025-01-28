@@ -48,7 +48,7 @@
                 <v-text-field variant="outlined" hide-details v-model="examStorages.exam_time" />
             </v-col>
             <v-col cols="12" class="examType-description px-1" >
-                <v-textarea variant="outlined" hide-details class="examType-description-text" v-model="examStorages.exam_description" />
+                <v-textarea variant="outlined" hide-details class="examType-description-text" v-model="examStorages.exam_des" />
             </v-col>
             <v-col class="px-1 pt-1 d-flex justify-end" >
                 <v-btn color="primary" @click="examSave(examStorages.exam_id)">저장</v-btn>
@@ -119,7 +119,7 @@ function examSave (id) {
         exam_id: id,
         exam_name: examStorages.value.exam_name,
         exam_time: examStorages.value.exam_time,
-        exam_description: examStorages.value.exam_description
+        exam_des: examStorages.value.exam_des
     }).then(res => {
         const data = res.data;
 
