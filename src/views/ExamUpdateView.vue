@@ -7,11 +7,11 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="py-1">
-                <span class="examType-search"> 시험유형 조회 </span>
+                <span class="exam-search"> 시험유형 조회 </span>
             </v-col>
             <v-col cols="12">
-                <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="examTypeStore.exam_id"
-                item-title="exam_name" item-value="exam_id" :items="examTypeStore.list"
+                <v-autocomplete variant="outlined" hide-details label="시험유형" v-model="examStore.exam_id"
+                item-title="exam_name" item-value="exam_id" :items="examStore.list"
                 :menu-props="{ maxHeight: '200' }">
                     <template v-slot:item="{ props, item }">
                         <v-list-item
@@ -27,31 +27,39 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="pb-5">
-                <span class="examType-search">데이터 수정 및 삭제</span>
+                <span class="exam-search">데이터 수정 및 삭제</span>
             </v-col>
         </v-row>
 
         <v-row class="px-3" v-if="isCheckData">
-            <v-col cols="12" class="examType-search-haeder" style="">
-                <span class="examType-search">데이터를 조회해주세요.</span>
+            <v-col cols="12" class="exam-search-haeder">
+                <span class="exam-search">데이터를 조회해주세요.</span>
             </v-col>
         </v-row>
 
         <v-row class="px-3" v-else>
-            <v-col class="examType-typeName px-1" cols="11" >
-                <v-text-field variant="outlined" hide-details v-model="examStorages.exam_name" />
+            <v-col class="px-1" cols="12" >
+                <v-text-field variant="outlined" hide-details label="시험유형" v-model="examStorages.exam_name" />
             </v-col>
-            <v-col cols="1" class="d-flex align-center px-0 justify-end">
-                <v-btn color="red" @click="examDelete(examStorages.exam_id)">삭제</v-btn>
+            <v-col class="px-1" cols="12">
+                <v-col class="px-0 d-flex" style="justify-content: space-between;">
+                    <v-btn color="primary" @click="toggleVisible">시험과목</v-btn>
+                    <v-btn color="green" @click="addSubject">과목추가</v-btn>
+                </v-col>
+                <v-col class="pa-0 d-flex" cols="auto" v-for="(storage, index) in subjectStorage" :key="index" style="align-items: center;">
+                    <v-text-field v-if="isToggle" variant="outlined" hide-details class="pa-0" v-model="storage.subject" />
+                    <v-btn class="ml-3" color="red" @click="deleteSubject(index)">삭제</v-btn>
+                </v-col>
             </v-col>
-            <v-col class="examType-typeName px-1" cols="12" >
-                <v-text-field variant="outlined" hide-details v-model="examStorages.exam_time" />
+            <v-col class="px-1" cols="12" >
+                <v-text-field variant="outlined" hide-details label="시험시간" v-model="examStorages.exam_time" />
             </v-col>
-            <v-col cols="12" class="examType-description px-1" >
-                <v-textarea variant="outlined" hide-details class="examType-description-text" v-model="examStorages.exam_des" />
+            <v-col cols="12" class="px-1" >
+                <v-textarea variant="outlined" hide-details label="시험설명" v-model="examStorages.exam_des" />
             </v-col>
             <v-col class="px-1 pt-1 d-flex justify-end" >
-                <v-btn color="primary" @click="examSave(examStorages.exam_id)">저장</v-btn>
+                <v-btn class="mr-3" color="primary" @click="examSave(examStorages.exam_id)">저장</v-btn>
+                <v-btn color="red" @click="examDelete(examStorages.exam_id)">삭제</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -60,22 +68,38 @@
 <script setup>
 import axios from '@/axios';
 import { ref } from 'vue';
-import { useExamTypeStore } from '@/stores/useExamTypeStore';
+import { useExamStore } from '@/stores/useExamStore';
 
 const isCheckData = ref(true);
 const examStorages = ref([]);
+const subjectStorage = ref([]);
+const isToggle = ref(true);
 
-const examTypeStore = useExamTypeStore();
+const examStore = useExamStore();
+
+function toggleVisible () {
+    isToggle.value = !isToggle.value
+}
+
+function addSubject () {
+    const subject = { subject: ''};
+    const copie = JSON.parse(JSON.stringify(subject));
+    subjectStorage.value.push(copie);
+}
+
+function deleteSubject (index) {
+    subjectStorage.value.splice(index);
+}
 
 function search () {
     const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const typeNameNull = '데이터를 먼저 입력해주세요.';
 
-    if (examTypeStore.exam_id === undefined) { return alert (typeNameNull) }
+    if (examStore.exam_id === undefined) { return alert (typeNameNull) }
 
-    axios.get('/exam', {
+    axios.get('/exam-join-subject', {
         params: {
-            exam_id: examTypeStore.exam_id
+            exam_id: examStore.exam_id
         }
     }).then(res => {
         const data = res.data;
@@ -84,6 +108,7 @@ function search () {
             alert (errorMsg)
         } else {
             examStorages.value = data.rows[0];
+            subjectStorage.value = data.rows
             
             isCheckData.value = false;
         }
@@ -119,7 +144,8 @@ function examSave (id) {
         exam_id: id,
         exam_name: examStorages.value.exam_name,
         exam_time: examStorages.value.exam_time,
-        exam_des: examStorages.value.exam_des
+        exam_des: examStorages.value.exam_des,
+        subject: subjectStorage.value
     }).then(res => {
         const data = res.data;
 

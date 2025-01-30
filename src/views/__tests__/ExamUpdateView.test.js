@@ -3,7 +3,7 @@ import ExamTypeUpdateView from '@/views/ExamUpdateView.vue';
 import axios from "@/axios";
 import { flushPromises, mount } from "@vue/test-utils";
 import { setActivePinia, createPinia } from "pinia";
-import { useExamTypeStore } from '@/stores/useExamTypeStore';
+import { useExamStore } from '@/stores/useExamStore';
 
 describe('ExamTypeUpdateView', () => {
 
@@ -49,10 +49,10 @@ describe('ExamTypeUpdateView', () => {
 
     });
     describe('search 함수', () => {
-        test('examTypeStore.type_name이 undefined 일 경우', async () => {
+        test('examStore.type_name이 undefined 일 경우', async () => {
             const typeNameNull = '데이터를 먼저 입력해주세요.';
-            const examTypeStore = useExamTypeStore();
-            examTypeStore.exam_name = undefined;
+            const examStore = useExamStore();
+            examStore.exam_name = undefined;
             await wrapper.vm.$nextTick();
 
             wrapper.vm.search();
@@ -63,8 +63,8 @@ describe('ExamTypeUpdateView', () => {
 
         test('axios get 실패 시', async () => {
             const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
-            const examTypeStore = useExamTypeStore();
-            examTypeStore.exam_id = mockExamId;
+            const examStore = useExamStore();
+            examStore.exam_id = mockExamId;
 
             await wrapper.vm.$nextTick();
 
@@ -76,8 +76,8 @@ describe('ExamTypeUpdateView', () => {
         });
 
         test('axios get 성공 시', async () => {
-            const examTypeStore = useExamTypeStore();
-            examTypeStore.exam_id = mockExamId;
+            const examStore = useExamStore();
+            examStore.exam_id = mockExamId;
 
             wrapper.vm.search();
             await wrapper.vm.$nextTick();

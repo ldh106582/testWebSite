@@ -16,7 +16,7 @@
       <v-list>
         <v-list-item 
         class="sideBar-text"
-        v-for="(item, i) in examTypeStore.list ? examTypeStore.list : ''"
+        v-for="(item, i) in examStore.list ? examStore.list : ''"
         :key="i"
         :title="item.exam_name"
         :value="item.exam_id"
@@ -36,7 +36,7 @@
           </template>
 
           <v-list-item
-            v-for="([title, icon, onClick], i) in examTypes"
+            v-for="([title, icon, onClick], i) in exams"
             :key="i"
             :title="title"
             :prepend-icon="icon"
@@ -78,13 +78,13 @@
 import { ref } from 'vue';
 import router from '@/router/index';
 import { useAuthStore } from './stores/useAuthStore';
-import { useExamTypeStore } from '@/stores/useExamTypeStore';
+import { useExamStore } from '@/stores/useExamStore';
 import moment from 'moment';
 
 const manager = ref(1);
 const auth = useAuthStore();
-const examTypeStore = useExamTypeStore();
-const examTypes = [
+const examStore = useExamStore();
+const exams = [
   ['유형 추가', 'mdi-card-minus', (e) => push(e, '/exam-create')],
   ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
 ];
@@ -106,7 +106,7 @@ function templateId () {
 function getExamStorage (item , e) {
   userId.value = auth.templateUser()
   router.push({
-    path: '/examType-Description',
+    path: '/exam-Description',
     query: {
       exam_id: item.exam_id
     }

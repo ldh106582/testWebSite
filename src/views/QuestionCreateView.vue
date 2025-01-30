@@ -12,7 +12,7 @@
         </v-col>
         <v-col cols="12" class="px-3 pt-0">
             <v-autocomplete label="시험유형" item-title="exam_name" item-value="exam_id"
-            v-model="examTypeStore.exam_id" :items="examTypeStore.list" 
+            v-model="examStore.exam_id" :items="examStore.list" 
             :menu-props="{ maxHeight: '200' }" >
                 <template v-slot="{ props, item}">
                     <v-list-item
@@ -44,15 +44,6 @@
             <v-select label="시험난이도" :items="questionLevels" v-model="selectedLevel"></v-select>
         </v-col>
     </v-row>
-
-    <!-- <v-row>
-        <v-col cols="12">
-            <h3>시험 과목</h3>
-        </v-col>
-        <v-col class="py-0">
-            <v-text-field placeholder="SQL, 프로그래밍 언어, 네트워크 분야, OS분야" v-model="questionSubject"/>
-        </v-col>
-    </v-row> -->
 
     <v-row>
         <v-col cols="9" class="pt-0">
@@ -97,7 +88,7 @@
     </v-row>
     <v-row>
         <v-col style="text-align: end;">
-            <v-btn color="indigo" :disabled="!examTypeStore.exam_id" @click="examCreateSave">저장</v-btn>
+            <v-btn color="indigo" :disabled="!examStore.exam_id" @click="examCreateSave">저장</v-btn>
         </v-col>
     </v-row>
 
@@ -107,13 +98,13 @@
 <script setup>
 import { ref } from 'vue';
 import axios from '@/axios';
-import { useExamTypeStore } from '@/stores/useExamTypeStore';
+import { useExamStore } from '@/stores/useExamStore';
 import router from '@/router';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import moment from 'moment';
 import useMoment from '@/mixins/useMoment';
 
-const examTypeStore = useExamTypeStore();
+const examStore = useExamStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 
@@ -178,7 +169,7 @@ async function examCreateSave () {
     ];
 
     await axios.post('/question', {
-        exam_id : examTypeStore.exam_id,
+        exam_id : examStore.exam_id,
         user_id: userId.value,
         questionStorages: questionStorages,
         problemStorages: problemStorages,

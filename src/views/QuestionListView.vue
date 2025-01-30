@@ -43,7 +43,7 @@
 
         <v-row>
             <v-col cols="2" class="pb-0">
-                <v-autocomplete hide-details variant="outlined" :items="examTypeStore.list" item-title="exam_name" item-value="exam_id" v-model="examTypeStore.exam_id" />
+                <v-autocomplete hide-details variant="outlined" :items="examStore.list" item-title="exam_name" item-value="exam_id" v-model="examStore.exam_id" />
             </v-col>
             <v-col cols="2" class="pb-0">
                 <v-select hide-details variant="outlined" v-model="selectedTypes" :items="questionTypes" multiple>
@@ -175,14 +175,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useExamTypeStore } from '@/stores/useExamTypeStore';
+import { useExamStore } from '@/stores/useExamStore';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import useMoment from '@/mixins/useMoment';
 import axios from '@/axios';
 import moment from 'moment';
 import router from '@/router';
 
-const examTypeStore = useExamTypeStore();
+const examStore = useExamStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 
