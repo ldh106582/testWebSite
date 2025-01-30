@@ -10,7 +10,7 @@
         <v-col cols="12" class="px-3">
             <h2>시험유형 조회</h2>
         </v-col>
-        <v-col cols="12" class="px-3 pt-0">
+        <v-col cols="12" class="px-3 py-0">
             <v-autocomplete label="시험유형" item-title="exam_name" item-value="exam_id"
             v-model="examStore.exam_id" :items="examStore.list" 
             :menu-props="{ maxHeight: '200' }" >
@@ -22,76 +22,86 @@
                 </template>
             </v-autocomplete>
         </v-col>
-    </v-row>
-
-    <v-row >
-        <v-col cols="12" class="px-3">
-            <h2>시험 문제 만들기</h2>
-        </v-col>
-        <v-col cols="2" class="py-0 pr-0">
-            <v-text-field label="시험점수" v-model="questionPoint"></v-text-field>
-        </v-col>
-        <v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험타입" :items="questionTypes" v-model="selectedType"></v-select>
-        </v-col>
-        <v-col cols="2" class="py-0 pr-0">
-            <v-select label="기출년도" :items="questionYears" v-model="selectedYear"></v-select>
-        </v-col>
-        <v-col cols="2" class="py-0 pr-0">
-            <v-select label="기출회차" :items="questionAcademicYears" v-model="selectedAcademicYear"></v-select>
-        </v-col>
-        <v-col cols="2" class="py-0 pr-0">
-            <v-select label="시험난이도" :items="questionLevels" v-model="selectedLevel"></v-select>
+        <v-col cols="12" class="py-0" style="text-align: end;">
+            <v-btn color="indigo" @click="subjectSearch">조회하기</v-btn>
         </v-col>
     </v-row>
 
-    <v-row>
-        <v-col cols="9" class="pt-0">
-            <h3>시험문제</h3>
-            <v-textarea variant="outlined" hide-details v-model="question" />
-        </v-col>
-            <v-col cols="3" class="pt-0">
-                <h3>정답</h3>
-                <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
+    <div v-if="isCheckExamId">
+        <v-row>
+            <v-col cols="12" class="px-3">
+                <h2>시험 구성</h2>
             </v-col>
-        <v-col v-if="questionTypes === '단답형'">
-            <h3>시험문제 예문 & 코드 </h3>
-            <v-text-field variant="outlined" hide-details v-model="problem" />
-        </v-col>
-        <v-col v-else-if="questionTypes === '객관식'">
-            <h3>시험문제 예문 & 코드 </h3>
-            <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
-                <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
-                <label :for="index + 1" class="examQuestion-label">
-                    <span class="examQuestion-Num">{{ option.no1 }}</span>
-                </label>
-                <v-text-field hide-details variant="outlined" v-model="option.value" />
+        </v-row>
+        <v-row>
+            <v-col cols="2" class="py-0 pr-0">
+                <v-autocomplete label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
+                v-model="subjects.subject_id" />
             </v-col>
-        </v-col>
+            <v-col cols="2" class="py-0 pr-0">
+                <v-text-field label="시험점수" v-model="questionPoint"></v-text-field>
+            </v-col>
+            <v-col cols="2" class="py-0 pr-0">
+                <v-select label="시험난이도" :items="questionLevels" v-model="selectedLevel"></v-select>
+            </v-col>
+            <v-col cols="2" class="py-0 pr-0">
+                <v-select label="시험타입" :items="questionTypes" v-model="selectedType"></v-select>
+            </v-col>
+            <v-col cols="2" class="py-0 pr-0">
+                <v-select label="기출년도" :items="questionYears" v-model="selectedYear"></v-select>
+            </v-col>
+            <v-col cols="2" class="py-0 pr-0">
+                <v-select label="기출회차" :items="questionAcademicYears" v-model="selectedAcademicYear"></v-select>
+            </v-col>
+        </v-row>
 
-        <v-col v-if="questionTypes === '주관식' || questionTypes === '서술형'">
-            <h3>시험문제 예문 & 코드 </h3>
-            <v-textarea variant="outlined" hide-details v-model="problem" />
-        </v-col>
-    </v-row>
-    <v-row>
-        <v-col cols="12" class="pt-0">
-            <h3>문제풀이</h3>
-            <v-textarea variant="outlined" hide-details v-model="problemExplanation"></v-textarea>
-        </v-col>
-    </v-row>
-    <v-row>
-        <v-col class="py-0">
-            <h3>오답피드백</h3>
-            <v-textarea variant="outlined" hide-details v-model="problemFeedback"></v-textarea>
-        </v-col>
-    </v-row>
-    <v-row>
-        <v-col style="text-align: end;">
-            <v-btn color="indigo" :disabled="!examStore.exam_id" @click="examCreateSave">저장</v-btn>
-        </v-col>
-    </v-row>
+        <v-row>
+            <v-col cols="9" class="pt-0">
+                <h3>시험문제</h3>
+                <v-textarea variant="outlined" hide-details v-model="question" />
+            </v-col>
+                <v-col cols="3" class="pt-0">
+                    <h3>정답</h3>
+                    <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
+                </v-col>
+            <v-col v-if="questionTypes === '단답형'">
+                <h3>시험문제 예문 & 코드 </h3>
+                <v-text-field variant="outlined" hide-details v-model="problem" />
+            </v-col>
+            <v-col v-else-if="questionTypes === '객관식'">
+                <h3>시험문제 예문 & 코드 </h3>
+                <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
+                    <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
+                    <label :for="index + 1" class="examQuestion-label">
+                        <span class="examQuestion-Num">{{ option.no1 }}</span>
+                    </label>
+                    <v-text-field hide-details variant="outlined" v-model="option.value" />
+                </v-col>
+            </v-col>
 
+            <v-col v-if="questionTypes === '주관식' || questionTypes === '서술형'">
+                <h3>시험문제 예문 & 코드 </h3>
+                <v-textarea variant="outlined" hide-details v-model="problem" />
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" class="pt-0">
+                <h3>문제풀이</h3>
+                <v-textarea variant="outlined" hide-details v-model="problemExplanation"></v-textarea>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col class="py-0">
+                <h3>오답피드백</h3>
+                <v-textarea variant="outlined" hide-details v-model="problemFeedback"></v-textarea>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col style="text-align: end;">
+                <v-btn color="indigo" :disabled="!examStore.exam_id" @click="examCreateSave">저장</v-btn>
+            </v-col>
+        </v-row>
+    </div>
 </v-container>
 </template>
 
@@ -126,11 +136,25 @@ const questionOptions = ref([
 const question = ref('');
 const answer = ref('');
 const addResult = ref('답 : ');
+const subjects = ref([]);
 const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
+const isCheckExamId = ref(false);
 
 function addAnswer () {
     addResult.value += `\n답 : ${answer.value}`;
+}
+
+function subjectSearch () {
+
+    axios.get('/subject', {
+        params: {
+            exam_id: examStore.exam_id
+        }
+    }).then (res => {
+        subjects.value = res.data.rows;
+        isCheckExamId.value = !isCheckExamId.value;
+    });
 }
 
 async function examCreateSave () {
@@ -173,7 +197,8 @@ async function examCreateSave () {
         user_id: userId.value,
         questionStorages: questionStorages,
         problemStorages: problemStorages,
-        today: getFullDate(today)
+        today: getFullDate(today),
+        subject_id: subjects.value.subject_id 
     }).then(res => {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (sucessMsg)

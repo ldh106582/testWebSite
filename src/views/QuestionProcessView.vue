@@ -166,8 +166,6 @@ async function search () {
         const data = res.data;
 
         data.result === true ? '' : questionStorage.value = data.rows;
-
-        console.log(questionStorage.value)
     });
 }
 

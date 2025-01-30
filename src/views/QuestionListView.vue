@@ -25,7 +25,7 @@
 
         <v-row>
             <v-col cols="2" class="pb-0">
-                <h3>시험 조회</h3>
+                <h3>시험 과목</h3>
             </v-col>
             <v-col cols="2" class="pb-0">
                 <h3>시험 타입</h3>
@@ -43,7 +43,8 @@
 
         <v-row>
             <v-col cols="2" class="pb-0">
-                <v-autocomplete hide-details variant="outlined" :items="examStore.list" item-title="exam_name" item-value="exam_id" v-model="examStore.exam_id" />
+                <v-autocomplete hide-details variant="outlined" :items="examStore.list" item-title="exam_name" item-value="exam_id" 
+                v-model="examStore.exam_id" />
             </v-col>
             <v-col cols="2" class="pb-0">
                 <v-select hide-details variant="outlined" v-model="selectedTypes" :items="questionTypes" multiple>
@@ -126,6 +127,7 @@
                 </v-select>
             </v-col>
             <v-col class="search ml-3">
+                <!--<v-btn color="primary" @click="search('All')">전체</v-btn>-->
                 <v-btn color="primary" @click="search">검색</v-btn>
             </v-col>
         </v-row>
@@ -228,9 +230,17 @@ function showQuestion (rows, index) {
     });
 }
 
-function search () {
+async function search () {
 
-    axios.get('/question-problem-group-desc', {
+    /*f (worth === 'All') {
+        startDate.value === undefined;
+        selectedTypes.value === undefined;
+        selectedYears.value === undefined;
+        selectedAcademicYears.value === undefined;
+        selectedLevels.value === undefined;
+        examStore.exam_id.value === undefined;
+    }*/
+    await axios.get('/question-problem-group-desc', {
         params: {
             start_date: startDate.value,
             end_date: endDate.value,
@@ -238,15 +248,15 @@ function search () {
             question_year: selectedYears.value,
             question_academic_year: selectedAcademicYears.value,
             question_level: selectedLevels.value,
+            exam_id: examStore.exam_id === undefined ? undefined : examStore.exam_id,
             page: ( page.value - 1),
             countPage: ( countPage.value - 1),
         }
-    }).then(res => {
+    }).then(async res => {
         res.data.rows.forEach(q => {
             q.create_date = getFullDate(q.create_date);
         });
-
-        questions.value = res.data.rows;
+        questions.value = await res.data.rows;
     });
 }
 

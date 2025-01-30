@@ -48,7 +48,7 @@
                 </v-col>
                 <v-col class="pa-0 d-flex" cols="auto" v-for="(storage, index) in subjectStorage" :key="index" style="align-items: center;">
                     <v-text-field v-if="isToggle" variant="outlined" hide-details class="pa-0" v-model="storage.subject" />
-                    <v-btn class="ml-3" color="red" @click="deleteSubject(index)">삭제</v-btn>
+                    <v-btn v-if="isToggle" class="ml-3" color="red" @click="deleteSubject(index)">삭제</v-btn>
                 </v-col>
             </v-col>
             <v-col class="px-1" cols="12" >
@@ -88,7 +88,29 @@ function addSubject () {
 }
 
 function deleteSubject (index) {
-    subjectStorage.value.splice(index);
+    const confirmMsg = '시험 과목을 삭제하시겠습니까?';
+    const cancelMsg = '취소되었습니다.';
+    const succesMsg = '시험과목이 삭제되었습니다.';
+    const errorMsg = '시험과목을 삭제하던 중 오류가 발생하였습니다. 다시 시도해주세요.';
+    
+    if (!confirm(confirmMsg)) {
+        return alert (cancelMsg);
+    }
+
+    axios.delete('/subject', {
+        params: {
+            subject_id: subjectStorage.value[index].subject_id,
+        }
+    }).then(res => {
+        const data = res.data;
+
+        if (data.result) {
+            return alert (errorMsg);
+        } else {
+            subjectStorage.value.splice(index);
+            return alert (succesMsg);
+        } 
+    });
 }
 
 function search () {
@@ -148,7 +170,6 @@ function examSave (id) {
         subject: subjectStorage.value
     }).then(res => {
         const data = res.data;
-
         data.result === true ? alert (errorMsg) : alert (succesMsg)
     });
 }
