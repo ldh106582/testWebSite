@@ -127,7 +127,6 @@
                 </v-select>
             </v-col>
             <v-col class="search ml-3">
-                <!--<v-btn color="primary" @click="search('All')">전체</v-btn>-->
                 <v-btn color="primary" @click="search">검색</v-btn>
             </v-col>
         </v-row>
@@ -232,14 +231,6 @@ function showQuestion (rows, index) {
 
 async function search () {
 
-    /*f (worth === 'All') {
-        startDate.value === undefined;
-        selectedTypes.value === undefined;
-        selectedYears.value === undefined;
-        selectedAcademicYears.value === undefined;
-        selectedLevels.value === undefined;
-        examStore.exam_id.value === undefined;
-    }*/
     await axios.get('/question-problem-group-desc', {
         params: {
             start_date: startDate.value,

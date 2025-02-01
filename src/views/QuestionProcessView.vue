@@ -26,13 +26,13 @@
 
         <v-row id="exam">
             <v-col cols="2" class="px-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" :value="`${questionStorage.create_date}-${questionStorage.exam_id}`" />
             </v-col>
             <v-col cols="2" class="px-0 pt-0 ml-3">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" :value="questionStorage.exam_name" />
             </v-col>
             <v-col cols="2" class="px-0 pt-0 ml-3">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" :value="questionStorage.user_id"/>
             </v-col>
 
             <v-col align="end">
@@ -62,34 +62,34 @@
             <v-col cols="1" class="pl-0">
                 <h3>레벨</h3>
             </v-col>
-            <v-col cols="5" class="pl-0">
+            <v-col cols="2" class="pl-0">
                 <h3>주제</h3>
             </v-col>
         </v-row>
 
         <v-row>
+            <v-col cols="2" class="pl-0 py-0">
+                <v-text-field hide-details variant="outlined" :value="`${questionStorage.create_date}-${questionStorage.question_id}`" />
+            </v-col>
+            <v-col cols="1" class="pl-0 pt-0">
+                <v-text-field hide-details variant="outlined" :value="questionStorage.question_points" />
+            </v-col>
+            <v-col cols="1" class="pl-0 pt-0">
+                <v-text-field hide-details variant="outlined" :value="questionStorage.question_year" />
+            </v-col>
             <v-col cols="2" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" :value="questionStorage.question_academic_year" />
             </v-col>
             <v-col cols="1" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
-            </v-col>
-            <v-col cols="1" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" :value="questionStorage.question_level" />
             </v-col>
             <v-col cols="2" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
-            </v-col>
-            <v-col cols="1" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
-            </v-col>
-            <v-col cols="5" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" :value="questionStorage.subject"></v-text-field>
             </v-col>
         </v-row>
 
-        <v-row class="mt-2">
-            <v-col class="px-0" style="border-bottom: 2px solid black;">
+        <v-row>
+            <v-col class="px-0 pt-0" style="border-bottom: 2px solid black;">
                 <h2>Problem</h2>
             </v-col>
         </v-row>
@@ -105,10 +105,10 @@
 
         <v-row>
             <v-col cols="9" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" v-model="questionStorage.problem" />
             </v-col>
             <v-col cols="3" class="pl-0 pt-0">
-                <v-text-field hide-details variant="outlined" ></v-text-field>
+                <v-text-field hide-details variant="outlined" v-model="questionStorage.answer" />
             </v-col>
         </v-row>
 
@@ -119,7 +119,7 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="pl-0 pt-0   ">
-                <v-textarea hide-details variant="outlined" ></v-textarea>
+                <v-textarea hide-details variant="outlined" v-model="questionStorage.problem_explanation" />
             </v-col>
         </v-row>
 
@@ -130,7 +130,7 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="pl-0 pt-0">
-                <v-textarea hide-details variant="outlined" ></v-textarea>
+                <v-textarea hide-details variant="outlined"  v-model="questionStorage.problem_feedback" />
             </v-col>
         </v-row>
 
@@ -149,9 +149,13 @@
 import { ref, onMounted } from 'vue';
 import axios from '@/axios';
 import router from '@/router';
+import useMoment from '@/mixins/useMoment';
 
 const questionStorage = ref([]);
+const problemStorage = ref([]);
 const isCheckLoading = ref(false);
+
+const { getUnix } = useMoment();
 
 async function search () {
 
@@ -162,10 +166,16 @@ async function search () {
         params: {
             question_id: questionId,
         }
-    }).then(res => {
+    }).then(async res => {
         const data = res.data;
 
-        data.result === true ? '' : questionStorage.value = data.rows;
+        await data.rows.forEach(q => {
+            q.create_date = getUnix(q.create_date);
+            q.answer = JSON.stringify(q.anwser)
+        });
+
+        questionStorage.value = data.rows[0];
+        console.log(        questionStorage.value)
     });
 }
 
