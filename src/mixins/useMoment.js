@@ -7,7 +7,7 @@ export default function useMoment () {
     }
 
     function getFullDate (date) {
-        const today = moment().format('YYYY-MM-DD');
+        const today = moment(date).format('YYYY-MM-DD');
         return today
     }
 
