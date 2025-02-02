@@ -245,7 +245,6 @@ async function search () {
         }
     }).then(async res => {
         res.data.rows.forEach(q => {
-            console.log(q.create_date)
             q.create_date = getFullDate(q.create_date);
         });
         questions.value = await res.data.rows;

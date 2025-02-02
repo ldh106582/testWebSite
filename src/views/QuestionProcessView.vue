@@ -172,8 +172,6 @@ async function search () {
         }
     }).then(async res => {
         const data = await res.data;
-        console.log(data)
-
         await data.rows.forEach(async q => {
             q.create_date = getUnix(q.create_date);
             q.answer = JSON.stringify(q.anwser)
@@ -184,6 +182,13 @@ async function search () {
 }
 
 function deleteQuestion () {
+    const confirmMsg = '문제를 삭제하시겠습니까?';
+    const cancelMsg = '취소되었습니다.';
+    const sucessMsg = '삭제되었습니다.';
+
+    if (!confirm(confirmMsg)) {
+        return alert (cancelMsg);
+    }
     
     axios.delete('/question', {
         params: {
@@ -192,6 +197,10 @@ function deleteQuestion () {
         }
     }).then(res => {
         const data = res.data;
+        if (data.result !== true) {
+            alert (sucessMsg);
+            router.push({ path: '/question-list' });
+        } 
     });
 }
 

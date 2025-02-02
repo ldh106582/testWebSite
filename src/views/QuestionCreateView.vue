@@ -201,6 +201,7 @@ async function examCreateSave () {
         subject_id: subjects.value.subject_id 
     }).then(res => {
         const data = res.data;
+        console.log(data)
         data.result === true ? alert (errorMsg) : alert (sucessMsg)
     });
     
