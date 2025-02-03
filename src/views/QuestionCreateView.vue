@@ -39,7 +39,7 @@
                 v-model="subjects.subject_id" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-text-field label="시험점수" v-model="questionPoint"></v-text-field>
+                <v-text-field label="시험점수" type="number" v-model="questionPoint"></v-text-field>
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
                 <v-select label="시험난이도" :items="questionLevels" v-model="selectedLevel"></v-select>

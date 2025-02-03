@@ -55,16 +55,16 @@
                 <v-col cols="2" class="pl-0">
                     <h3>번호</h3>
                 </v-col>
-                <v-col cols="1" class="pl-0">
+                <v-col cols="2" class="pl-0">
                     <h3>점수</h3>
                 </v-col>
-                <v-col cols="1" class="pl-0">
+                <v-col cols="2" class="pl-0">
                     <h3>년도</h3>
                 </v-col>
                 <v-col cols="2" class="pl-0">
                     <h3>Academic_Year</h3>
                 </v-col>
-                <v-col cols="1" class="pl-0">
+                <v-col cols="2" class="pl-0">
                     <h3>레벨</h3>
                 </v-col>
                 <v-col cols="2" class="pl-0">
@@ -76,20 +76,22 @@
                 <v-col cols="2" class="pl-0 py-0">
                     <v-text-field hide-details variant="outlined" :value="`${questionStorage.create_date}-${questionStorage.question_id}`" />
                 </v-col>
-                <v-col cols="1" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" :value="questionStorage.question_points" />
-                </v-col>
-                <v-col cols="1" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" :value="questionStorage.question_year" />
+                <v-col cols="2" class="pl-0 pt-0">
+                    <v-text-field hide-details variant="outlined" type="number" v-model="questionStorage.question_points" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" :value="questionStorage.question_academic_year" />
-                </v-col>
-                <v-col cols="1" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" :value="questionStorage.question_level" />
+                    <v-select hide-details variant="outlined" :items="questionYears" v-model="questionStorage.question_year" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" :value="questionStorage.subject"></v-text-field>
+                    <v-select hide-details variant="outlined" :items="questionAcademicYears" 
+                    v-model="questionStorage.question_academic_year" />
+                </v-col>
+                <v-col cols="2" class="pl-0 pt-0">
+                    <v-select hide-details variant="outlined" :items="questionLevels" v-model="questionStorage.question_level" />
+                </v-col>
+                <v-col cols="2" class="pl-0 pt-0">
+                    <v-select hide-details variant="outlined" :items="subjects" 
+                    item-title="subject" item-value="subject_id" v-model="questionStorage.subject" />
                 </v-col>
             </v-row>
 
@@ -141,7 +143,7 @@
 
             <v-row>
                 <v-col align="end" class="pr-0">
-                    <v-btn color="blue" class="mr-3" @click="saveAll">저장</v-btn>
+                    <v-btn color="blue" class="mr-3" @click="save">저장</v-btn>
                 </v-col>
             </v-row>
         </div>
@@ -154,10 +156,12 @@ import { ref, onMounted } from 'vue';
 import axios from '@/axios';
 import router from '@/router';
 import useMoment from '@/mixins/useMoment';
+import useQuestionStorage from '@/mixins/useQuestionStorage';
 
 const questionStorage = ref([]);
-const problemStorage = ref([]);
+const subjects = ref([]);
 const isCheckLoading = ref(false);
+const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 
 const { getUnix } = useMoment();
 
@@ -177,7 +181,8 @@ async function search () {
             q.answer = JSON.stringify(q.anwser)
         });
 
-        questionStorage.value = data.rows[0];
+        questionStorage.value = await data.rows[0];
+        subjects.value = await data.rows1;
     });
 }
 
@@ -201,6 +206,18 @@ function deleteQuestion () {
             alert (sucessMsg);
             router.push({ path: '/question-list' });
         } 
+    });
+}
+
+function save () {
+    const errorMsg = '저장 하는 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
+
+    axios.put('', {
+        questionStorage : questionStorage.value,
+    }).then(res => {
+        const data = res.data;
+
+
     });
 }
 
