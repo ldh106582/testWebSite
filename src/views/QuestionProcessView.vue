@@ -112,10 +112,10 @@
 
             <v-row>
                 <v-col cols="9" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" v-model="questionStorage.problem" />
+                    <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
                 </v-col>
                 <v-col cols="3" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" v-model="questionStorage.answer" />
+                    <v-textarea hide-details variant="outlined" @keydown.enter.prevent="addAnswer" v-model="addResult" />
                 </v-col>
             </v-row>
 
@@ -161,9 +161,14 @@ import useQuestionStorage from '@/mixins/useQuestionStorage';
 const questionStorage = ref([]);
 const subjects = ref([]);
 const isCheckLoading = ref(false);
+const addResult = ref('');
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 
 const { getUnix } = useMoment();
+
+function addAnswer () {
+    addResult.value += `\n답 : ${answer.value}`;
+}
 
 async function search () {
 
@@ -178,9 +183,8 @@ async function search () {
         const data = await res.data;
         await data.rows.forEach(async q => {
             q.create_date = getUnix(q.create_date);
-            q.answer = JSON.stringify(q.anwser)
+            addResult.value = `답: ${q.answer.map(i => i['답'])}`;
         });
-
         questionStorage.value = await data.rows[0];
         subjects.value = await data.rows1;
     });
@@ -212,13 +216,13 @@ function deleteQuestion () {
 function save () {
     const errorMsg = '저장 하는 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
 
-    axios.put('', {
-        questionStorage : questionStorage.value,
+    console.log(questionStorage.value)
+    /*axios.put('/question', {
+        questionStorages : questionStorage.value,
     }).then(res => {
         const data = res.data;
-
-
-    });
+        data.result !== true ? alert (errorMsg) :  search();
+    });*/
 }
 
 onMounted(async () => {
