@@ -167,7 +167,7 @@ const { questionTypes, questionYears, questionAcademicYears, questionLevels } = 
 const { getUnix } = useMoment();
 
 function addAnswer () {
-    addResult.value += `\n답 : ${answer.value}`;
+    addResult.value += `\n답 : `;
 }
 
 async function search () {
@@ -183,7 +183,7 @@ async function search () {
         const data = await res.data;
         await data.rows.forEach(async q => {
             q.create_date = getUnix(q.create_date);
-            addResult.value = `답: ${q.answer.map(i => i['답'])}`;
+            addResult.value = `답 : ${q.answer.map(i => i['답'])}`;
         });
         questionStorage.value = await data.rows[0];
         subjects.value = await data.rows1;
@@ -215,14 +215,27 @@ function deleteQuestion () {
 
 function save () {
     const errorMsg = '저장 하는 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
+    const sucessMsg = '저장되었습니다.';
 
+    let answers = [];
+    console.log(addResult.value)
+    const splitAnswer = (addResult.value).split('답 : ');
+    splitAnswer.forEach(s => {
+        if (s.trim() !== '') {
+            const jsonAnswer = {
+                '답': s.replace(/\s+/g, '')
+            };
+            answers.push(jsonAnswer);
+        }
+    });
+    questionStorage.value.answer = JSON.stringify(answers)
     console.log(questionStorage.value)
-    /*axios.put('/question', {
+    axios.put('/question', {
         questionStorages : questionStorage.value,
     }).then(res => {
         const data = res.data;
-        data.result !== true ? alert (errorMsg) :  search();
-    });*/
+        data.result !== true ? alert (errorMsg) :  alert (sucessMsg);
+    });
 }
 
 onMounted(async () => {
