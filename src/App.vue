@@ -65,6 +65,15 @@
           ></v-list-item>
         </v-list-group>
       </v-list>
+
+      <v-list>
+        <v-list-item 
+        class="sideBar-text"
+        @click="goingPractice"
+        >Practice
+        </v-list-item>
+    </v-list>
+      
     </v-navigation-drawer>
 
     
@@ -137,6 +146,12 @@ function logout () {
 
   auth.logout(auth.userId);
   router.push('/');
+}
+
+function goingPractice () {
+  router.push({
+    path: '/practice'
+  })
 }
 
 </script>

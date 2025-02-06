@@ -85,6 +85,14 @@ const routes = [
             isAisAuthenticated: false
         }
     },
+    {
+        path: '/practice',
+        name: 'practice',
+        component: () => import('@/views/PracticeView.vue'),
+        meta: {
+            isAisAuthenticated: false
+        }
+    },
     
 ]
 

@@ -112,7 +112,7 @@
 
             <v-row>
                 <v-col cols="9" class="pl-0 pt-0">
-                    <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
+                    <v-textarea hide-details variant="outlined" v-model="problem" />
                 </v-col>
                 <v-col cols="3" class="pl-0 pt-0">
                     <v-textarea hide-details variant="outlined" @keydown.enter.prevent="addAnswer" v-model="addResult" />
@@ -162,6 +162,7 @@ const questionStorage = ref([]);
 const subjects = ref([]);
 const isCheckLoading = ref(false);
 const addResult = ref('');
+const problem = ref('');
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 
 const { getUnix } = useMoment();
@@ -183,7 +184,8 @@ async function search () {
         const data = await res.data;
         await data.rows.forEach(async q => {
             q.create_date = getUnix(q.create_date);
-            addResult.value = `답 : ${q.answer.map(i => i['답'])}`;
+            addResult.value = q.answer.map(i => `답 : ${i['답']}`).join('\n');
+            problem.value = q.problem;
         });
         questionStorage.value = await data.rows[0];
         subjects.value = await data.rows1;
@@ -218,7 +220,6 @@ function save () {
     const sucessMsg = '저장되었습니다.';
 
     let answers = [];
-    console.log(addResult.value)
     const splitAnswer = (addResult.value).split('답 : ');
     splitAnswer.forEach(s => {
         if (s.trim() !== '') {
@@ -229,7 +230,7 @@ function save () {
         }
     });
     questionStorage.value.answer = JSON.stringify(answers)
-    console.log(questionStorage.value)
+    questionStorage.value.problem = JSON.stringify(problem.value);
     axios.put('/question', {
         questionStorages : questionStorage.value,
     }).then(res => {
