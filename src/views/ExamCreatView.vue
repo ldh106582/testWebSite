@@ -18,26 +18,48 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="12" class="py-0">
+            <v-col cols="6" class="py-0">
                 <h3>시험시간</h3>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="6" class="py-0">
+                <h3>시험 문제수</h3>
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col cols="6">
                 <v-text-field hide-details variant="outlined" placeholder="ex)02시간30분, 01시간, 03시간 등 시험 시간 기재" 
-                v-model="examTime"
-                />
+                v-model="examTime" />
+            </v-col>
+            <v-col cols="6">
+                <v-text-field hide-details variant="outlined" v-model="examTotal" />
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="12" class="py-0">
+            <v-col cols="6" class="py-0 mt-3">
                 <h3>시험과목</h3>
             </v-col>
-            <v-col cols="12" class="px-0">
+            <v-col cols="6" class="py-0 mt-3">
+                <h3>시함과목 문제 수</h3>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="6" class="pa-0">
                 <v-list>
                     <v-list-item-group>
                         <v-list-item v-for="(subject, index) in subjects" :key="index">
                             <v-text-field hide-details variant="outlined" 
                             placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등 시험 진행 시 part 입력" 
                             v-model="subjects[index]"/>  
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-col>
+            <v-col cols="6" class="pa-0">
+                <v-list>
+                    <v-list-item-group>
+                        <v-list-item v-for="(total, index) in subjectTotal" :key="index">
+                            <v-text-field hide-details variant="outlined" v-model="subjectTotal[index]"/>  
                         </v-list-item>
                     </v-list-item-group>
                 </v-list>
@@ -69,14 +91,17 @@ import axios from '@/axios';
 const examName = ref('');
 const examDes = ref('');
 const examTime = ref('');
+const examTotal = ref(0);
 const isSearch = ref(true);
 const subjects = ref(['']);
 const newSubject = ref('');
-
+const subjectTotal = ref([0]);
 
 function addSubject () {
-    const copie = JSON.parse(JSON.stringify(newSubject.value));
-    subjects.value.push(copie)
+    const subjectCopie = JSON.parse(JSON.stringify(newSubject.value));
+    subjects.value.push(subjectCopie)
+
+    subjectTotal.value.push(0);
 }
 
 function searchExam () {
@@ -118,11 +143,16 @@ function saveExam () {
         {exam_name: examName.value.replace(/ /g, '')},
         {exam_des: examDes.value},
         {exam_time: examTime.value},
-    ]
+    ];
+
+    const subjectStroage = [
+        {subject: subjects.value},
+        {subject_total: subjectTotal.value},
+    ];
 
     axios.post('/exam', {
         examStorage: examStorage,
-        subjects: subjects.value,
+        subjectStroage: subjectStroage,
     }).then(res => {
         const data = res.data;        
         if (data.result) {
