@@ -84,7 +84,7 @@ describe('ExamTypeUpdateView', () => {
             await flushPromises();
 
             expect(axios.get).toBeCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/exam', {
+            expect(axios.get).toHaveBeenCalledWith('/exam-join-subject', {
                 params: {
                     exam_id: mockExamId,
                 }

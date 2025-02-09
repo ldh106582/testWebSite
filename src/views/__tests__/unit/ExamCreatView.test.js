@@ -6,8 +6,11 @@ import { flushPromises, mount } from "@vue/test-utils";
 describe('ExamTypeCreatView', () => {
     let wrapper;
     const mockExamName = '정보처리기사';
-    const mockExamDescription = "test description";
+    const mockExamDes = "test description";
     const mockExamTime = '02시간 30분';
+    const mockExamTotal = 100;
+    const mockSubject = ['SQL'];
+    const mockSubjectTotal = [50];
     
     let alertSpy = '';
     let confirmSpy = '';
@@ -120,24 +123,36 @@ describe('ExamTypeCreatView', () => {
 
     });
 
-    describe('createExam 함수', () => {
+    describe('saveExam 함수', () => {
         test('axios post 연결확인', async () => {
             confirmSpy.mockImplementation(() => true); 
             wrapper.vm.examName = mockExamName;
-            wrapper.vm.examDescription = mockExamDescription;
+            wrapper.vm.examDes = mockExamDes;
             wrapper.vm.examTime = mockExamTime;
+            wrapper.vm.examTotal = mockExamTotal;
+            wrapper.vm.subjects = mockSubject;
+            wrapper.vm.subjectTotal = mockSubjectTotal;
+            const mockExamStorage = [
+                {exam_name: mockExamName},
+                {exam_des: mockExamDes},
+                {exam_time: mockExamTime},
+                {exam_total: mockExamTotal},
+            ];
+            const mockSubjectStorage = [
+                {subject : mockSubject},
+                {subject_total: mockSubjectTotal},
+            ]
             wrapper.vm.isSearch = true;
             await wrapper.vm.$nextTick();
 
-            wrapper.vm.createExam();
+            wrapper.vm.saveExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
             expect(axios.post).toBeCalledTimes(1);
             expect(axios.post).toHaveBeenCalledWith('/exam', {
-                exam_name: mockExamName,
-                exam_description: mockExamDescription,
-                exam_time: mockExamTime
+                examStorage: mockExamStorage,
+                subjectStorage : mockSubjectStorage
             });
         });
 
@@ -147,10 +162,10 @@ describe('ExamTypeCreatView', () => {
             const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
 
             wrapper.vm.examName = mockExamName;
-            wrapper.vm.examDescription = mockExamDescription;
+            wrapper.vm.examDescription = mockExamDes;
             wrapper.vm.examTime = mockExamTime;
             
-            await wrapper.vm.createExam();
+            await wrapper.vm.saveExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
 
@@ -161,7 +176,7 @@ describe('ExamTypeCreatView', () => {
             const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
         
             wrapper.vm.examName = mockExamName;
-            wrapper.vm.examDescription = mockExamDescription;
+            wrapper.vm.examDescription = mockExamDes;
             wrapper.vm.examTime = mockExamTime;
             confirmSpy.mockImplementation(() => true);
         
@@ -173,7 +188,7 @@ describe('ExamTypeCreatView', () => {
             });
         
             await wrapper.vm.$nextTick();
-            await wrapper.vm.createExam();
+            await wrapper.vm.saveExam();
             await wrapper.vm.$nextTick();
             await flushPromises();
         

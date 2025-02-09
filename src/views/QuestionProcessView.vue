@@ -25,19 +25,25 @@
                     <h3>유형 이름</h3>
                 </v-col>
                 <v-col cols="2" class="px-0 ml-3">
+                    <h3>시험 문제 수</h3>
+                </v-col>
+                <v-col cols="2" class="px-0 ml-3">
                     <h3>작성자</h3>
                 </v-col>
             </v-row>
 
             <v-row id="exam">
                 <v-col cols="2" class="px-0 pt-0">
-                    <v-text-field hide-details variant="outlined" :value="`${questionStorage.create_date}-${questionStorage.exam_id}`" />
+                    <v-text-field hide-details variant="outlined" readonly :value="`${questionStorage.create_date}-${questionStorage.exam_id}`" />
                 </v-col>
                 <v-col cols="2" class="px-0 pt-0 ml-3">
-                    <v-text-field hide-details variant="outlined" :value="questionStorage.exam_name" />
+                    <v-text-field hide-details variant="outlined" readonly :value="questionStorage.exam_name" />
                 </v-col>
                 <v-col cols="2" class="px-0 pt-0 ml-3">
-                    <v-text-field hide-details variant="outlined" :value="questionStorage.user_id"/>
+                    <v-text-field hide-details variant="outlined" readonly :value="questionStorage.exam_total" />
+                </v-col>
+                <v-col cols="2" class="px-0 pt-0 ml-3">
+                    <v-text-field hide-details variant="outlined" readonly :value="questionStorage.user_id"/>
                 </v-col>
 
                 <v-col align="end">
@@ -74,7 +80,7 @@
 
             <v-row>
                 <v-col cols="2" class="pl-0 py-0">
-                    <v-text-field hide-details variant="outlined" :value="`${questionStorage.create_date}-${questionStorage.question_id}`" />
+                    <v-text-field hide-details variant="outlined" readonly :value="`${questionStorage.create_date}-${questionStorage.question_id}`" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
                     <v-text-field hide-details variant="outlined" type="number" v-model="questionStorage.question_points" />

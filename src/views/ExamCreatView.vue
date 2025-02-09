@@ -6,8 +6,9 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="12" class="mt-5">
+            <v-col cols="12" class="mt-5 d-flex">
                 <h3>주제</h3>
+                <span class="ml-1">(띄워쓰기 사용금지)</span>
             </v-col>
             <v-col cols="12" class="py-0">
                 <v-text-field variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험 제목"
@@ -79,7 +80,7 @@
             </v-col>
             <v-col cols="12" class="py-0" style="text-align: end;">
                 <v-btn color="indigo" :disabled="isSearch" @click="saveExam">저장</v-btn>
-            </v-col>x
+            </v-col>
         </v-row>
     </v-container>
 </template>
@@ -143,16 +144,17 @@ function saveExam () {
         {exam_name: examName.value.replace(/ /g, '')},
         {exam_des: examDes.value},
         {exam_time: examTime.value},
+        {exam_total: examTotal.value},
     ];
 
-    const subjectStroage = [
+    const subjectStorage = [
         {subject: subjects.value},
         {subject_total: subjectTotal.value},
     ];
 
     axios.post('/exam', {
         examStorage: examStorage,
-        subjectStroage: subjectStroage,
+        subjectStorage: subjectStorage,
     }).then(res => {
         const data = res.data;        
         if (data.result) {

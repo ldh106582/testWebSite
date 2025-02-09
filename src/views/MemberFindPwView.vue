@@ -50,14 +50,12 @@ async function findPw () {
             return alert (errorMsg);
         } else {
             alert (confirmMsg);
-
             auth.login (userInfo);
-
             router.push({ 
                 path: '/member-changepw', 
                 query: { 
                     userId: userId.value,
-                    userPw: userInfo.row[0].user_pw,
+                    userPw: userInfo.user_pw,
                 } 
             });
         }

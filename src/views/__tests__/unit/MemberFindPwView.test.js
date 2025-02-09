@@ -51,7 +51,7 @@ describe('MemberFindPwView', () => {
         vi.spyOn(axios, 'get').mockResolvedValue({
             data: { 
                 result : false,
-                rows: {}
+                row: {}
             }
         });
 
@@ -95,7 +95,7 @@ describe('MemberFindPwView', () => {
             const confrimMsg = '존재하는 아이디가 없습니다.';
             wrapper.vm.userId = userId;
             axios.get.mockResolvedValueOnce({
-                data: { result: true, rows: [{ user_id: userId }], token: 'mockToken' }
+                data: { result: true, row: [{ user_id: userId }, {user_pw: '1234'}], token: 'mockToken' }
             });
             const push = vi.spyOn(router, 'push');
             
