@@ -11,7 +11,7 @@
                 <span class="ml-1">(띄워쓰기 사용금지)</span>
             </v-col>
             <v-col cols="12" class="py-0">
-                <v-text-field variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험 제목"
+                <v-text-field data-test="search-input" variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험 제목"
                 v-model="examName" />
             </v-col>
             <v-col style="text-align: end;" class="py-0">
@@ -29,11 +29,11 @@
 
         <v-row>
             <v-col cols="6">
-                <v-text-field hide-details variant="outlined" placeholder="ex)02시간30분, 01시간, 03시간 등 시험 시간 기재" 
+                <v-text-field data-test="examTime" hide-details variant="outlined" placeholder="ex)02시간30분, 01시간, 03시간 등 시험 시간 기재" 
                 v-model="examTime" />
             </v-col>
             <v-col cols="6">
-                <v-text-field hide-details variant="outlined" v-model="examTotal" />
+                <v-text-field data-test="examTotal" hide-details variant="outlined" v-model="examTotal" />
             </v-col>
         </v-row>
         <v-row>
@@ -49,7 +49,7 @@
                 <v-list>
                     <v-list-item-group>
                         <v-list-item v-for="(subject, index) in subjects" :key="index">
-                            <v-text-field hide-details variant="outlined" 
+                            <v-text-field data-test="subjects" hide-details variant="outlined" 
                             placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등 시험 진행 시 part 입력" 
                             v-model="subjects[index]"/>  
                         </v-list-item>
@@ -60,7 +60,7 @@
                 <v-list>
                     <v-list-item-group>
                         <v-list-item v-for="(total, index) in subjectTotal" :key="index">
-                            <v-text-field hide-details variant="outlined" v-model="subjectTotal[index]"/>  
+                            <v-text-field data-test="subjectTotal" hide-details variant="outlined" v-model="subjectTotal[index]"/>  
                         </v-list-item>
                     </v-list-item-group>
                 </v-list>
@@ -76,10 +76,10 @@
                 <h3>설명</h3>
             </v-col>
             <v-col cols="12" class="pb-0" style="height: 100%;">
-                <v-textarea variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDes"></v-textarea>
+                <v-textarea data-test="examDes" variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDes"></v-textarea>
             </v-col>
             <v-col cols="12" class="py-0" style="text-align: end;">
-                <v-btn color="indigo" :disabled="isSearch" @click="saveExam">저장</v-btn>
+                <v-btn data-test="saveExam" color="indigo" :disabled="isSearch" @click="saveExam">저장</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -107,7 +107,7 @@ function addSubject () {
 
 function searchExam () {
     const errorMsg = '데이터를 등록해주세요.';
-    const resultMsg = '해당하는 시험은 이미 존재합니다.'
+    const resultMsg = '해당하는 시험은 이미 존재합니다.';
     const nullMsg = '주제를 입력해주세요';
 
     if (examName.value === '') return alert (nullMsg)
@@ -130,12 +130,14 @@ function searchExam () {
 };
 
 function saveExam () {
+    const confirmMsg = '데이터를 저장하시겠습니까?';
+    const cancelMsg = '취소되었습니다.';
     const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
     const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
     const nullMsg = '주제를 입력해주세요';
 
-    if (!confirm('데이터를 저장하시겠습니까?')) {
-        return
+    if (!confirm (confirmMsg)) {
+        return alert (cancelMsg);
     } else if (examName.value === '') {
         return alert (nullMsg)
     }
