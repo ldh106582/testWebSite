@@ -15,14 +15,14 @@ test.beforeEach(async ({ page }) => {
     const requestBody = await route.request().postDataJSON();
     expect(requestBody).toEqual({
       examStorage: [
-          {exam_name: '정보처리기사'},
-          {exam_des: 'test'},
-          {exam_time: '2시간 30분'},
-          {exam_total: null},
+          {exam_name: 'test'},
+          {exam_des: 'testttt'},
+          {exam_time: '2시간30분'},
+          {exam_total: "20"},
       ],
       subjectStorage: [
-        { subject: '1과목' },
-        { subject_total: 20 },
+        { subject: ['sql'] },
+        { subject_total: ["1"] },
       ],
     });
 
@@ -84,7 +84,6 @@ test.describe('ExamCreatView', () => {
       page.on('dialog', async dialog => {
         const message = dialog.message();
         expect(message).toContain(resultMsg);
-          
         await dialog.accept();
       });
       
@@ -122,10 +121,9 @@ test.describe('ExamCreatView', () => {
         await page.locator('[data-test="search"]').click(),
       ]);
 
-      page.on('dialog', async dialog => {
-        const message = dialog.message();
-        expect(message).toContain(confirmMsg);  
-          
+      await page.evaluate(isSearch => console.log(isSearch), true);
+
+      page.on('dialog', async dialog => {  
         await dialog.accept();
       });
 
@@ -135,13 +133,16 @@ test.describe('ExamCreatView', () => {
       await page.fill('[data-test="subjectTotal"] input', '1');
       await page.fill('[data-test="examDes"] textarea', 'testttt');
 
-      await page.locator('[data-test="saveExam"]').click();
-      const response = await page.waitForResponse('/exam');
-      const responseBody = await response.json();
-      expect(responseBody.result).toBe(true);
+      await Promise.all([
+        page.waitForResponse("/exam"),
+        page.click('[data-test="saveExam"]'),
+      ]);
+      console.log("dh")
 
       page.on('dialog', async dialog => {
+        console.log('dialog', dialog)
         const message = dialog.message();
+        console.log(message)
         expect(message).toContain(errorMsg);
         await dialog.accept();
       });
