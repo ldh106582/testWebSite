@@ -121,8 +121,6 @@ test.describe('ExamCreatView', () => {
         await page.locator('[data-test="search"]').click(),
       ]);
 
-      await page.evaluate(isSearch => console.log(isSearch), true);
-
       page.on('dialog', async dialog => {  
         await dialog.accept();
       });
@@ -133,12 +131,17 @@ test.describe('ExamCreatView', () => {
       await page.fill('[data-test="subjectTotal"] input', '1');
       await page.fill('[data-test="examDes"] textarea', 'testttt');
 
-      await Promise.all([
-        page.waitForResponse("/exam"),
-        page.click('[data-test="saveExam"]'),
-      ]);
-      console.log("dh")
+      await page.click('[data-test="saveExam"]');
 
+      const [saveResponse] = await Promise.all([
+        page.waitForResponse(response => 
+          response.url().includes('/exam') && 
+          (response.status() === 200 || response.status() === 400)
+        ),
+        page.click('[data-test="saveExam"]')
+      ]);
+
+      console.log("dh")
       page.on('dialog', async dialog => {
         console.log('dialog', dialog)
         const message = dialog.message();
