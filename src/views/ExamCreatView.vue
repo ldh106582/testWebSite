@@ -68,7 +68,7 @@
         </v-row>
         <v-row>
             <v-col cols="12" align="end" class="py-0">
-                <v-btn color="blue" @click="addSubject">추가</v-btn>
+                <v-btn data-test="addSubject" color="blue" @click="addSubject">추가</v-btn>
             </v-col>
         </v-row>
         <v-row>
@@ -166,7 +166,6 @@ function saveExam () {
         }
     });
 };
-
 
 </script>
 

@@ -1,5 +1,6 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
+import { ref } from 'vue';
 
 const url = 'http://localhost:5173/exam-create/?userId=admin';
 
@@ -110,7 +111,6 @@ test.describe('ExamCreatView', () => {
     });
 
     test('저장 실패했을 때', async ({ page } ) => {
-      const confirmMsg = '데이터를 저장하시겠습니까?';
       const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
 
       await page.waitForSelector('[data-test="search-input"] input'); 
@@ -121,7 +121,7 @@ test.describe('ExamCreatView', () => {
         await page.locator('[data-test="search"]').click(),
       ]);
 
-      page.on('dialog', async dialog => {  
+      page.on('dialog', async dialog => {
         await dialog.accept();
       });
 
@@ -131,25 +131,56 @@ test.describe('ExamCreatView', () => {
       await page.fill('[data-test="subjectTotal"] input', '1');
       await page.fill('[data-test="examDes"] textarea', 'testttt');
 
-      await page.click('[data-test="saveExam"]');
-
       const [saveResponse] = await Promise.all([
         page.waitForResponse(response => 
-          response.url().includes('/exam') && 
-          (response.status() === 200 || response.status() === 400)
+          response.url().includes('/exam') && response.status() === 200 
         ),
         page.click('[data-test="saveExam"]')
       ]);
 
-      console.log("dh")
       page.on('dialog', async dialog => {
-        console.log('dialog', dialog)
         const message = dialog.message();
-        console.log(message)
         expect(message).toContain(errorMsg);
         await dialog.accept();
       });
     });
+
+    test('저장 성공했을 경우', async ({ page }) => {
+      const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
+
+      await page.fill('[data-test="search-input"] input', 'test')
+
+      const [res] = await Promise.all([
+        page.waitForResponse(res => res.url().includes('/exam') && res.status() === 200),
+        await page.locator("[data-test='search']").click()
+      ]);
+
+      page.on('dialog', async dialog => {
+        await dialog.accept()
+      });
+
+      await page.fill("[data-test='examTime'] input", '2시간30분');
+      await page.fill("[data-test='examTotal'] input", '20');
+      await page.fill("[data-test='subjects'] input", 'sql');
+      await page.fill("[data-test='subjectTotal'] input", '5');
+      await page.fill("[data-test='examDes'] textarea", 'test');
+
+      const [response] = await Promise.all([
+        page.waitForResponse(res => res.url().includes('/exam') && res.status() === 200),
+        await page.locator("[data-test='search']").click()
+      ]);
+
+      page.on('dialog', async dialog => {
+        const message = dialog.message();
+        expect(message).toContain(successMsg);
+        await dialog.accept();
+      })
+    });
+
+    test('addSubject 함수', async ({ page }) => {
+      await page.click('[data-test="addSubject"]')
+    });
+
   });
 });
 
