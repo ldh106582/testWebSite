@@ -44,7 +44,7 @@
             <v-col class="px-1" cols="12">
                 <v-col class="px-0 d-flex" style="justify-content: space-between;">
                     <v-btn color="primary" @click="toggleVisible">시험과목</v-btn>
-                    <v-btn v-if="isToggle" color="green" @click="addSubject">과목추가</v-btn>
+                    <v-btn v-if="isToggle" data-test="addSubject" color="green" @click="addSubject">과목추가</v-btn>
                 </v-col>
                 <v-col class="pa-0 d-flex" cols="auto" v-for="(storage, index) in subjectStorage" :key="index" style="align-items: center;">
                     <v-col v-if="isToggle" cols="6" class="pl-0 py-1">

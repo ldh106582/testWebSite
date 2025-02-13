@@ -1,6 +1,5 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
-import { ref } from 'vue';
 
 const url = 'http://localhost:5173/exam-create/?userId=admin';
 
@@ -32,7 +31,7 @@ test.beforeEach(async ({ page }) => {
       body: JSON.stringify({ result: true }),
     });
   });
-})
+});
 
 test.describe('ExamCreatView', () => {
   test.describe('searchExam 함수', () => {
@@ -131,10 +130,12 @@ test.describe('ExamCreatView', () => {
       await page.fill('[data-test="subjectTotal"] input', '1');
       await page.fill('[data-test="examDes"] textarea', 'testttt');
 
+      await page.waitForSelector('[data-test="saveExam"]:not([disabled])');
       const [saveResponse] = await Promise.all([
         page.waitForResponse(response => 
           response.url().includes('/exam') && response.status() === 200 
         ),
+
         page.click('[data-test="saveExam"]')
       ]);
 
@@ -167,7 +168,7 @@ test.describe('ExamCreatView', () => {
 
       const [response] = await Promise.all([
         page.waitForResponse(res => res.url().includes('/exam') && res.status() === 200),
-        await page.locator("[data-test='search']").click()
+        await page.locator("[data-test='saveExam']").click()
       ]);
 
       page.on('dialog', async dialog => {
@@ -178,9 +179,8 @@ test.describe('ExamCreatView', () => {
     });
 
     test('addSubject 함수', async ({ page }) => {
-      await page.click('[data-test="addSubject"]')
+      await page.click('[data-test="addSubject"]');
     });
-
   });
 });
 
