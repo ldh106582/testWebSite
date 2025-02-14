@@ -107,7 +107,6 @@ const isCheckData = ref(true);
 const examStorages = ref([]);
 const subjectStorage = ref([]);
 const isToggle = ref(true);
-
 const examStore = useExamStore();
 
 function toggleVisible () {

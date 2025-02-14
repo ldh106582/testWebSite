@@ -163,8 +163,8 @@ test.describe('ExamCreatView', () => {
       await page.fill("[data-test='examTime'] input", '2시간30분');
       await page.fill("[data-test='examTotal'] input", '20');
       await page.fill("[data-test='subjects'] input", 'sql');
-      await page.fill("[data-test='subjectTotal'] input", '5');
-      await page.fill("[data-test='examDes'] textarea", 'test');
+      await page.fill("[data-test='subjectTotal'] input", '1');
+      await page.fill("[data-test='examDes'] textarea", 'testttt');
 
       const [response] = await Promise.all([
         page.waitForResponse(res => res.url().includes('/exam') && res.status() === 200),
