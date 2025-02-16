@@ -13,19 +13,30 @@ test.describe('ExamUpdateView', () => {
     // });
     
     test.describe('search', () => {
-        test('search 함수 작동 확인', async ({ page }) => {
+        test('데이터를 입력하지 않았을 때', async ({ page }) => {
+            const typeNameNull = '데이터를 먼저 입력해주세요.';
+            await page.fill('[data-test="search"] input', '');
+            page.on('dialog', async dialog => {
+                const message = dialog.message();
+                expect(message).toContain(typeNameNull);
+                await dialog.accept();
+            });
+            await page.click("[data-test='search-click']");
+        });
 
-            // 데이터 목록이 나타날 때까지 대기
-            await page.click('[data-test="search"]'); // v-list-item의 선택자 확인
+        test('search 함수 결과 출력 확인', async ({ page }) => {
+            await page.click('[data-test="search"]');
             await page.keyboard.down("ArrowDown");
             await page.keyboard.press("Enter");
-            await page.click("[data-test='search-click']")
+            await page.click("[data-test='search-click']");
             const [response] = await Promise.all([
-                await page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
-                await page.click('[data-test="search-click"]')
+                page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
+                page.click('[data-test="search-click"]')
             ]);
 
-            // expect(examName).toHaveText('정보처리기사')
+            const examName = page.locator('[data-test="examName"] input');
+            await expect(examName).toBeVisible();
+            await expect(examName).toHaveText('정보처리기사');
         });
-    });      
+    });
 });

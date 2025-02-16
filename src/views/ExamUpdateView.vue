@@ -32,7 +32,7 @@
 
         <v-row class="px-3" v-else>
             <v-col class="px-1 py-0" cols="12" >
-                <v-text-field variant="outlined" hide-details label="시험유형" v-model="examStorages.exam_name" />
+                <v-text-field data-test="examName" variant="outlined" hide-details label="시험유형" v-model="examStorages.exam_name" />
             </v-col>
             <v-col class="px-1" cols="12">
                 <v-col class="px-0 d-flex" style="justify-content: space-between;">
