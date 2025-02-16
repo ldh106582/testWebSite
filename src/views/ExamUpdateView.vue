@@ -10,19 +10,12 @@
                 <span class="exam-search"> 시험유형 조회 </span>
             </v-col>
             <v-col cols="12">
-                <v-autocomplete variant="outlined" hide-details v-model="examStore.exam_id"
+                <v-autocomplete data-test="search" variant="outlined" hide-details v-model="examStore.exam_id"
                 item-title="exam_name" item-value="exam_id" :items="examStore.list"
-                :menu-props="{ maxHeight: '200' }">
-                    <template v-slot:item="{ props, item }">
-                        <v-list-item
-                        v-bind="props"
-                        :title="item.raw.exam_name"
-                        ></v-list-item>
-                    </template>
-                </v-autocomplete>
+                :menu-props="{ maxHeight: '200' }" />
             </v-col>
             <v-col cols="12" class="py-0 px-3 d-flex justify-end">
-                <v-btn color="indigo" @click="search">유형조회</v-btn>
+                <v-btn data-test="search-click" color="indigo" @click="search">유형조회</v-btn>
             </v-col>
         </v-row>
         <v-row style="border-top: 1px solid silver;">
@@ -119,6 +112,29 @@ function addSubject () {
     subjectStorage.value.push(copie);
 }
 
+function search () {
+    const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
+    const typeNameNull = '데이터를 먼저 입력해주세요.';
+
+    if (examStore.exam_id === undefined) { return alert (typeNameNull) }
+
+    axios.get('/exam-join-subject', {
+        params: {
+            exam_id: examStore.exam_id
+        }
+    }).then(res => {
+        const data = res.data;
+
+        if (data.result) {
+            alert (errorMsg)
+        } else {
+            examStorages.value = data.rows[0];
+            subjectStorage.value = data.rows;
+            isCheckData.value = false;
+        }
+    });
+}
+
 function deleteSubject (index) {
     const confirmMsg = '시험 과목을 삭제하시겠습니까?';
     const cancelMsg = '취소되었습니다.';
@@ -142,29 +158,6 @@ function deleteSubject (index) {
             subjectStorage.value.splice(index);
             return alert (succesMsg);
         } 
-    });
-}
-
-function search () {
-    const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
-    const typeNameNull = '데이터를 먼저 입력해주세요.';
-
-    if (examStore.exam_id === undefined) { return alert (typeNameNull) }
-
-    axios.get('/exam-join-subject', {
-        params: {
-            exam_id: examStore.exam_id
-        }
-    }).then(res => {
-        const data = res.data;
-
-        if (data.result) {
-            alert (errorMsg)
-        } else {
-            examStorages.value = data.rows[0];
-            subjectStorage.value = data.rows;
-            isCheckData.value = false;
-        }
     });
 }
 
