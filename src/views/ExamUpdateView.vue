@@ -47,7 +47,7 @@
                         <v-text-field variant="outlined" hide-details label="과목 문제 수" class="pa-0" v-model="storage.subject_total" />
                     </v-col>
                     <v-col v-if="isToggle" style="text-align: end;">
-                        <v-btn color="red" @click="deleteSubject(index)">삭제</v-btn>
+                        <v-btn data-test="deleteSubject" color="red" @click="deleteSubject(index)">삭제</v-btn>
                     </v-col>
                 </v-col>
             </v-col>
@@ -141,7 +141,7 @@ function deleteSubject (index) {
     const succesMsg = '시험과목이 삭제되었습니다.';
     const errorMsg = '시험과목을 삭제하던 중 오류가 발생하였습니다. 다시 시도해주세요.';
     
-    if (!confirm(confirmMsg)) {
+    if (!confirm (confirmMsg)) {
         return alert (cancelMsg);
     }
 
