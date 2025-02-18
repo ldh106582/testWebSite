@@ -30,15 +30,14 @@ test.describe('ExamUpdateView', () => {
             ]);
             const examName = page.locator('[data-test="examName"] input');
             await expect(examName).toBeVisible();
-            await expect(examName).toHaveText('정보처리기사');
+            await expect(examName).toHaveValue('정보처리기사');
         });
     });
     test.describe('deleteSubject 함수', () => {
-        test('subject 삭제가 안될 경우', async ({ page }) => {
+        test('subject 삭제 실패', async ({ page }) => {
             const confirmMsg = '시험 과목을 삭제하시겠습니까?';
             const errorMsg = '시험과목을 삭제하던 중 오류가 발생하였습니다. 다시 시도해주세요.';
         
-            // 다이얼로그 이벤트 리스너를 한 번만 등록
             page.on('dialog', async dialog => {
                 const message = dialog.message();
                 if (message.includes(confirmMsg)) {
@@ -66,6 +65,42 @@ test.describe('ExamUpdateView', () => {
                 page.waitForResponse(res => res.url().includes('/subject') && res.status() === 200),
                 page.click('[data-test="deleteSubject"]')
             ]);
+        });
+
+        test('subject 삭제 성공', async ({ page }) => {
+            const confirmMsg = '시험 과목을 삭제하시겠습니까?';
+            const succesMsg = '시험과목이 삭제되었습니다.';
+            
+            page.on('dialog', async dialog => {
+                const message = dialog.message();
+                if (message.includes(confirmMsg)) {
+                    console.log('1',message)
+                    expect(message).toContain(confirmMsg);
+                    await dialog.accept();                    
+                } else if (message.includes(succesMsg)) {
+                    console.log('2',message)
+                    expect(message).toContain(succesMsg);
+                    await dialog.accept();
+                }
+
+                await page.click('[data-test="search"]');
+                await page.keyboard.down('ArrowDown');
+                await page.keyboard.down('ArrowDown');
+                await page.keyboard.press('Enter');
+                await page.click('[data-test="search-click"]');
+
+                const [selectResponse] = await Promise.all([
+                    page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
+                    page.click('[data-test="search-click"]')
+                ]);
+                await page.click('[data-test="deleteSubject"]');
+        
+                const [deleteResponse] = await Promise.all([
+                    page.waitForResponse(res => res.url().includes('/subject') && res.status() === 200),
+                    page.click('[data-test="deleteSubject"]')
+                ]);
+                console.log(deleteResponse)
+            });
         });
     });
 });
