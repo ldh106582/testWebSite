@@ -74,33 +74,29 @@ test.describe('ExamUpdateView', () => {
             page.on('dialog', async dialog => {
                 const message = dialog.message();
                 if (message.includes(confirmMsg)) {
-                    console.log('1',message)
                     expect(message).toContain(confirmMsg);
                     await dialog.accept();                    
                 } else if (message.includes(succesMsg)) {
-                    console.log('2',message)
                     expect(message).toContain(succesMsg);
                     await dialog.accept();
                 }
-
-                await page.click('[data-test="search"]');
-                await page.keyboard.down('ArrowDown');
-                await page.keyboard.down('ArrowDown');
-                await page.keyboard.press('Enter');
-                await page.click('[data-test="search-click"]');
-
-                const [selectResponse] = await Promise.all([
-                    page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
-                    page.click('[data-test="search-click"]')
-                ]);
-                await page.click('[data-test="deleteSubject"]');
-        
-                const [deleteResponse] = await Promise.all([
-                    page.waitForResponse(res => res.url().includes('/subject') && res.status() === 200),
-                    page.click('[data-test="deleteSubject"]')
-                ]);
-                console.log(deleteResponse)
             });
+            await page.click('[data-test="search"]');
+            await page.keyboard.down('ArrowDown');
+            await page.keyboard.down('ArrowDown');
+            await page.keyboard.press('Enter');
+            await page.click('[data-test="search-click"]');
+
+            const [selectResponse] = await Promise.all([
+                page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
+            ]);
+            
+            const deleteButton = page.locator('[data-test="deleteSubject"]').nth(0);
+            await deleteButton.click();
+    
+            const [deleteResponse] = await Promise.all([
+                page.waitForResponse(res => res.url().includes('/subject') && res.status() === 200),
+            ]);
         });
     });
 });
