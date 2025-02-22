@@ -81,22 +81,25 @@ test.describe('ExamUpdateView', () => {
                     await dialog.accept();
                 }
             });
+            
             await page.click('[data-test="search"]');
             await page.keyboard.down('ArrowDown');
             await page.keyboard.down('ArrowDown');
             await page.keyboard.press('Enter');
-            await page.click('[data-test="search-click"]');
 
             const [selectResponse] = await Promise.all([
                 page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
+                await page.click('[data-test="search-click"]')
             ]);
-            
-            const deleteButton = page.locator('[data-test="deleteSubject"]').nth(0);
-            await deleteButton.click();
-    
+
+            const deleteButton = page.locator('[data-test="deleteSubject"]').first();
+            await expect(deleteButton).toBeVisible();
+
             const [deleteResponse] = await Promise.all([
                 page.waitForResponse(res => res.url().includes('/subject') && res.status() === 200),
+                await deleteButton.click()
             ]);
         });
     });
+
 });
