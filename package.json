@@ -9,11 +9,11 @@
     "preview": "vite preview",
     "test": "vitest --environment jsdom",
     "unittest": "vitest --environment jsdom src/views/__tests__/unit",
-    "e2etest": "vitest --environment jsdom src/views/__tests__/e2e"
+    "e2etest": "vitest --environment jsdom src/views/__tests__/e2e",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@playwright/experimental-ct-vue": "^1.50.1",
     "axios": "^1.7.7",
     "chart.js": "^4.4.6",
     "firebase": "^11.0.2",
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@nuxt/test-utils": "^3.15.1",
     "@pinia/testing": "^0.1.7",
+    "@playwright/experimental-ct-vue": "^1.50.1",
     "@playwright/test": "^1.50.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.1",
