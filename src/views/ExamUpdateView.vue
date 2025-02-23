@@ -65,10 +65,10 @@
         <v-row class="px-3">
             <v-col class="px-1 py-0 d-flex">
                 <v-col cols="6" class="pl-0 py-0">
-                    <v-text-field variant="outlined" hide-details v-model="examStorages.exam_time" />
+                    <v-text-field data-test="examTime" variant="outlined" hide-details v-model="examStorages.exam_time" />
                 </v-col>
                 <v-col cols="6" class="pr-0 py-0">
-                    <v-text-field variant="outlined" hide-details v-model="examStorages.exam_total" />
+                    <v-text-field data-test="examTotal" variant="outlined" hide-details v-model="examStorages.exam_total" />
                 </v-col>
             </v-col>
         </v-row>
@@ -81,11 +81,11 @@
 
         <v-row class="px-2">
             <v-col cols="12" class="px-1 py-0" >
-                <v-textarea variant="outlined" hide-details label="시험설명" v-model="examStorages.exam_des" />
+                <v-textarea data-test="examDes" variant="outlined" hide-details label="시험설명" v-model="examStorages.exam_des" />
             </v-col>
             <v-col class="px-1 pt-1 d-flex justify-end" >
-                <v-btn class="mr-3" color="primary" @click="examSave(examStorages.exam_id)">저장</v-btn>
-                <v-btn color="red" @click="examDelete(examStorages.exam_id)">삭제</v-btn>
+                <v-btn data-test="examSave" class="mr-3" color="primary" @click="examSave(examStorages.exam_id)">저장</v-btn>
+                <v-btn data-test="examDelete" color="red" @click="examDelete(examStorages.exam_id)">삭제</v-btn>
             </v-col>
         </v-row>
     </v-container>

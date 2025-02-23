@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from '@playwright/test';
 
 const url = 'http://localhost:5173/exam-update/?userId=admin';
@@ -33,6 +32,7 @@ test.describe('ExamUpdateView', () => {
             await expect(examName).toHaveValue('정보처리기사');
         });
     });
+
     test.describe('deleteSubject 함수', () => {
         test('subject 삭제 실패', async ({ page }) => {
             const confirmMsg = '시험 과목을 삭제하시겠습니까?';
@@ -99,6 +99,23 @@ test.describe('ExamUpdateView', () => {
                 page.waitForResponse(res => res.url().includes('/subject') && res.status() === 200),
                 await deleteButton.click()
             ]);
+        });
+    });
+
+    test.describe('addSubject 함수', () => {
+        test('클릭 했을 때 작동 확인' , async ({ page }) => {
+            await page.click('[data-test="search"]');
+            await page.keyboard.down("ArrowDown");
+            await page.keyboard.press("Enter");
+            await page.click("[data-test='search-click']");
+            await Promise.all([
+                page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
+                page.click('[data-test="search-click"]')
+            ]);
+            
+            const examName = page.locator('[data-test="examName"] input');
+            expect(examName).toHaveValue('정보처리기사');
+            
         });
     });
 });
