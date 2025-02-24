@@ -41,10 +41,10 @@
                 </v-col>
                 <v-col class="pa-0 d-flex" cols="auto" v-for="(storage, index) in subjectStorage" :key="index" style="align-items: center;">
                     <v-col v-if="isToggle" cols="6" class="pl-0 py-1">
-                        <v-text-field variant="outlined" hide-details label="시험과목" class="pa-0" v-model="storage.subject" />
+                        <v-text-field data-test="subject" variant="outlined" hide-details label="시험과목" class="pa-0" v-model="storage.subject" />
                     </v-col>
                     <v-col v-if="isToggle" cols="5" class="py-1">
-                        <v-text-field variant="outlined" hide-details label="과목 문제 수" class="pa-0" v-model="storage.subject_total" />
+                        <v-text-field data-test="subjectTotal" variant="outlined" hide-details label="과목 문제 수" class="pa-0" v-model="storage.subject_total" />
                     </v-col>
                     <v-col v-if="isToggle" style="text-align: end;">
                         <v-btn data-test="deleteSubject" color="red" @click="deleteSubject(index)">삭제</v-btn>

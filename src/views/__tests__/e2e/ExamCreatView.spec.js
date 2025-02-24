@@ -179,7 +179,13 @@ test.describe('ExamCreatView', () => {
     });
 
     test('addSubject 함수', async ({ page }) => {
+      const subjects = page.locator('[data-test="subjects"]').all();
+      const subjectTotal = page.locator('[data-test="subjectTotal"]').all();
+      
       await page.click('[data-test="addSubject"]');
+      
+      expect((await subjects).length).toBe(1);
+      expect((await subjectTotal).length).toBe(1);
     });
   });
 });
