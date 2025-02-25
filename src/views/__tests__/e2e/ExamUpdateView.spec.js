@@ -13,8 +13,8 @@ const mockExamTotal = '50';
 const mockExamDes = 'test';
 
 test.describe('ExamUpdateView', () => {
-    test.describe('search 함수', () => {
-        test('데이터를 입력하지 않았을 때', async ({ page }) => {
+    test.describe('시험 정보 출력', () => {
+        test('시험 이름 미입력', async ({ page }) => {
             const typeNameNull = '데이터를 먼저 입력해주세요.';
             await page.fill('[data-test="search"] input', '');
             page.on('dialog', async dialog => {
@@ -24,7 +24,8 @@ test.describe('ExamUpdateView', () => {
             });
             await page.click("[data-test='search-click']");
         });
-        test('search 함수 결과 출력 확인', async ({ page }) => {
+
+        test('시험 정보 출력 확인', async ({ page }) => {
             await page.click('[data-test="search"]');
             await page.keyboard.down("ArrowDown");
             await page.keyboard.down("ArrowDown");
@@ -57,8 +58,8 @@ test.describe('ExamUpdateView', () => {
         });
     });
 
-    test.describe('deleteSubject 함수', () => {
-        test('subject 삭제 실패', async ({ page }) => {
+    test.describe('subject', () => {
+        test('subject 삭제 오류', async ({ page }) => {
             const confirmMsg = '시험 과목을 삭제하시겠습니까?';
             const errorMsg = '시험과목을 삭제하던 중 오류가 발생하였습니다. 다시 시도해주세요.';
         
@@ -124,11 +125,10 @@ test.describe('ExamUpdateView', () => {
                 await deleteButton.click()
             ]);
         });
-    });
 
-    test.describe('addSubject 함수', () => {
-        test('클릭 했을 때 작동 확인' , async ({ page }) => {
+        test('subject 추가 버튼' , async ({ page }) => {
             await page.click('[data-test="search"]');
+            await page.keyboard.down("ArrowDown");
             await page.keyboard.down("ArrowDown");
             await page.keyboard.press("Enter");
             await page.click("[data-test='search-click']");
@@ -139,9 +139,42 @@ test.describe('ExamUpdateView', () => {
             
             const examName = page.locator('[data-test="examName"] input');
             expect(examName).toHaveValue('리눅스마스터2급');
+
+            const subject = page.locator('[data-test="subject"]').all();
+            const subjectTotal = page.locator('[data-test="subjectTotal"]').all();
             
             await page.click('[data-test="addSubject"]');
-            
+
+            expect((await subject).length).toEqual(2);
+            expect((await subjectTotal).length).toEqual(2);
+        });
+
+        test('subject 내용 숨김 / 나타남', async ({ page }) => {
+            await page.click('[data-test="search"]');
+            await page.keyboard.down("ArrowDown");
+            await page.keyboard.down("ArrowDown");
+            await page.keyboard.press("Enter");
+            await page.click("[data-test='search-click']");
+            await Promise.all([
+                page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
+                page.click('[data-test="search-click"]')
+            ]);
+            await page.click('[data-test="toggleVisible"]');
+            await expect(page.locator('[data-test="subject"]')).toBeHidden();
+
+            await page.waitForTimeout(3000); // 3000 밀리초 = 3초
+
+            await page.click('[data-test="toggleVisible"]');
+            await expect(page.locator('[data-test="subject"]').nth(0)).toBeVisible();
+        });
+    });
+
+    test.describe('시험 수정 및 삭제', () => {
+        test('시험 정보 수정', async ({ page }) => {
+
+        });
+        
+        test('시험 정보 삭제', async ({ page }) => {
 
         });
     });
