@@ -78,15 +78,15 @@ test.describe('ExamUpdateView', () => {
             await page.keyboard.down('ArrowDown');
             await page.keyboard.press('Enter');
             await page.click('[data-test="search-click"]');
-        
-            const [selectResponse] = await Promise.all([
+            
+            await Promise.all([
                 page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
                 page.click('[data-test="search-click"]')
             ]);
         
             await page.click('[data-test="deleteSubject"]');
         
-            const [deleteResponse] = await Promise.all([
+            await Promise.all([
                 page.waitForResponse(res => res.url().includes('/subject') && res.status() === 200),
                 page.click('[data-test="deleteSubject"]')
             ]);
@@ -171,7 +171,31 @@ test.describe('ExamUpdateView', () => {
 
     test.describe('시험 수정 및 삭제', () => {
         test('시험 정보 수정', async ({ page }) => {
+            const msg1 = '데이터를 변경하는 성공하였습니다.';
 
+            await page.click('[data-test="search"]');
+            await page.keyboard.down('ArrowDown');
+            await page.keyboard.press('Enter');
+
+            page.on('dialog', async dialog => {
+                const message = dialog.message();
+                expect(message).toBe(msg1);
+                dialog.accept();
+            })
+            
+            await Promise.all([
+                page.waitForResponse(res => res.url().includes('/exam-join-subject') && res.status() === 200),
+                page.click('[data-test="search-click"]')
+            ]);
+
+            page.locator('[data-test="subject"] input', 'SQL').nth(0);
+            page.locator('[data-test="subject"Total] input', '3').nth(0);
+            
+            await page.click('[data-test="examSave"]');
+            await Promise.all([
+                page.waitForResponse(res => res.url().includes('/exam') && res.status() === 200),
+                page.click('[data-test="examSave"]')
+            ]);
         });
         
         test('시험 정보 삭제', async ({ page }) => {
