@@ -206,11 +206,9 @@ test.describe('ExamUpdateView', () => {
             page.on('dialog', async dialog => {
                 const message = dialog.message();
                 if (message.includes(msg1)) {
-                    console.log("msg1", message)
                     expect(message).toBe(msg1);
                     await dialog.accept();
                 } else if (message.includes(msg2)) {
-                    expect(message).tacceptoBe(msg2);
                     console.log("msg2", message)
                     await dialog.accept();
                 }
@@ -222,6 +220,22 @@ test.describe('ExamUpdateView', () => {
                 page.waitForResponse(res => res.url().includes('/exam') && res.status() === 200),
                 page.click('[data-test="examDelete"]')
             ]);
+        });
+
+        test('시험 정보 삭제 취소', async ({ page }) => {
+            const msg1 = '되돌릴 수 없습니다. 정말 삭제하시겠습니까?';
+            const msg2 = '취소되었습니다.';
+            await page.click('[data-test="examDelete"]');
+            page.on('dialog', async dialog => {
+                const message = dialog.message();
+                if (message.includes(msg1)) {
+                    expect(message).toBe(msg1);
+                    await dialog.accept();
+                } else if (message.includes(msg2)) {
+                    console.log("msg2", message)
+                    await dialog.accept();
+                }
+            });
         });
     });
 });
