@@ -15,6 +15,7 @@
 
                     <v-col cols="auto" class="d-flex pa-0 ma-0 mt-2" style="justify-content: space-between;">
                         <button class="find" @click="findPw">비밀번호 찾기</button>
+                        <button @click="createMember" >회원가입</button>
                     </v-col>
                 </v-col>
             </v-col>
@@ -58,6 +59,10 @@ function login () {
 
 function findPw () {
     router.push('/member-findpw');
+}
+
+function createMember () {
+    router.push('/member-create');
 }
 
 </script>

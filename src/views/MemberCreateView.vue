@@ -11,7 +11,7 @@
                         <v-col class="d-flex" style="width: 100%;"> 
                             <v-text-field data-test="userId" class="userId" v-model="user.userId" label="아이디 (ID)" 
                             @input="errorMember('userId')" :rules="rulesId" />
-                            <v-btn style="width: 20%; margin-top: 1%;" @click="idCheck" :disabled="!validEmail">중복확인</v-btn>
+                            <v-btn data-test="idCheck" style="width: 20%; margin-top: 1%;" @click="idCheck" :disabled="!validEmail">중복확인</v-btn>
                         </v-col>
                         <v-col v-if="checkId">
                             <v-text-field data-test="userPw" type="password" v-model="user.userPw"
@@ -95,7 +95,7 @@ function errorMember (u) {
 };
 
 async function idCheck () {
-    const errorUserId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
+    const existId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
     const useUserId = '사용 가능한 아이디 입니다.';
 
     await axios.get('/member-check', {
@@ -107,7 +107,7 @@ async function idCheck () {
         const userId = res.data.rows[0].user_id;
 
         if (data || userId !== undefined) {
-            return alert (errorUserId);
+            return alert (existId);
         } else {
             alert (useUserId);
             checkId.value = true;

@@ -3,6 +3,8 @@ import axios from "@/axios";
 import ExamTypeCreatView from "@/views/ExamCreatView.vue";
 import { flushPromises, mount } from "@vue/test-utils";
 
+
+// 아아디 중복갑 테스틐 코드 작성
 describe('ExamTypeCreatView', () => {
     let wrapper;
     const mockExamName = '정보처리기사';
