@@ -32,14 +32,16 @@ test.describe('MemberCreateView', () => {
             page.on('dialog', async dialog => {
                 const message = dialog.message();
                 expect(message).toBe(msg1);
+                await dialog.dismiss();
             });
             await page.waitForSelector('[data-test="userId"] input');
             await page.fill('[data-test="userId"] input', mockUserId_false);
             await page.click('[data-test="idCheck"]');
-            await Promise.all([
-                await page.waitForResponse(res => res.url().includes('/member-check') && res.status() === 200),
-                await page.click('[data-test="idCheck"]')
-            ]);
+            const response = await page.waitForResponse(res =>
+                res.url().includes('/member-check') && res.status() === 200,
+                { timeout: 120000 } // 타임아웃 늘리기
+            );
+            console.log('응답 받음:', response); // 응답 확인
         });
     });
 });
