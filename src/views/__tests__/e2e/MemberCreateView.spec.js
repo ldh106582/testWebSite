@@ -26,7 +26,7 @@ test.describe('MemberCreateView', () => {
                 await page.click('[data-test="idCheck"]')
             ]);
         });
-        // 찾지 못하는 오류 발생 확인 필요
+
         test('아이디가 중복일 때', async ({ page}) => {
             const msg1 = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
             page.on('dialog', async dialog => {
@@ -39,9 +39,14 @@ test.describe('MemberCreateView', () => {
             await page.click('[data-test="idCheck"]');
             const response = await page.waitForResponse(res =>
                 res.url().includes('/member-check') && res.status() === 200,
-                { timeout: 120000 } // 타임아웃 늘리기
+                { timeout: 120000 }
             );
-            console.log('응답 받음:', response); // 응답 확인
+        });
+    });
+
+    test.describe('회원가입', () => {
+        test('회원가입 데이터를 전부 입력하지 않았을 때', ({ page }) => {
+
         });
     });
 });

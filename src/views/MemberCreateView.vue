@@ -104,6 +104,7 @@ async function idCheck () {
         }
     }).then((res) => {
         const data = res.data.result;
+
         const userId = res.data.rows[0].user_id;
 
         if (data || userId !== undefined) {
