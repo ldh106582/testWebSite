@@ -78,7 +78,6 @@ function typing () {
 };
 
 function errorMember (u) {
-
     const errorMsg = '한글은 입력하실 수 없습니다.';
     const errorTrim = '공백은 포함될 수 없습니다.';
     const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(user.value.userId);
@@ -103,11 +102,8 @@ async function idCheck () {
             userId: user.value.userId,
         }
     }).then((res) => {
-        const data = res.data.result;
-
-        const userId = res.data.rows[0].user_id;
-
-        if (data || userId !== undefined) {
+        const data = res.data.rows;
+        if (data.length > 0) {
             return alert (existId);
         } else {
             alert (useUserId);
@@ -117,7 +113,6 @@ async function idCheck () {
 };
 
 async function createMember() {
-
     const confirmId = 'ID 중복 체크를 반드시 진행하셔야 합니다.';
     const errorMember = '회원가입이 불가합니다. 잠시후 다시 시도해주시길 바랍니다.';
     const seccesMember = '회원가입이 완료 되었습니다.';

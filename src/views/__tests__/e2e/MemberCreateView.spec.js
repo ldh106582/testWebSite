@@ -37,7 +37,7 @@ test.describe('MemberCreateView', () => {
             await page.waitForSelector('[data-test="userId"] input');
             await page.fill('[data-test="userId"] input', mockUserId_false);
             await page.click('[data-test="idCheck"]');
-            const response = await page.waitForResponse(res =>
+            await page.waitForResponse(res =>
                 res.url().includes('/member-check') && res.status() === 200,
                 { timeout: 120000 }
             );
@@ -45,7 +45,16 @@ test.describe('MemberCreateView', () => {
     });
 
     test.describe('회원가입', () => {
-        test('회원가입 데이터를 전부 입력하지 않았을 때', ({ page }) => {
+        test('아이디 중복 체크하지 입력하지 않았을 때', async ({ page }) => {
+            const msg1 = 'ID 중복 체크를 반드시 진행하셔야 합니다.';
+
+            page.on('dialog', async dialog => {
+                const message = dialog.message();
+                expect(message).toBe(msg1);
+                await dialog.accept();
+            });
+            await page.fill('[data-test="userId"] input', '');
+
 
         });
     });
