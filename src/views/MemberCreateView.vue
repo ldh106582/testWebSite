@@ -21,7 +21,7 @@
                             <v-text-field data-test="userName" v-model="user.userName" label="이름 (name)" @input="errorMember('userName')" />
                         </v-col>
                         <v-col>
-                            <v-btn class="mt-2" color="rgb(26, 32, 53)" type="submit" block>회원가입</v-btn>
+                            <v-btn data-test="createMember" class="mt-2" color="rgb(26, 32, 53)" type="submit" block>회원가입</v-btn>
                         </v-col>
                     </v-form>
                 </v-sheet>
