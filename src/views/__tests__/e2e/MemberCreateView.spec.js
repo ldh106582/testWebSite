@@ -9,6 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 const mockUserId_false = 'ehgus190@naver.com';
 const mockUserId_true = 'test@naver.com';
+const mockUserPw = 'test12345!';
 
 test.describe('MemberCreateView', () => {
     test.describe('아이디 중복 체크', () => {
@@ -63,11 +64,9 @@ test.describe('MemberCreateView', () => {
             page.on('dialog', async dialog => {
                 const message = dialog.message();
                 if (message.includes(msg1)) {
-                    console.log('msg1',message)
                     expect(message).toBe(msg1);
                     await dialog.accept();
                 } else if (message.includes(msg2)) {
-                    console.log('msg2',message)
                     expect(message).toBe(msg2);
                     await dialog.accept();
                 }
@@ -80,19 +79,31 @@ test.describe('MemberCreateView', () => {
                 res.url().includes('/member-check') && res.status() === 200,
                 { timeout: 120000 }
             );
-
             await page.click('[data-test="createMember"]');
         });
 
         test('이름을 입력하지 않았을 때', async ({ page }) => {
-            const msg1 = '이름을 반드시 입력해야 합니다.';
+            const msg1 = '사용 가능한 아이디 입니다.';
+            const msg2 = '이름을 반드시 입력해야 합니다.';
 
             page.on('dialog', async dialog => {
                 const message = dialog.message();
-                console.log(message)
-                expect(message).toBe(msg1);
-                await dialog.accept();
+                if (message.includes(msg1)) {
+                    expect(message).toBe(msg1);
+                    await dialog.accept();
+                } else if (message.includes(msg2)) {
+                    expect(message).toBe(msg2);
+                    await dialog.accept();
+                }
             });
+            await page.waitForSelector('[data-test="userId"] input');
+            await page.fill('[data-test="userId"] input', mockUserId_true);
+            await page.click('[data-test="idCheck"]');
+            await page.waitForResponse(res =>
+                res.url().includes('/member-check') && res.status() === 200,
+                { timeout: 120000 }
+            );
+            await page.fill('[data-test="userPw"] input', mockUserPw);
             await page.click('[data-test="createMember"]');
         });
 
