@@ -10,6 +10,7 @@ test.beforeEach(async ({ page }) => {
 const mockUserId_false = 'ehgus190@naver.com';
 const mockUserId_true = 'test@naver.com';
 const mockUserPw = 'test12345!';
+const mockUserName = 'temp';
 
 test.describe('MemberCreateView', () => {
     test.describe('아이디 중복 체크', () => {
@@ -107,5 +108,17 @@ test.describe('MemberCreateView', () => {
             await page.click('[data-test="createMember"]');
         });
 
+        test('회원가입 성공', async ({ page }) => {
+            await page.fill('[data-test="userId"] input', mockUserId_true);
+            await page.click('[data-test="idCheck"]');
+            await page.waitForResponse(res =>
+                res.url().includes('/member-check') && res.status() === 200,
+                { timeout: 120000 }
+            );
+            await page.fill('[data-test="userPw"] input', mockUserPw);
+            await page.fill('data-test="userName"] input', mockUserName);
+
+            
+        });
     });
 });
