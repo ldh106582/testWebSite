@@ -8,7 +8,7 @@
                     </v-col>
 
                     <v-col class="pa-0" cols="12" lg="10" sm="10" style="height: auto;">
-                        <v-text-field v-model="userId" label="아이디 입력" @keydown.enter="findPw" focused></v-text-field>
+                        <v-text-field data-test="userId" v-model="userId" label="아이디 입력" @keydown.enter="findPw" focused></v-text-field>
                         <v-btn data-test="btn" color="rgb(26, 32, 53)" width="100%" type="submit" @click="findPw">비밀번호 찾기</v-btn>
                     </v-col>
                 </v-col>
@@ -49,7 +49,6 @@ async function findPw () {
         if (data) {
             return alert (errorMsg);
         } else {
-            alert (confirmMsg);
             auth.login (userInfo);
             router.push({ 
                 path: '/member-changepw', 
@@ -58,6 +57,7 @@ async function findPw () {
                     userPw: userInfo.user_pw,
                 } 
             });
+            return alert (confirmMsg);
         }
     });
 }
