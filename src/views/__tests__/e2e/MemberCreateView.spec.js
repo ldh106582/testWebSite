@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { Console } from "console";
 
-const url = 'http://localhost:5173/member-create'
+const url = 'http://localhost:5173/member-create';
 test.beforeEach(async ({ page }) => {
     await page.goto(url);
     await page.waitForTimeout(6000);
@@ -102,23 +101,43 @@ test.describe('MemberCreateView', () => {
             await page.click('[data-test="idCheck"]');
             await page.waitForResponse(res =>
                 res.url().includes('/member-check') && res.status() === 200,
-                { timeout: 120000 }
+                { timeout: 12000 }
             );
             await page.fill('[data-test="userPw"] input', mockUserPw);
             await page.click('[data-test="createMember"]');
         });
 
         test('회원가입 성공', async ({ page }) => {
+            const msg1 = '사용 가능한 아이디 입니다.';
+            const msg2 = '회원가입이 완료 되었습니다.';
+            
+            page.on('dialog', async dialog => {
+                const message = dialog.message();
+                if (message.includes(msg1)) {
+                    expect(message).toBe(msg1);
+                    await dialog.accept();
+                } else if (message.includes(msg2)) {
+                    expect(message).toBe(msg2);
+                    await dialog.accept();
+                }
+            });
+
             await page.fill('[data-test="userId"] input', mockUserId_true);
             await page.click('[data-test="idCheck"]');
-            await page.waitForResponse(res =>
-                res.url().includes('/member-check') && res.status() === 200,
-                { timeout: 120000 }
-            );
-            await page.fill('[data-test="userPw"] input', mockUserPw);
-            await page.fill('data-test="userName"] input', mockUserName);
-
+            Promise.all([
+                page.waitForResponse(res => res.url().includes('/member-check') && res.status() === 200,
+                    { timeout: 12000 }
+                )
+            ]);
             
+            await page.fill('[data-test="userPw"] input', mockUserPw);
+            await page.waitForTimeout(6000);    
+            await page.fill('[data-test="userName"] input', mockUserName);
+            await page.waitForTimeout(6000);
+            await page.click('[data-test="createMember"]');
+            Promise.all([
+                page.waitForResponse(res => res.url().includes('/member-create') && res.status() === 200)
+            ]);
         });
     });
 });

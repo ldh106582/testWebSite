@@ -18,7 +18,7 @@
                             label="패스워드 (Password)" @input="errorMember('userPw')" :rules="rulesPw"/>
                         </v-col>
                         <v-col v-if="checkPw">
-                            <v-text-field data-test="userName" v-model="user.userName" label="이름 (name)" @input="errorMember('userName')" />
+                            <v-text-field data-test="userName" v-model="user.userName" label="이름 (name)" />
                         </v-col>
                         <v-col>
                             <v-btn data-test="createMember" class="mt-2" color="rgb(26, 32, 53)" type="submit" block>회원가입</v-btn>
