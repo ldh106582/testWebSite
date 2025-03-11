@@ -7,10 +7,10 @@
                         <p>로그인 페이지</p>
                     </v-col>
 
-                    <v-form data-test="login" cols="auto" style="height: auto;" @submit.prevent="login">
-                        <v-text-field class="id" type="text" v-model="user.userId"></v-text-field>
-                        <v-text-field class="pw" type="password" v-model="user.userPw"></v-text-field>
-                        <v-btn color="rgb(26, 32, 53)" width="100%" type="submit">로그인</v-btn>
+                    <v-form cols="auto" style="height: auto;" @submit.prevent="login">
+                        <v-text-field data-test="userId" class="id" type="text" v-model="user.userId" />
+                        <v-text-field data-test="userPw" class="pw" type="password" v-model="user.userPw" />
+                        <v-btn data-test="login" color="rgb(26, 32, 53)" width="100%" type="submit">로그인</v-btn>
                     </v-form>
 
                     <v-col cols="auto" class="d-flex pa-0 ma-0 mt-2" style="justify-content: space-between;">
