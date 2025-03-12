@@ -58,7 +58,9 @@
         <v-row>
             <v-col cols="9" class="pt-0">
                 <h3>시험문제</h3>
-                <v-textarea variant="outlined" hide-details v-model="question" />
+                <FileUpload mode="basic" @select="onFileSelect" customUpload auto severity="secondary" class="p-button-outlined" />
+                <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"/>
+                <v-textarea v-else variant="outlined" hide-details v-model="question" />
             </v-col>
                 <v-col cols="3" class="pt-0">
                     <h3>정답</h3>
@@ -113,10 +115,13 @@ import router from '@/router';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import moment from 'moment';
 import useMoment from '@/mixins/useMoment';
+import FileUpload from 'primevue/fileupload';
+import useFileUpload from '@/mixins/useFileUpload';
 
 const examStore = useExamStore();
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
+const { getInputFile } = useFileUpload();
 
 const questionPoint = ref(0);
 const selectedType = ref('');
@@ -140,6 +145,13 @@ const subjects = ref([]);
 const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
 const isCheckExamId = ref(false);
+const src = ref(null);
+
+async function onFileSelect (event) {
+    getInputFile (event, async (data) => {
+        console.log('data', data)
+    });
+}
 
 function addAnswer () {
     addResult.value += `\n답 : ${answer.value}`;

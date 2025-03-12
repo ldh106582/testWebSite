@@ -24,7 +24,7 @@
         @click="e => getExamStorage(item, e)"
         >
         </v-list-item>
-    </v-list>
+      </v-list>
     
       <v-list density="compact" nav v-if="auth.isManager === manager">
         <v-list-group class="sideBar-text" prepend-icon="mdi-text-box-outline" >
@@ -45,7 +45,6 @@
           ></v-list-item>
         </v-list-group>
       </v-list>
-
       <v-list density="compact" nav v-if="auth.isManager === manager">
         <v-list-group class="sideBar-text" prepend-icon="mdi-text-box-outline" >
           <template v-slot:activator="{ props }">
@@ -57,22 +56,14 @@
 
           <v-list-item
             v-for="([title, icon, onClick], i) in questions"
-            :key="i"
-            :title="title"
-            :prepend-icon="icon"
-            :value="title"
-            @click="e => onClick(e)"
-          ></v-list-item>
+            :key="i" :title="title" :prepend-icon="icon" :value="title" @click="e => onClick(e)">
+          </v-list-item>
         </v-list-group>
       </v-list>
 
       <v-list>
-        <v-list-item 
-        class="sideBar-text"
-        @click="goingPractice"
-        >Practice
-        </v-list-item>
-    </v-list>
+        <v-list-item class="sideBar-text" @click="goingPractice">Practice</v-list-item>
+      </v-list>
       
     </v-navigation-drawer>
 

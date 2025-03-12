@@ -19,9 +19,9 @@ export const useAuthStore = defineStore ('auth', () => {
         try {
             isAuthenticated.value = true;
             userId.value = userInfo.rows[0].user_id;
-            isManager.value = Boolean(userInfo.rows[0].user_manager);
+            isManager.value = userInfo.rows[0].user_manager;
             localStorage.setItem('userId', userId.value );
-            localStorage.setItem('manager', isManager.value.toString());
+            localStorage.setItem('manager', isManager.value);
             const token = userInfo.token;
             localStorage.setItem('token', token);
 
@@ -91,6 +91,7 @@ export const useAuthStore = defineStore ('auth', () => {
             userId.value = maintaindUserId;
             isCheckTemp.value = false;
             isManager.value = Number(maintainManager);
+
             await getMemberInfo();
         } else if (maintainTempId) {
             tempId.value = maintainTempId;
