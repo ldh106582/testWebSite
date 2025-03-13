@@ -6,8 +6,8 @@ export default function useFileUpload () {
         const reader = new FileReader();
 
         reader.onload = async (e) => {
-            const result = e.target.result; // 파일 데이터
-            callback(result); // 콜백을 통해 데이터 전달
+            const result = e.target.result;
+            callback(result);
         };
 
         reader.readAsDataURL(file);

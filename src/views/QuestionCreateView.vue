@@ -56,16 +56,20 @@
         </v-row>
 
         <v-row>
-            <v-col cols="9" class="pt-0">
-                <h3>시험문제</h3>
-                <FileUpload mode="basic" @select="onFileSelect" customUpload auto severity="secondary" class="p-button-outlined" />
-                <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"/>
-                <v-textarea v-else variant="outlined" hide-details v-model="question" />
-            </v-col>
-                <v-col cols="3" class="pt-0">
-                    <h3>정답</h3>
-                    <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
+            <v-col cols="9" class="pt-0" >
+                <v-col cols="12" class="d-flex pa-0">
+                    <h3 class="mr-5">시험문제</h3>
+                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto severity="secondary" class="p-button-outlined pa-0" chooseLabel="Upload" />
                 </v-col>
+                <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; max-width: 100%; max-height: 150px;">
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 150px;"/>
+                    <v-textarea v-else variant="outlined" hide-details v-model="question" />
+                </v-col>
+            </v-col>
+            <v-col cols="3" class="pt-0">
+                <h3>정답</h3>
+                <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
+            </v-col>
             <v-col v-if="questionTypes === '단답형'">
                 <h3>시험문제 예문 & 코드 </h3>
                 <v-text-field variant="outlined" hide-details v-model="problem" />
@@ -150,6 +154,7 @@ const src = ref(null);
 async function onFileSelect (event) {
     getInputFile (event, async (data) => {
         console.log('data', data)
+        src.value = data;
     });
 }
 
