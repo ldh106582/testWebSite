@@ -57,25 +57,36 @@
 
         <v-row>
             <v-col cols="9" class="pt-0" >
-                <v-col cols="12" class="d-flex pa-0">
-                    <h3 class="mr-5">시험문제</h3>
-                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto severity="secondary" class="p-button-outlined pa-0" chooseLabel="Upload" />
-                </v-col>
-                <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; max-width: 100%; max-height: 150px;">
-                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 150px;"/>
-                    <v-textarea v-else variant="outlined" hide-details v-model="question" />
-                </v-col>
+                <h3>시험문제</h3>
+                <v-textarea variant="outlined" hide-details v-model="question" />
             </v-col>
             <v-col cols="3" class="pt-0">
                 <h3>정답</h3>
                 <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
             </v-col>
-            <v-col v-if="questionTypes === '단답형'">
-                <h3>시험문제 예문 & 코드 </h3>
-                <v-text-field variant="outlined" hide-details v-model="problem" />
+
+            <v-col v-if="selectedType === '단답형'">
+                <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
+                    <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
+                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
+                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="Image Upload" />
+                </v-col>
+                <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                    <v-textarea v-else variant="outlined" hide-details v-model="problem" />
+                </v-col>
             </v-col>
-            <v-col v-else-if="questionTypes === '객관식'">
-                <h3>시험문제 예문 & 코드 </h3>
+            
+            <v-col v-else-if="selectedType === '객관식'">
+                <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
+                    <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
+                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
+                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="Image Upload" />
+                </v-col>
+                <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                    <v-textarea v-else variant="outlined" hide-details v-model="problem" />
+                </v-col>
                 <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
                     <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                     <label :for="index + 1" class="examQuestion-label">
@@ -85,9 +96,16 @@
                 </v-col>
             </v-col>
 
-            <v-col v-if="questionTypes === '주관식' || questionTypes === '서술형'">
-                <h3>시험문제 예문 & 코드 </h3>
-                <v-textarea variant="outlined" hide-details v-model="problem" />
+            <v-col v-if="selectedType === '주관식' || selectedType === '서술형'">
+                <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
+                    <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
+                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
+                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="Image Upload" />
+                </v-col>
+                <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                    <v-textarea v-else variant="outlined" hide-details v-model="problem" />
+                </v-col>
             </v-col>
         </v-row>
         <v-row>
@@ -153,7 +171,6 @@ const src = ref(null);
 
 async function onFileSelect (event) {
     getInputFile (event, async (data) => {
-        console.log('data', data)
         src.value = data;
     });
 }
@@ -218,7 +235,6 @@ async function examCreateSave () {
         subject_id: subjects.value.subject_id 
     }).then(res => {
         const data = res.data;
-        console.log(data)
         data.result === true ? alert (errorMsg) : alert (sucessMsg)
     });
     
