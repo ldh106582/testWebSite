@@ -1,5 +1,3 @@
-import { ref } from "vue";
-
 export default function useFileUpload () {
     function getInputFile (event, callback) {
         const file = event.files[0];
@@ -7,7 +5,12 @@ export default function useFileUpload () {
 
         reader.onload = async (e) => {
             const result = e.target.result;
-            callback(result);
+
+            const formData = new FormData();
+            formData.append('imageData', result);
+            formData.append('fileName', file.name);
+
+            callback({ formData: formData, result: result });
         };
 
         reader.readAsDataURL(file);

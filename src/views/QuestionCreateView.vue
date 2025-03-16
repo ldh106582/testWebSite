@@ -58,7 +58,7 @@
         <v-row>
             <v-col cols="9" class="pt-0" >
                 <h3>시험문제</h3>
-                <v-textarea variant="outlined" hide-details v-model="question" />
+                <v-textarea variant="outlined" hide-details placeholder="다음 중 옳은 것을 선택하시오" v-model="question" />
             </v-col>
             <v-col cols="3" class="pt-0">
                 <h3>정답</h3>
@@ -73,7 +73,7 @@
                 </v-col>
                 <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea v-else variant="outlined" hide-details v-model="problem" />
+                    <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
                 </v-col>
             </v-col>
             
@@ -85,14 +85,14 @@
                 </v-col>
                 <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea v-else variant="outlined" hide-details v-model="problem" />
+                    <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
                 </v-col>
                 <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
                     <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                     <label :for="index + 1" class="examQuestion-label">
                         <span class="examQuestion-Num">{{ option.no1 }}</span>
                     </label>
-                    <v-text-field hide-details variant="outlined" v-model="option.value" />
+                    <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
                 </v-col>
             </v-col>
 
@@ -104,7 +104,7 @@
                 </v-col>
                 <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea v-else variant="outlined" hide-details v-model="problem" />
+                    <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
                 </v-col>
             </v-col>
         </v-row>
@@ -168,10 +168,13 @@ const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
 const isCheckExamId = ref(false);
 const src = ref(null);
+const image = ref('');
 
 async function onFileSelect (event) {
     getInputFile (event, async (data) => {
-        src.value = data;
+        console.log(data)
+        src.value = data.result;
+        image.value = data.formData;
     });
 }
 
@@ -218,9 +221,12 @@ async function examCreateSave () {
     });
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
+    image.value = src.value;
+    console.log(image.value)
 
     problemStorages = [
         { problem: JSON.stringify(questionValue) },
+        { problem_image: image.value },
         { answer: JSON.stringify(answers) },
         { problem_explanation: problemExplanation.value },
         { problem_feedback: problemFeedback.value}
