@@ -172,9 +172,8 @@ const image = ref('');
 
 async function onFileSelect (event) {
     getInputFile (event, async (data) => {
-        console.log(data)
         src.value = data.result;
-        image.value = data.formData;
+        image.value = data.fd;
     });
 }
 
@@ -199,6 +198,7 @@ async function examCreateSave () {
     const sucessMsg = '등록되었습니다.';
     let questionStorages = [];
     let problemStorages = [];
+    let imagePath = '';
 
     questionStorages = [
         { question: question.value },
@@ -221,12 +221,15 @@ async function examCreateSave () {
     });
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
-    image.value = src.value;
-    console.log(image.value)
+
+    await axios.post('/image-upload', image.value ).then(res => { 
+        imagePath = res.data.imagePath;
+        console.log(res.data.imagePath);
+    });
 
     problemStorages = [
         { problem: JSON.stringify(questionValue) },
-        { problem_image: image.value },
+        { problem_image: imagePath },
         { answer: JSON.stringify(answers) },
         { problem_explanation: problemExplanation.value },
         { problem_feedback: problemFeedback.value}
