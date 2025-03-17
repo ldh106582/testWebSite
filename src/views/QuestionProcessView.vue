@@ -126,6 +126,21 @@
             </v-row>
 
             <v-row>
+                <v-col style="align-items: center;" class="pl-0 d-flex">
+                    <h3>시험문제 예문 & 코드</h3>
+                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
+                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="change Upload" />
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col class="pl-0 pt-0">
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                    <v-textarea v-else hide-details variant="outlined" v-model="problem" />
+                </v-col>
+            </v-row>
+
+            <v-row>
                 <v-col cols="12" class="pl-0">
                     <h3>풀이</h3>
                 </v-col>
@@ -163,6 +178,7 @@ import axios from '@/axios';
 import router from '@/router';
 import useMoment from '@/mixins/useMoment';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
+import FileUpload from 'primevue/fileupload';
 
 const questionStorage = ref([]);
 const subjects = ref([]);

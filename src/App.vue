@@ -117,7 +117,7 @@ function push(e, routeName) {
   if (e.ctrlKey) return window.open(routeName, '_blank');
 
   router.push({
-    path: routeName, 
+    path: routeName,
     query: {
       userId: auth.userId
     }

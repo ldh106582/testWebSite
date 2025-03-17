@@ -129,7 +129,7 @@ function searchExam () {
     });
 };
 
-function saveExam () {
+async function saveExam () {
     const confirmMsg = '데이터를 저장하시겠습니까?';
     const cancelMsg = '취소되었습니다.';
     const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
@@ -139,7 +139,7 @@ function saveExam () {
     if (!confirm (confirmMsg)) {
         return alert (cancelMsg);
     } else if (examName.value === '') {
-        return alert (nullMsg)
+        return alert (nullMsg);
     }
 
     const examStorage = [
@@ -154,15 +154,15 @@ function saveExam () {
         {subject_total: subjectTotal.value},
     ];
 
-    axios.post('/exam', {
+    await axios.post('/exam', {
         examStorage: examStorage,
         subjectStorage: subjectStorage,
     }).then(res => {
         const data = res.data;        
         if (data.result) {
-            alert (errorMsg)
+            alert (errorMsg);
         } else {
-            alert (successMsg)
+            alert (successMsg);
         }
     });
 };

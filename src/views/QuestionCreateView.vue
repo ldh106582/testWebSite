@@ -222,9 +222,8 @@ async function examCreateSave () {
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
 
-    await axios.post('/image-upload', image.value ).then(res => { 
+    await axios.post('/image-upload', image.value).then(res => { 
         imagePath = res.data.imagePath;
-        console.log(res.data.imagePath);
     });
 
     problemStorages = [
