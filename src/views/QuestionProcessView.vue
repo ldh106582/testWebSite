@@ -135,8 +135,8 @@
 
             <v-row>
                 <v-col class="pl-0 pt-0">
-                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea v-else hide-details variant="outlined" v-model="problem" />
+                    <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                    <v-textarea v-else hide-details variant="outlined" v-model="questionStorage.problem" />
                 </v-col>
             </v-row>
 
@@ -209,6 +209,7 @@ async function search () {
             addResult.value = q.answer.map(i => `답 : ${i['답']}`).join('\n');
             problem.value = q.problem;
         });
+        console.log(data.rows)
         questionStorage.value = await data.rows[0];
         subjects.value = await data.rows1;
     });
