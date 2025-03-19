@@ -17,7 +17,7 @@ export default function useFileUpload () {
             const result = e.target.result;
             try {
                 fd.append('image', file, fileName);
-                callback({ fd: fd, result:result });
+                await callback({ fd: fd, result:result });
             } catch (error) {
                 alert (errorMsg);
                 console.log('err : ' , error);
@@ -34,9 +34,9 @@ export default function useFileUpload () {
         let fileName = '';
 
         if (frontCharLength !== 0) {
-            let fileName = `${ tempName.substring(0, frontCharLength)}-${getUnix(today)}`;
+            let name = `${ tempName.substring(0, frontCharLength)}-${getUnix(today)}`;
             let format = tempName.substring(frontCharLength, lastCharLength);
-            fileName = `${fileName}.${format}`;
+            fileName = `${name}${format}`;
         }
         return fileName
     }

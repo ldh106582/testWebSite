@@ -172,8 +172,8 @@ const image = ref('');
 
 async function onFileSelect (event) {
     getInputFile (event, async (data) => {
-        src.value = data.result;
-        image.value = data.fd;
+        src.value = await data.result;
+        image.value = await data.fd;
     });
 }
 

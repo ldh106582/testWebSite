@@ -135,8 +135,8 @@
 
             <v-row>
                 <v-col class="pl-0 pt-0">
-                    <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea v-else hide-details variant="outlined" v-model="questionStorage.problem" />
+                    <img v-if="questionStorage.problem_image" :src="`http://localhost:3000${questionStorage.problem_image}`" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                    <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
                 </v-col>
             </v-row>
 
