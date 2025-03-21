@@ -182,7 +182,6 @@ function addAnswer () {
 }
 
 function subjectSearch () {
-
     axios.get('/subject', {
         params: {
             exam_id: examStore.exam_id

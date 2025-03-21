@@ -134,7 +134,7 @@
             </v-row>
 
             <v-row>
-                <v-col class="pl-0 pt-0">
+                <v-col class="pl-0 pt-0 d-flex">
                     <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
                     <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
                 </v-col>
@@ -211,7 +211,7 @@ async function search () {
         });
         console.log(data.rows)
         questionStorage.value = await data.rows[0];
-        subjects.value = await data.rows1;
+        // subjects.value = await data.rows1;
     });
 }
 
@@ -252,8 +252,10 @@ function save () {
             answers.push(jsonAnswer);
         }
     });
+
     questionStorage.value.answer = JSON.stringify(answers)
     questionStorage.value.problem = JSON.stringify(problem.value);
+    
     axios.put('/question', {
         questionStorages : questionStorage.value,
     }).then(res => {
