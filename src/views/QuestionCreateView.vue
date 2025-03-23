@@ -11,7 +11,7 @@
             <h2>시험유형 조회</h2>
         </v-col>
         <v-col cols="12" class="px-3 py-0">
-            <v-autocomplete label="시험유형" item-title="exam_name" item-value="exam_id"
+            <v-autocomplete data-test="examId" label="시험유형" item-title="exam_name" item-value="exam_id"
             v-model="examStore.exam_id" :items="examStore.list" 
             :menu-props="{ maxHeight: '200' }" >
                 <template v-slot="{ props, item}">
