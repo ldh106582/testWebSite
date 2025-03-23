@@ -71,7 +71,7 @@ function changePw() {
 
 onMounted(() => {
     userPw.value = router.currentRoute.value.query.userPw;
-})
+});
 
 </script>
 

@@ -100,8 +100,7 @@ const subjectTotal = ref([0]);
 
 function addSubject () {
     const subjectCopie = JSON.parse(JSON.stringify(newSubject.value));
-    subjects.value.push(subjectCopie)
-
+    subjects.value.push(subjectCopie);
     subjectTotal.value.push(0);
 }
 
@@ -110,7 +109,7 @@ function searchExam () {
     const resultMsg = '해당하는 시험은 이미 존재합니다.';
     const nullMsg = '주제를 입력해주세요';
 
-    if (examName.value === '') return alert (nullMsg)
+    if (examName.value === '') return alert (nullMsg);
 
     axios.get('/exam', {
         params: {

@@ -242,7 +242,7 @@ async function examCreateSave () {
         subject_id: subjects.value.subject_id 
     }).then(res => {
         const data = res.data;
-        data.result === true ? alert (errorMsg) : alert (sucessMsg)
+        data.result === true ? alert (errorMsg) : alert (sucessMsg);
     });
     
 }

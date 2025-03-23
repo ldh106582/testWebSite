@@ -72,7 +72,7 @@ function templatePw () {
         let randomIndex = Math.floor(Math.random() * chars.length);
         password += chars[randomIndex];
 	}
-    return password
+    return password;
 
 }
 </script>

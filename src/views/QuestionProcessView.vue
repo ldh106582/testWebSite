@@ -209,9 +209,7 @@ async function search () {
             addResult.value = q.answer.map(i => `답 : ${i['답']}`).join('\n');
             problem.value = q.problem;
         });
-        console.log(data.rows)
         questionStorage.value = await data.rows[0];
-        // subjects.value = await data.rows1;
     });
 }
 
@@ -253,7 +251,7 @@ function save () {
         }
     });
 
-    questionStorage.value.answer = JSON.stringify(answers)
+    questionStorage.value.answer = JSON.stringify(answers);
     questionStorage.value.problem = JSON.stringify(problem.value);
     
     axios.put('/question', {
@@ -266,7 +264,7 @@ function save () {
 
 onMounted(async () => {
     search ();
-})
+});
 
 </script>
 

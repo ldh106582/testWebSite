@@ -103,7 +103,7 @@ const isToggle = ref(true);
 const examStore = useExamStore();
 
 function toggleVisible () {
-    isToggle.value = !isToggle.value
+    isToggle.value = !isToggle.value;
 }
 
 function addSubject () {
@@ -126,7 +126,7 @@ function search () {
         const data = res.data;
 
         if (data.result) {
-            alert (errorMsg)
+            alert (errorMsg);
         } else {
             examStorages.value = data.rows[0];
             subjectStorage.value = data.rows;
@@ -175,9 +175,7 @@ function examDelete (id) {
         }
     }).then(res => {
         const data = res.data;
-
         data.result === true ? alert (errorMsg) : alert (succesMsg);
-
     });
 }
 
@@ -195,7 +193,7 @@ function examSave (id) {
         subject: subjectStorage.value
     }).then(res => {
         const data = res.data;
-        data.result === true ? alert (errorMsg) : alert (succesMsg)
+        data.result === true ? alert (errorMsg) : alert (succesMsg);
     });
 }
 

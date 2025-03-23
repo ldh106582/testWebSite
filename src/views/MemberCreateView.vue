@@ -138,7 +138,7 @@ async function createMember() {
             alert (errorMember);
         } else {
             alert (seccesMember);
-            router.push('/member-page')
+            router.push('/member-page');
         }
     });
 }
