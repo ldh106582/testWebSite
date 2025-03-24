@@ -23,7 +23,7 @@
             </v-autocomplete>
         </v-col>
         <v-col cols="12" class="py-0" style="text-align: end;">
-            <v-btn color="indigo" @click="subjectSearch">조회하기</v-btn>
+            <v-btn data-test="search" color="indigo" @click="subjectSearch">조회하기</v-btn>
         </v-col>
     </v-row>
 
@@ -35,34 +35,30 @@
         </v-row>
         <v-row>
             <v-col cols="2" class="py-0 pr-0">
-                <v-autocomplete label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
+                <v-autocomplete data-test="subject_id" label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
                 v-model="subjects.subject_id" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-text-field label="시험점수" type="number" v-model="questionPoint"></v-text-field>
+                <v-text-field data-test="point" label="시험점수" type="number" v-model="questionPoint" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select label="시험난이도" :items="questionLevels" v-model="selectedLevel"></v-select>
+                <v-select data-test="level" label="시험난이도" :items="questionLevels" v-model="selectedLevel" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select label="시험타입" :items="questionTypes" v-model="selectedType"></v-select>
+                <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectedType" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select label="기출년도" :items="questionYears" v-model="selectedYear"></v-select>
+                <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectedYear" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select label="기출회차" :items="questionAcademicYears" v-model="selectedAcademicYear"></v-select>
+                <v-select data-test="academinYear" label="기출회차" :items="questionAcademicYears" v-model="selectedAcademicYear" />
             </v-col>
         </v-row>
 
         <v-row>
-            <v-col cols="9" class="pt-0" >
+            <v-col cols="12" class="pt-0" >
                 <h3>시험문제</h3>
-                <v-textarea variant="outlined" hide-details placeholder="다음 중 옳은 것을 선택하시오" v-model="question" />
-            </v-col>
-            <v-col cols="3" class="pt-0">
-                <h3>정답</h3>
-                <v-textarea variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
+                <v-textarea data-test="question" variant="outlined" hide-details placeholder="다음 중 옳은 것을 선택하시오" v-model="question" />
             </v-col>
 
             <v-col v-if="selectedType === '단답형'">
@@ -73,7 +69,8 @@
                 </v-col>
                 <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
+                    <v-textarea data-test="problem" variant="outlined" hide-details 
+                    placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
                 </v-col>
             </v-col>
             
@@ -109,20 +106,24 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="12" class="pt-0">
+            <v-col cols="9" class="pt-0">
                 <h3>문제풀이</h3>
-                <v-textarea variant="outlined" hide-details v-model="problemExplanation"></v-textarea>
+                <v-textarea data-test="problemExplanation" variant="outlined" hide-details v-model="problemExplanation" />
+            </v-col>
+            <v-col cols="3" class="pt-0">
+                <h3>정답</h3>
+                <v-textarea data-test="addResult" variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
             </v-col>
         </v-row>
         <v-row>
             <v-col class="py-0">
                 <h3>오답피드백</h3>
-                <v-textarea variant="outlined" hide-details v-model="problemFeedback"></v-textarea>
+                <v-textarea data-test="problemFeedback" variant="outlined" hide-details v-model="problemFeedback" />
             </v-col>
         </v-row>
         <v-row>
             <v-col style="text-align: end;">
-                <v-btn color="indigo" :disabled="!examStore.exam_id" @click="examCreateSave">저장</v-btn>
+                <v-btn data-test="examCreateSave" color="indigo" :disabled="!examStore.exam_id" @click="examCreateSave">저장</v-btn>
             </v-col>
         </v-row>
     </div>
