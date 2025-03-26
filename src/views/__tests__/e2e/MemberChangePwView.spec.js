@@ -38,20 +38,14 @@ test.describe('MemberChangePwView', async () => {
 
     test('', async ({ page }) => {
         const msg1 = '비밀번호가 정상적으로 변경되었습니다.';
-
         page.on('dialog', async dialog => {
             const message = dialog.message();
             expect(message).toBe(msg1);
             await dialog.accept();
         });
-
         await page.fill('[data-test="userPw"] input', mockUserPw);
         await page.fill('[data-test="newPw"] input', mockUserPw);
         await page.click('[data-test="changPw"]');
-
-        Promise.all([
-            page.waitForResponse(res => res.url().includes('/member-changepw') && res.status() === 200)
-        ]);
         
     });
 

@@ -16,7 +16,7 @@
         </v-row>
         <v-row>
             <v-col cols="2" class="py-0 pl-2">
-                <v-text-field hide-details variant="outlined" type="date" :max="endDate" v-model="startDate"/>
+                <v-text-field data-test="startDate" hide-details variant="outlined" type="date" :max="endDate" v-model="startDate"/>
             </v-col>
             <v-col cols="2" class="py-0 pl-2">
                 <v-text-field hide-details variant="outlined" type="date" :min="startDate" max="9999-12-31" v-model="endDate"/>
@@ -43,11 +43,11 @@
 
         <v-row>
             <v-col cols="2" class="pb-0">
-                <v-autocomplete hide-details variant="outlined" :items="examStore.list" item-title="exam_name" item-value="exam_id" 
+                <v-autocomplete data-test="examId" hide-details variant="outlined" :items="examStore.list" item-title="exam_name" item-value="exam_id" 
                 v-model="examStore.exam_id" />
             </v-col>
             <v-col cols="2" class="pb-0">
-                <v-select hide-details variant="outlined" v-model="selectedTypes" :items="questionTypes" multiple>
+                <v-select data-test="type" hide-details variant="outlined" v-model="selectedTypes" :items="questionTypes" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedTypeAll">
                             <template v-slot:prepend>
@@ -67,7 +67,7 @@
                 </v-select>
             </v-col>
             <v-col cols="2" class="pb-0">
-                <v-select hide-details variant="outlined" v-model="selectedLevels" :items="questionLevels" multiple>
+                <v-select data-test="level" hide-details variant="outlined" v-model="selectedLevels" :items="questionLevels" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedLevelAll">
                             <template v-slot:prepend>
@@ -87,7 +87,7 @@
                 </v-select>
             </v-col>
             <v-col cols="2">
-                <v-select hide-details variant="outlined" v-model="selectedYears" :items="questionYears" multiple>
+                <v-select data-test="year" hide-details variant="outlined" v-model="selectedYears" :items="questionYears" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedYearAll">
                             <template v-slot:prepend>
@@ -107,7 +107,7 @@
                 </v-select>
             </v-col>
             <v-col cols="2">
-                <v-select hide-details variant="outlined" v-model="selectedAcademicYears" :items="questionAcademicYears" multiple>
+                <v-select data-test="academic" hide-details variant="outlined" v-model="selectedAcademicYears" :items="questionAcademicYears" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedAcademicYearAll">
                             <template v-slot:prepend>
@@ -127,7 +127,7 @@
                 </v-select>
             </v-col>
             <v-col class="search ml-3">
-                <v-btn color="primary" @click="search">검색</v-btn>
+                <v-btn data-test="search" color="primary" @click="search">검색</v-btn>
             </v-col>
         </v-row>
 
@@ -148,7 +148,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(rows, index) in questions" :key="index" id="quesions" @click="showQuestion(rows, index)">
+                        <tr data-test="questions" v-for="(rows, index) in questions" :key="index" id="quesions" @click="showQuestion(rows, index)">
                             <td class="question-content"> {{ getFullDate(rows.create_date) }}</td>
                             <td class="question-content">{{ rows.question_type}}</td>
                             <td class="question-content"> {{ rows.question_level }}</td>

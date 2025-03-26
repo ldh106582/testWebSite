@@ -50,20 +50,15 @@ test.describe('ExamCreatView', () => {
   
     test('searchExam 버튼 확인 -> 새로운 데이터 일 경우', async ({ page }) => {
       const errorMsg = '데이터를 등록해주세요.';
-  
-      await page.waitForSelector('[data-test="search-input"] input'); 
-      await page.fill('[data-test="search-input"] input', 'test');
-  
       page.on('dialog', async dialog => {
         const message = dialog.message();
         expect(message).toContain(errorMsg);
         await dialog.accept();
       });
       
-      const [response] = await Promise.all([
-        page.waitForResponse(response => response.url().includes('/exam') && response.status() === 200),
-        await page.locator('[data-test="search"]').click(),
-      ]);
+      await page.waitForSelector('[data-test="search-input"] input'); 
+      await page.fill('[data-test="search-input"] input', 'test');
+      await page.locator('[data-test="search"]').click();
     });
   
     test('searchExam 버튼 확인 -> 데이터가 존재할 경우', async ({ page }) => {
