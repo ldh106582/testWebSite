@@ -47,7 +47,7 @@
                 </v-col>
 
                 <v-col align="end">
-                    <v-btn color="red" @click="deleteQuestion">삭제</v-btn>
+                    <v-btn data-test="deleteQuestion" color="red" @click="deleteQuestion">삭제</v-btn>
                 </v-col>
             </v-row>
 
@@ -74,7 +74,7 @@
                     <h3>레벨</h3>
                 </v-col>
                 <v-col cols="2" class="pl-0">
-                    <h3>주제</h3>
+                    <h3>시험과목</h3>
                 </v-col>
             </v-row>
 
@@ -83,7 +83,7 @@
                     <v-text-field hide-details variant="outlined" readonly :value="`${questionStorage.create_date}-${questionStorage.question_id}`" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                    <v-text-field hide-details variant="outlined" type="number" v-model="questionStorage.question_points" />
+                    <v-text-field data-test="point" hide-details variant="outlined" type="number" v-model="questionStorage.question_points" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
                     <v-select hide-details variant="outlined" :items="questionYears" v-model="questionStorage.question_year" />
@@ -96,8 +96,8 @@
                     <v-select hide-details variant="outlined" :items="questionLevels" v-model="questionStorage.question_level" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                    <v-select hide-details variant="outlined" :items="subjects" 
-                    item-title="subject" item-value="subject_id" v-model="questionStorage.subject" />
+                    <v-autocomplete data-test="subject" item-title="subject" item-value="subject_id" :items="subjects"
+                    v-model="questionStorage.subject" />
                 </v-col>
             </v-row>
 
@@ -147,7 +147,7 @@
             </v-row>
             <v-row>
                 <v-col cols="12" class="pl-0 pt-0   ">
-                    <v-textarea hide-details variant="outlined" v-model="questionStorage.problem_explanation" />
+                    <v-textarea data-test="explanation" hide-details variant="outlined" v-model="questionStorage.problem_explanation" />
                 </v-col>
             </v-row>
 
@@ -164,7 +164,7 @@
 
             <v-row>
                 <v-col align="end" class="pr-0">
-                    <v-btn color="blue" class="mr-3" @click="save">저장</v-btn>
+                    <v-btn data-test="save" color="blue" class="mr-3" @click="save">저장</v-btn>
                 </v-col>
             </v-row>
         </div>
@@ -210,6 +210,7 @@ async function search () {
             problem.value = q.problem;
         });
         questionStorage.value = await data.rows[0];
+        subjects.value = data.rows.map(d => { return { subject: d.subject, subject_id: d.subject_id }})
     });
 }
 

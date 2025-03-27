@@ -18,6 +18,7 @@ test.describe('QuestionCreateView', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto(url);
     });
+
     test('시험 유형 조회', async ({ page }) => {
         const msg1 = '등록되었습니다';
 
@@ -57,9 +58,6 @@ test.describe('QuestionCreateView', () => {
         await page.click('[data-test="examCreateSave"]');
     });
 });
-
-
-
 
 test.describe('QuestionListView', () => {
     const url = 'http://localhost:5173/question-list?userId=admin';
@@ -113,4 +111,24 @@ test.describe('QuestionListView', () => {
         list = page.locator('[data-test="questions"]').all();
         expect((await list).length).not.toBe(0);
     });
+});
+
+test.describe('QuestionProcessView', () => {
+    const url = 'http://localhost:5173/question-list';
+    const mockTest = 'test';
+
+    test.beforeEach(async ({ page }) => {
+        await page.goto(url);
+        await page.locator(`div[role="option"]:has-text("${mockTest}")`).click();
+    });
+
+    test('저장 테스트', async ({ page }) => {
+        // data-test="save"
+        // data-test="explanation"
+    });
+
+    test('삭제 테스트', async ({ page }) => {
+        // data-test="deleteQuestion"
+
+    })
 });
