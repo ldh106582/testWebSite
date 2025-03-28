@@ -7,11 +7,11 @@ const mockLevel = '쉬움';
 const mockType = '단답형';
 const mockYear = '2022';
 const mockAcademinYear = '1회차';
-const mockQuestion = '다음 중 해당하는 빈칸에 값을 넣으시오.';
-const mockAddResult = 'WHERE';
-const mockProblem = 'SELECT * FROM 테이블명 (     ) 컬럼명 = 데이터 값';
-const mockProblemExplanation = 'SELECT * FROM 테이블명 WHERE 컬럼명 = 데이터 값 컬럼을 선택할 때에는 where 절이 들어가야 합니다.';
-const mockProblemFeedback = '이 문제를 틀릴 경우 아직 DDL에 대한 이해 및 SQL 기초가 부족한 상황입니다. SELECT, INSERT, UPDATE, DELETE 구문을 반드시 공부하세요.';
+const mockQuestion = 'test';
+const mockAddResult = 'test WHERE';
+const mockProblem = 'test SELECT * FROM 테이블명 (     ) 컬럼명 = 데이터 값';
+const mockProblemExplanation = 'test SELECT * FROM 테이블명 WHERE 컬럼명 = 데이터 값 컬럼을 선택할 때에는 where 절이 들어가야 합니다.';
+const mockProblemFeedback = 'test 이 문제를 틀릴 경우 아직 DDL에 대한 이해 및 SQL 기초가 부족한 상황입니다. SELECT, INSERT, UPDATE, DELETE 구문을 반드시 공부하세요.';
 
 test.describe('QuestionCreateView', () => {
     const url = 'http://localhost:5173/question-create';
@@ -116,15 +116,22 @@ test.describe('QuestionListView', () => {
 test.describe('QuestionProcessView', () => {
     const url = 'http://localhost:5173/question-list';
     const mockTest = 'test';
+    const mockExplanation_2 = 'change Exp';
+    const mockFeedback_2 = 'change feedback';
 
     test.beforeEach(async ({ page }) => {
+        
+
         await page.goto(url);
         await page.locator(`div[role="option"]:has-text("${mockTest}")`).click();
     });
 
-    test('저장 테스트', async ({ page }) => {
+    test('저장 테스트 -> 수정을 위한 테스트', async ({ page }) => {
+        await page.fill('[data-test="point"] input', mockPoint);
+        await page.fill('[data-test="explanation"] input', mockExplanation_2);
+        await page.fill('[data-test="feedback"] input', mockFeedback_2);
+        //
         // data-test="save"
-        // data-test="explanation"
     });
 
     test('삭제 테스트', async ({ page }) => {

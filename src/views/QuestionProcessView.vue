@@ -158,7 +158,7 @@
             </v-row>
             <v-row>
                 <v-col cols="12" class="pl-0 pt-0">
-                    <v-textarea hide-details variant="outlined"  v-model="questionStorage.problem_feedback" />
+                    <v-textarea data-test="feedback" hide-details variant="outlined"  v-model="questionStorage.problem_feedback" />
                 </v-col>
             </v-row>
 
