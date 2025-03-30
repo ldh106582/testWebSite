@@ -135,10 +135,19 @@ test.describe('QuestionProcessView', () => {
         await page.fill('[data-test="point"] input', mockPoint);
         await page.fill('[data-test="explanation"] input', mockExplanation_2);
         await page.fill('[data-test="feedback"] input', mockFeedback_2);
-        await page.click('[data-test="save"]')
+        await page.click('[data-test="save"]');
     });
 
     test('삭제 테스트', async ({ page }) => {
+        const msg1 = '문제를 삭제하시겠습니까?';
+
+        page.on('dialog', async dialog => {
+            const message = dialog.message();
+            if (message.includes(msg1)) {
+                expect(message).toContain(msg1);
+                await dialog.accept();
+            }
+        });
         // data-test="deleteQuestion"
 
     })
