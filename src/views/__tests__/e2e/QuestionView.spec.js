@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { useLogin } from './Instance/useLogin';
 
 const mockExamId = '정보처리기사';
 const mockSubjectId = 'SQL';
@@ -118,20 +119,23 @@ test.describe('QuestionProcessView', () => {
     const mockTest = 'test';
     const mockExplanation_2 = 'change Exp';
     const mockFeedback_2 = 'change feedback';
-
+    
     test.beforeEach(async ({ page }) => {
-        
+        const uselogin = new useLogin(page);
+        await uselogin.gotoLoginPage();
+        await uselogin.loginData();
 
         await page.goto(url);
         await page.locator(`div[role="option"]:has-text("${mockTest}")`).click();
     });
 
     test('저장 테스트 -> 수정을 위한 테스트', async ({ page }) => {
+        
+        
         await page.fill('[data-test="point"] input', mockPoint);
         await page.fill('[data-test="explanation"] input', mockExplanation_2);
         await page.fill('[data-test="feedback"] input', mockFeedback_2);
-        //
-        // data-test="save"
+        await page.click('[data-test="save"]')
     });
 
     test('삭제 테스트', async ({ page }) => {
