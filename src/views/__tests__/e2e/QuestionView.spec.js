@@ -140,15 +140,27 @@ test.describe('QuestionProcessView', () => {
 
     test('삭제 테스트', async ({ page }) => {
         const msg1 = '문제를 삭제하시겠습니까?';
+        const msg2 = '취소되었습니다.';
+        const msg3 = '삭제되었습니다.';
+        let count = 0;
 
         page.on('dialog', async dialog => {
             const message = dialog.message();
             if (message.includes(msg1)) {
                 expect(message).toContain(msg1);
+                count > 0 ? await dialog.accept() : await dialog.dismiss();
+            } else if (message.includes(msg2)) {
+                expect(message).toContain(msg2);
+                await dialog.accept();
+            } else if (message.includes(msg3)) {
+                expect(message).toContain(msg3);
                 await dialog.accept();
             }
         });
-        // data-test="deleteQuestion"
 
-    })
+        for (let i = 0; i < 2; i++) {
+            await page.click('[data-test="deleteQuestion"]');
+            count++;
+        }
+    });
 });
