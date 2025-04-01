@@ -3,11 +3,12 @@
         <v-row >
             <v-col style="align-content: center; height: 92vh;">
                 <v-col style="text-align: center;">
-                    <h1>{{ examType.type_name }}</h1>
-                    <h3>시간:  {{ examType.exam_time  }}</h3>
+
+                    <h1>{{ exam.exam_name }}</h1>
+                    <h3>시간:  {{ exam.exam_time  }}</h3>
                 </v-col>
                 <v-col style="text-align: center;">
-                    <v-textarea variant="outlined" :value="examType.description" readonly></v-textarea>
+                    <v-textarea variant="outlined" :value="exam.exam_des" readonly></v-textarea>
                 </v-col>
                 <v-col cols="12" style="text-align: center;">
                     <v-btn style="width: 22%;" color="primary" @click="testStart" >시험 시작하기</v-btn>
@@ -24,7 +25,7 @@ import axios from '../../src/axios';
 
 const userId = ref('');
 const examId = ref(0);
-const examType = ref([]);
+const exam = ref([]);
 
 function getExamTypeStorage () {    
     // const route = router.currentRoute.value.query.userId;
@@ -35,7 +36,8 @@ function getExamTypeStorage () {
             exam_id: examId.value
         }
     }).then(res => {
-        examType.value = res.data.rows[0];
+        exam.value = res.data.rows[0];
+        console.log(exam.value)
     });
 }
 
