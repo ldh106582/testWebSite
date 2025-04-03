@@ -8,8 +8,9 @@
                 </v-col>
                 <v-col class="d-flex pa-0">
                     <v-col cols="3" class="py-0">
-                        <v-autocomplete data-test="subject_id" label="시험과목" item-title="subject" item-value="subject_id" 
-                        :items="subjects" v-model="subjects.subject_id" />
+                        <v-autocomplete data-test="subject_id" label="시험과목"
+                        item-title="subject" item-value="subject_id" :items="subjects"
+                        v-model="subjects.subject_id" />
                     </v-col>
                     <v-col cols="3" class="py-0">
                         <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectedType" />
@@ -42,11 +43,15 @@ const userId = ref('');
 const examId = ref(0);
 const exam = ref([]);
 const subjects = ref([]);
+const selectedType = ref('');
+const selectedYear = ref('');
+const selectedAcademicYear = ref('');
+
 const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 
 function getExamTypeStorage () {    
     examId.value = router.currentRoute.value.query.exam_id;
-    userId.value = router.currentRoute.value.query.userId
+    userId.value = router.currentRoute.value.query.user_id;
     
     axios.get('/exam-join-subject', {
         params: {
@@ -55,21 +60,22 @@ function getExamTypeStorage () {
     }).then(res => {
         exam.value = res.data.rows[0];
         subjects.value = res.data.rows;
-        console.log(exam.value)
     });
+
 }
 
 function testStart() {
-    
-
     router.push({
-        path: '/information-test', 
+        path: '/test-start', 
         query: {
             user_id: userId.value,
             exam_id: examId.value,
-
+            subject_id: subjects.value.subject_id,
+            question_type: selectedType.value,
+            question_year: selectedYear.value,
+            question_academic_year: selectedAcademicYear.value,
         }
-    })
+    });
 }
 
 onMounted(() => {

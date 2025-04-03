@@ -108,7 +108,8 @@ function getExamStorage (item , e) {
   router.push({
     path: '/exam-Description',
     query: {
-      exam_id: item.exam_id
+      exam_id: item.exam_id,
+      user_id: auth.userId
     }
   });
 }

@@ -46,14 +46,6 @@ const routes = [
         }
     },
     {
-        path: '/exam-Description',
-        name : 'exam-Description',
-        component: () => import('../../nuxt-app/pages/ExamTypeDescriptionView.vue'),
-        meta: {
-            isAisAuthenticated: false,
-        },
-    },
-    {
         path: '/question-create',
         name: 'question-create',
         component: () => import('@/views/QuestionCreateView.vue'),
@@ -78,12 +70,20 @@ const routes = [
         }
     },
     {
-        path: '/information-test',
-        name: 'information-test',
-        component: () => import('../../nuxt-app/pages/informationTestView.vue'),
+        path: '/test-start',
+        name: 'test-start',
+        component: () => import('../../nuxt-app/pages/TestStartView.vue'),
         meta: {
             isAisAuthenticated: false
         }
+    },
+    {
+        path: '/exam-Description',
+        name : 'exam-Description',
+        component: () => import('../../nuxt-app/pages/ExamDescriptionView.vue'),
+        meta: {
+            isAisAuthenticated: false,
+        },
     },
     {
         path: '/practice',
@@ -93,7 +93,6 @@ const routes = [
             isAisAuthenticated: false
         }
     },
-    
 ]
 
 const router = createRouter({
