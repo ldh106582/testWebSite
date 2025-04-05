@@ -20,7 +20,7 @@ const userId = ref('');
 const point = ref(0);
 const problems = ref([]);
 
-function test() {
+async function test() {
     const list = [];
 
     const examId = router.currentRoute.value.query.exam_id;
@@ -35,12 +35,12 @@ function test() {
         question_type: questionType,
         question_year: questionYear,
         question_academic_year: questionAcademicYear
-    })
-    
-    console.log(list)
+    });
 
-    axios.get('/getProblems', {
-
+    await axios.get('/getProblems', {
+        params: {
+            list: list
+        }
     }).then(res => {
         problems.value = res.data.rows;
 
