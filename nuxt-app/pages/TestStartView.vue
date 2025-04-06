@@ -1,8 +1,11 @@
 <template>
     <v-container fluid>
         <v-row>
-            <v-col>
-                <h3> 문제 </h3>
+            <v-col cols="11">
+                <span>{{ problems.problem }}</span>
+            </v-col>
+            <v-col cols="1">
+                <span>{{ problems.problem }}</span>
             </v-col>
             <v-col>
                 <p>내용</p>
@@ -17,7 +20,6 @@ import router from '@/router';
 import axios from '../../src/axios';
 
 const userId = ref('');
-const point = ref(0);
 const problems = ref([]);
 
 async function test() {
