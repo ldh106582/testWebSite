@@ -30,32 +30,25 @@ async function test() {
     const questionType = router.currentRoute.value.query.question_type;
     const questionYear = router.currentRoute.value.query.question_year;
     const questionAcademicYear = router.currentRoute.value.query.question_academic_year;
-    
-    list.push ({
-        exam_id: examId,
-        subject_id: subjectId,
-        question_type: questionType,
-        question_year: questionYear,
-        question_academic_year: questionAcademicYear
-    });
 
-    await axios.get('/getProblems', {
+    await axios.get('/start-problems', {
         params: {
-            list: list
+            exam_id: examId,
+            subject_id: subjectId,
+            question_type: questionType,
+            question_year: questionYear,
+            question_academic_year: questionAcademicYear
         }
     }).then(res => {
         problems.value = res.data.rows;
-
     });
-
-
 }
-
 
 onMounted(() => {
     test();
     userId.value = router.currentRoute.value.query.user_id;
-})
+});
+
 </script>
 
 <style scoped>
