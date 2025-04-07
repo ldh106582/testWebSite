@@ -18,12 +18,13 @@
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
+import { error } from 'console';
 
 const userId = ref('');
 const problems = ref([]);
 
 async function test() {
-    const list = [];
+    const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
 
     const examId = router.currentRoute.value.query.exam_id;
     const subjectId = router.currentRoute.value.query.subject_id;
@@ -40,7 +41,13 @@ async function test() {
             question_academic_year: questionAcademicYear
         }
     }).then(res => {
-        problems.value = res.data.rows;
+        const data = res.data;
+
+        if (data.result.length === 0 || data.result.length === true) {
+            return alert (errorMsg);
+        } else {
+            problems.value = res.data.rows;
+        }
     });
 }
 
