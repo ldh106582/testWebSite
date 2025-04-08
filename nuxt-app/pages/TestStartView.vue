@@ -8,7 +8,7 @@
                 <span>{{ problems.problem }}</span>
             </v-col>
             <v-col>
-                <p>내용</p>
+                <p>{{ problems.problem }}</p>
             </v-col>
         </v-row>
     </v-container>
@@ -47,6 +47,7 @@ async function test() {
             return alert (errorMsg);
         } else {
             problems.value = res.data.rows;
+            console.log(problems.value)
         }
     });
 }
