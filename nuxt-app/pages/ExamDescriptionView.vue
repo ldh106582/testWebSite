@@ -47,7 +47,7 @@ const selectedType = ref('');
 const selectedYear = ref('');
 const selectedAcademicYear = ref('');
 
-const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
+const { questionTypes, questionYears, questionAcademicYears } = useQuestionStorage();
 
 function getExamTypeStorage () {    
     examId.value = router.currentRoute.value.query.exam_id;
@@ -61,7 +61,6 @@ function getExamTypeStorage () {
         exam.value = res.data.rows[0];
         subjects.value = res.data.rows;
     });
-
 }
 
 function testStart() {

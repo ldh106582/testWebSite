@@ -1,14 +1,14 @@
 <template>
     <v-container fluid>
-        <v-row>
-            <v-col cols="11">
-                <span>{{ problems.problem }}</span>
+        <v-row v-for="problem in problems" :key="index">
+            <v-col cols="11" class="problem">
+                <span>{{ problem.question }}</span>
             </v-col>
             <v-col cols="1">
-                <span>{{ problems.problem }}</span>
+                <span>( {{ problem.question_points }} 점)</span>
             </v-col>
-            <v-col>
-                <p>{{ problems.problem }}</p>
+            <v-col cols="12">
+                <p>{{ problem.problem }}</p>
             </v-col>
         </v-row>
     </v-container>
@@ -18,7 +18,6 @@
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
-import { error } from 'console';
 
 const userId = ref('');
 const problems = ref([]);
@@ -42,12 +41,13 @@ async function test() {
         }
     }).then(res => {
         const data = res.data;
+        console.log(data)
 
-        if (data.result.length === 0 || data.result.length === true) {
+        if (data.rows.length === 0 || data.rows === true) {
             return alert (errorMsg);
         } else {
-            problems.value = res.data.rows;
-            console.log(problems.value)
+            problems.value = data.rows;
+            // console.log(problems.value)
         }
     });
 }
@@ -60,5 +60,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+.problem {
+    border: 1px solid black;
+    border-radius: 1.53%;
+}
 
 </style>
