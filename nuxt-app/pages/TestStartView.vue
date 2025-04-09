@@ -1,13 +1,13 @@
 <template>
     <v-container fluid>
         <v-row v-for="problem in problems" :key="index">
-            <v-col cols="11" class="problem">
+            <v-col cols="11" class="question">
                 <span>{{ problem.question }}</span>
             </v-col>
             <v-col cols="1">
                 <span>( {{ problem.question_points }} 점)</span>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" class="problem">
                 <p>{{ problem.problem }}</p>
             </v-col>
         </v-row>
@@ -22,7 +22,7 @@ import axios from '../../src/axios';
 const userId = ref('');
 const problems = ref([]);
 
-async function test() {
+async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
 
     const examId = router.currentRoute.value.query.exam_id;
@@ -30,6 +30,7 @@ async function test() {
     const questionType = router.currentRoute.value.query.question_type;
     const questionYear = router.currentRoute.value.query.question_year;
     const questionAcademicYear = router.currentRoute.value.query.question_academic_year;
+    console.log(router.currentRoute.value.query)
 
     await axios.get('/start-problems', {
         params: {
@@ -41,25 +42,26 @@ async function test() {
         }
     }).then(res => {
         const data = res.data;
-        console.log(data)
 
         if (data.rows.length === 0 || data.rows === true) {
             return alert (errorMsg);
         } else {
             problems.value = data.rows;
-            // console.log(problems.value)
         }
     });
 }
 
 onMounted(() => {
-    test();
+    search();
     userId.value = router.currentRoute.value.query.user_id;
 });
 
 </script>
 
 <style scoped>
+.question{
+    border: 1px solid black;
+}
 
 .problem {
     border: 1px solid black;
