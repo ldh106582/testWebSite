@@ -1,7 +1,10 @@
 <template>
     <v-container fluid>
         <v-row v-for="problem in problems" :key="index">
-            <v-col cols="11" class="question">
+            <v-col cols="1">
+                <span> 문제 {{ index + 1 }} 번. </span>
+            </v-col>            
+            <v-col cols="10" class="question">
                 <span>{{ problem.question }}</span>
             </v-col>
             <v-col cols="1">
@@ -21,6 +24,7 @@ import axios from '../../src/axios';
 
 const userId = ref('');
 const problems = ref([]);
+const limit = ref(19);
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
@@ -30,7 +34,6 @@ async function search () {
     const questionType = router.currentRoute.value.query.question_type;
     const questionYear = router.currentRoute.value.query.question_year;
     const questionAcademicYear = router.currentRoute.value.query.question_academic_year;
-    console.log(router.currentRoute.value.query)
 
     await axios.get('/start-problems', {
         params: {
@@ -38,7 +41,8 @@ async function search () {
             subject_id: subjectId,
             question_type: questionType,
             question_year: questionYear,
-            question_academic_year: questionAcademicYear
+            question_academic_year: questionAcademicYear,
+            limit: limit.value
         }
     }).then(res => {
         const data = res.data;
