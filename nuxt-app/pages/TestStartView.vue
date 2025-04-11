@@ -10,6 +10,10 @@
             <v-col cols="1">
                 <span>( {{ problem.question_points }} 점)</span>
             </v-col>
+            <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                    <v-textarea data-test="problem" variant="outlined" hide-details v-model="problem.problem" />
+            </v-col>
             <v-col cols="12" class="problem">
                 <p>{{ problem.problem }}</p>
             </v-col>
