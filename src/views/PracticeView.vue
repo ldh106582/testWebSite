@@ -7,14 +7,43 @@
             {{ persentage }}% - {{ remainingTime }}초 남음
         </div>
     </div>
+
+    <v-col>
+        <v-btn color="red" @click="google">google</v-btn>
+    </v-col>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import axios from '@/axios';
 
 const persentage = ref(0);
 const totalDuration = 10;
 const remainingTime = ref(totalDuration);
+
+function google () {
+    axios.get('/google-form', {
+    })
+}
+
+function test() {
+    const li = ['Apple', 'Banana', 'Cherry'];
+    let cnt = 0;
+    let str = '';
+
+    li.forEach(l => {
+        for (let i of l) {
+            str += i[0];
+            
+            cnt = cnt + 1;
+            if (cnt > 5) {
+                break;
+            }
+        }
+    })
+    console.log(cnt, str)
+
+}
 
 onMounted(() => {
     const interval = setInterval(() => {
@@ -25,6 +54,8 @@ onMounted(() => {
             clearInterval(interval);
         }
     }, 10);
+
+    test();
 });
 </script>
 

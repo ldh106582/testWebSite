@@ -14,6 +14,7 @@
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
                     <v-textarea data-test="problem" variant="outlined" hide-details v-model="problem.problem" />
             </v-col>
+            
             <v-col cols="12" class="problem">
                 <p>{{ problem.problem }}</p>
             </v-col>
