@@ -27,22 +27,11 @@ function google () {
 }
 
 function test() {
-    const li = ['Apple', 'Banana', 'Cherry'];
-    let cnt = 0;
-    let str = '';
-
-    li.forEach(l => {
-        for (let i of l) {
-            str += i[0];
-            
-            cnt = cnt + 1;
-            if (cnt > 5) {
-                break;
-            }
-        }
-    })
-    console.log(cnt, str)
-
+    const formId = 'https://docs.google.com/forms/d/e/1FAIpQLSdkr-vQ8-xaw2vqQD-drE1pf2d0492GQp2eCm5nj-um1zGupg/viewform';
+    const fisrtIndex = formId.indexOf('e/');
+    const LastIndex = formId.indexOf('/viewform');
+    const result = formId.slice((fisrtIndex +2), LastIndex);
+    console.log(result)
 }
 
 onMounted(() => {
@@ -54,7 +43,6 @@ onMounted(() => {
             clearInterval(interval);
         }
     }, 10);
-
     test();
 });
 </script>
