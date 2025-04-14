@@ -1,22 +1,24 @@
 <template>
     <v-container fluid>
-        <v-row v-for="problem in problems" :key="index">
-            <v-col cols="1">
-                <span> 문제 {{ index + 1 }} 번. </span>
-            </v-col>            
-            <v-col cols="10" class="question">
-                <span>{{ problem.question }}</span>
+        <v-row v-for="(problem, index) in problems" :key="index">      
+            <v-col cols="11" class="question">
+                <span>문제{{ index + 1 }}번.   {{ problem.question }}</span>
             </v-col>
             <v-col cols="1">
                 <span>( {{ problem.question_points }} 점)</span>
             </v-col>
             <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea data-test="problem" variant="outlined" hide-details v-model="problem.problem" />
+                    <v-textarea data-test="problem" variant="outlined" hide-details v-model="problem.problem_image" />
             </v-col>
-            
             <v-col cols="12" class="problem">
                 <p>{{ problem.problem }}</p>
+            </v-col>
+            <v-col cols="1" class="my-5" style="display: flex;">
+                <span>답 :   </span>
+            </v-col>
+            <v-col cols="11" class="pa-0 my-5">
+                <v-text-field variant="outlined"></v-text-field>
             </v-col>
         </v-row>
     </v-container>
@@ -51,6 +53,7 @@ async function search () {
         }
     }).then(res => {
         const data = res.data;
+
 
         if (data.rows.length === 0 || data.rows === true) {
             return alert (errorMsg);
