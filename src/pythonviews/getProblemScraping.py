@@ -19,10 +19,17 @@ def getQuestion () :
         text = p.get_text()
         for n in num:
             if n in text:
-                question.append(text)
+                question.append({'question' : text })
                 if codeQuestion in text:
-                    question.append(getCodeQuestion())
+                    code = getCodeQuestion()
+                    answer = getAnswer()
+                    question.append({'answer' : answer })
                     break
+                else :
+                    answer = getAnswer()
+                    question.append({'answer' : answer })
+                    break
+    print(question)
     return question
 
 def getCodeQuestion () :
@@ -32,13 +39,24 @@ def getCodeQuestion () :
         return c.get_text()
 
 def getAnswer () :
-    ## 답
-    answer_2 = []
-    for i in range(100) :
-        selector = f'#content > div > div.entry-content > div.tt_article_useless_p_margin.contents_style > div:nth-child({i})'
-        answer = soup.select(selector)
-        answer_2 = soup.select('.moreless-content > p > span')
-        print(answer_2)
+    targetColor = '#009a87'
+    answer = []
+    for element in soup.find_all(lambda tag: tag.has_attr("style")) :
+        style = element.get('style')
+        
+        if f"color: {targetColor}" in style :
+            text = element.get_text(strip=True)
+            if ('기출문제이면서' not in text) and ('답' not in text):
+                answer.append({text})
+    
+    return answer
+    # answer_2 = []
+    # for i in range(100) :
+    #     selector = f'#content > div > div.entry-content > div.tt_article_useless_p_margin.contents_style > div.open > div > div:nth-child({i}) > span'
+    #     answer = soup.select(selector)
+        # answer_2 = soup._find_all('color: #009a87')
+        # answer_2 = soup.select('.moreless-content > p > span')
+        # print(answer)
     # for a in answer_2:
     #     text = a.get_text()
 
