@@ -29,7 +29,7 @@ def getQuestion () :
                     answer = getAnswer()
                     question.append({'answer' : answer })
                     break
-    print(question)
+    # print(question)
     return question
 
 def getCodeQuestion () :
@@ -41,14 +41,17 @@ def getCodeQuestion () :
 def getAnswer () :
     targetColor = '#009a87'
     answer = []
-    for element in soup.find_all(lambda tag: tag.has_attr("style")) :
-        style = element.get('style')
+    # for element in soup.find_all(lambda tag: tag.has_attr("style")) :
+    test = soup.find_all(lambda tag: tag.has_attr("style"))
+    
+    for t in test :
+        style = t.get('style')
         
         if f"color: {targetColor}" in style :
-            text = element.get_text(strip=True)
+            text =  t.get_text(strip=True)
             if ('기출문제이면서' not in text) and ('답' not in text):
-                answer.append({text})
-    
+                answer.append(text)
+    print(len(answer))
     return answer
     # answer_2 = []
     # for i in range(100) :
