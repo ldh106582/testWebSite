@@ -23,13 +23,14 @@ def getQuestion () :
                 if codeQuestion in text:
                     code = getCodeQuestion()
                     answer = getAnswer()
+                    question.append({'code' : code })
                     question.append({'answer' : answer })
                     break
                 else :
                     answer = getAnswer()
                     question.append({'answer' : answer })
                     break
-    # print(question)
+    print(question)
     return question
 
 def getCodeQuestion () :
