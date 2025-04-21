@@ -52,17 +52,7 @@ def getAnswer () :
             text =  t.get_text(strip=True)
             if ('기출문제이면서' not in text) and ('답' not in text):
                 answer.append(text)
-    print(len(answer))
     return answer
-    # answer_2 = []
-    # for i in range(100) :
-    #     selector = f'#content > div > div.entry-content > div.tt_article_useless_p_margin.contents_style > div.open > div > div:nth-child({i}) > span'
-    #     answer = soup.select(selector)
-        # answer_2 = soup._find_all('color: #009a87')
-        # answer_2 = soup.select('.moreless-content > p > span')
-        # print(answer)
-    # for a in answer_2:
-    #     text = a.get_text()
 
 getQuestion()
 getCodeQuestion()
