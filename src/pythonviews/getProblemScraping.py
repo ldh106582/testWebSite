@@ -15,14 +15,14 @@ def getQuestion () :
     ## 문제
     problem = soup.find_all('b')
     question = []
-    for p in problem:
+    for (p, index) in problem:
         text = p.get_text()
         for n in num:
             if n in text:
                 question.append({'question' : text })
                 if codeQuestion in text:
                     code = getCodeQuestion()
-                    answer = getAnswer()
+                    answer = getAnswer(index)
                     question.append({'code' : code })
                     question.append({'answer' : answer })
                     break
@@ -39,7 +39,7 @@ def getCodeQuestion () :
     for c in code:
         return c.get_text()
 
-def getAnswer () :
+def getAnswer (index) :
     targetColor = '#009a87'
     answer = []
     # for element in soup.find_all(lambda tag: tag.has_attr("style")) :
@@ -52,7 +52,7 @@ def getAnswer () :
             text =  t.get_text(strip=True)
             if ('기출문제이면서' not in text) and ('답' not in text):
                 answer.append(text)
-    return answer
+    return answer[index + 2]
 
 getQuestion()
 getCodeQuestion()
