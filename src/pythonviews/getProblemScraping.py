@@ -15,20 +15,18 @@ def getQuestion () :
     ## 문제
     problem = soup.find_all('b')
     question = []
-    for (p, index) in problem:
+    for index, p in enumerate(problem):
         text = p.get_text()
         for n in num:
             if n in text:
-                question.append({'question' : text })
                 if codeQuestion in text:
                     code = getCodeQuestion()
-                    answer = getAnswer(index)
-                    question.append({'code' : code })
-                    question.append({'answer' : answer })
+                    answer = getAnswer()
+                    question.append({'question' : text , 'code' : code, 'answer' : answer })
                     break
                 else :
                     answer = getAnswer()
-                    question.append({'answer' : answer })
+                    question.append({'question': text , 'answer': answer })
                     break
     print(question)
     return question
@@ -39,7 +37,7 @@ def getCodeQuestion () :
     for c in code:
         return c.get_text()
 
-def getAnswer (index) :
+def getAnswer () :
     targetColor = '#009a87'
     answer = []
     # for element in soup.find_all(lambda tag: tag.has_attr("style")) :
@@ -51,8 +49,8 @@ def getAnswer (index) :
         if f"color: {targetColor}" in style :
             text =  t.get_text(strip=True)
             if ('기출문제이면서' not in text) and ('답' not in text):
-                answer.append(text)
-    return answer[index + 2]
+                return text
+    return answer
 
 getQuestion()
 getCodeQuestion()
