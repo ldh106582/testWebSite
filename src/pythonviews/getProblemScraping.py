@@ -1,10 +1,13 @@
 import requests;
 from bs4 import BeautifulSoup
+from datetime import date
 
 url = 'https://chobopark.tistory.com/196'
 response = requests.get(url)
 html = response.text
 soup = BeautifulSoup(html, 'html.parser')
+nodeUrl = 'http://localhost:3000'
+today = date.today()
 
 def getQuestion () :
     codeQuestion = '코드이다.'
@@ -29,6 +32,8 @@ def getQuestion () :
                     question.append({'question': text , 'answer': answer })
                     break
     print(question)
+    requests.post(f'{nodeUrl}/question', 
+                json={'exam_id': 1, 'user_id': 'admin', 'today': today})
     return question
 
 def getCodeQuestion () :
