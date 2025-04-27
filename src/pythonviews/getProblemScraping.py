@@ -33,7 +33,7 @@ def getQuestion () :
                     break
     print(today)
     # requests.post(f'{nodeUrl}/question', 
-    #             json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'questionStorages': questionStorages})
+    #             json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'questionStorages': questionStorages, 'problemStorages': problemStorages })
     return question
 
 def getCodeQuestion () :

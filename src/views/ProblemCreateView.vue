@@ -112,7 +112,8 @@
             </v-col>
             <v-col cols="3" class="pt-0">
                 <h3>정답</h3>
-                <v-textarea data-test="addResult" variant="outlined" hide-details @keydown.enter.prevent="addAnswer" v-model="addResult"/>
+                <v-textarea data-test="addResult" variant="outlined" hide-details
+                placeholder="복수 정답일 경우 2, 3 형식으로 입력해주세요." v-model="answer"/>
             </v-col>
         </v-row>
         <v-row>
@@ -163,7 +164,7 @@ const questionOptions = ref([
 ]);
 const question = ref('');
 const answer = ref('');
-const addResult = ref('답 : ');
+// const addResult = ref('');
 const subjects = ref([]);
 const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
@@ -178,9 +179,9 @@ async function onFileSelect (event) {
     });
 }
 
-function addAnswer () {
-    addResult.value += `\n답 : ${answer.value}`;
-}
+// function addAnswer () {
+//     addResult.value += `\n답 : ${answer.value}`;
+// }
 
 function subjectSearch () {
     axios.get('/subject', {
@@ -209,16 +210,16 @@ async function examCreateSave () {
         { question_level: selectedLevel.value },
     ];
     
-    let answers = [];
-    const splitAnswer = (addResult.value).split('답 : ');
-    splitAnswer.forEach(s => {
-        if (s !== '') {
-            const jsonAnswer = {
-                '답': s.replace(/\n/g, '')
-            };
-            answers.push(jsonAnswer);
-        }
-    });
+    // let answers = [];
+    // const splitAnswer = (addResult.value).split('답 : ');
+    // splitAnswer.forEach(s => {
+    //     if (s !== '') {
+    //         const jsonAnswer = {
+    //             '답': s.replace(/\n/g, '')
+    //         };
+    //         answers.push(jsonAnswer);
+    //     }
+    // });
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
 
@@ -229,7 +230,7 @@ async function examCreateSave () {
     problemStorages = [
         { problem: JSON.stringify(questionValue) },
         { problem_image: imagePath },
-        { answer: JSON.stringify(answers) },
+        { answer: answer.value.toLowerCase() },
         { problem_explanation: problemExplanation.value },
         { problem_feedback: problemFeedback.value}
     ];

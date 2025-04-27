@@ -46,25 +46,25 @@ const routes = [
         }
     },
     {
-        path: '/question-create',
-        name: 'question-create',
-        component: () => import('@/views/QuestionCreateView.vue'),
+        path: '/problem-create',
+        name: 'problem-create',
+        component: () => import('@/views/ProblemCreateView.vue'),
         meta: {
             isAisAuthenticated: true
         }
     },
     {
-        path: '/question-list',
-        name: 'question-list',
-        component: () => import('@/views/QuestionListView.vue'),
+        path: '/problem-list',
+        name: 'problem-list',
+        component: () => import('@/views/ProblemListView.vue'),
         meta: {
             isAisAuthenticated: true
         }
     },
     {
-        path: '/question-process',
-        name: 'question-process',
-        component: () => import('@/views/QuestionProcessView.vue'),
+        path: '/problem-process',
+        name: 'problem-process',
+        component: () => import('@/views/ProblemProcessView.vue'),
         meta: {
             isAisAuthenticated: true
         }
