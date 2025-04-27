@@ -58,7 +58,7 @@
         <v-row>
             <v-col cols="12" class="pt-0" >
                 <h3>시험문제</h3>
-                <v-textarea data-test="question" variant="outlined" hide-details placeholder="다음 중 옳은 것을 선택하시오" v-model="question" />
+                <v-textarea data-test="question" variant="outlined" hide-details placeholder="예제) 다음 중 옳은 것을 선택하시오" v-model="question" />
             </v-col>
 
             <v-col v-if="selectedType === '단답형'">

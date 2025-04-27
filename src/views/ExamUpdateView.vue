@@ -115,6 +115,7 @@ function addSubject () {
 function search () {
     const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const typeNameNull = '데이터를 먼저 입력해주세요.';
+    subjectStorage.value = [];
 
     if (examStore.exam_id === undefined) { return alert (typeNameNull) }
 
@@ -129,7 +130,17 @@ function search () {
             alert (errorMsg);
         } else {
             examStorages.value = data.rows[0];
-            subjectStorage.value = data.rows;
+
+            data.rows.forEach(d => {
+                subjectStorage.value.push({
+                    exam_id: d.exam_id,
+                    subject_id: d.subject_id,
+                    subject: d.subject,
+                    subject_total: d.subject_total,
+                    isEmpty: true
+                });
+            });
+
             isCheckData.value = false;
         }
     });
@@ -148,6 +159,7 @@ function deleteSubject (index) {
     axios.delete('/subject', {
         params: {
             subject_id: subjectStorage.value[index].subject_id,
+            exam_id: subjectStorage.value[index].exam_id
         }
     }).then(res => {
         const data = res.data;
@@ -155,7 +167,7 @@ function deleteSubject (index) {
         if (data.result) {
             return alert (errorMsg);
         } else {
-            subjectStorage.value.splice(index);
+            subjectStorage.value.splice(index, 1);
             return alert (succesMsg);
         } 
     });
@@ -183,6 +195,13 @@ function examSave (id) {
 
     const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
     const succesMsg = '데이터를 변경하는 성공하였습니다.';
+    const result = [];
+
+    subjectStorage.value.forEach(s => {
+        if (!s.isEmpty) {
+            result.push({exam_id: id, subject: s.subject, subject_total: s.subject_total});
+        }
+    });    
 
     axios.put('/exam', {
         exam_id: id,
@@ -190,7 +209,7 @@ function examSave (id) {
         exam_time: examStorages.value.exam_time,
         exam_des: examStorages.value.exam_des,
         exam_total: examStorages.value.exam_total,
-        subject: subjectStorage.value
+        subject: result
     }).then(res => {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (succesMsg);
