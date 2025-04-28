@@ -35,8 +35,9 @@ def getQuestion () :
                     code = getCodeQuestion()
                     problem.append({ 'problem' : code, 'answer' : answer[index] })
                     index += 1
-                    requests.post(f'{nodeUrl}/question', 
-                        json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'subject_id': 6, 'questionStorages': question, 'problemStorages': problem })
+                    print(code)
+                    # requests.post(f'{nodeUrl}/question', 
+                    #     json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'subject_id': 6, 'questionStorages': question, 'problemStorages': problem })
                     break
                 else :
                     question.append({ 'question': sliceText, 'question_point': 5,
@@ -44,13 +45,12 @@ def getQuestion () :
                                     'question_year': '2020', 'question_academic_year': '1회차' })
                     problem.append({ 'answer': answer[index] })
                     index += 1
-                    requests.post(f'{nodeUrl}/question', 
-                        json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'subject_id': 5,'questionStorages': question, 'problemStorages': problem })
+                    # requests.post(f'{nodeUrl}/question', 
+                    #     json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'subject_id': 5,'questionStorages': question, 'problemStorages': problem })
                     break
     return problem
 
 def getCodeQuestion () :
-    codeQuestion = []
     code = soup.find_all('code')
     for c in code:
         return c.get_text()
@@ -66,6 +66,7 @@ def getAnswer () :
             text =  t.get_text(strip=True)
             if ('기출문제이면서' not in text) and ('답' not in text):
                 answer.append(text)
+                print(answer)
     return answer
 
 getQuestion()

@@ -31,7 +31,7 @@ import axios from '../../src/axios';
 
 const userId = ref('');
 const problems = ref([]);
-const limit = ref(19);
+const limit = ref(22);
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
@@ -53,7 +53,7 @@ async function search () {
         }
     }).then(res => {
         const data = res.data;
-
+        console.log(data.rows)
 
         if (data.rows.length === 0 || data.rows === true) {
             return alert (errorMsg);
