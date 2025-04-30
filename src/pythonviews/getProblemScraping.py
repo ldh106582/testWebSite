@@ -1,6 +1,7 @@
 import requests;
 from bs4 import BeautifulSoup
 from datetime import date
+import re
 
 url = 'https://chobopark.tistory.com/196'
 response = requests.get(url)
@@ -10,10 +11,12 @@ nodeUrl = 'http://localhost:3000'
 today = date.today().isoformat()
 
 def getQuestion () :
-    codeQuestion = '코드이다.'
+    codeQuestion = '출력 결과를 쓰시오.'
     num = []
     index = 0
+    index_code = 0
     answer = getAnswer()
+    code = getCodeQuestion()
     
     for i in range(20) :
         num.append(f'{i+1}.')
@@ -32,10 +35,9 @@ def getQuestion () :
                     question.append({ 'question': sliceText, 'question_point': 5,
                                     'question_level': '보통', 'question_type': '단답형',
                                     'question_year': '2020', 'question_academic_year': '1회차' })
-                    code = getCodeQuestion()
-                    problem.append({ 'problem' : code, 'answer' : answer[index] })
+                    problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
                     index += 1
-                    print(code)
+                    index_code += 1
                     # requests.post(f'{nodeUrl}/question', 
                     #     json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'subject_id': 6, 'questionStorages': question, 'problemStorages': problem })
                     break
@@ -51,23 +53,45 @@ def getQuestion () :
     return problem
 
 def getCodeQuestion () :
+    codeList = []
     code = soup.find_all('code')
     for c in code:
-        return c.get_text()
+        codeList.append(c.get_text())
+    
+    return codeList
 
 def getAnswer () :
     targetColor = '#009a87;'
-    answer = []
+    raw_texts = []
+    num = []
+    for i in range(20) :
+        num.append(f'{i+1}.')
     
     test = soup.find_all(lambda tag: tag.has_attr("style"))
     for t in test :
+        temp = []
         style = t.get('style')
         if f"color: {targetColor}" in style :
             text =  t.get_text(strip=True)
             if ('기출문제이면서' not in text) and ('답' not in text):
-                answer.append(text)
-                print(answer)
-    return answer
+                raw_texts.append(text)
+    merged = []
+    buffer = []
+    pattern = re.compile(r"^\d+\.\s")
+    
+    for item in raw_texts :
+        if pattern.match(item) :
+            buffer.append(item)
+        else :
+            if buffer :
+                merged.append(', ' .join(buffer))
+                buffer = []
+            merged.append(item)
+        
+    if buffer:
+        merged.append(', '.join(buffer))
+
+    return merged
 
 getQuestion()
 getCodeQuestion()
