@@ -121,7 +121,7 @@
                     <v-textarea hide-details variant="outlined" v-model="problem" />
                 </v-col>
                 <v-col cols="3" class="pl-0 pt-0">
-                    <v-textarea hide-details variant="outlined" @keydown.enter.prevent="addAnswer" v-model="addResult" />
+                    <v-textarea hide-details variant="outlined"  v-model="addResult" />
                 </v-col>
             </v-row>
 
@@ -185,16 +185,11 @@ const subjects = ref([]);
 const isCheckLoading = ref(false);
 const addResult = ref('');
 const problem = ref('');
-const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 
+const { questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 const { getUnix } = useMoment();
 
-function addAnswer () {
-    addResult.value += `\n답 : `;
-}
-
 async function search () {
-
     const questionId = router.currentRoute.value.query.question_id;
     const examId = router.currentRoute.value.query.exam_id;
 
@@ -210,7 +205,7 @@ async function search () {
             problem.value = q.problem;
         });
         questionStorage.value = await data.rows[0];
-        subjects.value = data.rows.map(d => { return { subject: d.subject, subject_id: d.subject_id }})
+        // subjects.value = data.rows.map(d => { return { subject: d.subject, subject_id: d.subject_id }})
     });
 }
 
@@ -263,7 +258,7 @@ function save () {
     });
 }
 
-onMounted(async () => {
+onMounted(() => {
     search ();
 });
 

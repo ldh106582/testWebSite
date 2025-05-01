@@ -221,7 +221,7 @@ function selectedAcademicYearAll () {
 function showQuestion (rows, index) {
 
     router.push({
-        path: '/question-Process',
+        path: '/problem-Process',
         query: {
             exam_id: rows.exam_id,
             question_id: rows.question_id 

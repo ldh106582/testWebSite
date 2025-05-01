@@ -1,24 +1,27 @@
 <template>
     <v-container fluid>
         <v-row v-for="(problem, index) in problems" :key="index">      
-            <v-col cols="11" class="question">
-                <span>문제{{ index + 1 }}번.   {{ problem.question }}</span>
+            <v-col cols="11">
+                <span>{{ index + 1 }}번.   {{ problem.question }}</span>
             </v-col>
             <v-col cols="1">
-                <span>( {{ problem.question_points }} 점)</span>
+                <span>( {{ problem.question_point }} 점)</span>
             </v-col>
-            <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
-                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea data-test="problem" variant="outlined" hide-details v-model="problem.problem_image" />
+            
+            <v-col v-if="src || problem.problem" 
+            cols="12" class="d-flex pa-0" >
+                <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"
+                />
+                <v-textarea v-else data-test="problem" variant="outlined" hide-details
+                auto-grow v-model="problem.problem" readonly/>
             </v-col>
-            <v-col cols="12" class="problem">
-                <p>{{ problem.problem }}</p>
-            </v-col>
-            <v-col cols="1" class="my-5" style="display: flex;">
+            
+            <v-col cols="1" style="text-align: center; align-content: center;">
                 <span>답 :   </span>
             </v-col>
-            <v-col cols="11" class="pa-0 my-5">
-                <v-text-field variant="outlined"></v-text-field>
+
+            <v-col cols="11">
+                <v-text-field variant="outlined" hide-details></v-text-field>
             </v-col>
         </v-row>
     </v-container>
