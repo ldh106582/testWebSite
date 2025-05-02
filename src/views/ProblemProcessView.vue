@@ -134,9 +134,13 @@
             </v-row>
 
             <v-row>
-                <v-col class="pl-0 pt-0 d-flex">
-                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
+                <v-col cols="12" class="pl-0 pt-0 d-flex" id="delete">
+                    <v-btn v-if="src || questionStorage.problem_image" class="pa-0" id="isDelete" size="10" @click="deleteImage">X</v-btn>
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
+                    <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" 
+                    class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
                 </v-col>
             </v-row>
@@ -185,7 +189,6 @@ import useFileUpload from '@/mixins/useFileUpload';
 const questionStorage = ref([]);
 const subjects = ref([]);
 const isCheckLoading = ref(false);
-const problem = ref('');
 const src = ref(null);
 const image = ref('');
 
@@ -216,7 +219,6 @@ async function search () {
         await data.rows[0].forEach(async q => {
             q.create_date = getUnix(q.create_date);
         });
-
         questionStorage.value = await data.rows[0][0];
     });
 }
@@ -265,6 +267,21 @@ async function save () {
     });
 }
 
+function deleteImage () {
+    console.log(questionStorage.value.problem_image)
+    axios.delete('/image-delete', {
+        params: {
+            filename : questionStorage.value.problem_image,
+            problem_id :  questionStorage.value.problem_id
+        }
+    })
+    .then(res => {
+        if (res.data.result) {
+            
+        }
+    });
+}
+
 onMounted(() => {
     search ();
 });
@@ -281,5 +298,31 @@ onMounted(() => {
 #exam {
     justify-content: space-between;
 }
+
+#delete {
+    position: relative;
+}
+
+#isDelete {
+    border-radius: 50%;
+    width: 150px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 30%;
+    left: 96%;
+}
+
+#isDelete :hover{
+    cursor: pointer;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: silver;
+    color: white;
+    border: 1px solid black;
+}
+
+
 
 </style>
