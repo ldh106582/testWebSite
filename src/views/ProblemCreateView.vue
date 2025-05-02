@@ -179,10 +179,6 @@ async function onFileSelect (event) {
     });
 }
 
-// function addAnswer () {
-//     addResult.value += `\n답 : ${answer.value}`;
-// }
-
 function subjectSearch () {
     axios.get('/subject', {
         params: {

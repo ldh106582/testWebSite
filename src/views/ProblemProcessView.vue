@@ -83,7 +83,7 @@
                     <v-text-field hide-details variant="outlined" readonly :value="`${questionStorage.create_date}-${questionStorage.question_id}`" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                    <v-text-field data-test="point" hide-details variant="outlined" type="number" v-model="questionStorage.question_points" />
+                    <v-text-field data-test="point" hide-details variant="outlined" type="number" v-model="questionStorage.question_point" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
                     <v-select hide-details variant="outlined" :items="questionYears" v-model="questionStorage.question_year" />
@@ -96,7 +96,7 @@
                     <v-select hide-details variant="outlined" :items="questionLevels" v-model="questionStorage.question_level" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                    <v-autocomplete data-test="subject" item-title="subject" item-value="subject_id" :items="subjects"
+                    <v-autocomplete data-test="subject" variant="outlined" item-title="subject" item-value="subject_id" :items="subjects"
                     v-model="questionStorage.subject" />
                 </v-col>
             </v-row>
@@ -118,10 +118,10 @@
 
             <v-row>
                 <v-col cols="9" class="pl-0 pt-0">
-                    <v-textarea hide-details variant="outlined" v-model="problem" />
+                    <v-textarea hide-details variant="outlined" v-model="questionStorage.question" />
                 </v-col>
                 <v-col cols="3" class="pl-0 pt-0">
-                    <v-textarea hide-details variant="outlined"  v-model="addResult" />
+                    <v-textarea hide-details variant="outlined"  v-model="questionStorage.answer" />
                 </v-col>
             </v-row>
 
@@ -183,7 +183,6 @@ import FileUpload from 'primevue/fileupload';
 const questionStorage = ref([]);
 const subjects = ref([]);
 const isCheckLoading = ref(false);
-const addResult = ref('');
 const problem = ref('');
 
 const { questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
@@ -201,11 +200,9 @@ async function search () {
         const data = await res.data;
         await data.rows.forEach(async q => {
             q.create_date = getUnix(q.create_date);
-            addResult.value = q.answer.map(i => `답 : ${i['답']}`).join('\n');
             problem.value = q.problem;
         });
         questionStorage.value = await data.rows[0];
-        // subjects.value = data.rows.map(d => { return { subject: d.subject, subject_id: d.subject_id }})
     });
 }
 
