@@ -24,6 +24,10 @@
                 <v-text-field variant="outlined" hide-details></v-text-field>
             </v-col>
         </v-row>
+        
+        <v-row>
+            <v-btn>완료</v-btn>
+        </v-row>
     </v-container>
 </template>
 
