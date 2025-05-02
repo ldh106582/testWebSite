@@ -135,6 +135,7 @@
 
             <v-row>
                 <v-col class="pl-0 pt-0 d-flex">
+                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
                     <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
                     <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
                 </v-col>
@@ -179,14 +180,25 @@ import router from '@/router';
 import useMoment from '@/mixins/useMoment';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import FileUpload from 'primevue/fileupload';
+import useFileUpload from '@/mixins/useFileUpload';
 
 const questionStorage = ref([]);
 const subjects = ref([]);
 const isCheckLoading = ref(false);
 const problem = ref('');
+const src = ref(null);
+const image = ref('');
 
 const { questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
 const { getUnix } = useMoment();
+const { getInputFile } = useFileUpload();
+
+function onFileSelect (event) {
+    getInputFile (event, async (data) => {
+        src.value = await data.result;
+        image.value = await data.fd;
+    });
+}
 
 async function search () {
     const questionId = router.currentRoute.value.query.question_id;
@@ -195,14 +207,17 @@ async function search () {
     await axios.get('/qeustion-with-problem', {
         params: {
             question_id: questionId,
+            exam_id : examId
         }
     }).then(async res => {
         const data = await res.data;
-        await data.rows.forEach(async q => {
+        subjects.value = await data.rows[1];
+
+        await data.rows[0].forEach(async q => {
             q.create_date = getUnix(q.create_date);
-            problem.value = q.problem;
         });
-        questionStorage.value = await data.rows[0];
+
+        questionStorage.value = await data.rows[0][0];
     });
 }
 
@@ -229,29 +244,24 @@ function deleteQuestion () {
     });
 }
 
-function save () {
+async function save () {
     const errorMsg = '저장 하는 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const sucessMsg = '저장되었습니다.';
+    let imagePath = null;
 
-    let answers = [];
-    const splitAnswer = (addResult.value).split('답 : ');
-    splitAnswer.forEach(s => {
-        if (s.trim() !== '') {
-            const jsonAnswer = {
-                '답': s.replace(/\s+/g, '')
-            };
-            answers.push(jsonAnswer);
-        }
-    });
+    if (image.value) {
+        await axios.post('/image-upload', image.value)
+        .then(res => {
+            imagePath = res.data.imagePath;
+        });
+    }
 
-    questionStorage.value.answer = JSON.stringify(answers);
-    questionStorage.value.problem = JSON.stringify(problem.value);
-    
     axios.put('/question', {
         questionStorages : questionStorage.value,
+        image : imagePath ?? questionStorage.value.problem_image
     }).then(res => {
         const data = res.data;
-        data.result !== true ? alert (errorMsg) :  alert (sucessMsg);
+        data.result !== true ? alert (sucessMsg) : alert (errorMsg);
     });
 }
 

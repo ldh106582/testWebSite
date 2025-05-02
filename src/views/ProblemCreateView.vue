@@ -164,7 +164,6 @@ const questionOptions = ref([
 ]);
 const question = ref('');
 const answer = ref('');
-// const addResult = ref('');
 const subjects = ref([]);
 const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
@@ -205,20 +204,8 @@ async function examCreateSave () {
         { question_academic_year: selectedAcademicYear.value},
         { question_level: selectedLevel.value },
     ];
-    
-    // let answers = [];
-    // const splitAnswer = (addResult.value).split('답 : ');
-    // splitAnswer.forEach(s => {
-    //     if (s !== '') {
-    //         const jsonAnswer = {
-    //             '답': s.replace(/\n/g, '')
-    //         };
-    //         answers.push(jsonAnswer);
-    //     }
-    // });
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
-
     await axios.post('/image-upload', image.value).then(res => { 
         imagePath = res.data.imagePath;
     });
