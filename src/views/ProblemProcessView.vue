@@ -276,8 +276,8 @@ function deleteImage () {
         }
     })
     .then(res => {
-        if (res.data.result) {
-            
+        if (!res.data.result) {
+            search ();
         }
     });
 }
