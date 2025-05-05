@@ -35,6 +35,9 @@
         </v-row>
         <v-row>
             <v-col cols="2" class="py-0 pr-0">
+                <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectedType" />
+            </v-col>
+            <v-col cols="2" class="py-0 pr-0">
                 <v-autocomplete data-test="subject_id" label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
                 v-model="subjects.subject_id" />
             </v-col>
@@ -45,9 +48,6 @@
                 <v-select data-test="level" label="시험난이도" :items="questionLevels" v-model="selectedLevel" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectedType" />
-            </v-col>
-            <v-col cols="2" class="py-0 pr-0">
                 <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectedYear" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
@@ -56,59 +56,9 @@
         </v-row>
 
         <v-row>
-            <v-col cols="12" class="pt-0" >
+            <v-col cols="9" class="pt-0" >
                 <h3>시험문제</h3>
                 <v-textarea data-test="question" variant="outlined" hide-details placeholder="예제) 다음 중 옳은 것을 선택하시오" v-model="question" />
-            </v-col>
-
-            <v-col v-if="selectedType === '단답형'">
-                <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
-                    <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
-                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
-                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="Image Upload" />
-                </v-col>
-                <v-col cols="12" class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
-                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea data-test="problem" variant="outlined" hide-details 
-                    placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
-                </v-col>
-            </v-col>
-            
-            <v-col v-else-if="selectedType === '객관식'">
-                <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
-                    <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
-                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
-                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="Image Upload" />
-                </v-col>
-                <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
-                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
-                </v-col>
-                <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
-                    <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
-                    <label :for="index + 1" class="examQuestion-label">
-                        <span class="examQuestion-Num">{{ option.no1 }}</span>
-                    </label>
-                    <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
-                </v-col>
-            </v-col>
-
-            <v-col v-if="selectedType === '주관식' || selectedType === '서술형'">
-                <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
-                    <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
-                    <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
-                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="Image Upload" />
-                </v-col>
-                <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
-                    <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 40%; max-height: 150px;"/>
-                    <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
-                </v-col>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="9" class="pt-0">
-                <h3>문제풀이</h3>
-                <v-textarea data-test="problemExplanation" variant="outlined" hide-details v-model="problemExplanation" />
             </v-col>
             <v-col cols="3" class="pt-0">
                 <h3>정답</h3>
@@ -116,12 +66,68 @@
                 placeholder="복수 정답일 경우 2, 3 형식으로 입력해주세요." v-model="answer"/>
             </v-col>
         </v-row>
+
+        <v-row>
+            <v-col cols="12" class="pt-0 d-flex">
+                <FileUpload mode="basic" @select="onFileSelect" customUpload auto 
+                style="border: 1px solid black; border-radius: 9.8px;" 
+                severity="secondary" class="p-button-outlined pa-2" chooseLabel="Image Upload" />
+            </v-col>
+            <v-col cols="12" id="delete">
+                <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
+                <v-btn v-if="src" class="pa-0" id="isDelete" size="10" @click="deleteImage"> X </v-btn>
+            </v-col>
+        </v-row>
+
+        <v-row cols="12" v-if="selectedType === '단답형'">
+            <v-col class="d-flex pa-0 mb-2" style="align-items: center;">
+                <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
+            </v-col>
+            <v-col class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
+                <v-textarea data-test="problem" variant="outlined" hide-details 
+                placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
+            </v-col>
+        </v-row>
+            
+        <v-row v-else-if="selectedType === '객관식'">
+            <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
+                <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
+            </v-col>
+            <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
+                <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
+            </v-col>
+            <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
+                <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
+                <label :for="index + 1" class="examQuestion-label">
+                    <span class="examQuestion-Num">{{ option.no1 }}</span>
+                </label>
+                <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
+            </v-col>
+        </v-row>
+
+        <v-row v-if="selectedType === '주관식' || selectedType === '서술형'">
+            <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
+                <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
+            </v-col>
+            <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
+                <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col cols="12" class="pt-0">
+                <h3>문제풀이</h3>
+                <v-textarea data-test="problemExplanation" variant="outlined" hide-details v-model="problemExplanation" />
+            </v-col>
+        </v-row>
+
         <v-row>
             <v-col class="py-0">
                 <h3>오답피드백</h3>
                 <v-textarea data-test="problemFeedback" variant="outlined" hide-details v-model="problemFeedback" />
             </v-col>
         </v-row>
+
         <v-row>
             <v-col style="text-align: end;">
                 <v-btn data-test="examCreateSave" color="indigo" :disabled="!examStore.exam_id" @click="examCreateSave">저장</v-btn>
@@ -229,7 +235,12 @@ async function examCreateSave () {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (sucessMsg);
     });
-    
+
+}
+
+function deleteImage () {
+    src.value = null;
+    image.value = null;
 }
 
 </script>
@@ -269,5 +280,25 @@ input[type="radio"]:checked + .examQuestion-label::before {
     font-weight: bold;
     font-size: 25px;
     padding-right: 30px;
+}
+
+#delete {
+    position: relative;
+}
+
+#isDelete {
+    position: absolute;
+    top: 5%;
+    left: 96%;
+}
+
+#isDelete :hover{
+    cursor: pointer;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: silver;
+    color: white;
+    border: 1px solid black;
 }
 </style>

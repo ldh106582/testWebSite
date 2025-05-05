@@ -140,7 +140,7 @@
                     <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" 
                     class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="12" class="pa-0">
                     <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
                 </v-col>
             </v-row>
@@ -268,18 +268,23 @@ async function save () {
 }
 
 function deleteImage () {
-    console.log(questionStorage.value.problem_image)
-    axios.delete('/image-delete', {
-        params: {
-            filename : questionStorage.value.problem_image,
-            problem_id :  questionStorage.value.problem_id
-        }
-    })
-    .then(res => {
-        if (!res.data.result) {
-            search ();
-        }
-    });
+    if (questionStorage.value.problem_image) {
+        axios.delete('/image-delete', {
+            params: {
+                filename : questionStorage.value.problem_image,
+                problem_id :  questionStorage.value.problem_id
+            }
+        })
+        .then(res => {
+            if (!res.data.result) {
+                search ();
+            }
+        });
+    } else {
+        src.value = null;
+        image.value = null;
+    }
+
 }
 
 onMounted(() => {
@@ -304,12 +309,8 @@ onMounted(() => {
 }
 
 #isDelete {
-    border-radius: 50%;
-    width: 150px;
-    width: 30px;
-    height: 30px;
     position: absolute;
-    top: 30%;
+    top: 5%;
     left: 96%;
 }
 
