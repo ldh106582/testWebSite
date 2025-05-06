@@ -29,7 +29,7 @@
 
         <v-row>
             <v-col cols="6">
-                <v-text-field data-test="examTime" hide-details variant="outlined" placeholder="ex)02시간30분, 01시간, 03시간 등 시험 시간 기재" 
+                <v-text-field data-test="examTime" type="number" hide-details variant="outlined" placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
                 v-model="examTime" />
             </v-col>
             <v-col cols="6">
@@ -91,7 +91,7 @@ import axios from '@/axios';
 
 const examName = ref('');
 const examDes = ref('');
-const examTime = ref('');
+const examTime = ref(0);
 const examTotal = ref(0);
 const isSearch = ref(true);
 const subjects = ref(['']);

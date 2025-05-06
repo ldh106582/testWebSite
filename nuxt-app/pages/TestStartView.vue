@@ -30,20 +30,27 @@
         <v-row>
             <v-btn>완료</v-btn>
         </v-row>
+
+        <v-row>
+            <v-col id="safeTimerDisplay"></v-col>
+        </v-row>
     </v-container>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
 
 const userId = ref('');
 const problems = ref([]);
 const limit = ref(22);
+const examTime = ref(0);
+const remainingTime = ref('');
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
+    const date = new Date();
 
     const examId = router.currentRoute.value.query.exam_id;
     const subjectId = router.currentRoute.value.query.subject_id;
@@ -67,13 +74,32 @@ async function search () {
             return alert (errorMsg);
         } else {
             problems.value = data.rows;
+            const examTimeInMinutes = parseInt(problems.value[0].exam_time);
+            examTime.value = Date.now() + (examTimeInMinutes * 60 * 1000);
         }
     });
+}
+
+function timer () {
+    setInterval(() => {
+    const remainingMs = examTime.value - Date.now();
+    
+    if (remainingMs <= 0) {
+        clearInterval(timer);
+        return;
+    }
+    
+    const seconds = Math.floor((remainingMs / 1000) % 60);
+    const minutes = Math.floor((remainingMs / (1000 * 60)) % 60);
+    const hours = Math.floor(remainingMs / (1000 * 60 * 60));
+    remainingTime.value = `${hours}:${minutes}:${seconds}`
+    }, 1000);
 }
 
 onMounted(() => {
     search();
     userId.value = router.currentRoute.value.query.user_id;
+    timer();
 });
 
 </script>
