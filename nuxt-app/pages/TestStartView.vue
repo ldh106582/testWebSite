@@ -1,39 +1,66 @@
 <template>
-    <v-container fluid>
-        <v-row v-for="(problem, index) in problems" :key="index">      
-            <v-col cols="11">
-                <span>{{ index + 1 }}번.   {{ problem.question }}</span>
-            </v-col>
-            <v-col cols="1">
-                <span>( {{ problem.question_point }} 점)</span>
-            </v-col>
+    <v-container fluid class="d-flex">
+        <v-col cols="10">
+            <v-row v-for="(problem, index) in problems" :key="index">      
+                <v-col cols="10">
+                    <span>{{ index + 1 }}번.   {{ problem.question }}</span>
+                </v-col>
+                <v-col cols="2" style="text-align: end; align-content: center;">
+                    <span>( {{ problem.question_point }} 점)</span>
+                </v-col>
+                
+                <v-col cols="12" class="d-flex pa-0" >
+                    <img v-if="problem.problem_image" :src="problem.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"
+                    style="width: 100%; max-height: 500px;" />
+                </v-col>
+
+                <v-col cols="12">
+                    <v-textarea v-if="problem.problem" data-test="problem" variant="outlined" hide-details
+                    auto-grow v-model="problem.problem" readonly/>
+                </v-col>
+                
+                <v-col cols="1" style="text-align: center; align-content: center;">
+                    <span>답 :  </span>
+                </v-col>
+
+                <v-col cols="11">
+                    <v-text-field variant="outlined" hide-details v-model="answer[index]" />
+                </v-col>
+            </v-row>
             
-            <v-col cols="12" class="d-flex pa-0" >
-                <img v-if="problem.problem_image" :src="problem.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"
-                style="width: 100%; max-height: 500px;" />
-            </v-col>
+            <v-row>
+                <v-col style="text-align: end;">
+                    <v-btn color="indigo" @click="submit">제출</v-btn>
+                </v-col>
+            </v-row>
+        </v-col>
 
-            <v-col cols="12">
-                <v-textarea v-if="problem.problem" data-test="problem" variant="outlined" hide-details
-                auto-grow v-model="problem.problem" readonly/>
-            </v-col>
+        <v-col cols="2" style="border: 1px solid black; right: 0%;" >
+            <v-row>
+                <v-col style="border: 1px solid black; text-align: center;">
+                    <span style="font-weight: bold; font-size: x-large;">답   란</span>
+                </v-col>
+            </v-row>
             
-            <v-col cols="1" style="text-align: center; align-content: center;">
-                <span>답 :  </span>
-            </v-col>
+            <v-row v-for="(p, index) in problems" :key="index">
+                <v-col class="d-flex pa-0">
+                    <v-col cols="1" class="pa-0" style="text-align: center;">
+                        <span> {{ index }}  </span>
+                    </v-col>
+                    <v-col cols="11" class="pa-0">
+                        <v-text-field variant="outlined" hide-details />
+                    </v-col>
+                </v-col>
+            </v-row>
 
-            <v-col cols="11">
-                <v-text-field variant="outlined" hide-details></v-text-field>
-            </v-col>
-        </v-row>
-        
-        <v-row>
-            <v-btn>완료</v-btn>
-        </v-row>
-
-        <v-row>
-            <v-col id="safeTimerDisplay"></v-col>
-        </v-row>
+            <v-row>
+                <div class="text-center">
+                    <v-chip class="ma-2 pa-5" size="x-large">
+                    {{ remainingTime }}
+                    </v-chip>
+                </div>
+            </v-row>
+        </v-col>
     </v-container>
 </template>
 
@@ -47,6 +74,7 @@ const problems = ref([]);
 const limit = ref(22);
 const examTime = ref(0);
 const remainingTime = ref('');
+const answer = ref([]);
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
@@ -78,6 +106,10 @@ async function search () {
             examTime.value = Date.now() + (examTimeInMinutes * 60 * 1000);
         }
     });
+}
+
+function submit () {
+    console.log(answer.value)
 }
 
 function timer () {
@@ -113,5 +145,6 @@ onMounted(() => {
     border: 1px solid black;
     border-radius: 1.53%;
 }
+
 
 </style>
