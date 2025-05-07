@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="d-flex">
-        <v-col cols="10">
+        <v-col cols="9">
             <v-row v-for="(problem, index) in problems" :key="index">      
                 <v-col cols="10">
                     <span>{{ index + 1 }}번.   {{ problem.question }}</span>
@@ -35,30 +35,27 @@
             </v-row>
         </v-col>
 
-        <v-col cols="2" style="border: 1px solid black; right: 0%;" >
+        <v-col cols="2" style="border: 1px solid black; right: 0%; position: fixed; top: 7.5%; height: 120v; overflow: auto;" >
             <v-row>
-                <v-col style="border: 1px solid black; text-align: center;">
-                    <span style="font-weight: bold; font-size: x-large;">답   란</span>
+                <v-col class="d-flex" style="border: 1px solid black; text-align: center;">
+                    <span style="font-weight: bold; font-size: large;">답   란</span>
+                    <div class="text-center">
+                        <v-chip class="ma-2 pa-5" size="x-large">
+                        {{ remainingTime }}
+                        </v-chip>
+                    </div>
                 </v-col>
             </v-row>
             
             <v-row v-for="(p, index) in problems" :key="index">
                 <v-col class="d-flex pa-0">
                     <v-col cols="1" class="pa-0" style="text-align: center;">
-                        <span> {{ index }}  </span>
+                        <span> {{ index + 1 }}  </span>
                     </v-col>
                     <v-col cols="11" class="pa-0">
                         <v-text-field variant="outlined" hide-details />
                     </v-col>
                 </v-col>
-            </v-row>
-
-            <v-row>
-                <div class="text-center">
-                    <v-chip class="ma-2 pa-5" size="x-large">
-                    {{ remainingTime }}
-                    </v-chip>
-                </div>
             </v-row>
         </v-col>
     </v-container>
