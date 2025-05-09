@@ -109,6 +109,7 @@ async function search () {
 
 function submit () {
     console.log(answer.value)
+    console.log(problems.value)
 }
 
 function timer () {
