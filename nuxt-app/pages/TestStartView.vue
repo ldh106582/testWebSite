@@ -117,11 +117,13 @@ function submit () {
 
     answers.value.find(answer => {
         if (realAnswers.includes(answer)) {
-            console.log(answer)
+            console.log(answer);
+            
         }
     });
     
-    // if (answer)
+    // if (answer) {
+    // }
     
 
 
