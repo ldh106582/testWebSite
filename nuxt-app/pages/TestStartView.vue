@@ -24,7 +24,7 @@
                 </v-col>
 
                 <v-col cols="11">
-                    <v-text-field variant="outlined" hide-details v-model="answer[index]" />
+                    <v-text-field variant="outlined" hide-details v-model="answers[index]" />
                 </v-col>
             </v-row>
             
@@ -55,7 +55,7 @@
                         <span> {{ index + 1 }}  </span>
                     </v-col>
                     <v-col cols="11" class="pa-0">
-                        <v-text-field variant="outlined" hide-details v-model="answer[index]" />
+                        <v-text-field variant="outlined" hide-details v-model="answers[index]" />
                     </v-col>
                 </v-col>
             </v-row>
@@ -73,7 +73,7 @@ const problems = ref([]);
 const limit = ref(22);
 const examTime = ref(0);
 const remainingTime = ref('');
-const answer = ref([]);
+const answers = ref([]);
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
@@ -108,8 +108,23 @@ async function search () {
 }
 
 function submit () {
-    console.log(answer.value)
-    console.log(problems.value)
+    const realAnswers = [];
+    const point = 0;
+
+    problems.value.forEach(p => {
+        realAnswers.push(p.answer)
+    });
+
+    answers.value.find(answer => {
+        if (realAnswers.includes(answer)) {
+            console.log(answer)
+        }
+    });
+    
+    // if (answer)
+    
+
+
 }
 
 function timer () {
