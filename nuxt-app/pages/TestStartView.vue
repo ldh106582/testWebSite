@@ -117,15 +117,10 @@ function submit () {
 
     answers.value.find(answer => {
         if (realAnswers.includes(answer)) {
-            console.log(answer);
-            
+            point += 5;
         }
-    });
-    
-    // if (answer) {
-    // }
-    
 
+    });    
 
 }
 
