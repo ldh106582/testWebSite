@@ -51,7 +51,7 @@
             
             <v-row v-for="(p, index) in problems" :key="index">
                 <v-col class="d-flex pa-0">
-                    <v-col cols="1" class="pa-0" style="align-content: center; text-align: center;">
+                    <v-col cols="1" class="pa-0 mr-1" style="align-content: center; text-align: center;">
                         <span> {{ index + 1 }}  </span>
                     </v-col>
                     <v-col cols="11" class="pa-0">
@@ -108,20 +108,29 @@ async function search () {
 }
 
 function submit () {
-    const realAnswers = [];
-    const point = 0;
+    const problemAnswers = [];
+    let point = 0;
 
     problems.value.forEach(p => {
-        realAnswers.push(p.answer)
+        problemAnswers.push(p.answer)
     });
 
-    answers.value.find(answer => {
-        if (realAnswers.includes(answer)) {
+    problemAnswers.forEach((p, index) => {
+        const value = answers.value[index];
+        
+        const problemAnswer = p.split(/\s+/).filter(word => word.length > 0);
+        const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0) : [];
+
+        const intersecter = userAnswer.filter(word => problemAnswer.includes(word));
+
+        const correct = ((intersecter.length / userAnswer.length) * 100);
+
+        if (correct > 80) {
             point += 5;
         }
+    });
 
-    });    
-
+    console.log(point)
 }
 
 function timer () {
