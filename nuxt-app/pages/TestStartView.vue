@@ -107,7 +107,7 @@ async function search () {
     });
 }
 
-function submit () {
+async function submit () {
     const problemAnswers = [];
     let point = 0;
 
@@ -130,7 +130,20 @@ function submit () {
         }
     });
 
-    console.log(point)
+    await axios.get('', {
+        params: {
+            exam_id: examId,
+            subject_id: subjectId,
+            question_type: questionType,
+            question_year: questionYear,
+            question_academic_year: questionAcademicYear,
+            point: point,
+            userId : userId.value
+        }
+    }).then(res => {
+        const data = res.data;
+        
+    })
 }
 
 function timer () {
