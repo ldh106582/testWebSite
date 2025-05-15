@@ -109,7 +109,8 @@ async function search () {
 
 async function submit () {
     const problemAnswers = [];
-    let point = 0;
+    let score = 0;
+    let list = [];
 
     problems.value.forEach(p => {
         problemAnswers.push(p.answer)
@@ -126,19 +127,22 @@ async function submit () {
         const correct = ((intersecter.length / userAnswer.length) * 100);
 
         if (correct > 80) {
-            point += 5;
+            score += 5;
         }
     });
 
-    await axios.get('', {
+    list.push(
+        { exam_id: examId },
+        { question_type: examId },
+        { question_year: examId },
+        { question_academic_year: examId },
+        { score: score },
+        { userId: userId.value },
+    );
+
+    await axios.get('/save-problem-result', {
         params: {
-            exam_id: examId,
-            subject_id: subjectId,
-            question_type: questionType,
-            question_year: questionYear,
-            question_academic_year: questionAcademicYear,
-            point: point,
-            userId : userId.value
+            list: list
         }
     }).then(res => {
         const data = res.data;
