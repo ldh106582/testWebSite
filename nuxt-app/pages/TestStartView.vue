@@ -74,10 +74,10 @@ const limit = ref(22);
 const examTime = ref(0);
 const remainingTime = ref('');
 const answers = ref([]);
-const date = new Date();
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
+    const date = new Date();
 
     const examId = router.currentRoute.value.query.exam_id;
     const subjectId = router.currentRoute.value.query.subject_id;
@@ -138,7 +138,6 @@ async function submit () {
         { question_round: examId },
         { score: score },
         { userId: userId.value },
-        { created_at : examTime.value}
     );
 
     await axios.get('/save-problem-result', {
