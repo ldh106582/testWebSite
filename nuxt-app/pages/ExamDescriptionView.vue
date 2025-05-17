@@ -19,7 +19,7 @@
                         <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectedYear" />
                     </v-col>
                     <v-col cols="3" class="py-0">
-                        <v-select data-test="academinYear" label="기출회차" :items="questionAcademicYears" v-model="selectedAcademicYear" />
+                        <v-select data-test="academinYear" label="기출회차" :items="questionRound" v-model="questionRounds" />
                     </v-col>
                 </v-col>
                 <v-col style="text-align: center;">
@@ -45,9 +45,9 @@ const exam = ref([]);
 const subjects = ref([]);
 const selectedType = ref('');
 const selectedYear = ref('');
-const selectedAcademicYear = ref('');
+const questionRounds = ref('');
 
-const { questionTypes, questionYears, questionAcademicYears } = useQuestionStorage();
+const { questionTypes, questionYears, questionRound } = useQuestionStorage();
 
 function getExamTypeStorage () {    
     examId.value = router.currentRoute.value.query.exam_id;
@@ -72,7 +72,7 @@ function testStart() {
             subject_id: subjects.value.subject_id,
             question_type: selectedType.value,
             question_year: selectedYear.value,
-            question_academic_year: selectedAcademicYear.value,
+            question_round: questionRounds.value,
         }
     });
 }

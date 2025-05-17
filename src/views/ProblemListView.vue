@@ -107,7 +107,7 @@
                 </v-select>
             </v-col>
             <v-col cols="2">
-                <v-select data-test="academic" hide-details variant="outlined" v-model="selectedAcademicYears" :items="questionAcademicYears" multiple>
+                <v-select data-test="academic" hide-details variant="outlined" v-model="questionRound" :items="questionAcademicYears" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedAcademicYearAll">
                             <template v-slot:prepend>
@@ -153,7 +153,7 @@
                             <td class="question-content">{{ rows.question_type}}</td>
                             <td class="question-content"> {{ rows.question_level }}</td>
                             <td class="question-content">{{ rows.question_year }}</td>
-                            <td class="question-content">{{ rows.question_academic_year }}</td>
+                            <td class="question-content">{{ rows.question_round }}</td>
                             <td class="question-question">{{ rows.question }}</td>
                         </tr>
                     </tbody>
@@ -193,7 +193,7 @@ const selectedLevels = ref([]);
 const isLevelCheckAll = ref(false);
 const selectedYears = ref([]);
 const isYearCheckAll = ref(false);
-const selectedAcademicYears = ref([]);
+const questionRound = ref([]);
 const isAchademicCheckAll = ref(false);
 const questions = ref([]);
 const page = ref(1);
@@ -215,7 +215,7 @@ function selectedYearAll () {
 }
 function selectedAcademicYearAll () {
     isAchademicCheckAll.value = !isAchademicCheckAll.value;
-    isAchademicCheckAll.value !== true ? selectedAcademicYears.value = [] : selectedAcademicYears.value = questionAcademicYears.value.slice();
+    isAchademicCheckAll.value !== true ? questionRound.value = [] : questionRound.value = questionAcademicYears.value.slice();
 }
 
 function showQuestion (rows, index) {
@@ -237,7 +237,7 @@ async function search () {
             end_date: endDate.value,
             question_type: selectedTypes.value,
             question_year: selectedYears.value,
-            question_academic_year: selectedAcademicYears.value,
+            question_round: questionRound.value,
             question_level: selectedLevels.value,
             exam_id: examStore.exam_id === undefined ? undefined : examStore.exam_id,
             page: ( page.value - 1),

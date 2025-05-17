@@ -34,7 +34,7 @@ def getQuestion () :
                 if codeQuestion in text:
                     question.append({ 'question': sliceText, 'question_point': 5,
                                     'question_level': '보통', 'question_type': '단답형',
-                                    'question_year': '2020', 'question_academic_year': '1회차' })
+                                    'question_year': '2020', 'question_round': '1회차' })
                     problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
                     index += 1
                     index_code += 1
@@ -44,7 +44,7 @@ def getQuestion () :
                 else :
                     question.append({ 'question': sliceText, 'question_point': 5,
                                     'question_level': '보통', 'question_type': '단답형',
-                                    'question_year': '2020', 'question_academic_year': '1회차' })
+                                    'question_year': '2020', 'question_round': '1회차' })
                     problem.append({ 'answer': answer[index] })
                     index += 1
                     # requests.post(f'{nodeUrl}/question', 

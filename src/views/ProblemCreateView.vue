@@ -51,7 +51,7 @@
                 <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectedYear" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="academinYear" label="기출회차" :items="questionAcademicYears" v-model="selectedAcademicYear" />
+                <v-select data-test="academinYear" label="기출회차" :items="questionRound" v-model="questionRound" />
             </v-col>
         </v-row>
 
@@ -149,14 +149,14 @@ import FileUpload from 'primevue/fileupload';
 import useFileUpload from '@/mixins/useFileUpload';
 
 const examStore = useExamStore();
-const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
+const { questionTypes, questionYears, questionRound, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 const { getInputFile } = useFileUpload();
 
 const questionPoint = ref(0);
 const selectedType = ref('');
 const selectedYear = ref('');
-const selectedAcademicYear = ref('');
+const selectRound = ref('');
 const selectedLevel = ref('');
 const problemExplanation = ref('');
 const problemFeedback = ref('');
@@ -207,7 +207,7 @@ async function examCreateSave () {
         { question_points: questionPoint.value },
         { question_type: selectedType.value },
         { question_year: selectedYear.value },
-        { question_academic_year: selectedAcademicYear.value},
+        { question_round: selectRound.value},
         { question_level: selectedLevel.value },
     ];
 

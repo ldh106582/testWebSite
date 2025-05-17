@@ -90,7 +90,7 @@
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
                     <v-select hide-details variant="outlined" :items="questionAcademicYears" 
-                    v-model="questionStorage.question_academic_year" />
+                    v-model="questionStorage.question_round" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
                     <v-select hide-details variant="outlined" :items="questionLevels" v-model="questionStorage.question_level" />

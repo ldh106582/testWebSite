@@ -83,7 +83,7 @@ async function search () {
     const subjectId = router.currentRoute.value.query.subject_id;
     const questionType = router.currentRoute.value.query.question_type;
     const questionYear = router.currentRoute.value.query.question_year;
-    const questionAcademicYear = router.currentRoute.value.query.question_academic_year;
+    const questionRound = router.currentRoute.value.query.questionRound;
 
     await axios.get('/start-problems', {
         params: {
@@ -91,7 +91,7 @@ async function search () {
             subject_id: subjectId,
             question_type: questionType,
             question_year: questionYear,
-            question_academic_year: questionAcademicYear,
+            question_round: questionRound,
             limit: limit.value
         }
     }).then(res => {
@@ -135,7 +135,7 @@ async function submit () {
         { exam_id: examId },
         { question_type: examId },
         { question_year: examId },
-        { question_academic_year: examId },
+        { question_round: examId },
         { score: score },
         { userId: userId.value },
         { created_at : examTime.value}
