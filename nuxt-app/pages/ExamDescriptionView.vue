@@ -13,13 +13,13 @@
                         v-model="subjects.subject_id" />
                     </v-col>
                     <v-col cols="3" class="py-0">
-                        <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectedType" />
+                        <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectType" />
                     </v-col>
                     <v-col cols="3" class="py-0">
-                        <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectedYear" />
+                        <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectYear" />
                     </v-col>
                     <v-col cols="3" class="py-0">
-                        <v-select data-test="academinYear" label="기출회차" :items="questionRound" v-model="questionRounds" />
+                        <v-select data-test="academinYear" label="기출회차" :items="questionRounds" v-model="selecteRound" />
                     </v-col>
                 </v-col>
                 <v-col style="text-align: center;">
@@ -43,11 +43,11 @@ const userId = ref('');
 const examId = ref(0);
 const exam = ref([]);
 const subjects = ref([]);
-const selectedType = ref('');
-const selectedYear = ref('');
-const questionRounds = ref('');
+const selectType = ref('');
+const selectYear = ref('');
+const selectRound = ref('');
 
-const { questionTypes, questionYears, questionRound } = useQuestionStorage();
+const { questionTypes, questionYears, questionRounds } = useQuestionStorage();
 
 function getExamTypeStorage () {    
     examId.value = router.currentRoute.value.query.exam_id;
@@ -70,9 +70,9 @@ function testStart() {
             user_id: userId.value,
             exam_id: examId.value,
             subject_id: subjects.value.subject_id,
-            question_type: selectedType.value,
-            question_year: selectedYear.value,
-            question_round: questionRounds.value,
+            question_type: selectType.value,
+            question_year: selectYear.value,
+            question_round: selectRound.value,
         }
     });
 }

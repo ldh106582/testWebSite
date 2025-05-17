@@ -35,7 +35,7 @@
         </v-row>
         <v-row>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectedType" />
+                <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectType" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
                 <v-autocomplete data-test="subject_id" label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
@@ -45,13 +45,13 @@
                 <v-text-field data-test="point" label="시험점수" type="number" v-model="questionPoint" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="level" label="시험난이도" :items="questionLevels" v-model="selectedLevel" />
+                <v-select data-test="level" label="시험난이도" :items="questionLevels" v-model="selectLevel" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectedYear" />
+                <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectYear" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="academinYear" label="기출회차" :items="questionRound" v-model="questionRound" />
+                <v-select data-test="academinYear" label="기출회차" :items="questionRounds" v-model="selectRound" />
             </v-col>
         </v-row>
 
@@ -79,7 +79,7 @@
             </v-col>
         </v-row>
 
-        <v-row cols="12" v-if="selectedType === '단답형'">
+        <v-row cols="12" v-if="selectType === '단답형'">
             <v-col class="d-flex pa-0 mb-2" style="align-items: center;">
                 <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
             </v-col>
@@ -89,7 +89,7 @@
             </v-col>
         </v-row>
             
-        <v-row v-else-if="selectedType === '객관식'">
+        <v-row v-else-if="selectType === '객관식'">
             <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
                 <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
             </v-col>
@@ -105,7 +105,7 @@
             </v-col>
         </v-row>
 
-        <v-row v-if="selectedType === '주관식' || selectedType === '서술형'">
+        <v-row v-if="selectType === '주관식' || selectType === '서술형'">
             <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
                 <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
             </v-col>
@@ -149,15 +149,15 @@ import FileUpload from 'primevue/fileupload';
 import useFileUpload from '@/mixins/useFileUpload';
 
 const examStore = useExamStore();
-const { questionTypes, questionYears, questionRound, questionLevels } = useQuestionStorage();
+const { questionTypes, questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 const { getInputFile } = useFileUpload();
 
 const questionPoint = ref(0);
-const selectedType = ref('');
-const selectedYear = ref('');
+const selectType = ref('');
+const selectYear = ref('');
 const selectRound = ref('');
-const selectedLevel = ref('');
+const selectLevel = ref('');
 const problemExplanation = ref('');
 const problemFeedback = ref('');
 const problem = ref('');
@@ -187,7 +187,7 @@ async function onFileSelect (event) {
 function subjectSearch () {
     axios.get('/subject', {
         params: {
-            exam_id: examStore.exam_id
+            exam_id : examStore.exam_id
         }
     }).then (res => {
         subjects.value = res.data.rows;
@@ -203,12 +203,12 @@ async function examCreateSave () {
     let imagePath = '';
 
     questionStorages = [
-        { question: question.value },
-        { question_points: questionPoint.value },
-        { question_type: selectedType.value },
-        { question_year: selectedYear.value },
-        { question_round: selectRound.value},
-        { question_level: selectedLevel.value },
+        { question : question.value },
+        { question_point : questionPoint.value },
+        { question_type : selectType.value },
+        { question_year : selectYear.value },
+        { question_round : selectRound.value},
+        { question_level : selectLevel.value },
     ];
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
@@ -217,20 +217,20 @@ async function examCreateSave () {
     });
 
     problemStorages = [
-        { problem: JSON.stringify(questionValue) },
-        { problem_image: imagePath },
-        { answer: answer.value.toLowerCase() },
-        { problem_explanation: problemExplanation.value },
-        { problem_feedback: problemFeedback.value}
+        { problem : JSON.stringify(questionValue) },
+        { problem_image : imagePath },
+        { answer : answer.value.toLowerCase() },
+        { problem_explanation : problemExplanation.value },
+        { problem_feedback : problemFeedback.value}
     ];
 
     await axios.post('/question', {
         exam_id : examStore.exam_id,
-        user_id: userId.value,
-        questionStorages: questionStorages,
-        problemStorages: problemStorages,
-        today: getFullDate(today),
-        subject_id: subjects.value.subject_id 
+        user_id : userId.value,
+        questionStorages : questionStorages,
+        problemStorages : problemStorages,
+        today : getFullDate(today),
+        subject_id : subjects.value.subject_id 
     }).then(res => {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (sucessMsg);

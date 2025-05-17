@@ -39,8 +39,8 @@ async function findPw () {
     
     axios.get('/changepw-email', {
         params: {
-            userId: userId.value,
-            userPw: temporaryPw.value
+            userId : userId.value,
+            userPw : temporaryPw.value
         }
     }).then(res => {
         const data = res.data.result;
@@ -53,8 +53,8 @@ async function findPw () {
             router.push({ 
                 path: '/member-changepw', 
                 query: { 
-                    userId: userId.value,
-                    userPw: userInfo.user_pw,
+                    userId : userId.value,
+                    userPw : userInfo.user_pw,
                 } 
             });
             return alert (confirmMsg);

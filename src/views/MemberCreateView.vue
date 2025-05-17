@@ -98,8 +98,8 @@ async function idCheck () {
     const useUserId = '사용 가능한 아이디 입니다.';
 
     await axios.get('/member-check', {
-        params: {
-            userId: user.value.userId,
+        params : {
+            userId : user.value.userId,
         }
     }).then((res) => {
         const data = res.data.rows;
@@ -128,9 +128,9 @@ async function createMember() {
     }
 
     await axios.post('/member-create', {
-        userId: user.value.userId,
-        userPw: user.value.userPw,
-        userName: user.value.userName
+        userId : user.value.userId,
+        userPw : user.value.userPw,
+        userName : user.value.userName
     }).then((res) => {
         const data = res.data.result;
         

@@ -47,7 +47,7 @@
                 v-model="examStore.exam_id" />
             </v-col>
             <v-col cols="2" class="pb-0">
-                <v-select data-test="type" hide-details variant="outlined" v-model="selectedTypes" :items="questionTypes" multiple>
+                <v-select data-test="type" hide-details variant="outlined" v-model="selectTypes" :items="questionTypes" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedTypeAll">
                             <template v-slot:prepend>
@@ -61,13 +61,13 @@
                             <span>{{ isTypeCheckAll === true ? "All" : item.title }}</span>
                         </v-chip>
                     <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                        (+{{ selectedTypes.length - 1 }} others)
+                        (+{{ selectTypes.length - 1 }} others)
                     </span>
                     </template>
                 </v-select>
             </v-col>
             <v-col cols="2" class="pb-0">
-                <v-select data-test="level" hide-details variant="outlined" v-model="selectedLevels" :items="questionLevels" multiple>
+                <v-select data-test="level" hide-details variant="outlined" v-model="selectLevels" :items="questionLevels" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedLevelAll">
                             <template v-slot:prepend>
@@ -87,7 +87,7 @@
                 </v-select>
             </v-col>
             <v-col cols="2">
-                <v-select data-test="year" hide-details variant="outlined" v-model="selectedYears" :items="questionYears" multiple>
+                <v-select data-test="year" hide-details variant="outlined" v-model="selectYears" :items="questionYears" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedYearAll">
                             <template v-slot:prepend>
@@ -107,21 +107,21 @@
                 </v-select>
             </v-col>
             <v-col cols="2">
-                <v-select data-test="academic" hide-details variant="outlined" v-model="questionRound" :items="questionAcademicYears" multiple>
+                <v-select data-test="academic" hide-details variant="outlined" v-model="selectRounds" :items="questionRounds" multiple>
                     <template v-slot:prepend-item>
-                        <v-list-item title="All" @click="selectedAcademicYearAll">
+                        <v-list-item title="All" @click="selectedRoundAll">
                             <template v-slot:prepend>
-                                <v-checkbox-btn v-model="isAchademicCheckAll"></v-checkbox-btn>
+                                <v-checkbox-btn v-model="isRoundCheckAll"></v-checkbox-btn>
                             </template>
                         </v-list-item>
                         <v-divider class="mt-2"></v-divider>
                     </template>
                     <template v-slot:selection="{ item, index }">
                         <v-chip v-if="index < 1">
-                            <span>{{ isAchademicCheckAll === true ? "All" : item.title }}</span>
+                            <span>{{ isRoundCheckAll === true ? "All" : item.title }}</span>
                         </v-chip>
                     <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                        (+{{ questionAcademicYears.length - 1 }} others)
+                        (+{{ questionRounds.length - 1 }} others)
                     </span>
                     </template>
                 </v-select>
@@ -184,17 +184,17 @@ import moment from 'moment';
 import router from '@/router';
 
 const examStore = useExamStore();
-const { questionTypes, questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
+const { questionTypes, questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 
-const selectedTypes = ref([]);
+const selectTypes = ref([]);
 const isTypeCheckAll = ref(false);
-const selectedLevels = ref([]);
+const selectLevels = ref([]);
 const isLevelCheckAll = ref(false);
-const selectedYears = ref([]);
+const selectYears = ref([]);
 const isYearCheckAll = ref(false);
-const questionRound = ref([]);
-const isAchademicCheckAll = ref(false);
+const selectRounds = ref([]);
+const isRoundCheckAll = ref(false);
 const questions = ref([]);
 const page = ref(1);
 const countPage = ref(30);
@@ -203,19 +203,19 @@ const endDate = ref(moment().format('YYYY-MM-DD'));
 
 function selectedTypeAll () {
     isTypeCheckAll.value = !isTypeCheckAll.value;
-    isTypeCheckAll.value !== true ? selectedTypes.value = [] : selectedTypes.value = questionTypes.value.slice();
+    isTypeCheckAll.value !== true ? selectTypes.value = [] : selectTypes.value = questionTypes.value.slice();
 }
 function selectedLevelAll () {
     isLevelCheckAll.value = !isLevelCheckAll.value;
-    isLevelCheckAll.value !== true ? selectedLevels.value = [] : selectedLevels.value = questionLevels.value.slice();
+    isLevelCheckAll.value !== true ? selectLevels.value = [] : selectLevels.value = questionLevels.value.slice();
 }
 function selectedYearAll () {
     isYearCheckAll.value = !isYearCheckAll.value;
-    isYearCheckAll.value !== true ? selectedYears.value = [] : selectedYears.value = questionYears.value.slice();
+    isYearCheckAll.value !== true ? selectYears.value = [] : selectYears.value = questionYears.value.slice();
 }
-function selectedAcademicYearAll () {
-    isAchademicCheckAll.value = !isAchademicCheckAll.value;
-    isAchademicCheckAll.value !== true ? questionRound.value = [] : questionRound.value = questionAcademicYears.value.slice();
+function selectedRoundAll () {
+    isRoundCheckAll.value = !isRoundCheckAll.value;
+    isRoundCheckAll.value !== true ? selectRounds.value = [] : questionRounds.value = questionRounds.value.slice();
 }
 
 function showQuestion (rows, index) {
@@ -233,12 +233,12 @@ async function search () {
 
     await axios.get('/question-problem-group-desc', {
         params: {
-            start_date: startDate.value,
-            end_date: endDate.value,
-            question_type: selectedTypes.value,
-            question_year: selectedYears.value,
-            question_round: questionRound.value,
-            question_level: selectedLevels.value,
+            start_date : startDate.value,
+            end_date : endDate.value,
+            question_type : selectTypes.value,
+            question_year : selectYears.value,
+            question_round : selectRounds.value,
+            question_level : selectLevels.value,
             exam_id: examStore.exam_id === undefined ? undefined : examStore.exam_id,
             page: ( page.value - 1),
             countPage: ( countPage.value - 1),

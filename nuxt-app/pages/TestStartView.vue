@@ -83,7 +83,7 @@ async function search () {
     const subjectId = router.currentRoute.value.query.subject_id;
     const questionType = router.currentRoute.value.query.question_type;
     const questionYear = router.currentRoute.value.query.question_year;
-    const questionRound = router.currentRoute.value.query.questionRound;
+    const questionRound = router.currentRoute.value.query.question_round;
 
     await axios.get('/start-problems', {
         params: {

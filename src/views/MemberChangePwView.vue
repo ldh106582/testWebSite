@@ -55,8 +55,8 @@ function changePw() {
     }
 
     axios.put('/member-changepw', {
-        userId: router.currentRoute.value.query.userId,
-        userPw: newPw.value
+        userId : router.currentRoute.value.query.userId,
+        userPw : newPw.value
     }).then( res => {
         const data = res.data;
 

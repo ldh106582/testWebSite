@@ -113,7 +113,7 @@ function searchExam () {
 
     axios.get('/exam', {
         params: {
-            exam_name: examName.value.replace(/ /g, '')
+            exam_name : examName.value.replace(/ /g, '')
         }
     }).then(res => {
         const data = res.data;
@@ -142,20 +142,20 @@ async function saveExam () {
     }
 
     const examStorage = [
-        {exam_name: examName.value.replace(/ /g, '')},
-        {exam_des: examDes.value},
-        {exam_time: examTime.value},
-        {exam_total: examTotal.value},
+        {exam_name : examName.value.replace(/ /g, '')},
+        {exam_des : examDes.value},
+        {exam_time : examTime.value},
+        {exam_total : examTotal.value},
     ];
 
     const subjectStorage = [
-        {subject: subjects.value},
-        {subject_total: subjectTotal.value},
+        {subject : subjects.value},
+        {subject_total : subjectTotal.value},
     ];
 
     await axios.post('/exam', {
-        examStorage: examStorage,
-        subjectStorage: subjectStorage,
+        examStorage : examStorage,
+        subjectStorage : subjectStorage,
     }).then(res => {
         const data = res.data;        
         if (data.result) {

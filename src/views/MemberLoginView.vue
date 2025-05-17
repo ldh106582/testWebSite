@@ -43,7 +43,7 @@ function login () {
 
     axios.post('/login', {
         userId : user.value.userId,
-        userPw: user.value.userPw
+        userPw : user.value.userPw
     }).then((res) => {
         const data = res.data.result;
         const userInfo = res.data;

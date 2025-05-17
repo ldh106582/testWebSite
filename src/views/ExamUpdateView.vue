@@ -121,7 +121,7 @@ function search () {
 
     axios.get('/exam-join-subject', {
         params: {
-            exam_id: examStore.exam_id
+            exam_id : examStore.exam_id
         }
     }).then(res => {
         const data = res.data;
@@ -133,11 +133,11 @@ function search () {
 
             data.rows.forEach(d => {
                 subjectStorage.value.push({
-                    exam_id: d.exam_id,
-                    subject_id: d.subject_id,
-                    subject: d.subject,
-                    subject_total: d.subject_total,
-                    isEmpty: true
+                    exam_id : d.exam_id,
+                    subject_id : d.subject_id,
+                    subject : d.subject,
+                    subject_total : d.subject_total,
+                    isEmpty : true
                 });
             });
 
@@ -158,8 +158,8 @@ function deleteSubject (index) {
 
     axios.delete('/subject', {
         params: {
-            subject_id: subjectStorage.value[index].subject_id,
-            exam_id: subjectStorage.value[index].exam_id
+            subject_id : subjectStorage.value[index].subject_id,
+            exam_id : subjectStorage.value[index].exam_id
         }
     }).then(res => {
         const data = res.data;
@@ -183,7 +183,7 @@ function examDelete (id) {
     
     axios.delete('/exam', {
         params: {
-            exam_id: id,
+            exam_id : id,
         }
     }).then(res => {
         const data = res.data;
@@ -199,17 +199,17 @@ function examSave (id) {
 
     subjectStorage.value.forEach(s => {
         if (!s.isEmpty) {
-            result.push({exam_id: id, subject: s.subject, subject_total: s.subject_total});
+            result.push({exam_id : id, subject : s.subject, subject_total : s.subject_total});
         }
     });    
 
     axios.put('/exam', {
-        exam_id: id,
-        exam_name: examStorages.value.exam_name,
-        exam_time: examStorages.value.exam_time,
-        exam_des: examStorages.value.exam_des,
-        exam_total: examStorages.value.exam_total,
-        subject: result
+        exam_id : id,
+        exam_name : examStorages.value.exam_name,
+        exam_time : examStorages.value.exam_time,
+        exam_des : examStorages.value.exam_des,
+        exam_total : examStorages.value.exam_total,
+        subject : result
     }).then(res => {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (succesMsg);

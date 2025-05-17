@@ -89,7 +89,7 @@
                     <v-select hide-details variant="outlined" :items="questionYears" v-model="questionStorage.question_year" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
-                    <v-select hide-details variant="outlined" :items="questionAcademicYears" 
+                    <v-select hide-details variant="outlined" :items="questionRounds" 
                     v-model="questionStorage.question_round" />
                 </v-col>
                 <v-col cols="2" class="pl-0 pt-0">
@@ -192,7 +192,7 @@ const isCheckLoading = ref(false);
 const src = ref(null);
 const image = ref('');
 
-const { questionYears, questionAcademicYears, questionLevels } = useQuestionStorage();
+const { questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getUnix } = useMoment();
 const { getInputFile } = useFileUpload();
 
@@ -208,8 +208,8 @@ async function search () {
     const examId = router.currentRoute.value.query.exam_id;
 
     await axios.get('/qeustion-with-problem', {
-        params: {
-            question_id: questionId,
+        params : {
+            question_id : questionId,
             exam_id : examId
         }
     }).then(async res => {
@@ -233,9 +233,9 @@ function deleteQuestion () {
     }
     
     axios.delete('/question', {
-        params: {
-            question_id: questionStorage.value.question_id,
-            problem_id: questionStorage.value.problem_id,
+        params : {
+            question_id : questionStorage.value.question_id,
+            problem_id : questionStorage.value.problem_id,
         }
     }).then(res => {
         const data = res.data;
@@ -270,9 +270,9 @@ async function save () {
 function deleteImage () {
     if (questionStorage.value.problem_image) {
         axios.delete('/image-delete', {
-            params: {
+            params : {
                 filename : questionStorage.value.problem_image,
-                problem_id :  questionStorage.value.problem_id
+                problem_id : questionStorage.value.problem_id
             }
         })
         .then(res => {
