@@ -79,23 +79,7 @@
             </v-col>
         </v-row>
 
-        <v-row cols="12" v-if="selectType === '단답형'">
-            <v-col class="d-flex pa-0 mb-2" style="align-items: center;">
-                <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
-            </v-col>
-            <v-col class="d-flex pa-0" style="border: 1px solid black; border-radius: 9.8px; max-width: 100%; max-height: 150px;">
-                <v-textarea data-test="problem" variant="outlined" hide-details 
-                placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
-            </v-col>
-        </v-row>
-            
-        <v-row v-else-if="selectType === '객관식'">
-            <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
-                <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
-            </v-col>
-            <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
-                <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
-            </v-col>
+        <v-row v-if="selectType === '객관식'">
             <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                 <label :for="index + 1" class="examQuestion-label">
@@ -104,16 +88,7 @@
                 <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
             </v-col>
         </v-row>
-
-        <v-row v-if="selectType === '주관식' || selectType === '서술형'">
-            <v-col cols="12" class="d-flex pa-0 mb-2" style="align-items: center;">
-                <h3 style="justify-content: center;" class="mr-5"> 시험문제 예문 & 코드 </h3>
-            </v-col>
-            <v-col cols="12" class="d-flex pa-0 mb-2" style="border: 1px solid black; border-radius: 9.8px;">
-                <v-textarea variant="outlined" hide-details placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="problem" />
-            </v-col>
-        </v-row>
-
+        
         <v-row>
             <v-col cols="12" class="pt-0">
                 <h3>문제풀이</h3>
@@ -200,7 +175,7 @@ async function examCreateSave () {
     const sucessMsg = '등록되었습니다.';
     let questionStorages = [];
     let problemStorages = [];
-    let imagePath = '';
+    let imagePath = null;
 
     questionStorages = [
         { question : question.value },
@@ -212,9 +187,13 @@ async function examCreateSave () {
     ];
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
-    await axios.post('/image-upload', image.value).then(res => { 
-        imagePath = res.data.imagePath;
-    });
+
+    if (image.value) {
+        await axios.post('/image-upload', image.value).then(res => { 
+            imagePath = res.data.imagePath;
+        });
+    }
+
 
     problemStorages = [
         { problem : JSON.stringify(questionValue) },
@@ -223,6 +202,7 @@ async function examCreateSave () {
         { problem_explanation : problemExplanation.value },
         { problem_feedback : problemFeedback.value}
     ];
+    console.log(problemStorages)
 
     await axios.post('/question', {
         exam_id : examStore.exam_id,

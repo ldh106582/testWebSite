@@ -6,5 +6,5 @@ export default function useQuestionStorage() {
     const questionRounds = ref(['1회차', '2회차', '3회차', '4회차', '5회차', '자체출제']);
     const questionLevels = ref(['쉬움', '보통', '어려움']);
     
-    return { questionTypes, questionYears, questionRound: questionRounds, questionLevels }
+    return { questionTypes, questionYears, questionRounds, questionLevels }
 }
