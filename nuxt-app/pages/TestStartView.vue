@@ -70,7 +70,6 @@ import axios from '../../src/axios';
 
 const userId = ref('');
 const problems = ref([]);
-const limit = ref(22);
 const examTime = ref(0);
 const remainingTime = ref('');
 const answers = ref([]);
@@ -80,6 +79,7 @@ async function search () {
     const date = new Date();
 
     const examId = router.currentRoute.value.query.exam_id;
+    const examTotal = router.currentRoute.value.query.exam_total;
     const subjectId = router.currentRoute.value.query.subject_id;
     const questionType = router.currentRoute.value.query.question_type;
     const questionYear = router.currentRoute.value.query.question_year;
@@ -92,7 +92,7 @@ async function search () {
             question_type: questionType,
             question_year: questionYear,
             question_round: questionRound,
-            limit: limit.value
+            exam_total: examTotal
         }
     }).then(res => {
         const data = res.data;

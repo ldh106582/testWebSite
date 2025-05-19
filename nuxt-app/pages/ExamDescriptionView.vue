@@ -65,14 +65,15 @@ function getExamTypeStorage () {
 
 function testStart() {
     router.push({
-        path: '/test-start', 
-        query: {
-            user_id: userId.value,
-            exam_id: examId.value,
-            subject_id: subjects.value.subject_id,
-            question_type: selectType.value,
-            question_year: selectYear.value,
-            question_round: selectRound.value,
+        path : '/test-start', 
+        query : {
+            user_id : userId.value,
+            exam_id : examId.value,
+            exam_total : exam.value.exam_total,
+            subject_id : subjects.value.subject_id,
+            question_type : selectType.value,
+            question_year : selectYear.value,
+            question_round : selectRound.value,
         }
     });
 }

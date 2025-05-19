@@ -68,7 +68,7 @@
                     <h3>년도</h3>
                 </v-col>
                 <v-col cols="2" class="pl-0">
-                    <h3>Academic_Year</h3>
+                    <h3>기출년도</h3>
                 </v-col>
                 <v-col cols="2" class="pl-0">
                     <h3>레벨</h3>

@@ -161,7 +161,7 @@ async function onFileSelect (event) {
 
 function subjectSearch () {
     axios.get('/subject', {
-        params: {
+        params : {
             exam_id : examStore.exam_id
         }
     }).then (res => {
@@ -193,7 +193,6 @@ async function examCreateSave () {
             imagePath = res.data.imagePath;
         });
     }
-
 
     problemStorages = [
         { problem : JSON.stringify(questionValue) },
