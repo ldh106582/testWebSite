@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
 
@@ -76,7 +76,6 @@ const answers = ref([]);
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
-    const date = new Date();
 
     const examId = router.currentRoute.value.query.exam_id;
     const examTotal = router.currentRoute.value.query.exam_total;
@@ -86,13 +85,13 @@ async function search () {
     const questionRound = router.currentRoute.value.query.question_round;
 
     await axios.get('/start-problems', {
-        params: {
-            exam_id: examId,
-            subject_id: subjectId,
-            question_type: questionType,
-            question_year: questionYear,
-            question_round: questionRound,
-            exam_total: examTotal
+        params : {
+            exam_id : examId,
+            subject_id : subjectId,
+            question_type : questionType,
+            question_year : questionYear,
+            question_round : questionRound,
+            exam_total : examTotal
         }
     }).then(res => {
         const data = res.data;
@@ -132,17 +131,17 @@ async function submit () {
     });
 
     list.push(
-        { exam_id: examId },
-        { question_type: examId },
-        { question_year: examId },
-        { question_round: examId },
-        { score: score },
-        { userId: userId.value },
+        { exam_id : examId },
+        { question_type : examId },
+        { question_year : examId },
+        { question_round : examId },
+        { score : score },
+        { userId : userId.value },
     );
 
     await axios.get('/save-problem-result', {
-        params: {
-            list: list
+        params : {
+            list : list
         }
     }).then(res => {
         const data = res.data;
