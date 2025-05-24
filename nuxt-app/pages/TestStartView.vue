@@ -132,9 +132,9 @@ async function submit () {
 
     list.push(
         { exam_id : examId },
-        { question_type : examId },
-        { question_year : examId },
-        { question_round : examId },
+        { question_type : questionType },
+        { question_year : question_year },
+        { question_round : question_round },
         { score : score },
         { userId : userId.value },
     );
@@ -146,7 +146,7 @@ async function submit () {
     }).then(res => {
         const data = res.data;
         
-    })
+    });
 }
 
 function timer () {

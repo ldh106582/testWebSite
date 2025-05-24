@@ -21,7 +21,7 @@
                 </v-col>
 
                 <v-col>
-                    의견을 작성하기
+                    <v-textarea readonly />
                 </v-col>
             </v-row>
             
