@@ -73,16 +73,22 @@ const problems = ref([]);
 const examTime = ref(0);
 const remainingTime = ref('');
 const answers = ref([]);
+let examId = '';
+let examTotal = '';
+let subjectId = '';
+let questionType = '';
+let questionYear = '';
+let questionRound = '';
 
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
 
-    const examId = router.currentRoute.value.query.exam_id;
-    const examTotal = router.currentRoute.value.query.exam_total;
-    const subjectId = router.currentRoute.value.query.subject_id;
-    const questionType = router.currentRoute.value.query.question_type;
-    const questionYear = router.currentRoute.value.query.question_year;
-    const questionRound = router.currentRoute.value.query.question_round;
+    examId = router.currentRoute.value.query.exam_id;
+    examTotal = router.currentRoute.value.query.exam_total;
+    subjectId = router.currentRoute.value.query.subject_id;
+    questionType = router.currentRoute.value.query.question_type;
+    questionYear = router.currentRoute.value.query.question_year;
+    questionRound = router.currentRoute.value.query.question_round;
 
     await axios.get('/start-problems', {
         params : {
@@ -133,8 +139,8 @@ async function submit () {
     list.push(
         { exam_id : examId },
         { question_type : questionType },
-        { question_year : question_year },
-        { question_round : question_round },
+        { question_year : questionYear },
+        { question_round : questionRound },
         { score : score },
         { userId : userId.value },
     );
