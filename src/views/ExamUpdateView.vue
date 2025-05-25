@@ -35,18 +35,42 @@
                 <v-text-field data-test="examName" variant="outlined" hide-details label="시험유형" v-model="examStorages.exam_name" />
             </v-col>
             <v-col class="px-1" cols="12">
+
                 <v-col class="px-0 d-flex" style="justify-content: space-between;">
                     <v-btn data-test="toggleVisible" color="primary" @click="toggleVisible">시험과목</v-btn>
                     <v-btn v-if="isToggle" data-test="addSubject" color="green" @click="addSubject">과목추가</v-btn>
                 </v-col>
+
+                <v-col v-if="isToggle" cols="12" class="pa-0 d-flex">
+                    <v-col cols="4" class="px-0 py-1">
+                        <h3>시험과목</h3>
+                    </v-col>
+                    <v-col cols="3" class="px-2 py-1">
+                        <h3>과목 문제 수</h3>
+                    </v-col>
+                    <v-col cols="3" class="px-2 py-1">
+                        <h3>과목별 합격 점수</h3>
+                    </v-col>
+                    <v-col cols="3" class="px-2 py-1">
+                        <h3>삭제</h3>
+                    </v-col>
+                </v-col>
+
                 <v-col class="pa-0 d-flex" cols="auto" v-for="(storage, index) in subjectStorage" :key="index" style="align-items: center;">
-                    <v-col v-if="isToggle" cols="6" class="pl-0 py-1">
-                        <v-text-field data-test="subject" variant="outlined" hide-details label="시험과목" class="pa-0" v-model="storage.subject" />
+                    <v-col v-if="isToggle" cols="4" class="px-0 py-1">
+                        <v-text-field data-test="subject" variant="outlined" hide-details class="pa-0" v-model="storage.subject" />
                     </v-col>
-                    <v-col v-if="isToggle" cols="5" class="py-1">
-                        <v-text-field data-test="subjectTotal" variant="outlined" hide-details label="과목 문제 수" class="pa-0" v-model="storage.subject_total" />
+
+                    <v-col v-if="isToggle" cols="3" class="px-2 py-1">
+                        <v-text-field data-test="subjectTotal" variant="outlined" hide-details class="pa-0" v-model="storage.subject_total" />
                     </v-col>
-                    <v-col v-if="isToggle" style="text-align: end;">
+
+                    <v-col v-if="isToggle" cols="3" class="px-2 py-1">
+                        <v-text-field data-test="subjectTotal" variant="outlined" hide-details 
+                        class="pa-0" v-model="storage.min_score" />
+                    </v-col>
+
+                    <v-col v-if="isToggle" class="px-3" style="text-align: start;">
                         <v-btn data-test="deleteSubject" color="red" @click="deleteSubject(index)">삭제</v-btn>
                     </v-col>
                 </v-col>
@@ -54,21 +78,27 @@
         </v-row>
 
         <v-row class="px-3">
-            <v-col cols="6">
+            <v-col cols="4">
                 <h3>시험 시간</h3>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="4">
                 <h3>시험 문제 수</h3>
+            </v-col>
+            <v-col cols="4">
+                <h3>시험 합격 점수</h3>
             </v-col>
         </v-row>
 
         <v-row class="px-3">
             <v-col class="px-1 py-0 d-flex">
-                <v-col cols="6" class="pl-0 py-0">
+                <v-col cols="4" class="px-0 py-0">
                     <v-text-field data-test="examTime" variant="outlined" hide-details v-model="examStorages.exam_time" />
                 </v-col>
-                <v-col cols="6" class="pr-0 py-0">
+                <v-col cols="4" class="px-2 py-0">
                     <v-text-field data-test="examTotal" variant="outlined" hide-details v-model="examStorages.exam_total" />
+                </v-col>
+                <v-col cols="4" class="px-2 py-0">
+                    <v-text-field data-test="examTotal" variant="outlined" hide-details v-model="examStorages.pass_score" />
                 </v-col>
             </v-col>
         </v-row>
@@ -107,7 +137,7 @@ function toggleVisible () {
 }
 
 function addSubject () {
-    const subject = { subject: '', subject_total: 0};
+    const subject = { subject : '', subject_total : 0};
     const copie = JSON.parse(JSON.stringify(subject));
     subjectStorage.value.push(copie);
 }
@@ -117,7 +147,7 @@ function search () {
     const typeNameNull = '데이터를 먼저 입력해주세요.';
     subjectStorage.value = [];
 
-    if (examStore.exam_id === undefined) { return alert (typeNameNull) }
+    if ( examStore.exam_id === undefined ) { return alert (typeNameNull) }
 
     axios.get('/exam-join-subject', {
         params: {
@@ -137,6 +167,7 @@ function search () {
                     subject_id : d.subject_id,
                     subject : d.subject,
                     subject_total : d.subject_total,
+                    min_score : d.min_score,
                     isEmpty : true
                 });
             });
@@ -198,17 +229,16 @@ function examSave (id) {
     const result = [];
 
     subjectStorage.value.forEach(s => {
-        if (!s.isEmpty) {
-            result.push({exam_id : id, subject : s.subject, subject_total : s.subject_total});
-        }
-    });    
+        result.push({ subject_id: s.subject_id, subject : s.subject, subject_total : s.subject_total, min_score : s.min_score });
+    });
 
     axios.put('/exam', {
         exam_id : id,
         exam_name : examStorages.value.exam_name,
-        exam_time : examStorages.value.exam_time,
         exam_des : examStorages.value.exam_des,
         exam_total : examStorages.value.exam_total,
+        exam_time : examStorages.value.exam_time,
+        pass_score : examStorages.value.pass_score,
         subject : result
     }).then(res => {
         const data = res.data;

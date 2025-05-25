@@ -116,6 +116,7 @@ async function submit () {
     const problemAnswers = [];
     let score = 0;
     let list = [];
+    let pass_fail = 0;
 
     problems.value.forEach(p => {
         problemAnswers.push(p.answer)
@@ -143,6 +144,7 @@ async function submit () {
         { question_round : questionRound },
         { score : score },
         { userId : userId.value },
+        { pass_fail : pass_fail }
     );
 
     await axios.get('/save-problem-result', {

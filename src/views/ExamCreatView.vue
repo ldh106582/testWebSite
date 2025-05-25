@@ -19,33 +19,42 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="6" class="py-0">
+            <v-col cols="4" class="py-0">
                 <h3>시험시간</h3>
             </v-col>
-            <v-col cols="6" class="py-0">
+            <v-col cols="4" class="py-0">
                 <h3>시험 문제수</h3>
+            </v-col>
+            <v-col cols="4" class="py-0">
+                <h3>합격 점수</h3>
             </v-col>
         </v-row>
 
         <v-row>
-            <v-col cols="6">
+            <v-col cols="4">
                 <v-text-field data-test="examTime" type="number" hide-details variant="outlined" placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
                 v-model="examTime" />
             </v-col>
-            <v-col cols="6">
+            <v-col cols="4">
                 <v-text-field data-test="examTotal" hide-details variant="outlined" v-model="examTotal" />
             </v-col>
+            <v-col cols="4">
+                <v-text-field data-test="examTotal" hide-details variant="outlined" v-model="passScore" />
+            </v-col>
         </v-row>
         <v-row>
-            <v-col cols="6" class="py-0 mt-3">
+            <v-col cols="4" class="py-0 mt-3">
                 <h3>시험과목</h3>
             </v-col>
-            <v-col cols="6" class="py-0 mt-3">
+            <v-col cols="4" class="py-0 mt-3">
                 <h3>과목 출제 수</h3>
+            </v-col>
+            <v-col cols="4" class="py-0 mt-3">
+                <h3>과목 별 합격 점수</h3>
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="6" class="pa-0">
+            <v-col cols="4" class="pa-0">
                 <v-list>
                     <v-list-item-group>
                         <v-list-item v-for="(subject, index) in subjects" :key="index">
@@ -56,11 +65,20 @@
                     </v-list-item-group>
                 </v-list>
             </v-col>
-            <v-col cols="6" class="pa-0">
+            <v-col cols="4" class="pa-0">
                 <v-list>
                     <v-list-item-group>
                         <v-list-item v-for="(total, index) in subjectTotal" :key="index">
                             <v-text-field data-test="subjectTotal" hide-details variant="outlined" v-model="subjectTotal[index]"/>  
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-col>
+            <v-col cols="4" class="pa-0">
+                <v-list>
+                    <v-list-item-group>
+                        <v-list-item v-for="(score, index) in subjectScore" :key="index">
+                            <v-text-field data-test="subjecScore" hide-details variant="outlined" v-model="subjectScore[index]"/>  
                         </v-list-item>
                     </v-list-item-group>
                 </v-list>
@@ -97,6 +115,8 @@ const isSearch = ref(true);
 const subjects = ref(['']);
 const newSubject = ref('');
 const subjectTotal = ref([0]);
+const subjectScore = ref([0]);
+const passScore = ref(0);
 
 function addSubject () {
     const subjectCopie = JSON.parse(JSON.stringify(newSubject.value));
@@ -142,15 +162,17 @@ async function saveExam () {
     }
 
     const examStorage = [
-        {exam_name : examName.value.replace(/ /g, '')},
-        {exam_des : examDes.value},
-        {exam_time : examTime.value},
-        {exam_total : examTotal.value},
+        { exam_name : examName.value.replace(/ /g, '') },
+        { exam_des : examDes.value },
+        { exam_time : examTime.value },
+        { exam_total : examTotal.value },
+        { pass_score : passScore.value }
     ];
 
     const subjectStorage = [
-        {subject : subjects.value},
-        {subject_total : subjectTotal.value},
+        { subject : subjects.value },
+        { subject_total : subjectTotal.value },
+        { subject_score : subjectScore.value },
     ];
 
     await axios.post('/exam', {
