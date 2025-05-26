@@ -171,7 +171,6 @@ function search () {
                     isEmpty : true
                 });
             });
-
             isCheckData.value = false;
         }
     });

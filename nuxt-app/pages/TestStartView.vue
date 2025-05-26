@@ -116,7 +116,7 @@ async function submit () {
     const problemAnswers = [];
     let score = 0;
     let list = [];
-    let pass_fail = 0;
+    let passFail = 0;
 
     problems.value.forEach(p => {
         problemAnswers.push(p.answer)
@@ -127,9 +127,7 @@ async function submit () {
         
         const problemAnswer = p.split(/\s+/).filter(word => word.length > 0);
         const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0) : [];
-
         const intersecter = userAnswer.filter(word => problemAnswer.includes(word));
-
         const correct = ((intersecter.length / userAnswer.length) * 100);
 
         if (correct > 80) {
@@ -137,6 +135,7 @@ async function submit () {
         }
     });
 
+    passFail = score >= 60 ?  1 : 0;
     list.push(
         { exam_id : examId },
         { question_type : questionType },
@@ -144,10 +143,10 @@ async function submit () {
         { question_round : questionRound },
         { score : score },
         { userId : userId.value },
-        { pass_fail : pass_fail }
+        { pass_fail : passFail }
     );
 
-    await axios.get('/save-problem-result', {
+    await axios.post('/save-problem-result', {
         params : {
             list : list
         }
