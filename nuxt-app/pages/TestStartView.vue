@@ -114,7 +114,6 @@ async function search () {
 
 async function submit () {
     const problemAnswers = [];
-    let score = 0;
     let list = [];
     let passFail = 0;
 
@@ -123,16 +122,9 @@ async function submit () {
     });
 
     problemAnswers.forEach((p, index) => {
-        const value = answers.value[index];
         
-        const problemAnswer = p.split(/\s+/).filter(word => word.length > 0);
-        const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0) : [];
-        const intersecter = userAnswer.filter(word => problemAnswer.includes(word));
-        const correct = ((intersecter.length / userAnswer.length) * 100);
+        getScore (p);
 
-        if (correct > 80) {
-            score += 5;
-        }
     });
 
     passFail = score >= 60 ?  1 : 0;
@@ -154,6 +146,43 @@ async function submit () {
         const data = res.data;
         
     });
+}
+
+function getScore (params) {
+    let score = 0;
+    const value = answers.value[index];
+
+    const problemAnswer = params.split(/\s+/).filter(word => word.length > 0);
+    const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0) : [];
+    const intersecter = userAnswer.filter(word => problemAnswer.includes(word));
+
+    const totalAnswers = problemAnswer.length;
+    const correctAnswers = intersecter.length;
+
+
+    if (totalAnswers === 0) {
+        return score;
+    }
+    if (totalAnswers <= 2) {
+        score = correctAnswers * 2.5;
+    } else if (totalAnswers === 3) {
+        if (correctAnswers === 1) {
+            score = 1;
+        } else if (correctAnswers === 2) {
+            score = 3;
+        } else if (correctAnswers === 3) {
+            score = 5;
+        }
+    } else {
+        const correct = ((correctAnswers / userAnswer.length) * 100);
+        if (correct > 80) {
+            score = 5;
+        } else {
+            score = (correctAnswers / totalAnswers) * 5;
+        }
+    }
+    
+    return Math.round(score * 10) / 10;
 }
 
 function timer () {
