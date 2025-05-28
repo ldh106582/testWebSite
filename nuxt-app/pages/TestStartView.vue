@@ -115,6 +115,7 @@ async function search () {
 async function submit () {
     const problemAnswers = [];
     let list = [];
+    let score = 0;
     let passFail = 0;
 
     problems.value.forEach(p => {
@@ -123,11 +124,10 @@ async function submit () {
 
     problemAnswers.forEach((p, index) => {
         
-        getScore (p);
+        score = getScore (p);
 
     });
-
-    passFail = score >= 60 ?  1 : 0;
+    passFail = passFail >= problems.value.pass_score ?  1 : 0;
     list.push(
         { exam_id : examId },
         { question_type : questionType },
