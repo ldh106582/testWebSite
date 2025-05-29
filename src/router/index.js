@@ -70,9 +70,9 @@ const routes = [
         }
     },
     {
-        path: '/test-start',
-        name: 'test-start',
-        component: () => import('../../nuxt-app/pages/TestStartView.vue'),
+        path: '/exam-start',
+        name: 'exam-start',
+        component: () => import('../../nuxt-app/pages/ExamStartView.vue'),
         meta: {
             isAisAuthenticated: false
         }
