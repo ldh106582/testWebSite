@@ -225,10 +225,10 @@ function examSave (id) {
 
     const errorMsg = '저장 중 오류가 발생하였습니다. 변경사항을 확인 후 다시 시도해주세요.';
     const succesMsg = '데이터를 변경하는 성공하였습니다.';
-    const result = [];
+    const subjectDatas = [];
 
     subjectStorage.value.forEach(s => {
-        result.push({ subject_id: s.subject_id, subject : s.subject, subject_total : s.subject_total, min_score : s.min_score });
+        subjectDatas.push({ subject_id: s.subject_id, subject : s.subject, subject_total : s.subject_total, min_score : s.min_score });
     });
 
     axios.put('/exam', {
@@ -238,7 +238,7 @@ function examSave (id) {
         exam_total : examStorages.value.exam_total,
         exam_time : examStorages.value.exam_time,
         pass_score : examStorages.value.pass_score,
-        subject : result
+        subject : subjectDatas
     }).then(res => {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (succesMsg);

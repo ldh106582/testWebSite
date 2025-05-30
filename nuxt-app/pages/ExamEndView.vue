@@ -34,7 +34,14 @@ import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
 
+function getProblem () {
+    
+}
 
+
+onMounted(() => {
+    getProblem ();
+});
 
 </script>
 
