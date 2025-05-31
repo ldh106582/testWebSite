@@ -145,6 +145,12 @@ async function submit () {
     }).then(res => {
         const data = res.data;
         
+        if (!data.result) {
+            router.push({
+                path : '/test-start', 
+                answer : problemAnswers
+            });
+        }
     });
 }
 
