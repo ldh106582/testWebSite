@@ -148,7 +148,9 @@ async function submit () {
         if (!data.result) {
             router.push({
                 path : '/test-start', 
-                answer : problemAnswers
+                answer : problemAnswers,
+                score : score,
+                pass_fail : pass_fail,
             });
         }
     });
