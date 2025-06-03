@@ -114,6 +114,7 @@ async function search () {
 
 async function submit () {
     const problemAnswers = [];
+    const result = [];
     let list = [];
     let score = 0;
     let passFail = 0;
@@ -123,32 +124,37 @@ async function submit () {
     });
 
     problemAnswers.forEach((p, index) => {
-        
         score = getScore (p, index);
-
     });
     passFail = passFail >= problems.value.pass_score ?  1 : 0;
+
     list.push(
         { exam_id : examId },
-        { question_type : questionType },
-        { question_year : questionYear },
-        { question_round : questionRound },
+        { question_type : questionType === '' ? null : questionType },
+        { question_year : questionYear === '' ? null : questionYear },
+        { question_round : questionRound === '' ? null : questionRound },
         { score : score },
-        { userId : userId.value },
+        { user_id : userId.value },
         { pass_fail : passFail }
     );
+
+    Object.entries(answers.value).forEach(q => {
+        result.push(q[1]);
+    });
 
     await axios.post('/save-exam-result', {
         list : list
     }).then(res => {
         const data = res.data;
-        console.log(data)
         if (!data.result) {
             router.push({
-                path : '/test-start', 
-                answer : problemAnswers,
-                score : score,
-                pass_fail : pass_fail,
+                path : '/exam-end',
+                query : {
+                    answer : problemAnswers,
+                    submit : result,
+                    score : score,
+                    pass_fail : passFail,
+                }
             });
         }
     });

@@ -78,6 +78,14 @@ const routes = [
         }
     },
     {
+        path: '/exam-end',
+        name: 'exam-end',
+        component: () => import('../../nuxt-app/pages/ExamEndView.vue'),
+        meta: {
+            isAisAuthenticated: false
+        }
+    },
+    {
         path: '/exam-Description',
         name : 'exam-Description',
         component: () => import('../../nuxt-app/pages/ExamDescriptionView.vue'),
