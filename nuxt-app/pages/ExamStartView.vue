@@ -90,7 +90,7 @@ async function search () {
     questionYear = router.currentRoute.value.query.question_year;
     questionRound = router.currentRoute.value.query.question_round;
 
-    await axios.get('/start-problems', {
+    await axios.get('/start-exam', {
         params : {
             exam_id : examId,
             subject_id : subjectId,
@@ -124,7 +124,7 @@ async function submit () {
 
     problemAnswers.forEach((p, index) => {
         
-        score = getScore (p);
+        score = getScore (p, index);
 
     });
     passFail = passFail >= problems.value.pass_score ?  1 : 0;
@@ -138,13 +138,11 @@ async function submit () {
         { pass_fail : passFail }
     );
 
-    await axios.post('/save-problem-result', {
-        params : {
-            list : list
-        }
+    await axios.post('/save-exam-result', {
+        list : list
     }).then(res => {
         const data = res.data;
-        
+        console.log(data)
         if (!data.result) {
             router.push({
                 path : '/test-start', 
@@ -156,7 +154,7 @@ async function submit () {
     });
 }
 
-function getScore (params) {
+function getScore (params, index) {
     let score = 0;
     const value = answers.value[index];
 

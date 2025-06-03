@@ -65,7 +65,7 @@ function getExamTypeStorage () {
 
 function testStart() {
     router.push({
-        path : '/test-start', 
+        path : '/exam-start', 
         query : {
             user_id : userId.value,
             exam_id : examId.value,
