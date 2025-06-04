@@ -34,10 +34,13 @@
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
+import { useExamStorePage } from '@/stores/useExamStorePage';
+
+const examStorePage = useExamStorePage();
 
 function getProblem () {
-    console.log("router")
-    console.log(router.currentRoute.value.query)
+    console.log(examStorePage)
+    console.log(examStorePage.$state)
 }
 
 onMounted(() => {
