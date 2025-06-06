@@ -67,9 +67,9 @@
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
-import { useExamStorePage } from '@/stores/useExamStorePage';
+import { useExamStart } from '../store/useExamStart'; 
 
-const examStorePage = useExamStorePage();
+const examStore = useExamStart ();
 
 const userId = ref('');
 const problems = ref([]);
@@ -150,12 +150,11 @@ async function submit () {
     }).then(res => {
         const data = res.data;
         if (!data.result) {
-
-            examStorePage.setExamData ({
+            examStore.setExamData ({
                 problems : problems.value,
-                result : result,
+                examResult : result,
                 score : score,
-                pass_fail : passFail
+                passFail : passFail
             });
             router.push('/exam-end');
         }
@@ -219,6 +218,7 @@ onMounted(() => {
     search();
     userId.value = router.currentRoute.value.query.user_id;
     timer();
+    
 });
 
 </script>

@@ -1,8 +1,7 @@
 <template>
     <v-container fluid class="d-flex">
         <v-col cols="12">
-            dddd
-            <!-- <v-row v-for="(problem, index) in problems" :key="index">
+            <v-row v-for="(problem, index) in problems" :key="index">
                 <v-col cols="10">
                     <span>{{ index + 1 }}번.   {{ problem.question }}</span>
                 </v-col>
@@ -24,7 +23,7 @@
                 <v-col>
                     <v-textarea readonly />
                 </v-col>
-            </v-row> -->
+            </v-row>
             
         </v-col>
     </v-container>
@@ -34,13 +33,15 @@
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
-import { useExamStorePage } from '@/stores/useExamStorePage';
+import { useExamStart } from '../store/useExamStart'; 
 
-const examStorePage = useExamStorePage();
+const examStorePage = useExamStart();
+
+const problems = ref([]);
 
 function getProblem () {
-    console.log(examStorePage)
-    console.log(examStorePage.$state)
+    problems.value = examStorePage.problems;
+    console.log(problems.value)
 }
 
 onMounted(() => {

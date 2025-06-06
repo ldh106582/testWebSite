@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-export const useExamStorePage = defineStore ('exam', {
+export const useExamStart = defineStore ('examStart', {
     state: () => ({
         problems : [],
         examResult : [],
@@ -8,14 +8,13 @@ export const useExamStorePage = defineStore ('exam', {
         passFail :0 
     }),
 
-    actions : {
+    actions: {
         setExamData (data) {
             console.log("data : ", data)
             this.problems = data.problems;
             this.examResult = data.result;
             this.score = data.score;
-            this.passFail = data.pass_fail;
+            this.passFail = data.passFail;
         }
     }
-
 });

@@ -1,5 +1,6 @@
 import colors from 'vuetify/es5/util/colors';
 import { defineVitestConfig } from '@nuxt/test-utils/config';
+import { createPinia } from 'pinia';
 
 export default defineVitestConfig({
   // Target: https://go.nuxtjs.dev/config-target
@@ -42,7 +43,8 @@ export default defineVitestConfig({
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxt/test-utils/module'
+    '@nuxt/test-utils/module',
+    ['@pinia/nuxt']
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
