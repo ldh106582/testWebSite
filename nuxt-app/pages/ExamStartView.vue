@@ -119,6 +119,7 @@ async function submit () {
     const problemAnswers = [];
     const result = [];
     let list = [];
+    const item = [];
     let score = 0;
     let passFail = 0;
 
@@ -127,10 +128,12 @@ async function submit () {
     });
 
     problemAnswers.forEach((p, index) => {
-        score = getScore (p, index);
+        const point = getScore (p, index);
+        item.push(point === 0 ? false : true);
+        score += getScore (p, index);
     });
     passFail = passFail >= problems.value.pass_score ?  1 : 0;
-
+    
     list.push(
         { exam_id : examId },
         { question_type : questionType === '' ? null : questionType },
@@ -141,7 +144,7 @@ async function submit () {
         { pass_fail : passFail }
     );
 
-    Object.entries(answers.value).forEach(q => {
+    Object.entries(answers.value).forEach (q => {
         result.push(q[1]);
     });
 
@@ -152,7 +155,8 @@ async function submit () {
         if (!data.result) {
             examStore.setExamData ({
                 problems : problems.value,
-                examResult : result,
+                examResult : item,
+                result : result,
                 score : score,
                 passFail : passFail
             });
@@ -171,7 +175,6 @@ function getScore (params, index) {
 
     const totalAnswers = problemAnswer.length;
     const correctAnswers = intersecter.length;
-
 
     if (totalAnswers === 0) {
         return score;
