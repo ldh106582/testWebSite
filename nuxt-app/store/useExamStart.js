@@ -4,17 +4,18 @@ export const useExamStart = defineStore ('examStart', {
     state: () => ({
         problems : [],
         examResult : [],
+        answers: [],
         score : 0,
         passFail :0 
     }),
 
     actions: {
         setExamData (data) {
-            console.log("data : ", data)
             this.problems = data.problems;
-            this.examResult = data.result;
+            this.examResult = data.examResult;
             this.score = data.score;
             this.passFail = data.passFail;
+            this.answers = data.answers;
         }
     }
 });

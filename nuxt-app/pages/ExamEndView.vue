@@ -4,17 +4,19 @@
             <v-row>
                 <v-col cols="12" class="pa-0" style="text-align: end;">
                     <p> {{ score }}</p>
-                    <p> {{ passFail }} </p>
+                    <p :style="{  color: passFail === '불합격' ?  'res' : 'black'}" style="font-weight: bold;"> {{ passFail }} </p>
                 </v-col>
             </v-row>
             <v-row v-for="(problem, index) in problems" :key="index">
                 
                 <v-col cols="12" style="position: relative;">
-                    <v-col v-if="examResult[index]" style="position: absolute; top: 25%; border: 1px solid red;">
-                        dddd
+                    <v-col v-if="examResult[index]" style="height: 50px; top: 0%; left: 0%; position: absolute;">
+                        <div>
+                            <span class="result"> O </span>
+                        </div>
                     </v-col>
-                    <div v-else style="height: 50px; position: absolute; top: 25%; border: 1px solid red;">
-                        /
+                    <div v-else style="height: 50px; position: absolute;">
+                        <span class="result"> / </span>
                     </div>
                     <span>{{ index + 1 }}번.   {{ problem.question }}</span>
                 </v-col>
@@ -24,20 +26,20 @@
                     style="width: 100%; max-height: 500px;" />
                 </v-col>
 
-                <v-col cols="1">
+                <v-col cols="1" class="answer py-0">
+                    <span> 제출 : </span>
+                </v-col>
+                <v-col cols="11">
+                    <v-text-field data-test="problem" variant="outlined" hide-details
+                    auto-grow class="pa-0" v-model="answers[index]" />
+                </v-col>
+
+                <v-col cols="1  " class="answer py-0">
                     <span> 정 답 : </span>
                 </v-col>
                 <v-col cols="11">
-                    <v-text-field v-if="problem.problem" data-test="problem" variant="outlined" hide-details value
-                    auto-grow :value="problem.problem" />
-                </v-col>
-                
-                <v-col cols="1">
-                    <span> 제출한 답 : </span>
-                </v-col>
-                <v-col cols="11">
-                    <v-text-field v-if="problem.problem" data-test="problem" variant="outlined" hide-details value
-                    auto-grow :value="answers[index]" />
+                    <v-text-field data-test="problem" variant="outlined" hide-details
+                    auto-grow class="pa-0" :value="problem.answer" />
                 </v-col>
             </v-row>
         </v-col>
@@ -48,6 +50,7 @@
 import { ref, onMounted } from 'vue';
 import axios from '../../src/axios';
 import { useExamStart } from '../store/useExamStart'; 
+import colors from 'vuetify/lib/util/colors';
 
 const examStorePage = useExamStart();
 
@@ -56,10 +59,15 @@ const answers = ref([]);
 const examResult = ref([]);
 const score = ref(0);
 const passFail = ref('');
+const  classObject = ref( {
+    isActive: true,
+    'text-danger': false
+})
 
 function getProblem () {
+    
     problems.value = examStorePage.problems;
-    answers.value = examStorePage.result;
+    answers.value = examStorePage.answers;
     examResult.value = examStorePage.examResult;
     score.value = examStorePage.score;
     passFail.value = examStorePage.passFail === 0 ? '불합격' : '합격';
@@ -72,5 +80,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.result {
+    color: red;
+    font-weight: bold;
+}
+
+.answer {
+    align-content: center;
+}
 
 </style>

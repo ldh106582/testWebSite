@@ -144,9 +144,9 @@ async function submit () {
         { pass_fail : passFail }
     );
 
-    Object.entries(answers.value).forEach (q => {
-        result.push(q[1]);
-    });
+    // Object.entries(answers.value).forEach (q => {
+    //     result.push(q[1]);
+    // });
 
     await axios.post('/save-exam-result', {
         list : list
@@ -156,7 +156,7 @@ async function submit () {
             examStore.setExamData ({
                 problems : problems.value,
                 examResult : item,
-                result : result,
+                answers : answers.value,
                 score : score,
                 passFail : passFail
             });
