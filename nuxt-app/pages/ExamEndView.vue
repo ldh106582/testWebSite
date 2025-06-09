@@ -3,8 +3,8 @@
         <v-col cols="12">
             <v-row>
                 <v-col cols="12" class="pa-0" style="text-align: end;">
-                    <p> {{ score }}</p>
-                    <p :style="{  color: passFail === '불합격' ?  'res' : 'black'}" style="font-weight: bold;"> {{ passFail }} </p>
+                    <p class="passFail" > {{ score }}</p>
+                    <p class="passFail" :style="{  color: passFail === '불합격' ?  'res' : 'black'}"> {{ passFail }} </p>
                 </v-col>
             </v-row>
             <v-row v-for="(problem, index) in problems" :key="index">
@@ -89,4 +89,8 @@ onMounted(() => {
     align-content: center;
 }
 
+.paaFail {
+    font-size: large;
+    font-weight: bold;
+}
 </style>

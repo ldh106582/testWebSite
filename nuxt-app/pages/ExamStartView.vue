@@ -134,6 +134,7 @@ async function submit () {
     });
     passFail = passFail >= problems.value.pass_score ?  1 : 0;
     
+    console.log(score)
     list.push(
         { exam_id : examId },
         { question_type : questionType === '' ? null : questionType },
@@ -144,41 +145,37 @@ async function submit () {
         { pass_fail : passFail }
     );
 
-    // Object.entries(answers.value).forEach (q => {
-    //     result.push(q[1]);
+    // await axios.post('/save-exam-result', {
+    //     list : list
+    // }).then(res => {
+    //     const data = res.data;
+    //     if (!data.result) {
+    //         examStore.setExamData ({
+    //             problems : problems.value,
+    //             examResult : item,
+    //             answers : answers.value,
+    //             score : score,
+    //             passFail : passFail
+    //         });
+    //         router.push('/exam-end');
+    //     }
     // });
-
-    await axios.post('/save-exam-result', {
-        list : list
-    }).then(res => {
-        const data = res.data;
-        if (!data.result) {
-            examStore.setExamData ({
-                problems : problems.value,
-                examResult : item,
-                answers : answers.value,
-                score : score,
-                passFail : passFail
-            });
-            router.push('/exam-end');
-        }
-    });
 }
 
 function getScore (params, index) {
     let score = 0;
     const value = answers.value[index];
-
     const problemAnswer = params.split(/\s+/).filter(word => word.length > 0);
     const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0) : [];
     const intersecter = userAnswer.filter(word => problemAnswer.includes(word));
-
+    
     const totalAnswers = problemAnswer.length;
     const correctAnswers = intersecter.length;
 
     if (totalAnswers === 0) {
         return score;
     }
+
     if (totalAnswers <= 2) {
         score = correctAnswers * 2.5;
     } else if (totalAnswers === 3) {
@@ -197,7 +194,7 @@ function getScore (params, index) {
             score = (correctAnswers / totalAnswers) * 5;
         }
     }
-    
+
     return Math.round(score * 10) / 10;
 }
 
