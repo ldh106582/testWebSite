@@ -165,37 +165,41 @@ async function submit () {
 function getScore (params, index) {
     let score = 0;
     const value = answers.value[index];
-    const problemAnswer = params.split(/\s+/).filter(word => word.length > 0);
-    const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0) : [];
-    const intersecter = userAnswer.filter(word => problemAnswer.includes(word));
+    const problemAnswer = params.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word));
+    const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word)) : [];
+    // const intersecter = userAnswer.filter(word => { 
+    //     problemAnswer.includes(word)
+    // });
     
-    const totalAnswers = problemAnswer.length;
-    const correctAnswers = intersecter.length;
+    console.log(problemAnswer)
+    console.log(userAnswer)
 
-    if (totalAnswers === 0) {
-        return score;
-    }
+    // const totalAnswers = problemAnswer.length;
+    // const correctAnswers = intersecter.length;
 
-    if (totalAnswers <= 2) {
-        score = correctAnswers * 2.5;
-    } else if (totalAnswers === 3) {
-        if (correctAnswers === 1) {
-            score = 1;
-        } else if (correctAnswers === 2) {
-            score = 3;
-        } else if (correctAnswers === 3) {
-            score = 5;
-        }
-    } else {
-        const correct = ((correctAnswers / userAnswer.length) * 100);
-        if (correct > 80) {
-            score = 5;
-        } else {
-            score = (correctAnswers / totalAnswers) * 5;
-        }
-    }
 
-    return Math.round(score * 10) / 10;
+    // if (totalAnswers === 0) return score;
+
+    // if (totalAnswers <= 2) {
+    //     score = correctAnswers * 2.5;
+    // } else if (totalAnswers === 3) {
+    //     if (correctAnswers === 1) {
+    //         score = 1;
+    //     } else if (correctAnswers === 2) {
+    //         score = 3;
+    //     } else if (correctAnswers === 3) {
+    //         score = 5;
+    //     }
+    // } else {
+    //     const correct = ((correctAnswers / userAnswer.length) * 100);
+    //     if (correct > 80) {
+    //         score = 5;
+    //     } else {
+    //         score = (correctAnswers / totalAnswers) * 5;
+    //     }
+    // }
+
+    // return Math.round(score * 10) / 10;
 }
 
 function timer () {
