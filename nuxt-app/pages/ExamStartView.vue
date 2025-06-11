@@ -167,12 +167,15 @@ function getScore (params, index) {
     const value = answers.value[index];
     const problemAnswer = params.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word));
     const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word)) : [];
-    // const intersecter = userAnswer.filter(word => { 
-    //     problemAnswer.includes(word)
-    // });
-    
-    console.log(problemAnswer)
-    console.log(userAnswer)
+    const intersecter = userAnswer.filter(word => { 
+        problemAnswer.forEach((problem, index) => {
+            userAnswer.forEach(user => {
+                if (problem === user ) {
+                    return index
+                }
+            })
+        })
+    });
 
     // const totalAnswers = problemAnswer.length;
     // const correctAnswers = intersecter.length;
