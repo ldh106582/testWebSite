@@ -133,8 +133,7 @@ async function submit () {
         score += getScore (p, index);
     });
     passFail = passFail >= problems.value.pass_score ?  1 : 0;
-    
-    console.log(score)
+
     list.push(
         { exam_id : examId },
         { question_type : questionType === '' ? null : questionType },
@@ -165,44 +164,40 @@ async function submit () {
 function getScore (params, index) {
     let score = 0;
     const value = answers.value[index];
-    const problemAnswer = params.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word));
+    const problemAnswer = params.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word)) .map(word => word.replace(/,/g, ''));;
     const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word)) : [];
-    const intersecter = userAnswer.filter(word => { 
-        problemAnswer.forEach((problem, index) => {
-            userAnswer.forEach(user => {
-                if (problem === user ) {
-                    return index
-                }
-            })
-        })
+    const intersecter = [];
+    userAnswer.forEach((problem, index) => {
+        if (problemAnswer.includes(problem)) {
+            intersecter.push(problem);
+        }
     });
 
-    // const totalAnswers = problemAnswer.length;
-    // const correctAnswers = intersecter.length;
+    const totalAnswers = problemAnswer.length;
+    const correctAnswers = intersecter.length;
 
+    if (totalAnswers === 0) return score;
 
-    // if (totalAnswers === 0) return score;
+    if (totalAnswers <= 2) {
+        score = correctAnswers * 2.5;
+    } else if (totalAnswers === 3) {
+        if (correctAnswers === 1) {
+            score = 1;
+        } else if (correctAnswers === 2) {
+            score = 3;
+        } else if (correctAnswers === 3) {
+            score = 5;
+        }
+    } else {
+        const correct = ((correctAnswers / userAnswer.length) * 100);
+        if (correct > 80) {
+            score = 5;
+        } else {
+            score = (correctAnswers / totalAnswers) * 5;
+        }
+    }
 
-    // if (totalAnswers <= 2) {
-    //     score = correctAnswers * 2.5;
-    // } else if (totalAnswers === 3) {
-    //     if (correctAnswers === 1) {
-    //         score = 1;
-    //     } else if (correctAnswers === 2) {
-    //         score = 3;
-    //     } else if (correctAnswers === 3) {
-    //         score = 5;
-    //     }
-    // } else {
-    //     const correct = ((correctAnswers / userAnswer.length) * 100);
-    //     if (correct > 80) {
-    //         score = 5;
-    //     } else {
-    //         score = (correctAnswers / totalAnswers) * 5;
-    //     }
-    // }
-
-    // return Math.round(score * 10) / 10;
+    return Math.round(score * 10) / 10;
 }
 
 function timer () {
