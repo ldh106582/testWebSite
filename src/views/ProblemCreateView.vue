@@ -87,6 +87,11 @@
                 </label>
                 <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
             </v-col>
+            <v-col cols="8">
+                <FileUpload mode="basic" @select="onFileSelect" customUpload auto 
+                style="border: 1px solid black; border-radius: 9.8px;" 
+                severity="secondary" class="p-button-outlined pa-2" chooseLabel="Image Upload" />
+            </v-col>
         </v-row>
         
         <v-row>
