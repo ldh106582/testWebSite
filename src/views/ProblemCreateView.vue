@@ -88,7 +88,7 @@
                 <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
             </v-col>
             <v-col cols="8">
-                <FileUpload mode="basic" @select="onFileSelect" customUpload auto 
+                <FileUpload mode="basic" @select="onFileSelect_1" customUpload auto 
                 style="border: 1px solid black; border-radius: 9.8px;" 
                 severity="secondary" class="p-button-outlined pa-2" chooseLabel="Image Upload" />
             </v-col>
@@ -155,12 +155,20 @@ const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
 const isCheckExamId = ref(false);
 const src = ref(null);
-const image = ref('');
+const question_image = ref('');
+const problem_image = ref('');
 
 async function onFileSelect (event) {
     getInputFile (event, async (data) => {
         src.value = await data.result;
-        image.value = await data.fd;
+        question_image.value = await data.fd;
+    });
+}
+
+async function onFileSelect_1 (evnet) {
+    getInputFile (event, async (data) => {
+        src.value = await data.result;
+        problem_image.value = await data.fd;
     });
 }
 
@@ -180,7 +188,8 @@ async function examCreateSave () {
     const sucessMsg = '등록되었습니다.';
     let questionStorages = [];
     let problemStorages = [];
-    let imagePath = null;
+    let qestionImagePath = null;
+    let problemImagePath
 
     questionStorages = [
         { question : question.value },
@@ -193,20 +202,23 @@ async function examCreateSave () {
 
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
 
-    if (image.value) {
-        await axios.post('/image-upload', image.value).then(res => { 
-            imagePath = res.data.imagePath;
+    if (question_image.value) {
+        await axios.post('/image-upload', question_image.value).then(res => { 
+            qestionImagePath = res.data.imagePath;
+        });
+    } else if (problem_image.value) {
+        await axios.post('/image-upload', question_image.value).then(res => { 
+            problemImagePath = res.data.imagePath;
         });
     }
 
     problemStorages = [
         { problem : JSON.stringify(questionValue) },
-        { problem_image : imagePath },
+        { problem_image : qestionImagePath },
         { answer : answer.value.toLowerCase() },
         { problem_explanation : problemExplanation.value },
         { problem_feedback : problemFeedback.value}
     ];
-    console.log(problemStorages)
 
     await axios.post('/question', {
         exam_id : examStore.exam_id,
@@ -224,7 +236,7 @@ async function examCreateSave () {
 
 function deleteImage () {
     src.value = null;
-    image.value = null;
+    question_image.value = null;
 }
 
 </script>
