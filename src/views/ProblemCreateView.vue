@@ -155,20 +155,21 @@ const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
 const isCheckExamId = ref(false);
 const src = ref(null);
-const question_image = ref('');
-const problem_image = ref('');
+const problemImage = ref('');
+const questionImage = ref('');
+
 
 async function onFileSelect (event) {
     getInputFile (event, async (data) => {
         src.value = await data.result;
-        question_image.value = await data.fd;
+        problemImage.value = await data.fd;
     });
 }
 
 async function onFileSelect_1 (evnet) {
     getInputFile (event, async (data) => {
         src.value = await data.result;
-        problem_image.value = await data.fd;
+        questionImage.value = await data.fd;
     });
 }
 
@@ -189,32 +190,33 @@ async function examCreateSave () {
     let questionStorages = [];
     let problemStorages = [];
     let qestionImagePath = null;
-    let problemImagePath
+    let problemImagePath = null;
 
-    questionStorages = [
+    const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
+
+    if (problemImage.value) {
+        await axios.post('/image-upload', problemImage.value).then(res => { 
+            problemImagePath = res.data.imagePath;
+        });
+    } else if (questionImage.value) {
+        await axios.post('/image-upload', questionImage.value).then(res => { 
+            qestionImagePath = res.data.imagePath;
+        });
+    }
+
+        questionStorages = [
         { question : question.value },
         { question_point : questionPoint.value },
         { question_type : selectType.value },
         { question_year : selectYear.value },
         { question_round : selectRound.value},
         { question_level : selectLevel.value },
+        { question_image : qestionImagePath}
     ];
-
-    const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
-
-    if (question_image.value) {
-        await axios.post('/image-upload', question_image.value).then(res => { 
-            qestionImagePath = res.data.imagePath;
-        });
-    } else if (problem_image.value) {
-        await axios.post('/image-upload', question_image.value).then(res => { 
-            problemImagePath = res.data.imagePath;
-        });
-    }
 
     problemStorages = [
         { problem : JSON.stringify(questionValue) },
-        { problem_image : qestionImagePath },
+        { problem_image : problemImagePath },
         { answer : answer.value.toLowerCase() },
         { problem_explanation : problemExplanation.value },
         { problem_feedback : problemFeedback.value}
@@ -236,7 +238,7 @@ async function examCreateSave () {
 
 function deleteImage () {
     src.value = null;
-    question_image.value = null;
+    questionImage.value = null;
 }
 
 </script>
