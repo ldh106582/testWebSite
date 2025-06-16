@@ -233,7 +233,6 @@ async function examCreateSave () {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (sucessMsg);
     });
-
 }
 
 function deleteImage () {

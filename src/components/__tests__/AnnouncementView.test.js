@@ -1,5 +1,5 @@
     import { describe, test, expect, beforeEach, vi } from "vitest";
-    import AnnouncementView from '../AnnouncementView.vue';
+    import AnnouncementView from '../BoardView.vue';
     import { flushPromises, mount } from "@vue/test-utils";
     import axios from "@/axios.js";
 

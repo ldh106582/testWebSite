@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import announcementView from '@/components/AnnouncementView.vue';
+import announcementView from '@/components/BoardView.vue';
 import chartView from '@/components/ChartView.vue'
 import Welcome from '@/components/Welcome.vue'
 </script>

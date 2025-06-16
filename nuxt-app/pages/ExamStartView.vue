@@ -144,21 +144,21 @@ async function submit () {
         { pass_fail : passFail }
     );
 
-    // await axios.post('/save-exam-result', {
-    //     list : list
-    // }).then(res => {
-    //     const data = res.data;
-    //     if (!data.result) {
-    //         examStore.setExamData ({
-    //             problems : problems.value,
-    //             examResult : item,
-    //             answers : answers.value,
-    //             score : score,
-    //             passFail : passFail
-    //         });
-    //         router.push('/exam-end');
-    //     }
-    // });
+    await axios.post('/save-exam-result', {
+        list : list
+    }).then(res => {
+        const data = res.data;
+        if (!data.result) {
+            examStore.setExamData ({
+                problems : problems.value,
+                examResult : item,
+                answers : answers.value,
+                score : score,
+                passFail : passFail
+            });
+            router.push('/exam-end');
+        }
+    });
 }
 
 function getScore (params, index) {
