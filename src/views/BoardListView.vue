@@ -11,8 +11,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-onMounted (() => {
+const boardList = [];
 
+function search () {
+
+}
+onMounted (() => {
+    search ();
 });
 </script>
 
