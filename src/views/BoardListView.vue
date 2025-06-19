@@ -10,13 +10,17 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-const boardList = [];
+const boardList = ref([]);
 
-function search () {
+async function search () {
+    await axios.get('/', {
 
+    });
 }
-onMounted (() => {
+
+onMounted (async () => {
     search ();
 });
 </script>

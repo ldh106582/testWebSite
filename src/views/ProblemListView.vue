@@ -219,7 +219,6 @@ function selectedRoundAll () {
 }
 
 function showQuestion (rows, index) {
-
     router.push({
         path: '/problem-Process',
         query: {
@@ -230,7 +229,6 @@ function showQuestion (rows, index) {
 }
 
 async function search () {
-
     await axios.get('/question-problem-group-desc', {
         params: {
             start_date : startDate.value,
