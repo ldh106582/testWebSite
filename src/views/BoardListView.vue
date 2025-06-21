@@ -13,10 +13,19 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const boardList = ref([]);
+const page = ref(1);
+const countPage = ref(30);
 
 async function search () {
-    await axios.get('/', {
+    await axios.get('/board', {
+        params: {
+            page: page.value,
+            countPage: countPage.value
+        }
+    }).then(res => {
+        const data = res.data;
 
+        
     });
 }
 
