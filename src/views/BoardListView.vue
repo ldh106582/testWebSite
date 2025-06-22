@@ -2,7 +2,9 @@
     <v-container fluid>
         <v-row>
             <v-col>
-                
+                <v-table>
+                    
+                </v-table>
             </v-col>
         </v-row>
     </v-container>
