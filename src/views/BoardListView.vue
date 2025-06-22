@@ -3,7 +3,9 @@
         <v-row>
             <v-col>
                 <v-table>
-                    
+                    <th>
+                        
+                    </th>
                 </v-table>
             </v-col>
         </v-row>

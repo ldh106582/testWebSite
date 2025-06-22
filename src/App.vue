@@ -62,6 +62,10 @@
       </v-list>
 
       <v-list>
+        <v-list-item>게시판</v-list-item>
+      </v-list>
+
+      <v-list>
         <v-list-item class="sideBar-text" @click="goingPractice">Practice</v-list-item>
       </v-list>
       
