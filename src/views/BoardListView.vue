@@ -1,11 +1,26 @@
 <template>
     <v-container fluid>
         <v-row>
+        </v-row>
+        <v-row>
             <v-col>
-                <v-table>
-                    <th>
-                        
-                    </th>
+                <v-table width="100%" height="300px" fixed-header>
+                    <thead>
+                        <tr>
+                            <th class="text-cneter">
+                            Name
+                            </th>
+                            <th class="text-cneter">
+                            Calories
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in desserts" :key="index">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.calories }}</td>
+                        </tr>
+                    </tbody>
                 </v-table>
             </v-col>
         </v-row>
