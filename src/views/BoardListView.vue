@@ -8,16 +8,19 @@
                     <thead>
                         <tr>
                             <th class="text-cneter">
-                            Name
+                            No.
                             </th>
                             <th class="text-cneter">
-                            Calories
+                            제목
+                            </th>
+                            <th class="text-cneter">
+                            조회수
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in desserts" :key="index">
-                            <td>{{ item.name }}</td>
+                            <td>{{ index + 1 }}</td>
                             <td>{{ item.calories }}</td>
                         </tr>
                     </tbody>
