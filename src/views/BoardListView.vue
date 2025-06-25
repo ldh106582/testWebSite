@@ -39,6 +39,7 @@ const page = ref(1);
 const countPage = ref(30);
 
 async function search () {
+    const errorMsg = '조회를 실패하였습니다.';
     await axios.get('/board', {
         params: {
             page: page.value,
@@ -46,6 +47,11 @@ async function search () {
         }
     }).then(res => {
         const data = res.data;
+        if (data.result) {
+            boardList.value = data.rows
+        } else {
+            return alert (errorMsg);
+        }
 
         
     });
