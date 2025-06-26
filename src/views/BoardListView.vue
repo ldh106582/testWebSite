@@ -21,7 +21,9 @@
                     <tbody>
                         <tr v-for="(item, index) in desserts" :key="index">
                             <td>{{ index + 1 }}</td>
-                            <td>{{ item.calories }}</td>
+                            <td>{{ item.board_title }}</td>
+                            <td>{{ item.board_content }}</td>
+                            <td>{{ item.board_checkNum }}</td>
                         </tr>
                     </tbody>
                 </v-table>
