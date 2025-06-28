@@ -62,7 +62,7 @@
       </v-list>
 
       <v-list>
-        <v-list-item>게시판</v-list-item>
+        <v-list-item class="sideBar-text" prepend-icon="icon"  @click="e => goBoardList(e)">게시판</v-list-item>
       </v-list>
 
       <v-list>
