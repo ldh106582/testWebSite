@@ -27,11 +27,38 @@ function google () {
 }
 
 function test() {
-    const formId = 'https://docs.google.com/forms/d/e/1FAIpQLSdkr-vQ8-xaw2vqQD-drE1pf2d0492GQp2eCm5nj-um1zGupg/viewform';
-    const fisrtIndex = formId.indexOf('e/');
-    const LastIndex = formId.indexOf('/viewform');
-    const result = formId.slice((fisrtIndex +2), LastIndex);
-    console.log(result)
+    // const formId = 'https://docs.google.com/forms/d/e/1FAIpQLSdkr-vQ8-xaw2vqQD-drE1pf2d0492GQp2eCm5nj-um1zGupg/viewform';
+    // const fisrtIndex = formId.indexOf('e/');
+    // const LastIndex = formId.indexOf('/viewform');
+    // const result = formId.slice((fisrtIndex +2), LastIndex);
+    // console.log(result)
+const koreanLang = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ', 'ㄲ', 'ㅉ', 'ㄸ', 'ㅆ']
+const translateLang = {
+    'ㄱ': 'R',
+    'ㄲ': 'R',
+    'ㄴ': 'S',
+    'ㄷ': 'E',
+    'ㄸ': 'E',
+    'ㄹ': 'F',
+    'ㅁ': 'A',
+    'ㅂ': 'Q',
+    'ㅃ': 'Q',
+    'ㅅ': 'T',
+    'ㅆ': 'T',
+    'ㅇ': 'D',
+    'ㅈ': 'W',
+    'ㅉ': 'W',
+    'ㅊ': 'C',
+    'ㅋ': 'Z',
+    'ㅌ': 'X',
+    'ㅍ': 'V',
+    'ㅎ': 'G',
+}
+
+const data = koreanLang.map(lang => 
+    translateLang[lang] || lang)
+console.log(data)
+
 }
 
 onMounted(() => {
@@ -43,8 +70,12 @@ onMounted(() => {
             clearInterval(interval);
         }
     }, 10);
-    test();
+test ();
+
 });
+
+
+
 </script>
 
 <style scope>

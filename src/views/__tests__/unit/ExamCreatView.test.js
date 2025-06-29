@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import axios from "@/axios";
-import ExamTypeCreatView from "@/views/ExamCreatView.vue";
+import ExamTypeCreatView from "@/views/ExamCreat.vue";
 import { flushPromises, mount } from "@vue/test-utils";
 
 

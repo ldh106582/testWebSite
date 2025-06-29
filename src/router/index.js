@@ -30,9 +30,9 @@ const routes = [
         }
     },
     {
-        path: '/exam-create',
-        name: 'exam-create',
-        component: () => import('@/views/ExamCreatView.vue'),
+        path: '/exam-upload',
+        name: 'exam-upload',
+        component: () => import('@/views/ExamUploadView.vue'),
         meta: {
             isAisAuthenticated: true
         }
@@ -46,9 +46,9 @@ const routes = [
         }
     },
     {
-        path: '/problem-create',
-        name: 'problem-create',
-        component: () => import('@/views/ProblemCreateView.vue'),
+        path: '/problem-upload',
+        name: 'problem-upload',
+        component: () => import('@/views/ProblemUploadView.vue'),
         meta: {
             isAisAuthenticated: true
         }

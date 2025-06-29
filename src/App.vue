@@ -89,11 +89,11 @@ const manager = ref(1);
 const auth = useAuthStore();
 const examStore = useExamStore();
 const exams = [
-  ['유형 추가', 'mdi-card-minus', (e) => push(e, '/exam-create')],
+  ['유형 추가', 'mdi-card-minus', (e) => push(e, '/exam-upload')],
   ['유형 조회 및 수정', 'mdi-magnify', (e) => push(e, '/exam-update')],
 ];
 const questions = [
-  ['문제 출제', 'mdi-pencil', (e) => push(e, '/problem-create')],
+  ['문제 출제', 'mdi-pencil', (e) => push(e, '/problem-upload')],
   ['문제 리스트', 'mdi-pencil', (e) => push(e, '/problem-list')],
 ];
 const today = moment().format('YYYY-MM-DD');

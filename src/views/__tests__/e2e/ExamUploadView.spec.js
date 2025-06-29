@@ -1,7 +1,7 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-const url = 'http://localhost:5173/exam-create/?userId=admin';
+const url = 'http://localhost:5173/exam-upload/?userId=admin';
 
 test.beforeEach(async ({ page }) => {
   await page.goto(url);
@@ -33,7 +33,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test.describe('ExamCreatView', () => {
+test.describe('ExamCView', () => {
   test.describe('searchExam 함수', () => {
     test(' 버튼 확인 -> examName 아무것도 입력하지 않았을 경우', async ({ page }) => {
       const nullMsg = '주제를 입력해주세요';
