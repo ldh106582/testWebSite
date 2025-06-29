@@ -62,7 +62,7 @@
       </v-list>
 
       <v-list>
-        <v-list-item class="sideBar-text" prepend-icon="icon"  @click="e => goBoardList(e)">게시판</v-list-item>
+        <v-list-item class="sideBar-text" prepend-icon="mdi-view-list" @click="e => goBoardList(e)">게시판</v-list-item>
       </v-list>
 
       <v-list>
@@ -110,7 +110,7 @@ function templateId () {
 function getExamStorage (item , e) {
   userId.value = auth.templateUser()
   router.push({
-    path: '/exam-Description',
+    path: '/exam-description',
     query: {
       exam_id: item.exam_id,
       user_id: auth.userId
@@ -129,8 +129,12 @@ function push(e, routeName) {
   });
 }
 
+function goBoardList () {
+  router.push('/board-list');
+}
+
 function mainPage () {
-  router.push('/')
+  router.push('/');
 }
 
 function createMember () {
