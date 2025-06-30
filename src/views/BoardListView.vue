@@ -54,6 +54,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import router from '@/router';
 
 
 const boardList = ref([]);
@@ -61,20 +62,20 @@ const page = ref(1);
 const countPage = ref(30);
 
 async function search () {
-    const errorMsg = '조회를 실패하였습니다.';
-    await axios.get('/board', {
+    await axios.get ('/board', {
         params: {
             page: page.value,
             countPage: countPage.value
         }
-    }).then(res => {
+    }).then (res => {
         boardList.value = res.data.rows;
     });
 }
 
 function writeBoard () {
-
+    router.push('/board-upload');
 }
+
 onMounted (async () => {
     search ();
 });
