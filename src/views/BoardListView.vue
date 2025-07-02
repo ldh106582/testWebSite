@@ -8,6 +8,15 @@
 
         <v-row>
             <v-col>
+                <v-text-field />
+            </v-col>
+            <v-col>
+                <v-text-field />
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col>
                 <v-table width="100%" height="300px" fixed-header>
                     <thead>
                         <tr>
