@@ -8,10 +8,10 @@
 
         <v-row>
             <v-col>
-                <v-text-field />
+                <v-text-field variant="outlined" hide-details type="date "/>
             </v-col>
             <v-col>
-                <v-text-field />
+                <v-text-field variant="outlined" hide-details />
             </v-col>
         </v-row>
 
