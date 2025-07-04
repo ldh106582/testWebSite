@@ -7,15 +7,26 @@
         </v-row>
 
         <v-row>
-            <v-col>
-                <v-text-field variant="outlined" hide-details type="date "/>
+            <v-col cols="2">
+                <v-text-field variant="outlined" hide-details type="date" v-model="startDate" />
             </v-col>
-            <v-col>
-                <v-text-field variant="outlined" hide-details />
+            <v-col cols="2">
+                <v-text-field variant="outlined" hide-details type="date" v-model="endhDate" />
+            </v-col>
+        </v-row>
+        
+        <v-row>
+            <v-col cols="12">
+                <v-text-field variant="outlined" hide-details v-model="searchData" />
             </v-col>
         </v-row>
 
         <v-row>
+            <v-col>
+                <v-btn text="검색" color="primary" />
+            </v-col>
+        </v-row>
+
             <v-col>
                 <v-table width="100%" height="300px" fixed-header>
                     <thead>
@@ -65,10 +76,11 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import router from '@/router';
 
-
 const boardList = ref([]);
 const page = ref(1);
 const countPage = ref(30);
+const searchDate = ref('');
+const searchData = ref('');
 
 async function search () {
     await axios.get ('/board', {
