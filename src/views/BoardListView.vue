@@ -11,7 +11,7 @@
                 <v-text-field variant="outlined" hide-details type="date" v-model="startDate" />
             </v-col>
             <v-col cols="2">
-                <v-text-field variant="outlined" hide-details type="date" v-model="endhDate" />
+                <v-text-field variant="outlined" hide-details type="date" v-model="endDate" />
             </v-col>
         </v-row>
         
@@ -23,7 +23,7 @@
 
         <v-row>
             <v-col>
-                <v-btn text="검색" color="primary" />
+                <v-btn text="검색" color="primary" @click="search"/>
             </v-col>
         </v-row>
 
@@ -79,7 +79,8 @@ import router from '@/router';
 const boardList = ref([]);
 const page = ref(1);
 const countPage = ref(30);
-const searchDate = ref('');
+const startDate = ref('');
+const endDate = ref('');
 const searchData = ref('');
 
 async function search () {
