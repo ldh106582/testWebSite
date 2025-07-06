@@ -84,10 +84,14 @@ const endDate = ref('');
 const searchData = ref('');
 
 async function search () {
+
     await axios.get ('/board', {
         params: {
-            page: page.value,
-            countPage: countPage.value
+            start_date : startDate.value,
+            end_date : endDate.value,
+            search_data : searchData.value,
+            page : page.value,
+            countPage : countPage.value
         }
     }).then (res => {
         boardList.value = res.data.rows;
