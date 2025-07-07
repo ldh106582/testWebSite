@@ -27,6 +27,7 @@
             </v-col>
         </v-row>
 
+        <v-row>
             <v-col>
                 <v-table width="100%" height="300px" fixed-header>
                     <thead>
@@ -59,7 +60,7 @@
 
         <v-row>
             <v-col style="text-align: end;">
-                <v-btn text="글쓰기" color="indigo" style="text-align: center;" @click="writeBoard()"> </v-btn>
+                <v-btn text="글쓰기" color="indigo" style="text-align: center;" @click="writeBoard"> </v-btn>
             </v-col>
         </v-row>
         
