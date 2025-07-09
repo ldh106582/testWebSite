@@ -2,8 +2,12 @@
     <v-container fluid>
         <v-row>
             <v-col>
-                
+                <span style="font-size: 20px; font-weight: bold;">게시판 글쓰기</span>
             </v-col>
+        </v-row>
+
+        <v-row>
+            
         </v-row>
     </v-container>
 </template>
