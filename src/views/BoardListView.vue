@@ -23,7 +23,7 @@
 
         <v-row>
             <v-col>
-                <v-btn text="검색" color="primary" @click="search"/>
+                <v-btn text="검색" color="primary" @click="search" />
             </v-col>
         </v-row>
 
@@ -48,10 +48,10 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in desserts" :key="index">
-                            <td style="width: 10%;">{{ index + 1 }}</td>
-                            <td style="width: 50%;">{{ item.board_title }}</td>
-                            <td style="width: 15%;">{{ item.board_checkNum }}</td>
-                            <td style="width: 15%;">{{ item.user_id }}</td>
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ item.board_title }}</td>
+                            <td>{{ item.board_checkNum }}</td>
+                            <td>{{ item.user_id }}</td>
                         </tr>
                     </tbody>
                 </v-table>
@@ -60,7 +60,7 @@
 
         <v-row>
             <v-col style="text-align: end;">
-                <v-btn text="글쓰기" color="indigo" style="text-align: center;" @click="writeBoard"> </v-btn>
+                <v-btn text="글쓰기" color="indigo" style="text-align: center;" @click="writeBoard" />
             </v-col>
         </v-row>
         
@@ -84,9 +84,9 @@ const startDate = ref('');
 const endDate = ref('');
 const searchData = ref('');
 
-async function search () {
+function search () {
 
-    await axios.get ('/board', {
+    axios.get ('/board', {
         params: {
             start_date : startDate.value,
             end_date : endDate.value,
@@ -103,9 +103,10 @@ function writeBoard () {
     router.push('/board-upload');
 }
 
-onMounted (async () => {
+onMounted (() => {
     search ();
 });
+
 </script>
 
 <style scoped>
