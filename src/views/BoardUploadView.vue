@@ -8,7 +8,13 @@
 
         <v-row>
             <v-col>
-                <v-text-field />
+                <v-text-field variant="outlined" v-model="title" />
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col>
+                <v-text-field variant="outlined" v-model="contents" />
             </v-col>
         </v-row>
     </v-container>
@@ -18,7 +24,12 @@
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/useAuthStore';
 
+const title = ref('');
+const contents = ref('');
+
+
 const { userId } = useAuthStore();
+
 
 </script>
 
