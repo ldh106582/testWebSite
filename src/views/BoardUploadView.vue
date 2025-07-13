@@ -17,6 +17,12 @@
                 <v-text-field variant="outlined" v-model="contents" />
             </v-col>
         </v-row>
+
+        <v-row>
+            <v-col>
+                <v-btn text="올리기" @click="upload" />
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
@@ -26,7 +32,6 @@ import { useAuthStore } from '@/stores/useAuthStore';
 
 const title = ref('');
 const contents = ref('');
-
 
 const { userId } = useAuthStore();
 
