@@ -29,12 +29,16 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/useAuthStore';
+import axios from '@/axios';
 
 const title = ref('');
 const contents = ref('');
 
 const { userId } = useAuthStore();
 
+function upload () {
+
+}
 
 </script>
 
