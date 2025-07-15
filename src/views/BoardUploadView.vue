@@ -37,7 +37,14 @@ const contents = ref('');
 const { userId } = useAuthStore();
 
 function upload () {
-
+    const list = {
+        title: title.value,
+        contents: contents.value
+    }
+    axios.post('board-upload', {
+    }).then(res => {
+        const data = res.data
+    });
 }
 
 </script>
