@@ -8,13 +8,13 @@
 
         <v-row>
             <v-col>
-                <v-text-field variant="outlined" v-model="title" />
+                <v-text-field variant="outlined" hide-details v-model="title" />
             </v-col>
         </v-row>
 
         <v-row>
             <v-col>
-                <v-text-field variant="outlined" v-model="contents" />
+                <v-text-field variant="outlined" hide-details v-model="contents" />
             </v-col>
         </v-row>
 
