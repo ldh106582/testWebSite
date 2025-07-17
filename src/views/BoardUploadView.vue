@@ -30,6 +30,7 @@
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/useAuthStore';
 import axios from '@/axios';
+import router from '@/router';
 
 const title = ref('');
 const contents = ref('');
@@ -37,13 +38,19 @@ const contents = ref('');
 const { userId } = useAuthStore();
 
 function upload () {
+    const errorMsg = '알 수 없는 오류가 발생하였습니다.';
     const list = {
         title: title.value,
         contents: contents.value
     }
     axios.post('board-upload', {
     }).then(res => {
-        const data = res.data
+        const data = res.data;
+        if (data.result) {
+            router.push('/board-upload');
+        } else {
+            return alert (errorMsg);
+        }
     });
 }
 
