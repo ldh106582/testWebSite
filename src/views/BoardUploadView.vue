@@ -7,20 +7,36 @@
         </v-row>
 
         <v-row>
-            <v-col>
-                <v-text-field variant="outlined" hide-details v-model="title" />
+            <v-col cols="12">
+                <h2>제목</h2>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field variant="outlined" hide-details placeholder="글 제목을 작성해주세요." v-model="title" />
             </v-col>
         </v-row>
 
         <v-row>
-            <v-col>
-                <v-text-field variant="outlined" hide-details v-model="contents" />
+            <v-col cols="12">
+                <h2>내용</h2>
+            </v-col>
+            <v-col cols="12" >
+                <v-textarea variant="outlined" hide-details placeholder="내용을 작성해주세요." v-model="contents" auto-grow/>
             </v-col>
         </v-row>
 
         <v-row>
-            <v-col>
-                <v-btn text="올리기" @click="upload" />
+            <v-col cols="12" style="text-align: end;">
+                <v-btn text="올리기" color="indigo" @click="upload" />
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col cols="12" style="text-align: end;">
+                <span> 작성자 : </span>
+                <span> {{ userId  }}</span>
+                <span> / </span>
+                <span> 작성일 : </span>
+                <span> {{ today  }}</span>
             </v-col>
         </v-row>
     </v-container>
@@ -31,9 +47,11 @@ import { ref } from 'vue';
 import { useAuthStore } from '@/stores/useAuthStore';
 import axios from '@/axios';
 import router from '@/router';
+import moment from 'moment';
 
 const title = ref('');
 const contents = ref('');
+const today = ref(moment().format('YYYY-MM-DD hh:mm:ss'));
 
 const { userId } = useAuthStore();
 
@@ -42,12 +60,14 @@ function upload () {
     const list = {
         title: title.value,
         contents: contents.value
-    }
-    axios.post('board-upload', {
+    };
+
+    axios.post('/board-upload', {
+        list: list
     }).then(res => {
         const data = res.data;
         if (data.result) {
-            router.push('/board-upload');
+            router.push('/board-list');
         } else {
             return alert (errorMsg);
         }
