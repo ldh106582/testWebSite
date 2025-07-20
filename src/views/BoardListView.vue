@@ -16,13 +16,10 @@
         </v-row>
         
         <v-row>
-            <v-col cols="12">
+            <v-col cols="11">
                 <v-text-field variant="outlined" hide-details v-model="searchData" />
             </v-col>
-        </v-row>
-
-        <v-row>
-            <v-col>
+            <v-col cols="1" align-self="center" style="text-align: end;">
                 <v-btn text="검색" color="primary" @click="search" />
             </v-col>
         </v-row>

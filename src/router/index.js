@@ -93,13 +93,15 @@ const routes = [
             isAisAuthenticated: false,
         },
     },
-        {
+    {
         path: '/board-list',
         name : 'board-list',
         component: () => import('@/views/BoardListView.vue'),
-        meta: {
-            isAisAuthenticated: false,
-        },
+    },
+    {
+        path: '/board-upload',
+        name : 'board-upload',
+        component: () => import('@/views/BoardUploadView.vue'),
     },
     {
         path: '/practice',
