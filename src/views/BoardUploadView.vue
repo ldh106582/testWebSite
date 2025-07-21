@@ -56,18 +56,21 @@ const today = ref(moment().format('YYYY-MM-DD hh:mm:ss'));
 const { userId } = useAuthStore();
 
 function upload () {
+    const sucessMSg = '등록되었습니다.';
     const errorMsg = '알 수 없는 오류가 발생하였습니다.';
     const list = {
-        title: title.value,
-        contents: contents.value
+        board_title: title.value,
+        board_content: contents.value,
+        update_date: today.value
     };
 
-    axios.post('/board-upload', {
+    axios.post('/board', {
         list: list
     }).then(res => {
         const data = res.data;
         if (data.result) {
-            router.push('/board-list');
+            alert (sucessMSg);
+            return router.push('/board-list');
         } else {
             return alert (errorMsg);
         }
