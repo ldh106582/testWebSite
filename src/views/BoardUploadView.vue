@@ -58,7 +58,14 @@ const { userId } = useAuthStore();
 function upload () {
     const sucessMSg = '등록되었습니다.';
     const errorMsg = '알 수 없는 오류가 발생하였습니다.';
+    const titleMsg = '제목은 반드시 입력해야 합니다.';
+    const contentsMsg = '내용을 반드시 입력해야 합니다.';
+
+    if (title.value === '') return alert (titleMsg);
+    if (contents.value === '') return alert (contentsMsg);
+
     const list = {
+        user_id : userId,
         board_title: title.value,
         board_content: contents.value,
         update_date: today.value

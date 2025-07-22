@@ -32,10 +32,13 @@
                             <th class="title text-cneter" style="width: 10%;">
                                 No.
                             </th>
+                            <th class="title text-cneter" style="width: 15%;">
+                                등록일
+                            </th>
                             <th class="title text-cneter" style="width: 50%;">
                                 제목
                             </th>
-                            <th class="title text-cneter" style="width: 15%;">
+                            <th class="title text-cneter" style="width: 10%;">
                                 조회수
                             </th>
                             <th class="title text-cneter" style="width: 15%;">
@@ -44,11 +47,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in desserts" :key="index">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ item.board_title }}</td>
-                            <td>{{ item.board_checkNum }}</td>
-                            <td>{{ item.user_id }}</td>
+                        <tr v-for="(rows, index) in boardList" :key="index" @click="showBoard(rows)">
+                            <td class="contents">{{ index + 1 }}</td>
+                            <td class="contents">{{ rows.update_date }}</td>
+                            <td class="contents">{{ rows.board_title }}</td>
+                            <td class="contents">{{ rows.user_id }}</td>
+                            <td class="contents">{{ rows.board_checkNum }}</td>
                         </tr>
                     </tbody>
                 </v-table>
@@ -71,18 +75,20 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import axios from '@/axios';
 import router from '@/router';
+import useMoment from '@/mixins/useMoment';
+
+const { getFullDate } = useMoment();
 
 const boardList = ref([]);
-const page = ref(1);
+const page = ref(0);
 const countPage = ref(30);
 const startDate = ref('');
 const endDate = ref('');
 const searchData = ref('');
 
 function search () {
-
     axios.get ('/board', {
         params: {
             start_date : startDate.value,
@@ -92,8 +98,22 @@ function search () {
             countPage : countPage.value
         }
     }).then (res => {
-        boardList.value = res.data.rows;
+        res.data.result.forEach(item => {
+            item.board_checkNum = item.board_checkNum ?? 0,
+            item.update_date = getFullDate(item.update_date)
+        });
+        boardList.value =  res.data.result;
     });
+}
+
+function showBoard (rows) {
+    router.push({
+        path: '/board-process',
+        query: {
+            board_id: rows.board_id
+        }
+    });
+
 }
 
 function writeBoard () {
@@ -110,6 +130,13 @@ onMounted (() => {
 
 .title {
     font-weight: bold;
+    border: 1px solid silver;
 }
+
+.contents {
+    border: 1px solid silver;
+    cursor: pointer;
+}
+
 
 </style>
