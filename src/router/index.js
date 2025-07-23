@@ -104,6 +104,11 @@ const routes = [
         component: () => import('@/views/BoardUploadView.vue'),
     },
     {
+        path: '/board-process',
+        name : 'board-process',
+        component: () => import('@/views/BoardProcessView.vue'),
+    },
+    {
         path: '/practice',
         name: 'practice',
         component: () => import('@/views/PracticeView.vue'),
