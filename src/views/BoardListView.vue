@@ -117,7 +117,12 @@ function showBoard (rows) {
 }
 
 function writeBoard () {
-    router.push('/board-upload');
+        router.push({
+        path: '/board-process',
+        query: {
+            board_id: rows.board_id
+        }
+    });
 }
 
 onMounted (() => {
