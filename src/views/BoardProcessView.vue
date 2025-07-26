@@ -52,8 +52,18 @@ import moment from 'moment';
 const title = ref('');
 const contents = ref('');
 const today = ref(moment().format('YYYY-MM-DD hh:mm:ss'));
+const isCheckExist = ref(false);
 
 const { userId } = useAuthStore();
+
+function getBoardData () {
+    axios.get('board', {
+
+    }).then(res => {
+
+    });
+    
+}
 
 function upload () {
     const sucessMSg = '등록되었습니다.';
@@ -85,7 +95,12 @@ function upload () {
 }
 
 onMounted(() => {
-    
+    const isCheck = router.currentRoute.value.query.board_id;
+
+    if (isCheck) {
+        isCheckExist.value = true
+        getBoardData (isCheck);
+    }
 });
 
 </script>
