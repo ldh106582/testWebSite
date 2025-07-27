@@ -56,11 +56,15 @@ const isCheckExist = ref(false);
 
 const { userId } = useAuthStore();
 
-function getBoardData () {
+function getBoardData (board_id) {
     axios.get('board', {
-
+        params : {
+            board_id: board_id
+        }
     }).then(res => {
+        const data  = res.data;
 
+        
     });
     
 }
@@ -95,11 +99,11 @@ function upload () {
 }
 
 onMounted(() => {
-    const isCheck = router.currentRoute.value.query.board_id;
+    const board_id = router.currentRoute.value.query.board_id;
 
-    if (isCheck) {
+    if (board_id) {
         isCheckExist.value = true
-        getBoardData (isCheck);
+        getBoardData (board_id);
     }
 });
 
