@@ -1,44 +1,79 @@
 <template>
     <v-container fluid>
-        <v-row>
-            <v-col>
-                <span style="font-size: 20px; font-weight: bold;">게시판 글쓰기</span>
-            </v-col>
-        </v-row>
+        <div v-if="isCheckExist">
+            <v-row>
+                <v-col>
+                    <h1 style="font-size: 20px; font-weight: bold;">게시판 글쓰기</h1>
+                </v-col>
+            </v-row>
 
-        <v-row>
-            <v-col cols="12">
-                <h2>제목</h2>
-            </v-col>
-            <v-col cols="12">
-                <v-text-field variant="outlined" hide-details placeholder="글 제목을 작성해주세요." v-model="title" />
-            </v-col>
-        </v-row>
+            <v-row>
+                <v-col cols="12">
+                    <h3>제목</h3>
+                </v-col>
+                <v-col cols="12">
+                    <v-text-field variant="outlined" hide-details placeholder="글 제목을 작성해주세요." v-model="title" />
+                </v-col>
+            </v-row>
 
-        <v-row>
-            <v-col cols="12">
-                <h2>내용</h2>
-            </v-col>
-            <v-col cols="12" >
-                <v-textarea variant="outlined" hide-details placeholder="내용을 작성해주세요." v-model="contents" auto-grow/>
-            </v-col>
-        </v-row>
+            <v-row>
+                <v-col cols="12">
+                    <h3>내용</h3>
+                </v-col>
+                <v-col cols="12" >
+                    <v-textarea variant="outlined" hide-details placeholder="내용을 작성해주세요." v-model="contents" auto-grow/>
+                </v-col>
+            </v-row>
 
-        <v-row>
-            <v-col cols="12" style="text-align: end;">
-                <v-btn text="올리기" color="indigo" @click="upload" />
-            </v-col>
-        </v-row>
+            <v-row>
+                <v-col cols="12" style="text-align: end;">
+                    <v-btn text="올리기" color="indigo" @click="upload" />
+                </v-col>
+            </v-row>
+        </div>
+
+        <div v-else>
+            <v-row>
+                <v-col>
+                    <h1 style="font-size: 20px; font-weight: bold;">작성한 글</h1>
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col cols="12">
+                    <h3>제목</h3>
+                </v-col>
+                <v-col cols="12">
+                    <v-text-field variant="outlined" hide-details v-model="list.board_title" />
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col cols="12">
+                    <h3>내용</h3>
+                </v-col>
+                <v-col cols="12" >
+                    <v-textarea variant="outlined" hide-details v-model="list.board_content" auto-grow/>
+                </v-col>
+            </v-row>
+
+            <v-row v-if="user_id === userId">
+                <v-col cols="12" style="text-align: end;">
+                    <v-btn text="수정하기" color="indigo" @click="updateData" />
+                </v-col>
+            </v-row>
+        </div>
 
         <v-row>
             <v-col cols="12" style="text-align: end;">
                 <span> 작성자 : </span>
-                <span> {{ userId  }}</span>
+                <span> {{ user_id ?? userId }}</span>
                 <span> / </span>
                 <span> 작성일 : </span>
-                <span> {{ today  }}</span>
+                <span> {{ today }}</span>
             </v-col>
         </v-row>
+
     </v-container>
 </template>
 
@@ -50,21 +85,23 @@ import router from '@/router';
 import moment from 'moment';
 
 const title = ref('');
-const contents = ref('');
+const contents = ref('');   
 const today = ref(moment().format('YYYY-MM-DD hh:mm:ss'));
-const isCheckExist = ref(false);
+const isCheckExist = ref(true);
+const list = ref();
+const user_id = ref();
 
 const { userId } = useAuthStore();
 
-function getBoardData (board_id) {
-    axios.get('board', {
+async function getBoardData (board_id) {
+    await axios.get('/board-data', {
         params : {
             board_id: board_id
         }
-    }).then(res => {
-        const data  = res.data;
-
-        
+    }).then(async res => {
+        list.value  = await res.data.result[0];
+        today.value = list.value.update_date;
+        user_id.value = list.value.user_id;
     });
     
 }
@@ -98,12 +135,13 @@ function upload () {
     });
 }
 
-onMounted(() => {
+onMounted(async () => {
+    // rows error
     const board_id = router.currentRoute.value.query.board_id;
 
     if (board_id) {
-        isCheckExist.value = true
-        getBoardData (board_id);
+        await getBoardData (board_id);
+        isCheckExist.value = false;
     }
 });
 
