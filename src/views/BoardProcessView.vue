@@ -135,9 +135,14 @@ function upload () {
     });
 }
 
+function updateData () {
+    const checkUpdateMsg = '게시판 글을 수정하시겠습니까?';
+
+    
+}
+
 onMounted(async () => {
-    // rows error
-    const board_id = router.currentRoute.value.query.board_id;
+    const board_id = router.currentRoute.value.query.board_id ?? false;
 
     if (board_id) {
         await getBoardData (board_id);
