@@ -138,6 +138,8 @@ function upload () {
 function updateData () {
     const checkUpdateMsg = '게시판 글을 수정하시겠습니까?';
 
+    if (!confirm (checkUpdateMsg)) return;
+
     axios.put('/board', {
         list: list.value,
         today : today.value
