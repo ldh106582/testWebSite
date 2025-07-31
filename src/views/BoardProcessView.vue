@@ -137,14 +137,18 @@ function upload () {
 
 function updateData () {
     const checkUpdateMsg = '게시판 글을 수정하시겠습니까?';
+    const errorMsg = '오류가 발생하였습니다.';
 
     if (!confirm (checkUpdateMsg)) return;
-
     axios.put('/board', {
         list: list.value,
         today : today.value
     }).then(res => {
         const data = res.data;
+
+        if (data.result) {
+            return alert (errorMsg);
+        }
     });
 }
 
