@@ -78,6 +78,7 @@ import { ref, onMounted } from 'vue';
 import axios from '@/axios';
 import router from '@/router';
 import useMoment from '@/mixins/useMoment';
+import moment from 'moment';
 
 const { getFullDate } = useMoment();
 
@@ -85,7 +86,7 @@ const boardList = ref([]);
 const page = ref(0);
 const countPage = ref(30);
 const startDate = ref('');
-const endDate = ref('');
+const endDate = ref(moment().format('YYYY-MM-DD'));
 const searchData = ref('');
 
 function search () {
