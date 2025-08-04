@@ -96,7 +96,7 @@ const { userId } = useAuthStore();
 async function getBoardData (board_id) {
     await axios.get('/board-data', {
         params : {
-            board_id: board_id
+            board_id: board_id,
         }
     }).then(async res => {
         list.value  = await res.data.result[0];
