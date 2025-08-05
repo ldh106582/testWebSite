@@ -17,7 +17,11 @@
 
 <script setup>
 import { Chart, registerables } from 'chart.js';
-import {ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from '@/axios';
+import { useAuthStore } from "@/stores/useAuthStore";
+
+const auth = useAuthStore();
 
 Chart.register(...registerables);
 
@@ -36,9 +40,25 @@ const chartData = ref({
         borderColor: 'rgba(54, 162, 235, 1)',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
     }]
-})
+});
 
-onMounted(() => {
+async function makeChartDate (params) {
+
+}
+
+onMounted(async () => {
+    const result = null;
+
+    await axios.get('/chart', {
+        params : {
+            user_id : auth.userId.value
+        }
+    }).then(res => {
+        result = res.data.result;
+    });
+
+    await makeChartDate(result)
+        
     const ctx = myChart.value.getContext('2d');
     new Chart(ctx, {
         type: 'line',
