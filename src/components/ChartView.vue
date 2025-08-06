@@ -4,10 +4,7 @@
             <v-col>
                 <canvas ref="myChart"> </canvas>
                 <div id="licens">
-                    <button @click="updateChart">정보처리기사</button>
-                    <button @click="updateChart">네트워크 관리사 2급</button>
-                    <button @click="updateChart">리눅스 마스터 2급</button>
-                    <button @click="updateChart">SQLD</button>
+                    <v-btn @click="updateChart"></v-btn>
                 </div>
             </v-col>
         </v-row>
@@ -26,7 +23,8 @@ const auth = useAuthStore();
 Chart.register(...registerables);
 
 const myChart = ref(null);
-const labels = ref(['January', 'February', 'March', 'April', 'May']);
+const labels = ref([]);
+
 const chartData = ref({
     labels: labels.value,
     datasets: [{
@@ -43,7 +41,19 @@ const chartData = ref({
 });
 
 async function makeChartDate (params) {
-
+    
+    const ctx = myChart.value.getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: chartData.value,
+        options: {
+            scales: {
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    });
 }
 
 onMounted(async () => {
@@ -57,20 +67,7 @@ onMounted(async () => {
         result = res.data.result;
     });
 
-    await makeChartDate(result)
-        
-    const ctx = myChart.value.getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: chartData.value,
-        options: {
-            scales: {
-                y: {
-                    stacked: true
-                }
-            }
-        }
-    });
+    await makeChartDate(result);
 });
     
 
