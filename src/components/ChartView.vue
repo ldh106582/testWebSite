@@ -23,29 +23,29 @@ const auth = useAuthStore();
 Chart.register(...registerables);
 
 const myChart = ref(null);
-const labels = ref([]);
-
-const chartData = ref({
-    labels: labels.value,
-    datasets: [{
-        label: 'Dataset 1',
-        data: [10, 20, 30, 40, 50],
-        borderColor: 'rgba(255, 99, 132, 1)',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    }, {
-        label: 'Dataset 2',
-        data: [15, 25, 35, 45, 55],
-        borderColor: 'rgba(54, 162, 235, 1)',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-    }]
-});
 
 async function makeChartDate (params) {
+    const labels = [];
+
     
+    const chartData = {
+        labels: labels.value,
+        datasets: [{
+            label: 'Dataset 1',
+            data: [10, 20, 30, 40, 50],
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        }, {
+            label: 'Dataset 2',
+            data: [15, 25, 35, 45, 55],
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    }]};
+
     const ctx = myChart.value.getContext('2d');
     new Chart(ctx, {
         type: 'line',
-        data: chartData.value,
+        data: chartData,
         options: {
             scales: {
                 y: {
