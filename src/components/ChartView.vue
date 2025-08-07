@@ -25,11 +25,10 @@ Chart.register(...registerables);
 const myChart = ref(null);
 
 async function makeChartDate (params) {
-    const labels = [];
-
+    const labels = [params.year];
     
     const chartData = {
-        labels: labels.value,
+        labels: labels,
         datasets: [{
             label: 'Dataset 1',
             data: [10, 20, 30, 40, 50],
