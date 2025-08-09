@@ -4,7 +4,9 @@
             <v-col>
                 <canvas ref="myChart"> </canvas>
                 <div id="licens">
-                    <v-btn @click="updateChart"></v-btn>
+                    <v-col v-for="value in source">
+                        <v-btn @click="updateChart"></v-btn>
+                    </v-col>
                 </div>
             </v-col>
         </v-row>
@@ -23,9 +25,10 @@ const auth = useAuthStore();
 Chart.register(...registerables);
 
 const myChart = ref(null);
+const result = ref();
 
 async function makeChartDate (params) {
-    const labels = [params.year];
+    const labels = [params.question_year, question_round];
     
     const chartData = {
         labels: labels,
@@ -56,15 +59,16 @@ async function makeChartDate (params) {
 }
 
 onMounted(async () => {
-    const result = null;
 
     await axios.get('/chart', {
         params : {
             user_id : auth.userId.value
         }
     }).then(res => {
-        result = res.data.result;
+        result.value = res.data.result;
     });
+
+    console.log(result.value)
 
     await makeChartDate(result);
 });
