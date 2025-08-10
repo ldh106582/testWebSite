@@ -62,11 +62,11 @@
                     </v-col>
 
                     <v-col v-if="isToggle" cols="3" class="px-2 py-1">
-                        <v-text-field data-test="subjectTotal" variant="outlined" hide-details class="pa-0" v-model="storage.subject_total" />
+                        <v-text-field data-test="subjectTotal" type="number" variant="outlined" hide-details class="pa-0" v-model="storage.subject_total" />
                     </v-col>
 
                     <v-col v-if="isToggle" cols="3" class="px-2 py-1">
-                        <v-text-field data-test="subjectTotal" variant="outlined" hide-details 
+                        <v-text-field data-test="subjectTotal" type="number" variant="outlined" hide-details 
                         class="pa-0" v-model="storage.min_score" />
                     </v-col>
 
@@ -92,13 +92,13 @@
         <v-row class="px-3">
             <v-col class="px-1 py-0 d-flex">
                 <v-col cols="4" class="px-0 py-0">
-                    <v-text-field data-test="examTime" variant="outlined" hide-details v-model="examStorages.exam_time" />
+                    <v-text-field data-test="examTime" type="number" variant="outlined" hide-details v-model="examStorages.exam_time" />
                 </v-col>
                 <v-col cols="4" class="px-2 py-0">
-                    <v-text-field data-test="examTotal" variant="outlined" hide-details v-model="examStorages.exam_total" />
+                    <v-text-field data-test="examTotal" type="number" variant="outlined" hide-details v-model="examStorages.exam_total" />
                 </v-col>
                 <v-col cols="4" class="px-2 py-0">
-                    <v-text-field data-test="examTotal" variant="outlined" hide-details v-model="examStorages.pass_score" />
+                    <v-text-field data-test="examTotal" type="number" variant="outlined" hide-details v-model="examStorages.pass_score" />
                 </v-col>
             </v-col>
         </v-row>

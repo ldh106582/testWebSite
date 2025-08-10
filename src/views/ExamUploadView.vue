@@ -36,10 +36,10 @@
                 v-model="examTime" />
             </v-col>
             <v-col cols="4">
-                <v-text-field data-test="examTotal" hide-details variant="outlined" v-model="examTotal" />
+                <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="examTotal" />
             </v-col>
             <v-col cols="4">
-                <v-text-field data-test="examTotal" hide-details variant="outlined" v-model="passScore" />
+                <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="passScore" />
             </v-col>
         </v-row>
         <v-row>
@@ -69,7 +69,7 @@
                 <v-list>
                     <v-list-item-group>
                         <v-list-item v-for="(total, index) in subjectTotal" :key="index">
-                            <v-text-field data-test="subjectTotal" hide-details variant="outlined" v-model="subjectTotal[index]"/>  
+                            <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" v-model="subjectTotal[index]"/>  
                         </v-list-item>
                     </v-list-item-group>
                 </v-list>
@@ -78,7 +78,7 @@
                 <v-list>
                     <v-list-item-group>
                         <v-list-item v-for="(score, index) in subjectScore" :key="index">
-                            <v-text-field data-test="subjecScore" hide-details variant="outlined" v-model="subjectScore[index]"/>  
+                            <v-text-field data-test="subjecScore" type="number" hide-details variant="outlined" v-model="subjectScore[index]"/>  
                         </v-list-item>
                     </v-list-item-group>
                 </v-list>
