@@ -23,7 +23,9 @@ def getQuestion () :
     
     ## 문제
     croll_problem = soup.find_all('b')
+    
     for p in croll_problem:
+        print(croll_problem)
         text = p.get_text()
         for n in num:
             if n in text:
