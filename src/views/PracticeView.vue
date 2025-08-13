@@ -11,15 +11,22 @@
     <v-col>
         <v-btn color="red" @click="google">google</v-btn>
     </v-col>
+    <v-date-input
+        v-model="date"
+        label="날짜 선택"
+    ></v-date-input>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, shallowRef } from 'vue';
 import axios from '@/axios';
 
 const persentage = ref(0);
 const totalDuration = 10;
 const remainingTime = ref(totalDuration);
+const date = ref(null)
+
+const model = shallowRef(null)
 
 function google () {
     axios.get('/google-form', {
