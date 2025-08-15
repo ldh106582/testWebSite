@@ -15,6 +15,24 @@
         v-model="date"
         label="날짜 선택"
     ></v-date-input>
+
+    <v-row>
+        <v-col cols="1" class="pa-0 ml-5">
+            <v-checkbox hide-details v-model="allSelected" @change="allSelectBox"></v-checkbox>
+        </v-col>
+        <v-col cols="9" class="px-0" style="align-content: center;">
+            <span>전체선택</span>
+        </v-col>
+    </v-row>
+
+    <v-row v-for="(value, index) in result" :key="index" cols="7" class="pa-0 ml-2">
+        <v-col cols="1" class="pa-0">
+            <v-checkbox v-model="selected[index]" hide-details value="John"></v-checkbox>
+        </v-col>
+        <v-col cols="2" v-for="(t, index1) in table" :key="index1" style="align-content: center;">
+            <span>{{ value[t.key] }}</span>
+        </v-col>
+    </v-row>
 </template>
 
 <script setup>
@@ -26,7 +44,29 @@ const totalDuration = 10;
 const remainingTime = ref(totalDuration);
 const date = ref(null)
 
-const model = shallowRef(null)
+const model = shallowRef(null);
+
+const selected = ref([]);
+const allSelected = ref([]);
+const result = ref(
+    [
+        {id: 1, name: 'a'},
+        {id: 2, name: 'b'},
+        {id: 3, name: 'c'},
+        {id: 4, name: 'd'},
+        {id: 5, name: 'e'},
+        {id: 6, name: 'f'},
+    ]
+)
+
+const table = [
+    {key: 'id'},
+    {key: 'name'},
+];
+
+function allSelectBox() {
+    
+}
 
 function google () {
     axios.get('/google-form', {
