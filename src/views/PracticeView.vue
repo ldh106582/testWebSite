@@ -16,6 +16,7 @@
         label="날짜 선택"
     ></v-date-input>
 
+    <div>
     <v-row>
         <v-col cols="1" class="pa-0 ml-5">
             <v-checkbox hide-details v-model="allSelected" @change="allSelectBox"></v-checkbox>
@@ -23,16 +24,23 @@
         <v-col cols="9" class="px-0" style="align-content: center;">
             <span>전체선택</span>
         </v-col>
+            <v-checkbox
+    v-for="item in result"
+    :key="item.id"
+    v-model="selected"
+    :value="item.id"
+    :label="item.name"
+></v-checkbox>
     </v-row>
-
-    <v-row v-for="(value, index) in result" :key="index" cols="7" class="pa-0 ml-2">
+</div>
+    <!-- <v-row v-for="(value, index) in result" :key="index" cols="7" class="pa-0 ml-2">
         <v-col cols="1" class="pa-0">
             <v-checkbox v-model="selected[index]" hide-details value="John"></v-checkbox>
         </v-col>
         <v-col cols="2" v-for="(t, index1) in table" :key="index1" style="align-content: center;">
             <span>{{ value[t.key] }}</span>
         </v-col>
-    </v-row>
+    </v-row>-->
 </template>
 
 <script setup>
@@ -65,7 +73,10 @@ const table = [
 ];
 
 function allSelectBox() {
-    
+    const test = result.every (r => r);
+    for (let i = 0; i < result.length; i++) {
+        selected.value[i] = test;
+    }
 }
 
 function google () {
