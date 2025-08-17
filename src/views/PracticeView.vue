@@ -21,16 +21,21 @@
         <v-col cols="1" class="pa-0 ml-5">
             <v-checkbox hide-details v-model="allSelected" @change="allSelectBox"></v-checkbox>
         </v-col>
+        
         <v-col cols="9" class="px-0" style="align-content: center;">
             <span>전체선택</span>
         </v-col>
+        
+        <v-col cols="12">
             <v-checkbox
-    v-for="item in result"
-    :key="item.id"
-    v-model="selected"
-    :value="item.id"
-    :label="item.name"
-></v-checkbox>
+            v-for="item in result"
+            :key="item.id"
+            v-model="selected"
+            :value="item.id"
+            :label="item.name"
+            @change="updateAllSelected"
+            ></v-checkbox>
+        </v-col>
     </v-row>
 </div>
     <!-- <v-row v-for="(value, index) in result" :key="index" cols="7" class="pa-0 ml-2">
@@ -55,7 +60,7 @@ const date = ref(null)
 const model = shallowRef(null);
 
 const selected = ref([]);
-const allSelected = ref([]);
+const allSelected = ref(false);
 const result = ref(
     [
         {id: 1, name: 'a'},
@@ -73,12 +78,16 @@ const table = [
 ];
 
 function allSelectBox() {
-    const test = result.every (r => r);
-    for (let i = 0; i < result.length; i++) {
-        selected.value[i] = test;
+    if (allSelected.value) {
+    selected.value = result.value.map(item => item.id);
+    } else {
+    selected.value = []
     }
 }
 
+function updateAllSelected() {
+    allSelected.value = selected.value.length === result.value.length
+}
 function google () {
     axios.get('/google-form', {
     })
