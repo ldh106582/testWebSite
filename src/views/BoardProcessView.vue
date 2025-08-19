@@ -135,7 +135,7 @@ function upload () {
     });
 }
 
-function updateData () {
+function updateData() {
     const checkUpdateMsg = '게시판 글을 수정하시겠습니까?';
     const sucessMSg = '수정되었습니다.';
     const errorMsg = '오류가 발생하였습니다.';
@@ -151,6 +151,7 @@ function updateData () {
 }
 
 onMounted(async () => {
+    console.log(userId)
     const board_id = router.currentRoute.value.query.board_id ?? false;
 
     if (board_id) {

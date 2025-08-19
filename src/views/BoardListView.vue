@@ -118,11 +118,8 @@ function showBoard (rows) {
 }
 
 function writeBoard () {
-        router.push({
+    router.push({
         path: '/board-process',
-        query: {
-            board_id: rows.board_id
-        }
     });
 }
 
