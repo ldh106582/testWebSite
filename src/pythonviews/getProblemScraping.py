@@ -8,6 +8,8 @@ response = requests.get(url)
 html = response.text
 soup = BeautifulSoup(html, 'html.parser')
 nodeUrl = 'http://localhost:3000'
+questionround = '2회차'
+question_year = '2020'
 today = date.today().isoformat()
 
 def getQuestion () :
@@ -24,8 +26,47 @@ def getQuestion () :
     ## 문제
     croll_problem = soup.find_all('b')
     for p in croll_problem:
-        print(p.get_text())
-    
+        quesionText = p.get_text()
+        for n in num:
+            if n in quesionText:
+                firstIndex = quesionText.index('. ')
+                sliceText = quesionText[(firstIndex + 2) : -1]
+                problem = []
+                question = []
+                if codeQuestion in quesionText:
+                    question.append({ 'question': sliceText, 'question_point': 5,
+                                    'question_level': '보통', 'question_type': '단답형',
+                                    'question_year': question_year, 'question_round': questionround })
+                    problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
+                    index += 1
+                    index_code += 1
+                    print(question)
+                    print(problem)
+                    
+                    requests.post(f'{nodeUrl}/question', 
+                        json={'exam_id': 1, 
+                            'user_id': 'admin', 
+                            'today': today, 
+                            'subject_id': 6, 
+                            'questionStorages': question, 
+                            'problemStorages': problem })
+                    break
+                else : 
+                    question.append({ 'question': sliceText, 'question_point': 5,
+                                    'question_level': '보통', 'question_type': '단답형',
+                                    'question_year': question_year, 'question_round': questionround })
+                    problem.append({ 'answer': answer[index] })
+                    index += 1
+                    requests.post(f'{nodeUrl}/question', 
+                        json={'exam_id': 1, 
+                            'user_id': 'admin', 
+                            'today': today, 
+                            'subject_id': 5,
+                            'questionStorages': question,
+                            'problemStorages': problem })
+                    break
+    return problem
+
     # for p in croll_problem:
     #     text = p.get_text()
     #     for n in num:
