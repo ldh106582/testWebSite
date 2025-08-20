@@ -33,6 +33,7 @@ def getQuestion () :
                 sliceText = quesionText[(firstIndex + 2) : -1]
                 problem = []
                 question = []
+                print(code[index_code])
                 if codeQuestion in quesionText:
                     question.append({ 'question': sliceText, 'question_point': 5,
                                     'question_level': '보통', 'question_type': '단답형',
