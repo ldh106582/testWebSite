@@ -33,40 +33,40 @@ def getQuestion () :
                 sliceText = quesionText[(firstIndex + 2) : -1]
                 problem = []
                 question = []
-                print(code[index_code])
-                if codeQuestion in quesionText:
-                    question.append({ 'question': sliceText, 'question_point': 5,
-                                    'question_level': '보통', 'question_type': '단답형',
-                                    'question_year': question_year, 'question_round': questionround })
-                    problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
-                    index += 1
-                    index_code += 1
-                    print(question)
-                    print(problem)
+                # if codeQuestion in quesionText:
+                    # question.append({ 'question': sliceText, 'question_point': 5,
+                    #                 'question_level': '보통', 'question_type': '단답형',
+                    #                 'question_year': question_year, 'question_round': questionround })
+                    # problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
+                    # index += 1
+                    # index_code += 1
+                    # print(question)
+                    # print(problem)
                     
-                    requests.post(f'{nodeUrl}/question', 
-                        json={'exam_id': 1, 
-                            'user_id': 'admin', 
-                            'today': today, 
-                            'subject_id': 6, 
-                            'questionStorages': question, 
-                            'problemStorages': problem })
-                    break
-                else : 
-                    question.append({ 'question': sliceText, 'question_point': 5,
-                                    'question_level': '보통', 'question_type': '단답형',
-                                    'question_year': question_year, 'question_round': questionround })
-                    problem.append({ 'answer': answer[index] })
-                    index += 1
-                    requests.post(f'{nodeUrl}/question', 
-                        json={'exam_id': 1, 
-                            'user_id': 'admin', 
-                            'today': today, 
-                            'subject_id': 5,
-                            'questionStorages': question,
-                            'problemStorages': problem })
-                    break
-    return problem
+                    # requests.post(f'{nodeUrl}/question', 
+                    #     json={'exam_id': 1, 
+                    #         'user_id': 'admin', 
+                    #         'today': today, 
+                    #         'subject_id': 6, 
+                    #         'questionStorages': question, 
+                    #         'problemStorages': problem })
+                    # break
+                # else : 
+                print(quesionText)
+                question.append({ 'question': sliceText, 'question_point': 5,
+                                'question_level': '보통', 'question_type': '단답형',
+                                'question_year': question_year, 'question_round': questionround })
+                problem.append({ 'answer': answer[index] })
+                index += 1
+                requests.post(f'{nodeUrl}/question', 
+                    json={'exam_id': 1, 
+                        'user_id': 'admin', 
+                        'today': today, 
+                        'subject_id': 5,
+                        'questionStorages': question,
+                        'problemStorages': problem })
+                    # break
+    # return problem
 
     # for p in croll_problem:
     #     text = p.get_text()
