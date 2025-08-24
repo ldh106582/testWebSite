@@ -13,89 +13,63 @@ question_year = '2020'
 today = date.today().isoformat()
 
 def getQuestion () :
-    codeQuestion = '출력 결과를 쓰시오.'
+    codeQuestion = ['다음은 자바 코드이다.', '출력 결과를 쓰시오.']
     num = []
     index = 0
     index_code = 0
     answer = getAnswer()
     code = getCodeQuestion()
-    
+    print(code[1])
     for i in range(20) :
         num.append(f'{i+1}.')
     
     ## 문제
     croll_problem = soup.find_all('b')
     for p in croll_problem:
-        quesionText = p.get_text()
+        questionText = p.get_text()
         for n in num:
-            if n in quesionText:
-                firstIndex = quesionText.index('. ')
-                sliceText = quesionText[(firstIndex + 2) : -1]
+            if n in questionText:
+                firstIndex = questionText.index('. ')
+                sliceText = questionText[(firstIndex + 2) : -1]
                 problem = []
                 question = []
-                # if codeQuestion in quesionText:
-                    # question.append({ 'question': sliceText, 'question_point': 5,
-                    #                 'question_level': '보통', 'question_type': '단답형',
-                    #                 'question_year': question_year, 'question_round': questionround })
-                    # problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
-                    # index += 1
-                    # index_code += 1
-                    # print(question)
-                    # print(problem)
-                    
-                    # requests.post(f'{nodeUrl}/question', 
-                    #     json={'exam_id': 1, 
-                    #         'user_id': 'admin', 
-                    #         'today': today, 
-                    #         'subject_id': 6, 
-                    #         'questionStorages': question, 
-                    #         'problemStorages': problem })
-                    # break
-                # else : 
-                print(quesionText)
-                question.append({ 'question': sliceText, 'question_point': 5,
-                                'question_level': '보통', 'question_type': '단답형',
-                                'question_year': question_year, 'question_round': questionround })
-                problem.append({ 'answer': answer[index] })
-                index += 1
-                requests.post(f'{nodeUrl}/question', 
-                    json={'exam_id': 1, 
-                        'user_id': 'admin', 
-                        'today': today, 
-                        'subject_id': 5,
-                        'questionStorages': question,
-                        'problemStorages': problem })
-                    # break
-    # return problem
+                
+                if any(item in questionText for item in codeQuestion):
+                    question.append({ 'question': sliceText, 'question_point': 5,
+                                    'question_level': '보통', 'question_type': '단답형',
+                                    'question_year': question_year, 'question_round': questionround })
+                    problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
+                    print(index, sliceText)
+                    print(index, index_code, code[index_code])
 
-    # for p in croll_problem:
-    #     text = p.get_text()
-    #     for n in num:
-    #         if n in text:
-    #             firstIndex = text.index('. ')
-    #             sliceText = text[(firstIndex + 2) : -1]
-    #             problem = []
-    #             question = []
-    #             if codeQuestion in text:
-    #                 question.append({ 'question': sliceText, 'question_point': 5,
-    #                                 'question_level': '보통', 'question_type': '단답형',
-    #                                 'question_year': '2020', 'question_round': '1회차' })
-    #                 problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
-    #                 index += 1
-    #                 index_code += 1
-    #                 requests.post(f'{nodeUrl}/question', 
-    #                     json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'subject_id': 6, 'questionStorages': question, 'problemStorages': problem })
-    #                 break
-    #             else :
-    #                 question.append({ 'question': sliceText, 'question_point': 5,
-    #                                 'question_level': '보통', 'question_type': '단답형',
-    #                                 'question_year': '2020', 'question_round': '1회차' })
-    #                 problem.append({ 'answer': answer[index] })
-    #                 index += 1
-    #                 requests.post(f'{nodeUrl}/question', 
-    #                     json={'exam_id': 1, 'user_id': 'admin', 'today': today, 'subject_id': 5,'questionStorages': question, 'problemStorages': problem })
-    #                 break
-    # return problem
+                    index += 1
+                    index_code += 1
+
+                    requests.post(f'{nodeUrl}/question', 
+                        json={'exam_id': 1, 
+                            'user_id': 'admin', 
+                            'today': today, 
+                            'subject_id': 6, 
+                            'questionStorages': question, 
+                            'problemStorages': problem })
+                    break
+                else : 
+                    question.append({ 'question': sliceText, 'question_point': 5,
+                                    'question_level': '보통', 'question_type': '단답형',
+                                    'question_year': question_year, 'question_round': questionround })
+                    problem.append({ 'answer': answer[index] })
+                    print(index, sliceText)
+                    print(index,  answer[index])
+                    index += 1
+                    requests.post(f'{nodeUrl}/question', 
+                        json={'exam_id': 1, 
+                            'user_id': 'admin', 
+                            'today': today, 
+                            'subject_id': 5,
+                            'questionStorages': question,
+                            'problemStorages': problem })
+                    break
+        # return problem
 
 def getCodeQuestion () :
     codeList = []
@@ -138,6 +112,12 @@ def getAnswer () :
 
     return merged
 
+def changeBacktick(params) :
+    
+    
+    return
+
 getQuestion()
 getCodeQuestion()
 getAnswer()
+changeBacktick()
