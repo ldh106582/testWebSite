@@ -115,7 +115,8 @@
 def changeBacktick() :
     test = 'sadfa"d'
     for item in test :
-        print(item)
+        if '"' == item :
+            print(ord(item))
     
     return
 
