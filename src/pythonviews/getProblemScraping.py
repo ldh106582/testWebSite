@@ -117,6 +117,10 @@ def changeBacktick() :
     for item in test :
         if '"' == item :
             print(ord(item))
+        elif '"' in test :
+            print(ord(item))
+        elif '`' in test :
+            print(ord(item))
     
     return
 
