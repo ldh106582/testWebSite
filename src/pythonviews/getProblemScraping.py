@@ -114,14 +114,15 @@
 
 def changeBacktick() :
     test = 'sadfa"d'
+    result = ''
     for item in test :
         if '"' == item :
-            print(ord(item))
+            result = f'{ord(item)}'
         elif '"' in test :
-            print(ord(item))
+            result = f'{ord(item)}'
         elif '`' in test :
-            print(ord(item))
-    
+            result = f'{ord(item)}'
+    print(result)
     return
 
 # getQuestion()
