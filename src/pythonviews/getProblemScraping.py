@@ -91,7 +91,7 @@
 #         temp = []
 #         style = t.get('style')
 #         if f"color: {targetColor}" in style :
-#             text =  t.get_text(strip=True)
+#             text =  changeBacktick(t.get_text(strip=True))
 #             if ('기출문제이면서' not in text) and ('답' not in text):
 #                 raw_texts.append(text)
 #     merged = []
@@ -113,17 +113,14 @@
 #     return merged
 
 def changeBacktick() :
-    test = 'sadfa"d'
+    test = "0 a={'일본','중국','한국'}"
     result = ''
     for item in test :
-        if '"' == item :
-            result = f'{ord(item)}'
-        elif '"' in test :
-            result = f'{ord(item)}'
-        elif '`' in test :
-            result = f'{ord(item)}'
-    print(result)
-    return
+        if item == '"' or item == '`' or item == "'" :
+            result += f'[{ord(item)}]'
+        else :
+            result += item
+    return result
 
 # getQuestion()
 # getCodeQuestion()
