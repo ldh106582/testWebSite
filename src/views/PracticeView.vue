@@ -94,6 +94,7 @@ function google () {
 }
 
 function test() {
+
     const table = [
         {key: 'question'}
     ];
@@ -102,12 +103,12 @@ function test() {
         {question: 'asdfasdf[24]asdfsdf'}
     ];
 
-    for (let t of table) {
-        const value = testdata[0][t.key];
-        value?.forEach(v => {
-            console.log(v)
-        });
-    }
+    const reg = /\[(\d+)\]|[''""]/g;
+    const result = testdata[0].question?.replace(reg, (match, code) => {
+        return String.fromCharCode(parseInt(code));
+    });
+    
+    console.log(result)
 
 }
 
