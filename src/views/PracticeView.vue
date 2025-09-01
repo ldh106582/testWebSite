@@ -100,7 +100,7 @@ function test() {
     ];
     
     const testdata = [
-        {question: 'asdfasdf[24]asdfsdf'}
+        {question: 'asdfasdf[39]asdfsdf'}
     ];
 
     const reg = /\[(\d+)\]|[''""]/g;
