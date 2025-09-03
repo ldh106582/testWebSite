@@ -1,5 +1,81 @@
 <template>
-    <div class="container">
+<v-container fluid>
+    <v-row class="mx-0 my-4">
+        <v-col class="pr-5" cols="12" xs="12" lg="6">
+            <v-row>
+                <span class="mb-1" style="font-weight: bold">환율</span>
+            </v-row>
+            <v-row class="outline">
+                <v-col cols="auto">
+                    <v-text-field variant="outlined" hide-details type="date" />
+                </v-col>
+                <v-col cols="auto" align-self="center">
+                    <v-radio-group inline hide-details >
+                    <v-radio label="USD" value="usd" />
+                    <v-radio label="CNH" value="cnh" />
+                    </v-radio-group>
+                </v-col>
+                <v-col cols="auto" align-self="center">
+                    <!-- <v-btn class="mr-2" xs="4" color="red" variant="outlined" @click="rateRemove" v-if="exchangeRate">다시조회</v-btn> -->
+                    <v-btn data-test="rateSave" xs="4" color="purple" variant="outlined" @click="rateSave" >저장</v-btn> <!--v-if="exchangeRate"-->
+                    <!-- <v-btn color="purple" variant="outlined" @click="rateExchange(rate, date, exchangeRateName)" v-else >조회</v-btn> -->
+                </v-col>
+                <v-col cols="12" class="pt-0">
+                    <v-text-field data-test="exchangeRate" class="dense" variant="outlined" hide-details type="text" placeholder="환율값" />
+                </v-col>
+            </v-row>
+        </v-col>
+        
+        <v-col cols="6" xs="12" lg="6">
+            <v-row>
+                <span class="mb-1" style="font-weight: bold">결재</span>
+            </v-row>
+        
+            <v-row class="outline py-0" style="height: 94px;">
+                <v-col cols="4" align-self="center">
+                    <v-checkbox hide-details label="Steve, Kim" value="Steve.kim@bandomk.com" color="primary" />
+                </v-col>
+                <v-col cols="4" align-self="center">
+                    <v-checkbox hide-details label="Jongho, Lee" value="Jongho.lee@bandomk.com" color="primary" />
+                </v-col> 
+
+                <!-- <v-col cols="4" class="d-flex pa-0 flex-column align-center justify-center" style="position: relative;">
+                    <v-btn color="primary" class="mt-1" @click="e => quoteCompleteAlarm()"> 완료</v-btn>
+                    <p style=" font-size: 13px; top: 70%; text-align: center; position: absolute;">
+                        2025-09-03
+                    </p>
+                </v-col> -->
+                
+                <!-- <v-col cols="4" class="d-flex py-0" style="text-align: center;">
+                    <div class="d-flex py-0 flex-column justify-center align-center"
+                        style="position: relative; border-right: 1px solid black;">
+                        <v-btn class="mr-1" color="primary" style="width: 70px;" @click="e => emailAlarm()">견적</v-btn>
+                        <p class="mr-1" style="font-size: 13px; margin-top: 4px; position: absolute; text-align: center; top: 70%;">
+                            2025-09-03
+                        </p>
+                    </div>
+
+                    <div class="d-flex pa-0 flex-column align-center justify-center ml-1"
+                        style="position: relative;">
+                        <v-btn  variant="outlined" color="primary" style="width: 70px;"
+                        @click="e => quoteCompleteAlarm()"> 완료</v-btn>
+                        <p style="font-size: 13px; margin-top: 4px; position: absolute; top: 70%;">
+                            2025-09-03
+                        </p>
+                    </div>
+                </v-col> -->
+                
+                <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
+                    <v-btn color="primary" @click="e => emailAlarm()"> 재견적 </v-btn>
+                        <p style="font-size: 13px; top: 70%; text-align: center; position: absolute;">
+                        2025-09-03
+                        </p>
+                </v-col>
+            </v-row>
+        </v-col> 
+    </v-row>
+</v-container>
+    <!-- <div class="container">
         <div class="loading-bar">
             <div class="persentage" :style="{ width: persentage + '%' }"></div>
         </div>
@@ -14,9 +90,9 @@
     <v-date-input
         v-model="date"
         label="날짜 선택"
-    ></v-date-input>
+    ></v-date-input> -->
 
-    <div>
+    <!-- <div>
     <v-row>
         <v-col cols="1" class="pa-0 ml-5">
             <v-checkbox hide-details v-model="allSelected" @change="allSelectBox"></v-checkbox>
@@ -37,7 +113,7 @@
             ></v-checkbox>
         </v-col>
     </v-row>
-</div>
+</div> -->
     <!-- <v-row v-for="(value, index) in result" :key="index" cols="7" class="pa-0 ml-2">
         <v-col cols="1" class="pa-0">
             <v-checkbox v-model="selected[index]" hide-details value="John"></v-checkbox>
