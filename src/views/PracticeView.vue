@@ -78,16 +78,17 @@
         <v-table class="quote-cell" fixed-header density="compact" height="300">
             <thead>
                 <tr data-test="title">
-                <th></th>
-                <th class="cell pa-0" style="min-width: 120px;">품 목 *</th>
-                <th class="cell pa-0" style="min-width: 200px;">Description</th>
-                <th class="cell pa-0" style="min-width: 180px;">SaleStatus</th>
-                <th class="cell pa-0" style="min-width: 100px;">Origin</th>
-                <th class="cell pa-0" style="min-width: 80px;">SPQ</th>
-                <th class="cell pa-0" style="min-width: 80px;">MFR</th>
-                <th class="cell pa-0" style="min-width: 180px;">Remarks</th>
-                <th class="cell pa-0"></th>
-                <th class="cell pa-0"></th>
+                    <th></th>
+                    <th class="cell pa-0" style="min-width: 120px;">품 목 *</th>
+                    <th class="cell pa-0" style="min-width: 200px;">Description</th>
+                    <th class="cell pa-0" style="min-width: 180px;">SaleStatus</th>
+                    <th class="cell pa-0" style="min-width: 100px;">Origin</th>
+                    <th class="cell pa-0" style="min-width: 80px;">SPQ</th>
+                    <th class="cell pa-0" style="min-width: 80px;">MFR</th>
+                    <th class="cell pa-0" style="min-width: 180px;">Remarks</th>
+                    <th class="cell pa-0" style="min-width: 100px;">업데이트</th>
+                    <th class="cell pa-0" style="min-width: 50px; text-align: center;">복사</th>
+                    <th class="cell pa-0" style="min-width: 50px; text-align: center;">삭제</th>
                 </tr>
             </thead>
             <tbody>
@@ -124,13 +125,13 @@
                     value="test" />
                 </td>
                 <td class="cell pa-0">
-                    <v-btn variant="text" color="primary" @click="postItem([row.item])">업데이트</v-btn>
+                    <v-btn variant="text" class="pa-0" color="primary" @click="postItem([row.item])">업데이트</v-btn>
                 </td>
-                <td class="cell pa-0">
-                    <v-btn variant="text" prepend-icon="mdi-content-copy" @click="clipboardItem(row)"></v-btn>
+                <td class="cell pa-0" style="text-align: center;">
+                    <v-btn variant="text" class="pa-0" prepend-icon="mdi-content-copy" @click="clipboardItem(row)"></v-btn>
                 </td>
-                <td class="cell pa-0">
-                    <v-btn variant="text" prepend-icon="mdi-delete" @click="deleteItem(index, row)"></v-btn></td>
+                <td class="cell pa-0" style="text-align: center;">
+                    <v-btn variant="text" class="pa-0" prepend-icon="mdi-delete" @click="deleteItem(index, row)"></v-btn></td>
                 </tr>
             </tbody>
         </v-table>
