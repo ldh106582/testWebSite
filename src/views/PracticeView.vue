@@ -1,6 +1,6 @@
 <template>
 <v-container fluid>
-    <!-- <v-row class="mx-0 my-4">
+    <v-row class="mx-0 my-4">
         <v-col class="pr-5" cols="12" xs="12" lg="6">
             <v-row>
                 <span class="mb-1" style="font-weight: bold">환율</span>
@@ -24,12 +24,12 @@
             </v-row>
         </v-col>
         
-        <v-col cols="6" xs="12" lg="6">
+        <v-col cols="12" xs="12" lg="6">
             <v-row>
                 <span class="mb-1" style="font-weight: bold">결재</span>
             </v-row>
         
-            <v-row class="outline py-0" style="height: 94px;">
+            <v-row class="outline py-0" style="min-height: 93px;">
                 <v-col cols="4" align-self="center">
                     <v-checkbox hide-details label="Steve, Kim" value="Steve.kim@bandomk.com" color="primary" />
                 </v-col>
@@ -37,41 +37,52 @@
                     <v-checkbox hide-details label="Jongho, Lee" value="Jongho.lee@bandomk.com" color="primary" />
                 </v-col> 
 
-                <v-col cols="4" class="d-flex pa-0 flex-column align-center justify-center" style="position: relative;">
+                <!-- <v-col cols="4" class="d-flex pa-0 flex-column align-center justify-center" style="position: relative;">
                     <v-btn color="primary" class="mt-1" @click="e => quoteCompleteAlarm()"> 완료</v-btn>
                     <p style=" font-size: 13px; top: 70%; text-align: center; position: absolute;">
                         2025-09-03
                     </p>
-                </v-col>
+                </v-col> -->
                 
-                <v-col cols="4" class="d-flex py-0" style="text-align: center;">
-                    <div class="d-flex py-0 flex-column justify-center align-center"
+                <v-col cols="4" class="d-flex py-0" style="text-align: center; ">
+                    <div class="d-flex py-0 flex-column align-center justify-center"
                         style="position: relative; border-right: 1px solid black;">
                         <v-btn class="mr-2" color="primary" style="width: 70px;" @click="e => emailAlarm()">견적</v-btn>
-                        <p class="mr-2" style="font-size: 13px; margin-top: 4px; position: absolute; text-align: center; top: 70%;">
+                        <p class="mr-2" style="font-size: 13px; position: absolute; text-align: center; top: 70%;">
                             2025-09-03
                         </p>
                     </div>
 
-                    <div class="d-flex pa-0 flex-column align-center justify-center ml-2"
+                    <div class="d-flex py-0 flex-column align-center justify-center ml-2"
                         style="position: relative;">
                         <v-btn  variant="outlined" color="primary" style="width: 70px;"
                         @click="e => quoteCompleteAlarm()"> 완료</v-btn>
-                        <p style="font-size: 13px; margin-top: 4px; position: absolute; top: 70%;">
+                        <p style="font-size: 13px; position: absolute; text-align: center; top: 70%;">
                             2025-09-03
                         </p>
                     </div>
                 </v-col>
                 
-                <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
+                <!-- <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
                     <v-btn color="primary" @click="e => emailAlarm()"> 재견적 </v-btn>
                         <p style="font-size: 13px; top: 70%; text-align: center; position: absolute;">
                         2025-09-03
                         </p>
-                </v-col> 
+                </v-col>  -->
+            </v-row>
+            <v-row class="outline mt-5">
+                <v-col cols="8">
+                    <span>견적 완료까지 소요 시간 &nbsp; : &nbsp; 3시간 30분 </span>
+                </v-col>
+                <v-col class="py-1 d-flex justify-end">
+                    <v-radio-group inline hide-details>
+                    <v-radio label="Hour" value="hour" />
+                    <v-radio label="Day" value="day" />
+                    </v-radio-group>
+                </v-col>
             </v-row>
         </v-col> 
-    </v-row> -->
+    </v-row>
 
 
     <div>
@@ -137,6 +148,7 @@
         </v-table>
     </div>
 </v-container>
+
     <!-- <div class="container">
         <div class="loading-bar">
             <div class="persentage" :style="{ width: persentage + '%' }"></div>
@@ -297,5 +309,12 @@ test ();
 @keyframes animation-stript {
     0% {background-position: 0 0;}
     100% {background-position: 60px 0;}
+}
+
+.outline {
+    min-width: 100px;
+    border: solid 1px rgb(118,118,118);
+    border-radius: 5px;
+    padding: 5px;
 }
 </style>
