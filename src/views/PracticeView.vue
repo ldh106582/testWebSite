@@ -1,6 +1,6 @@
 <template>
 <v-container fluid>
-    <v-row class="mx-0 my-4">
+    <!-- <v-row class="mx-0 my-4">
         <v-col class="pr-5" cols="12" xs="12" lg="6">
             <v-row>
                 <span class="mb-1" style="font-weight: bold">환율</span>
@@ -16,9 +16,7 @@
                     </v-radio-group>
                 </v-col>
                 <v-col cols="auto" align-self="center">
-                    <!-- <v-btn class="mr-2" xs="4" color="red" variant="outlined" @click="rateRemove" v-if="exchangeRate">다시조회</v-btn> -->
-                    <v-btn data-test="rateSave" xs="4" color="purple" variant="outlined" @click="rateSave" >저장</v-btn> <!--v-if="exchangeRate"-->
-                    <!-- <v-btn color="purple" variant="outlined" @click="rateExchange(rate, date, exchangeRateName)" v-else >조회</v-btn> -->
+                    <v-btn data-test="rateSave" xs="4" color="purple" variant="outlined" @click="rateSave" >저장</v-btn>
                 </v-col>
                 <v-col cols="12" class="pt-0">
                     <v-text-field data-test="exchangeRate" class="dense" variant="outlined" hide-details type="text" placeholder="환율값" />
@@ -39,12 +37,12 @@
                     <v-checkbox hide-details label="Jongho, Lee" value="Jongho.lee@bandomk.com" color="primary" />
                 </v-col> 
 
-                <!-- <v-col cols="4" class="d-flex pa-0 flex-column align-center justify-center" style="position: relative;">
+                <v-col cols="4" class="d-flex pa-0 flex-column align-center justify-center" style="position: relative;">
                     <v-btn color="primary" class="mt-1" @click="e => quoteCompleteAlarm()"> 완료</v-btn>
                     <p style=" font-size: 13px; top: 70%; text-align: center; position: absolute;">
                         2025-09-03
                     </p>
-                </v-col> -->
+                </v-col>
                 
                 <v-col cols="4" class="d-flex py-0" style="text-align: center;">
                     <div class="d-flex py-0 flex-column justify-center align-center"
@@ -65,18 +63,78 @@
                     </div>
                 </v-col>
                 
-                <!-- <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
+                <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
                     <v-btn color="primary" @click="e => emailAlarm()"> 재견적 </v-btn>
                         <p style="font-size: 13px; top: 70%; text-align: center; position: absolute;">
                         2025-09-03
                         </p>
-                </v-col> -->
+                </v-col> 
             </v-row>
         </v-col> 
-    </v-row>
+    </v-row> -->
 
 
-
+    <div>
+        <v-table class="quote-cell" fixed-header density="compact" height="300">
+            <thead>
+                <tr data-test="title">
+                <th></th>
+                <th class="cell pa-0" style="min-width: 120px;">품 목 *</th>
+                <th class="cell pa-0" style="min-width: 200px;">Description</th>
+                <th class="cell pa-0" style="min-width: 180px;">SaleStatus</th>
+                <th class="cell pa-0" style="min-width: 100px;">Origin</th>
+                <th class="cell pa-0" style="min-width: 80px;">SPQ</th>
+                <th class="cell pa-0" style="min-width: 80px;">MFR</th>
+                <th class="cell pa-0" style="min-width: 180px;">Remarks</th>
+                <th class="cell pa-0"></th>
+                <th class="cell pa-0"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-test="searchResults" @click="selected = index" >
+                <td>O</td>
+                <td class="cell pa-0" style="width: 200px;">
+                    <v-text-field data-test="item" hide-details variant="outlined" density="compact" style="padding: 0px" 
+                    value="351500319" />
+                </td>
+                <td class="cell pa-0">
+                    <v-text-field data-test="item" hide-details variant="outlined" density="compact" 
+                    value="이건 test" />
+                </td>
+                <td class="cell pa-0">
+                    <v-text-field data-test="item" hide-details variant="outlined" density="compact" 
+                    value="Standard Product"/>
+                </td>
+                <td class="cell pa-0">
+                    <v-text-field data-test="item" hide-details variant="outlined" density="compact" 
+                    value="molex" />
+                </td>
+                <td class="cell pa-0">
+                    <v-text-field data-test="item" hide-details variant="outlined" density="compact" type="number" 
+                    value="12000"
+                    />
+                </td>
+                <td class="cell pa-0">
+                    <v-text-field data-test="item" hide-details variant="outlined" density="compact" 
+                    value="molex"
+                    />
+                </td>
+                <td class="cell pa-0">
+                    <v-text-field data-test="item" hide-details variant="outlined" density="compact" 
+                    value="test" />
+                </td>
+                <td class="cell pa-0">
+                    <v-btn variant="text" color="primary" @click="postItem([row.item])">업데이트</v-btn>
+                </td>
+                <td class="cell pa-0">
+                    <v-btn variant="text" prepend-icon="mdi-content-copy" @click="clipboardItem(row)"></v-btn>
+                </td>
+                <td class="cell pa-0">
+                    <v-btn variant="text" prepend-icon="mdi-delete" @click="deleteItem(index, row)"></v-btn></td>
+                </tr>
+            </tbody>
+        </v-table>
+    </div>
 </v-container>
     <!-- <div class="container">
         <div class="loading-bar">
