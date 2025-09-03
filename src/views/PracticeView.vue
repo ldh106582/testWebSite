@@ -46,16 +46,16 @@
                     </p>
                 </v-col> -->
                 
-                <!-- <v-col cols="4" class="d-flex py-0" style="text-align: center;">
+                <v-col cols="4" class="d-flex py-0" style="text-align: center;">
                     <div class="d-flex py-0 flex-column justify-center align-center"
                         style="position: relative; border-right: 1px solid black;">
-                        <v-btn class="mr-1" color="primary" style="width: 70px;" @click="e => emailAlarm()">견적</v-btn>
-                        <p class="mr-1" style="font-size: 13px; margin-top: 4px; position: absolute; text-align: center; top: 70%;">
+                        <v-btn class="mr-2" color="primary" style="width: 70px;" @click="e => emailAlarm()">견적</v-btn>
+                        <p class="mr-2" style="font-size: 13px; margin-top: 4px; position: absolute; text-align: center; top: 70%;">
                             2025-09-03
                         </p>
                     </div>
 
-                    <div class="d-flex pa-0 flex-column align-center justify-center ml-1"
+                    <div class="d-flex pa-0 flex-column align-center justify-center ml-2"
                         style="position: relative;">
                         <v-btn  variant="outlined" color="primary" style="width: 70px;"
                         @click="e => quoteCompleteAlarm()"> 완료</v-btn>
@@ -63,17 +63,20 @@
                             2025-09-03
                         </p>
                     </div>
-                </v-col> -->
+                </v-col>
                 
-                <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
+                <!-- <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
                     <v-btn color="primary" @click="e => emailAlarm()"> 재견적 </v-btn>
                         <p style="font-size: 13px; top: 70%; text-align: center; position: absolute;">
                         2025-09-03
                         </p>
-                </v-col>
+                </v-col> -->
             </v-row>
         </v-col> 
     </v-row>
+
+
+
 </v-container>
     <!-- <div class="container">
         <div class="loading-bar">
