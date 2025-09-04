@@ -17,5 +17,13 @@ describe('useChangeASCIIAndBactick', () => {
         expect(result).toBe(mockExpect);
     });
 
+    test('changeBactick 함수 작동 확인', async () => {
+        const mockData = '가나다라[39]마바사아';
+        const mockExpect = `가나다라'마바사아`;
+    
+        const result = await wrapper.changeBactick(mockData);
+        expect(result).toBe(mockExpect);
+    });
+
 
 });
