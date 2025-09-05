@@ -127,11 +127,13 @@ import moment from 'moment';
 import useMoment from '@/mixins/useMoment';
 import FileUpload from 'primevue/fileupload';
 import useFileUpload from '@/mixins/useFileUpload';
+import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
 const examStore = useExamStore();
 const { questionTypes, questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 const { getInputFile } = useFileUpload();
+const { changeASCII } = useChangeASCIIAndBactick();
 
 const questionPoint = ref(0);
 const selectType = ref('');
@@ -205,7 +207,7 @@ async function examCreateSave () {
     }
 
         questionStorages = [
-        { question : question.value },
+        { question : changeASCII(question.value) },
         { question_point : questionPoint.value },
         { question_type : selectType.value },
         { question_year : selectYear.value },
@@ -215,9 +217,9 @@ async function examCreateSave () {
     ];
 
     problemStorages = [
-        { problem : JSON.stringify(questionValue) },
+        { problem : changeASCII(JSON.stringify(stionValue)) },
         { problem_image : problemImagePath },
-        { answer : answer.value.toLowerCase() },
+        { answer : changeASCII(answer.value.toLowerCase()) },
         { problem_explanation : problemExplanation.value },
         { problem_feedback : problemFeedback.value}
     ];
