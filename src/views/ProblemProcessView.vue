@@ -34,7 +34,8 @@
 
             <v-row id="exam">
                 <v-col cols="2" class="px-0 pt-0">
-                    <v-text-field hide-details variant="outlined" readonly :value="`${questionStorage.create_date}-${questionStorage.exam_id}`" />
+                    <v-text-field hide-details variant="outlined" readonly 
+                    :value="`${getUnix(questionStorage.create_date)}-${questionStorage.exam_id}`" />
                 </v-col>
                 <v-col cols="2" class="px-0 pt-0 ml-3">
                     <v-text-field hide-details variant="outlined" readonly :value="questionStorage.exam_name" />
@@ -185,6 +186,7 @@ import useMoment from '@/mixins/useMoment';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import FileUpload from 'primevue/fileupload';
 import useFileUpload from '@/mixins/useFileUpload';
+import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
 const questionStorage = ref([]);
 const subjects = ref([]);
@@ -195,15 +197,16 @@ const image = ref('');
 const { questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getUnix } = useMoment();
 const { getInputFile } = useFileUpload();
+const { changeBactick, changeTable } = useChangeASCIIAndBactick();
 
-function onFileSelect (event) {
+function onFileSelect(event) {
     getInputFile (event, async (data) => {
         src.value = await data.result;
         image.value = await data.fd;
     });
 }
 
-async function search () {
+async function search() {
     const questionId = router.currentRoute.value.query.question_id;
     const examId = router.currentRoute.value.query.exam_id;
 
@@ -214,23 +217,24 @@ async function search () {
         }
     }).then(async res => {
         const data = await res.data;
-        subjects.value = await data.rows[1];
+        subjects.value = await data.subjects;
 
-        await data.rows[0].forEach(async q => {
-            q.create_date = getUnix(q.create_date);
+        await data.exams.forEach(q => {
+            changeTable.forEach(t => {
+                q[t.key] = changeBactick(q[t.key]) ?? '';
+            });
         });
-        questionStorage.value = await data.rows[0][0];
+
+        questionStorage.value = await data.exams[0];
     });
 }
 
-function deleteQuestion () {
+function deleteQuestion() {
     const confirmMsg = '문제를 삭제하시겠습니까?';
     const cancelMsg = '취소되었습니다.';
     const sucessMsg = '삭제되었습니다.';
 
-    if (!confirm(confirmMsg)) {
-        return alert (cancelMsg);
-    }
+    if (!confirm(confirmMsg)) return alert (cancelMsg);
     
     axios.delete('/question', {
         params : {
@@ -246,7 +250,7 @@ function deleteQuestion () {
     });
 }
 
-async function save () {
+async function save() {
     const errorMsg = '저장 하는 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const sucessMsg = '저장되었습니다.';
     let imagePath = null;
@@ -267,7 +271,7 @@ async function save () {
     });
 }
 
-function deleteImage () {
+function deleteImage() {
     if (questionStorage.value.problem_image) {
         axios.delete('/image-delete', {
             params : {
@@ -288,7 +292,7 @@ function deleteImage () {
 }
 
 onMounted(() => {
-    search ();
+    search();
 });
 
 </script>

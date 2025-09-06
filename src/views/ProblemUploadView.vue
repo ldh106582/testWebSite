@@ -217,7 +217,7 @@ async function examCreateSave () {
     ];
 
     problemStorages = [
-        { problem : changeASCII(JSON.stringify(stionValue)) },
+        { problem : changeASCII(JSON.stringify(problem.value)) },
         { problem_image : problemImagePath },
         { answer : changeASCII(answer.value.toLowerCase()) },
         { problem_explanation : problemExplanation.value },

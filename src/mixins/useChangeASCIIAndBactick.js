@@ -1,4 +1,12 @@
 export default function useChangeASCIIAndBactick() {
+    const changeTable = [
+        { key: 'question' },
+        { key: 'problem' },
+        { key: 'answer' },
+        { key: 'exam_des' },
+        { key: 'problem_explanation' },
+        { key: 'problem_feedBack' },
+    ];
 
     function changeASCII(param) {
         const reg = /['"`]/g;
@@ -17,5 +25,5 @@ export default function useChangeASCIIAndBactick() {
         return transformedString;
     }
 
-    return {changeASCII, changeBactick}
+    return {changeTable, changeASCII, changeBactick}
 }
