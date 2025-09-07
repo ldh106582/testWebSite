@@ -197,7 +197,7 @@ const image = ref('');
 const { questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getUnix } = useMoment();
 const { getInputFile } = useFileUpload();
-const { changeBactick, changeTable } = useChangeASCIIAndBactick();
+const { changeBactick, changeASCII, changeTable } = useChangeASCIIAndBactick();
 
 function onFileSelect(event) {
     getInputFile (event, async (data) => {
@@ -255,6 +255,12 @@ async function save() {
     const sucessMsg = '저장되었습니다.';
     let imagePath = null;
 
+    questionStorage.value.forEach(q => {
+        changeTable.forEach(t => {
+            q[t.key] = changeASCII(q[t.key])
+        })
+    });
+
     if (image.value) {
         await axios.post('/image-upload', image.value)
         .then(res => {
@@ -268,6 +274,7 @@ async function save() {
     }).then(res => {
         const data = res.data;
         data.result !== true ? alert (sucessMsg) : alert (errorMsg);
+        search();
     });
 }
 

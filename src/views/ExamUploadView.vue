@@ -42,6 +42,9 @@
                 <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="passScore" />
             </v-col>
         </v-row>
+
+        <v-spacer />
+        
         <v-row>
             <v-col cols="4" class="py-0 mt-3">
                 <h3>시험과목</h3>
@@ -50,7 +53,7 @@
                 <h3>과목 출제 수</h3>
             </v-col>
             <v-col cols="4" class="py-0 mt-3">
-                <h3>과목 별 합격 점수</h3>
+                <h3>과목 별 합격 점수 (과락)</h3>
             </v-col>
         </v-row>
         <v-row>

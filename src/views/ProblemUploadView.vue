@@ -133,7 +133,7 @@ const examStore = useExamStore();
 const { questionTypes, questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 const { getInputFile } = useFileUpload();
-const { changeASCII } = useChangeASCIIAndBactick();
+const { changeASCII, changeTable } = useChangeASCIIAndBactick();
 
 const questionPoint = ref(0);
 const selectType = ref('');
@@ -206,7 +206,7 @@ async function examCreateSave () {
         });
     }
 
-        questionStorages = [
+    questionStorages = [
         { question : changeASCII(question.value) },
         { question_point : questionPoint.value },
         { question_type : selectType.value },
@@ -216,6 +216,12 @@ async function examCreateSave () {
         { question_image : qestionImagePath}
     ];
 
+    questionStorages.forEach(q => {
+        changeTable.forEach(t => {
+            q[t.key] = changeASCII(q[t.key]);
+        });
+    });
+
     problemStorages = [
         { problem : changeASCII(JSON.stringify(problem.value)) },
         { problem_image : problemImagePath },
@@ -223,6 +229,12 @@ async function examCreateSave () {
         { problem_explanation : problemExplanation.value },
         { problem_feedback : problemFeedback.value}
     ];
+
+    questionStorages.forEach(p => {
+        changeTable.forEach(t => {
+            p[t.key] = changeASCII(p[t.key]);
+        });
+    });
 
     await axios.post('/question', {
         exam_id : examStore.exam_id,

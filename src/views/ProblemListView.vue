@@ -165,7 +165,7 @@
                 <v-btn class="pagenation-btn" @click="prevent">이전</v-btn>
             </v-col>
             <v-col cols="2" class="pagenation"> 
-                <div> {{  page }} 페이지 </div>
+                <div> {{ page }} 페이지 </div>
             </v-col>
             <v-col cols="1" class="pagenation">
                 <v-btn class="pagenation-btn" @click="next">다음</v-btn>
@@ -182,10 +182,12 @@ import useMoment from '@/mixins/useMoment';
 import axios from '@/axios';
 import moment from 'moment';
 import router from '@/router';
+import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
 const examStore = useExamStore();
 const { questionTypes, questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
+const { changeBactick, changeTable } = useChangeASCIIAndBactick();
 
 const selectTypes = ref([]);
 const isTypeCheckAll = ref(false);
@@ -201,24 +203,24 @@ const countPage = ref(30);
 const startDate = ref();
 const endDate = ref(moment().format('YYYY-MM-DD'));
 
-function selectedTypeAll () {
+function selectedTypeAll() {
     isTypeCheckAll.value = !isTypeCheckAll.value;
     isTypeCheckAll.value !== true ? selectTypes.value = [] : selectTypes.value = questionTypes.value.slice();
 }
-function selectedLevelAll () {
+function selectedLevelAll() {
     isLevelCheckAll.value = !isLevelCheckAll.value;
     isLevelCheckAll.value !== true ? selectLevels.value = [] : selectLevels.value = questionLevels.value.slice();
 }
-function selectedYearAll () {
+function selectedYearAll() {
     isYearCheckAll.value = !isYearCheckAll.value;
     isYearCheckAll.value !== true ? selectYears.value = [] : selectYears.value = questionYears.value.slice();
 }
-function selectedRoundAll () {
+function selectedRoundAll() {
     isRoundCheckAll.value = !isRoundCheckAll.value;
     isRoundCheckAll.value !== true ? selectRounds.value = [] : questionRounds.value = questionRounds.value.slice();
 }
 
-function showQuestion (rows, index) {
+function showQuestion(rows, index) {
     router.push({
         path: '/problem-Process',
         query: {
@@ -228,7 +230,7 @@ function showQuestion (rows, index) {
     });
 }
 
-async function search () {
+async function search() {
     await axios.get('/question-problem-group-desc', {
         params: {
             start_date : startDate.value,
@@ -243,26 +245,24 @@ async function search () {
         }
     }).then(async res => {
         res.data.rows.forEach(q => {
-            q.create_date = getFullDate(q.create_date);
+            changeTable.forEach(t => {
+                q[t.key] = changeBactick(q[t.key]);
+            });
         });
         questions.value = await res.data.rows;
     });
 }
 
-function prevent () {
+function prevent() {
     const prvMsg = '첫 번째 페이지입니다.';
-    
     page.value <= 1 ? alert (prvMsg) : page.value--;
-
     search();
 }
 
-function next () {
+function next() {
     const nextMsg = '마지막 페이지입니다.';
-
     const lastNum = questions.value.length / 30;
     lastNum <= 1 ? alert (nextMsg) : page.value++;
-
     search();
 }
 

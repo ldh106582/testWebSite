@@ -49,7 +49,7 @@
                         <h3>과목 문제 수</h3>
                     </v-col>
                     <v-col cols="3" class="px-2 py-1">
-                        <h3>과목별 합격 점수</h3>
+                        <h3>과목별 합격 점수 (과락)</h3>
                     </v-col>
                     <v-col cols="3" class="px-2 py-1">
                         <h3>삭제</h3>
