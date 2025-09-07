@@ -27,7 +27,7 @@
         </v-col>
     </v-row>
 
-    <div v-if="isCheckExamId">
+    <v-form v-if="isCheckExamId" @submit.prevent="save">
         <v-row>
             <v-col cols="12" class="px-3">
                 <h2>시험 구성</h2>
@@ -35,35 +35,36 @@
         </v-row>
         <v-row>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectType" />
+                <v-select data-test="type" variant="outlined" label="시험타입" :items="questionTypes" v-model="selectType" :rules="rules" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-autocomplete data-test="subject_id" label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
-                v-model="subjects.subject_id" />
+                <v-autocomplete data-test="subject_id" variant="outlined" label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
+                v-model="selectSubjectId" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-text-field data-test="point" label="시험점수" type="number" v-model="questionPoint" />
+                <v-text-field data-test="point" variant="outlined" label="시험점수" type="number" v-model="questionPoint" :rules="rules" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="level" label="시험난이도" :items="questionLevels" v-model="selectLevel" />
+                <v-select data-test="level" variant="outlined" label="시험난이도" :items="questionLevels" v-model="selectLevel" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectYear" />
+                <v-select data-test="year" variant="outlined" label="기출년도" :items="questionYears" v-model="selectYear" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-select data-test="academinYear" label="기출회차" :items="questionRounds" v-model="selectRound" />
+                <v-select data-test="academinYear" variant="outlined" label="기출회차" :items="questionRounds" v-model="selectRound" />
             </v-col>
         </v-row>
 
         <v-row>
             <v-col cols="9" class="pt-0" >
                 <h3>시험문제</h3>
-                <v-textarea data-test="question" variant="outlined" hide-details placeholder="예제) 다음 중 옳은 것을 선택하시오" v-model="question" />
+                <v-textarea data-test="question" variant="outlined" hide-details placeholder="예제) 다음 중 옳은 것을 선택하시오" v-model="question" 
+                :rules="rules" />
             </v-col>
             <v-col cols="3" class="pt-0">
                 <h3>정답</h3>
                 <v-textarea data-test="addResult" variant="outlined" hide-details
-                placeholder="복수 정답일 경우 2, 3 형식으로 입력해주세요." v-model="answer"/>
+                placeholder="복수 정답일 경우 2, 3 형식으로 입력해주세요." v-model="answer" :rules="rules"/>
             </v-col>
         </v-row>
 
@@ -110,10 +111,10 @@
 
         <v-row>
             <v-col style="text-align: end;">
-                <v-btn data-test="examCreateSave" color="indigo" :disabled="!examStore.exam_id" @click="examCreateSave">저장</v-btn>
+                <v-btn data-test="examCreateSave" color="indigo" type="submit">저장</v-btn>
             </v-col>
         </v-row>
-    </div>
+    </v-form>
 </v-container>
 </template>
 
@@ -137,9 +138,10 @@ const { changeASCII, changeTable } = useChangeASCIIAndBactick();
 
 const questionPoint = ref(0);
 const selectType = ref('');
+const selectSubjectId = ref('');
 const selectYear = ref('');
 const selectRound = ref('');
-const selectLevel = ref('');
+const selectLevel = ref('보통');
 const problemExplanation = ref('');
 const problemFeedback = ref('');
 const problem = ref('');
@@ -159,43 +161,50 @@ const isCheckExamId = ref(false);
 const src = ref(null);
 const problemImage = ref('');
 const questionImage = ref('');
+const rules = [
+    value => {
+        if (value === '' || value === 0) return '입력이 필요합니다.';
+        return true;
+    },
+];
 
-
-async function onFileSelect (event) {
+async function onFileSelect(event) {
     getInputFile (event, async (data) => {
         src.value = await data.result;
         problemImage.value = await data.fd;
     });
 }
 
-async function onFileSelect_1 (evnet) {
+async function onFileSelect_1(evnet) {
     getInputFile (event, async (data) => {
         src.value = await data.result;
         questionImage.value = await data.fd;
     });
 }
 
-function subjectSearch () {
+function subjectSearch() {
     axios.get('/subject', {
         params : {
             exam_id : examStore.exam_id
         }
     }).then (res => {
         subjects.value = res.data.rows;
+        selectSubjectId.value = res.data.rows[0].subject_id;
         isCheckExamId.value = !isCheckExamId.value;
     });
 }
 
-async function examCreateSave () {
+async function save() {
+    const notInputMsg = '입력하지 않은 데이터가 존재합니다.';
     const errorMsg = '등록 중 오류가 발생하였습니다. 새로고침 후 다시 시도해주세요.';
     const sucessMsg = '등록되었습니다.';
     let questionStorages = [];
     let problemStorages = [];
     let qestionImagePath = null;
     let problemImagePath = null;
-
     const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
 
+    if (selectType.value === '' || questionPoint.value === 0 || question.value === '' || answer.value === '') return alert(notInputMsg);
     if (problemImage.value) {
         await axios.post('/image-upload', problemImage.value).then(res => { 
             problemImagePath = res.data.imagePath;
@@ -206,15 +215,15 @@ async function examCreateSave () {
         });
     }
 
-    questionStorages = [
-        { question : changeASCII(question.value) },
-        { question_point : questionPoint.value },
-        { question_type : selectType.value },
-        { question_year : selectYear.value },
-        { question_round : selectRound.value},
-        { question_level : selectLevel.value },
-        { question_image : qestionImagePath}
-    ];
+    questionStorages = [{ 
+        question: question.value,
+        question_point: questionPoint.value,
+        question_type: selectType.value,
+        question_year: selectYear.value,
+        question_round: selectRound.value,
+        question_level: selectLevel.value,
+        question_image: qestionImagePath
+    }];
 
     questionStorages.forEach(q => {
         changeTable.forEach(t => {
@@ -222,15 +231,15 @@ async function examCreateSave () {
         });
     });
 
-    problemStorages = [
-        { problem : changeASCII(JSON.stringify(problem.value)) },
-        { problem_image : problemImagePath },
-        { answer : changeASCII(answer.value.toLowerCase()) },
-        { problem_explanation : problemExplanation.value },
-        { problem_feedback : problemFeedback.value}
-    ];
+    problemStorages = [{ 
+        problem: JSON.stringify(problem.value),
+        problem_image: problemImagePath,
+        answer: answer.value.toLowerCase(),
+        problem_explanation: problemExplanation.value,
+        problem_feedback: problemFeedback.value
+    }];
 
-    questionStorages.forEach(p => {
+    problemStorages.forEach(p => {
         changeTable.forEach(t => {
             p[t.key] = changeASCII(p[t.key]);
         });
@@ -239,17 +248,17 @@ async function examCreateSave () {
     await axios.post('/question', {
         exam_id : examStore.exam_id,
         user_id : userId.value,
+        subject_id : selectSubjectId.value,
         questionStorages : questionStorages,
         problemStorages : problemStorages,
         today : getFullDate(today),
-        subject_id : subjects.value.subject_id 
     }).then(res => {
         const data = res.data;
         data.result === true ? alert (errorMsg) : alert (sucessMsg);
     });
 }
 
-function deleteImage () {
+function deleteImage() {
     src.value = null;
     questionImage.value = null;
 }

@@ -160,7 +160,7 @@
                 </v-table>
             </v-col>
         </v-row>
-        <v-row  justify="center">
+        <v-row justify="center">
             <v-col cols="1" class="pagenation">
                 <v-btn class="pagenation-btn" @click="prevent">이전</v-btn>
             </v-col>

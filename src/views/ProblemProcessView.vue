@@ -231,11 +231,9 @@ async function search() {
 
 function deleteQuestion() {
     const confirmMsg = '문제를 삭제하시겠습니까?';
-    const cancelMsg = '취소되었습니다.';
     const sucessMsg = '삭제되었습니다.';
 
-    if (!confirm(confirmMsg)) return alert (cancelMsg);
-    
+    if (!confirm(confirmMsg)) return;
     axios.delete('/question', {
         params : {
             question_id : questionStorage.value.question_id,
@@ -254,8 +252,8 @@ async function save() {
     const errorMsg = '저장 하는 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const sucessMsg = '저장되었습니다.';
     let imagePath = null;
-
-    questionStorage.value.forEach(q => {
+    
+    [questionStorage.value].forEach(q => {
         changeTable.forEach(t => {
             q[t.key] = changeASCII(q[t.key])
         })
