@@ -3,12 +3,12 @@ from bs4 import BeautifulSoup
 from datetime import date
 import re
 
-url = 'https://chobopark.tistory.com/195'
+url = 'https://chobopark.tistory.com/194'
 response = requests.get(url)
 html = response.text
 soup = BeautifulSoup(html, 'html.parser')
 nodeUrl = 'http://localhost:3000'
-questionround = '2회차'
+questionround = '3회차'
 question_year = '2020'
 today = date.today().isoformat()
 
@@ -35,7 +35,7 @@ def getQuestion () :
                 question = []
                 
                 if any(item in questionText for item in codeQuestion):
-                    question.append({ 'question': sliceText, 'question_point': 5,
+                    question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
                                     'question_level': '보통', 'question_type': '단답형',
                                     'question_year': question_year, 'question_round': questionround })
                     problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
@@ -54,7 +54,7 @@ def getQuestion () :
                             'problemStorages': problem })
                     break
                 else : 
-                    question.append({ 'question': sliceText, 'question_point': 5,
+                    question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
                                     'question_level': '보통', 'question_type': '단답형',
                                     'question_year': question_year, 'question_round': questionround })
                     problem.append({ 'answer': changeBacktick(answer[index]) })
@@ -116,6 +116,7 @@ def changeBacktick(params) :
     for item in params :
         if item == '"' or item == '`' or item == "'" :
             result += f'[{ord(item)}]'
+            print(result)
         else :
             result += item
     return result
