@@ -3,16 +3,26 @@ from bs4 import BeautifulSoup
 from datetime import date
 import re
 
-url = 'https://chobopark.tistory.com/194'
+url = 'https://chobopark.tistory.com/192'
 response = requests.get(url)
 html = response.text
 soup = BeautifulSoup(html, 'html.parser')
+img_soup = BeautifulSoup(response.content, 'html.parser')
 nodeUrl = 'http://localhost:3000'
-questionround = '3회차'
+questionround = '4회차'
 question_year = '2020'
 today = date.today().isoformat()
 
 def getQuestion () :
+    image_urls = []
+    
+    for img_tag in img_soup.find_all('img'):
+        img_src = img_tag.get('src')
+        if img_src:
+            if not img_src.startswith(('http', 'https')):
+                img_src = url + img_src  # Assuming a simple case
+                image_urls.append(img_src)
+    
     codeQuestion = ['다음은 자바 코드이다.', '출력 결과를 쓰시오.']
     num = []
     index = 0
@@ -68,7 +78,7 @@ def getQuestion () :
                             'questionStorages': question,
                             'problemStorages': problem })
                     break
-        # return problem
+        return problem
 
 def getCodeQuestion () :
     codeList = []
@@ -116,7 +126,6 @@ def changeBacktick(params) :
     for item in params :
         if item == '"' or item == '`' or item == "'" :
             result += f'[{ord(item)}]'
-            print(result)
         else :
             result += item
     return result
