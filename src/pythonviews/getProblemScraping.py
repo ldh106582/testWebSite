@@ -3,11 +3,6 @@ from bs4 import BeautifulSoup
 from datetime import date
 import re
 
-url = 'https://chobopark.tistory.com/192'
-response = requests.get(url)
-html = response.text
-soup = BeautifulSoup(html, 'html.parser')
-img_soup = BeautifulSoup(response.content, 'html.parser')
 nodeUrl = 'http://localhost:3000'
 questionround = '4회차'
 question_year = '2020'
@@ -18,71 +13,79 @@ episodes = ['1회차', '2회차', '3회차', '4회차', '1회차', '2회차', '3
 
 
 def getQuestion () :
-    image_urls = []
+    # image_urls = []
     
-    for img_tag in img_soup.find_all('img'):
-        img_src = img_tag.get('src')
-        if img_src:
-            if not img_src.startswith(('http', 'https')):
-                img_src = url + img_src  # Assuming a simple case
-                image_urls.append(img_src)
-    
-    codeQuestion = ['다음은 자바 코드이다.', '출력 결과를 쓰시오.']
-    num = []
-    index = 0
-    index_code = 0
-    answer = getAnswer()
-    code = getCodeQuestion()
-    print(code[1])
-    for i in range(20) :
-        num.append(f'{i+1}.')
-    
-    ## 문제
-    croll_problem = soup.find_all('b')
-    for p in croll_problem:
-        questionText = p.get_text()
-        for n in num:
-            if n in questionText:
-                firstIndex = questionText.index('. ')
-                sliceText = questionText[(firstIndex + 2) : -1]
-                problem = []
-                question = []
+    # for img_tag in img_soup.find_all('img'):
+    #     img_src = img_tag.get('src')
+    #     if img_src:
+    #         if not img_src.startswith(('http', 'https')):
+    #             img_src = url + img_src  # Assuming a simple case
+    #             image_urls.append(img_src)
                 
-                if any(item in questionText for item in codeQuestion):
-                    question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
-                                    'question_level': '보통', 'question_type': '단답형',
-                                    'question_year': question_year, 'question_round': questionround })
-                    problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
+    for (i, index) in lastNum :
+        print(i)
+        # url = f'https://chobopark.tistory.com/{192}'
+        # response = requests.get(url)
+        # html = response.text
+        # soup = BeautifulSoup(html, 'html.parser')
+        # img_soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # codeQuestion = ['다음은 자바 코드이다.', '출력 결과를 쓰시오.']
+        # num = []
+        # index = 0
+        # index_code = 0
+        # answer = getAnswer(soup)
+        # code = getCodeQuestion(soup)
+        # print(code[1])
+        # for i in range(20) :
+        #     num.append(f'{i+1}.')
+        
+        # ## 문제
+        # croll_problem = soup.find_all('b')
+        # for p in croll_problem:
+        #     questionText = p.get_text()
+        #     for n in num:
+        #         if n in questionText:
+        #             firstIndex = questionText.index('. ')
+        #             sliceText = questionText[(firstIndex + 2) : -1]
+        #             problem = []
+        #             question = []
                     
-                    index += 1
-                    index_code += 1
+        #             if any(item in questionText for item in codeQuestion):
+        #                 question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
+        #                                 'question_level': '보통', 'question_type': '단답형',
+        #                                 'question_year': question_year, 'question_round': questionround })
+        #                 problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
+                        
+        #                 index += 1
+        #                 index_code += 1
 
-                    requests.post(f'{nodeUrl}/question', 
-                        json={'exam_id': 1, 
-                            'user_id': 'admin', 
-                            'today': today, 
-                            'subject_id': 6, 
-                            'questionStorages': question, 
-                            'problemStorages': problem })
-                    break
-                else : 
-                    question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
-                                    'question_level': '보통', 'question_type': '단답형',
-                                    'question_year': question_year, 'question_round': questionround })
-                    problem.append({ 'answer': changeBacktick(answer[index]) })
+        #                 requests.post(f'{nodeUrl}/question', 
+        #                     json={'exam_id': 1, 
+        #                         'user_id': 'admin', 
+        #                         'today': today, 
+        #                         'subject_id': 6, 
+        #                         'questionStorages': question, 
+        #                         'problemStorages': problem })
+        #                 break
+        #             else : 
+        #                 question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
+        #                                 'question_level': '보통', 'question_type': '단답형',
+        #                                 'question_year': question_year, 'question_round': questionround })
+        #                 problem.append({ 'answer': changeBacktick(answer[index]) })
 
-                    index += 1
-                    requests.post(f'{nodeUrl}/question', 
-                        json={'exam_id': 1, 
-                            'user_id': 'admin', 
-                            'today': today, 
-                            'subject_id': 5,
-                            'questionStorages': question,
-                            'problemStorages': problem })
-                    break
-        return problem
+        #                 index += 1
+        #                 requests.post(f'{nodeUrl}/question', 
+        #                     json={'exam_id': 1, 
+        #                         'user_id': 'admin', 
+        #                         'today': today, 
+        #                         'subject_id': 5,
+        #                         'questionStorages': question,
+        #                         'problemStorages': problem })
+        #                 break
+        #     return problem
 
-def getCodeQuestion () :
+def getCodeQuestion(soup) :
     codeList = []
     code = soup.find_all('code')
     for c in code:
@@ -90,7 +93,7 @@ def getCodeQuestion () :
     
     return codeList
 
-def getAnswer () :
+def getAnswer(soup) :
     targetColor = '#009a87;'
     raw_texts = []
     num = []
