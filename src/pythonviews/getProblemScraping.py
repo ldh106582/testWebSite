@@ -12,6 +12,10 @@ nodeUrl = 'http://localhost:3000'
 questionround = '4회차'
 question_year = '2020'
 today = date.today().isoformat()
+lastNum = [196, 195, 194, 192, 191, 210, 217, 271, 423, 424, 372, 420, 453, 476, 483, 495, 540, 554]
+years = ['2020', '2020', '2020', '2020', '2021', '2021', '2021', '2022', '2022', '2022', '2023', '2023', '2023', '2024', '2024', '2024', '2025', '2025',]
+episodes = ['1회차', '2회차', '3회차', '4회차', '1회차', '2회차', '3회차', '1회차', '2회차', '3회차', '1회차', '2회차', '3회차', '1회차', '2회차', '3회차', '1회차', '2회차' ]
+
 
 def getQuestion () :
     image_urls = []
@@ -49,9 +53,7 @@ def getQuestion () :
                                     'question_level': '보통', 'question_type': '단답형',
                                     'question_year': question_year, 'question_round': questionround })
                     problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
-                    print(index, sliceText)
-                    print(index, index_code, code[index_code])
-
+                    
                     index += 1
                     index_code += 1
 
