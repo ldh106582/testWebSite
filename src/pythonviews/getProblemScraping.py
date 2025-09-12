@@ -22,68 +22,67 @@ def getQuestion () :
     #             img_src = url + img_src  # Assuming a simple case
     #             image_urls.append(img_src)
                 
-    for (i, index) in lastNum :
-        print(i)
-        # url = f'https://chobopark.tistory.com/{192}'
-        # response = requests.get(url)
-        # html = response.text
-        # soup = BeautifulSoup(html, 'html.parser')
-        # img_soup = BeautifulSoup(response.content, 'html.parser')
+    for i in range(len(lastNum)) :
+        url = f'https://chobopark.tistory.com/{192}'
+        response = requests.get(url)
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        img_soup = BeautifulSoup(response.content, 'html.parser')
         
-        # codeQuestion = ['다음은 자바 코드이다.', '출력 결과를 쓰시오.']
-        # num = []
-        # index = 0
-        # index_code = 0
-        # answer = getAnswer(soup)
-        # code = getCodeQuestion(soup)
-        # print(code[1])
-        # for i in range(20) :
-        #     num.append(f'{i+1}.')
+        codeQuestion = ['다음은 자바 코드이다.', '출력 결과를 쓰시오.']
+        num = []
+        index = 0
+        index_code = 0
+        answer = getAnswer(soup)
+        code = getCodeQuestion(soup)
+        print(code[1])
+        for i in range(20) :
+            num.append(f'{i+1}.')
         
-        # ## 문제
-        # croll_problem = soup.find_all('b')
-        # for p in croll_problem:
-        #     questionText = p.get_text()
-        #     for n in num:
-        #         if n in questionText:
-        #             firstIndex = questionText.index('. ')
-        #             sliceText = questionText[(firstIndex + 2) : -1]
-        #             problem = []
-        #             question = []
+        ## 문제
+        croll_problem = soup.find_all('b')
+        for p in croll_problem:
+            questionText = p.get_text()
+            for n in num:
+                if n in questionText:
+                    firstIndex = questionText.index('. ')
+                    sliceText = questionText[(firstIndex + 2) : -1]
+                    problem = []
+                    question = []
                     
-        #             if any(item in questionText for item in codeQuestion):
-        #                 question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
-        #                                 'question_level': '보통', 'question_type': '단답형',
-        #                                 'question_year': question_year, 'question_round': questionround })
-        #                 problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
+                    if any(item in questionText for item in codeQuestion):
+                        question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
+                                        'question_level': '보통', 'question_type': '단답형',
+                                        'question_year': question_year, 'question_round': questionround })
+                        problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
                         
-        #                 index += 1
-        #                 index_code += 1
+                        index += 1
+                        index_code += 1
 
-        #                 requests.post(f'{nodeUrl}/question', 
-        #                     json={'exam_id': 1, 
-        #                         'user_id': 'admin', 
-        #                         'today': today, 
-        #                         'subject_id': 6, 
-        #                         'questionStorages': question, 
-        #                         'problemStorages': problem })
-        #                 break
-        #             else : 
-        #                 question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
-        #                                 'question_level': '보통', 'question_type': '단답형',
-        #                                 'question_year': question_year, 'question_round': questionround })
-        #                 problem.append({ 'answer': changeBacktick(answer[index]) })
+                        requests.post(f'{nodeUrl}/question', 
+                            json={'exam_id': 1, 
+                                'user_id': 'admin', 
+                                'today': today, 
+                                'subject_id': 6, 
+                                'questionStorages': question, 
+                                'problemStorages': problem })
+                        break
+                    else : 
+                        question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
+                                        'question_level': '보통', 'question_type': '단답형',
+                                        'question_year': question_year, 'question_round': questionround })
+                        problem.append({ 'answer': changeBacktick(answer[index]) })
 
-        #                 index += 1
-        #                 requests.post(f'{nodeUrl}/question', 
-        #                     json={'exam_id': 1, 
-        #                         'user_id': 'admin', 
-        #                         'today': today, 
-        #                         'subject_id': 5,
-        #                         'questionStorages': question,
-        #                         'problemStorages': problem })
-        #                 break
-        #     return problem
+                        index += 1
+                        requests.post(f'{nodeUrl}/question', 
+                            json={'exam_id': 1, 
+                                'user_id': 'admin', 
+                                'today': today, 
+                                'subject_id': 5,
+                                'questionStorages': question,
+                                'problemStorages': problem })
+                        break
+            return problem
 
 def getCodeQuestion(soup) :
     codeList = []

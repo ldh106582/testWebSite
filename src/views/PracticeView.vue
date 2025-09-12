@@ -166,7 +166,7 @@
         label="날짜 선택"
     ></v-date-input> -->
 
-    <!-- <div>
+    <div>
     <v-row>
         <v-col cols="1" class="pa-0 ml-5">
             <v-checkbox hide-details v-model="allSelected" @change="allSelectBox"></v-checkbox>
@@ -176,18 +176,17 @@
             <span>전체선택</span>
         </v-col>
         
-        <v-col cols="12">
+        <v-col v-for="(item, index) in result" :key="item.id" cols="12">
             <v-checkbox
-            v-for="item in result"
-            :key="item.id"
-            v-model="selected"
             :value="item.id"
+            v-model="selected[index]"
             :label="item.name"
-            @change="updateAllSelected"
+            @change="updateAllSelected(item, index)"
             ></v-checkbox>
         </v-col>
+        <v-btn @click="save">저장</v-btn>
     </v-row>
-</div> -->
+</div>
     <!-- <v-row v-for="(value, index) in result" :key="index" cols="7" class="pa-0 ml-2">
         <v-col cols="1" class="pa-0">
             <v-checkbox v-model="selected[index]" hide-details value="John"></v-checkbox>
@@ -209,7 +208,7 @@ const date = ref(null)
 
 const model = shallowRef(null);
 
-const selected = ref([]);
+const selected = ref([false]);
 const allSelected = ref(false);
 const result = ref(
     [
@@ -226,17 +225,33 @@ const table = [
     {key: 'id'},
     {key: 'name'},
 ];
+const storage = [];
+
+function save() {
+    console.log(selected.value)
+}
 
 function allSelectBox() {
     if (allSelected.value) {
-    selected.value = result.value.map(item => item.id);
+        selected.value = result.value.map(item => item.id);
     } else {
-    selected.value = []
+        selected.value = []
     }
 }
 
-function updateAllSelected() {
-    allSelected.value = selected.value.length === result.value.length
+function updateAllSelected(rows, index) {
+    
+    const listObj = {};
+
+    if (result.value[index].id === selected.value[index]) {
+        table.forEach(t => {
+            listObj[t.key] = result.value[index][t.key];
+        });
+    }
+    storage.push(listObj)
+
+    console.log(storage)
+    // allSelected.value = selected.value.length === result.value.length
 }
 function google () {
     axios.get('/google-form', {
