@@ -86,12 +86,14 @@ let questionRound = '';
 async function search () {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
 
-    examId = router.currentRoute.value.query.exam_id;
-    examTotal = router.currentRoute.value.query.exam_total;
-    subjectId = router.currentRoute.value.query.subject_id;
+    const examId = router.currentRoute.value.query.exam_id;
+    const examTotal = router.currentRoute.value.query.exam_total;
+    const subjectId = router.currentRoute.value.query.subject_id;
     questionType = router.currentRoute.value.query.question_type;
     questionYear = router.currentRoute.value.query.question_year;
     questionRound = router.currentRoute.value.query.question_round;
+
+    console.log(examId, examTotal, subjectId, questionType, questionYear,questionRound )
 
     await axios.get('/start-exam', {
         params : {
@@ -117,8 +119,7 @@ async function search () {
 
 async function submit () {
     const problemAnswers = [];
-    const result = [];
-    let list = [];
+    const list = [];
     const item = [];
     let score = 0;
     let passFail = 0;
