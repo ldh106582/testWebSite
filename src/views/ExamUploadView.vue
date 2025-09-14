@@ -7,8 +7,8 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="mt-5 d-flex">
-                <h3>주제</h3>
-                <span class="ml-1">(띄워쓰기 사용금지)</span>
+                <h2>주제</h2>
+                <span style="align-content  : center;" class="ml-1">(띄워쓰기 사용금지)</span>
             </v-col>
             <v-col cols="12" class="py-0">
                 <v-text-field data-test="search-input" variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험 제목"
@@ -18,91 +18,108 @@
                 <v-btn data-test="search" color="primary" @click="searchExam">조회하기</v-btn>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col cols="4" class="py-0">
-                <h3>시험시간</h3>
-            </v-col>
-            <v-col cols="4" class="py-0">
-                <h3>시험 문제수</h3>
-            </v-col>
-            <v-col cols="4" class="py-0">
-                <h3>합격 점수</h3>
-            </v-col>
-        </v-row>
 
-        <v-row>
-            <v-col cols="4">
-                <v-text-field data-test="examTime" type="number" hide-details variant="outlined" placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
-                v-model="examTime" />
-            </v-col>
-            <v-col cols="4">
-                <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="examTotal" />
-            </v-col>
-            <v-col cols="4">
-                <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="passScore" />
-            </v-col>
-        </v-row>
+        <div v-if="!isSearch">
+            <v-row>
+                <v-col>
+                    <h2>시험</h2>
+                </v-col>
+            </v-row>
+            
+            <v-row>
+                <v-col cols="4" class="py-0">
+                    <h3>시험시간</h3>
+                </v-col>
+                <v-col cols="4" class="py-0">
+                    <h3>시험 문제수</h3>
+                </v-col>
+                <v-col cols="4" class="py-0">
+                    <h3>합격 점수</h3>
+                </v-col>
+            </v-row>
 
-        <v-spacer />
-        
-        <v-row>
-            <v-col cols="4" class="py-0 mt-3">
-                <h3>시험과목</h3>
-            </v-col>
-            <v-col cols="4" class="py-0 mt-3">
-                <h3>과목 출제 수</h3>
-            </v-col>
-            <v-col cols="4" class="py-0 mt-3">
-                <h3>과목 별 합격 점수 (과락)</h3>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="4" class="pa-0">
-                <v-list>
-                    <v-list-item-group>
-                        <v-list-item v-for="(subject, index) in subjects" :key="index">
-                            <v-text-field data-test="subjects" hide-details variant="outlined" 
-                            placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등 시험 진행 시 part 입력" 
-                            v-model="subjects[index]"/>  
-                        </v-list-item>
-                    </v-list-item-group>
-                </v-list>
-            </v-col>
-            <v-col cols="4" class="pa-0">
-                <v-list>
-                    <v-list-item-group>
-                        <v-list-item v-for="(total, index) in subjectTotal" :key="index">
-                            <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" v-model="subjectTotal[index]"/>  
-                        </v-list-item>
-                    </v-list-item-group>
-                </v-list>
-            </v-col>
-            <v-col cols="4" class="pa-0">
-                <v-list>
-                    <v-list-item-group>
-                        <v-list-item v-for="(score, index) in subjectScore" :key="index">
-                            <v-text-field data-test="subjecScore" type="number" hide-details variant="outlined" v-model="subjectScore[index]"/>  
-                        </v-list-item>
-                    </v-list-item-group>
-                </v-list>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12" align="end" class="py-0">
-                <v-btn data-test="addSubject" color="blue" @click="addSubject">추가</v-btn>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12" class="py-0">
-                <h3>설명</h3>
-            </v-col>
-            <v-col cols="12" class="pb-0" style="height: 100%;">
-                <v-textarea data-test="examDes" variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDes"></v-textarea>
-            </v-col>
-            <v-col cols="12" class="py-0" style="text-align: end;">
-                <v-btn data-test="saveExam" color="indigo" :disabled="isSearch" @click="saveExam">저장</v-btn>
-            </v-col>
-        </v-row>
+            <v-row>
+                <v-col cols="4">
+                    <v-text-field data-test="examTime" type="number" hide-details variant="outlined" placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
+                    v-model="examTime" />
+                </v-col>
+                <v-col cols="4">
+                    <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="examTotal" />
+                </v-col>
+                <v-col cols="4">
+                    <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="passScore" />
+                </v-col>
+            </v-row>
+
+            <v-spacer style="border: 1px solid silver;" class="my-5"/>
+            
+            <v-row>
+                <v-col>
+                    <h2>과목</h2>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4" class="py-0 mt-3">
+                    <h3>시험과목</h3>
+                </v-col>
+                <v-col cols="4" class="py-0 mt-3">
+                    <h3>과목 출제 수</h3>
+                </v-col>
+                <v-col cols="4" class="py-0 mt-3">
+                    <h3>과목 별 합격 점수 (과락)</h3>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4" class="pa-0">
+                    <v-list>
+                        <v-list-item-group>
+                            <v-list-item v-for="(subject, index) in subjects" :key="index">
+                                <v-text-field data-test="subjects" hide-details variant="outlined" 
+                                placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등 시험 진행 시 part 입력" 
+                                v-model="subjects[index]"/>  
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
+                </v-col>
+                <v-col cols="4" class="pa-0">
+                    <v-list>
+                        <v-list-item-group>
+                            <v-list-item v-for="(total, index) in subjectTotal" :key="index">
+                                <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" v-model="subjectTotal[index]"/>  
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
+                </v-col>
+                <v-col cols="4" class="pa-0">
+                    <v-list>
+                        <v-list-item-group>
+                            <v-list-item v-for="(score, index) in subjectScore" :key="index">
+                                <v-text-field data-test="subjecScore" type="number" hide-details variant="outlined" v-model="subjectScore[index]"/>  
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12" align="end" class="py-0">
+                    <v-btn data-test="addSubject" color="blue" @click="addSubject">추가</v-btn>
+                </v-col>
+            </v-row>
+
+            <v-spacer style="border: 1px solid silver;" class="my-5"/>
+
+            <v-row>
+                <v-col cols="12" class="py-0">
+                    <h3>시험 진행 안내 사항</h3>
+                </v-col>
+                <v-col cols="12" class="pb-0" style="height: 100%;">
+                    <v-textarea data-test="examDes" variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDes"></v-textarea>
+                </v-col>
+                <v-col cols="12" class="py-0" style="text-align: end;">
+                    <v-btn data-test="saveExam" color="indigo" :disabled="isSearch" @click="saveExam">저장</v-btn>
+                </v-col>
+            </v-row>
+        </div>
     </v-container>
 </template>
 
@@ -121,18 +138,18 @@ const subjectTotal = ref([0]);
 const subjectScore = ref([0]);
 const passScore = ref(0);
 
-function addSubject () {
+function addSubject() {
     const subjectCopie = JSON.parse(JSON.stringify(newSubject.value));
     subjects.value.push(subjectCopie);
     subjectTotal.value.push(0);
 }
 
-function searchExam () {
+function searchExam() {
     const errorMsg = '데이터를 등록해주세요.';
     const resultMsg = '해당하는 시험은 이미 존재합니다.';
     const nullMsg = '주제를 입력해주세요';
 
-    if (examName.value === '') return alert (nullMsg);
+    if (examName.value === '') return alert(nullMsg);
 
     axios.get('/exam', {
         params: {
