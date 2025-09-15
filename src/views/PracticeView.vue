@@ -204,8 +204,6 @@ import axios from '@/axios';
 const persentage = ref(0);
 const totalDuration = 10;
 const remainingTime = ref(totalDuration);
-const date = ref(null)
-
 const model = shallowRef(null);
 
 const selected = ref([false]);
