@@ -55,7 +55,7 @@
                         <span> {{ index + 1 }}  </span>
                     </v-col>
                     <v-col cols="11" class="pa-0">
-                        <v-text-field variant="outlined" hide-details v-model="answers[index]" />
+                        <v-text-field variant= "outlined" hide-details v-model="answers[index]" />
                     </v-col>
                 </v-col>
             </v-row>
@@ -67,9 +67,11 @@
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
-import { useExamStart } from '../store/useExamStart'; 
+import { useExamStart } from '../store/useExamStart';
+import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
 const examStore = useExamStart ();
+const { changeBactick } = useChangeASCIIAndBactick();
 
 const userId = ref('');
 const problems = ref([]);
@@ -110,7 +112,13 @@ async function search () {
         if (data.rows.length === 0 || data.rows === true) {
             return alert (errorMsg);
         } else {
+            data.rows.forEach(q => {
+                q.question = changeBactick(q.question);
+                q.problem = changeBactick(q.problem);
+            });
+
             problems.value = data.rows;
+            
             const examTimeInMinutes = parseInt(problems.value[0].exam_time);
             examTime.value = Date.now() + (examTimeInMinutes * 60 * 1000);
         }

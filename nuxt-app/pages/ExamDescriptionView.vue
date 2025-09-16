@@ -19,7 +19,7 @@
                         <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectYear" />
                     </v-col>
                     <v-col cols="3" class="py-0">
-                        <v-select data-test="academinYear" label="기출회차" :items="questionRounds" v-model="selecteRound" />
+                        <v-select data-test="academinYear" label="기출회차" :items="questionRounds" v-model="selectRound" />
                     </v-col>
                 </v-col>
                 <v-col style="text-align: center;">
