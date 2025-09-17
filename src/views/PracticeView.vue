@@ -1,6 +1,6 @@
 <template>
 <v-container fluid>
-    <v-row class="mx-0 my-4">
+    <!-- <v-row class="mx-0 my-4">
         <v-col class="pr-5" cols="12" xs="12" lg="6">
             <v-row>
                 <span class="mb-1" style="font-weight: bold">환율</span>
@@ -37,12 +37,12 @@
                     <v-checkbox hide-details label="Jongho, Lee" value="Jongho.lee@bandomk.com" color="primary" />
                 </v-col> 
 
-                <!-- <v-col cols="4" class="d-flex pa-0 flex-column align-center justify-center" style="position: relative;">
+                <v-col cols="4" class="d-flex pa-0 flex-column align-center justify-center" style="position: relative;">
                     <v-btn color="primary" class="mt-1" @click="e => quoteCompleteAlarm()"> 완료</v-btn>
                     <p style=" font-size: 13px; top: 70%; text-align: center; position: absolute;">
                         2025-09-03
                     </p>
-                </v-col> -->
+                </v-col> 
                 
                 <v-col cols="4" class="d-flex py-0" style="text-align: center; ">
                     <div class="d-flex py-0 flex-column align-center justify-center"
@@ -63,12 +63,12 @@
                     </div>
                 </v-col>
                 
-                <!-- <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
+                <v-col cols="4" class="d-flex py-0 flex-column align-center justify-center" style="position: relative;">
                     <v-btn color="primary" @click="e => emailAlarm()"> 재견적 </v-btn>
                         <p style="font-size: 13px; top: 70%; text-align: center; position: absolute;">
                         2025-09-03
                         </p>
-                </v-col>  -->
+                </v-col> 
             </v-row>
             <v-row class="outline mt-5">
                 <v-col cols="8">
@@ -82,10 +82,10 @@
                 </v-col>
             </v-row>
         </v-col> 
-    </v-row>
+    </v-row> -->
 
 
-    <div>
+    <!-- <div>
         <v-table class="quote-cell" fixed-header density="compact" height="300">
             <thead>
                 <tr data-test="title">
@@ -146,7 +146,62 @@
                 </tr>
             </tbody>
         </v-table>
-    </div>
+    </div> -->
+
+    <v-form >
+        <v-row>
+            <v-col class="d-flex align-center px-0" style="flex: 1;">
+                <h3 class="font-weight-bold">Total :</h3>
+                <span class="font-weight-bold">&nbsp; 건</span>
+            </v-col>
+
+            <v-col class="d-flex justify-end align-center px-0 mr-1" style="flex: 0;">
+                <v-btn color="green" text="전체저장" @click="save" />
+            </v-col>
+        </v-row>
+                
+        <v-row class="pa-2" style="border: 1px solid silver; border-radius: 9.8px;">
+            <v-col cols="12" class="pa-0">
+            <v-table  class="label-table" fixed-header density="compact" height="380">
+                <thead>
+                <tr>
+                    <th class="header pa-2 bordered-header" style="min-width: 50px;">
+                    <v-checkbox hide-details class="pa-0 d-flex justify-center" v-model="allSelected" @change="allSelectBox" />
+                    </th>
+                    <th class="header pa-2 bordered-header" style="min-width: 200px;">품번</th>
+                    <th class="header pa-2 bordered-header" style="min-width: 200px;">품명</th>
+                    <th class="header pa-2 bordered-header" style="min-width: 150px;">날짜</th>
+                    <th class="header pa-2 bordered-header" style="min-width: 100px;">수량</th>
+                    <th class="header pa-2 bordered-header" style="min-width: 350px;">비고</th>
+                    <th class="header pa-2 bordered-header" style="min-width: 60px;"></th>
+                    <th class="header pa-2 bordered-header" style="min-width: 60px;"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                </tbody>
+            </v-table>
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col cols="auto" class="py-2 px-1" style="text-align: start;">
+                <v-btn data-test="add" color='primary' @click="addLabel">추가</v-btn>
+            </v-col>
+            <v-col cols="auto" class="py-2 px-0" style="text-align: start;">
+                <v-btn data-test="copy" color="primary" @click="copyLabel">복사</v-btn>
+            </v-col>
+    
+            <v-col cols="auto" class="px-0 py-2 ml-auto" style="text-align: end;">
+            <v-btn data-test="reset" color="red" @click="resetAll">초기화</v-btn>
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col cols="12" class="px-0 py-2">
+            </v-col>
+        </v-row>
+        </v-form>
 </v-container>
 
     <!-- <div class="container">
@@ -166,27 +221,27 @@
         label="날짜 선택"
     ></v-date-input> -->
 
-    <div>
-    <v-row>
-        <v-col cols="1" class="pa-0 ml-5">
-            <v-checkbox hide-details v-model="allSelected" @change="allSelectBox"></v-checkbox>
-        </v-col>
-        
-        <v-col cols="9" class="px-0" style="align-content: center;">
-            <span>전체선택</span>
-        </v-col>
-        
-        <v-col v-for="(item, index) in result" :key="item.id" cols="12">
-            <v-checkbox
-            :value="item.id"
-            v-model="selected[index]"
-            :label="item.name"
-            @change="updateAllSelected(item, index)"
-            ></v-checkbox>
-        </v-col>
-        <v-btn @click="save">저장</v-btn>
-    </v-row>
-</div>
+    <!-- <div>
+        <v-row>
+            <v-col cols="1" class="pa-0 ml-5">
+                <v-checkbox hide-details v-model="allSelected" @change="allSelectBox"></v-checkbox>
+            </v-col>
+            
+            <v-col cols="9" class="px-0" style="align-content: center;">
+                <span>전체선택</span>
+            </v-col>
+            
+            <v-col v-for="(item, index) in result" :key="item.id" cols="12">
+                <v-checkbox
+                :value="item.id"
+                v-model="selected[index]"
+                :label="item.name"
+                @change="updateAllSelected(item, index)"
+                ></v-checkbox>
+            </v-col>
+            <v-btn @click="save">저장</v-btn>
+        </v-row>
+    </div> -->
     <!-- <v-row v-for="(value, index) in result" :key="index" cols="7" class="pa-0 ml-2">
         <v-col cols="1" class="pa-0">
             <v-checkbox v-model="selected[index]" hide-details value="John"></v-checkbox>
