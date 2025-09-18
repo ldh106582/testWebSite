@@ -11,14 +11,11 @@
             <h2>시험유형 조회</h2>
         </v-col>
         <v-col cols="12" class="px-3 py-0">
-            <v-autocomplete data-test="examId" label="시험유형" item-title="exam_name" item-value="exam_id"
-            v-model="examStore.exam_id" :items="examStore.list" 
-            :menu-props="{ maxHeight: '200' }" >
+            <v-autocomplete data-test="examId" label="시험유형" variant="outlined"
+            :items="examStore.list" item-title="exam_name" item-value="exam_id"
+            v-model="examStore.exam_id" :menu-props="{ maxHeight: '200' }" >
                 <template v-slot="{ props, item}">
-                    <v-list-item
-                    v-bind="props"
-                    :title="item.raw.type_name">
-                </v-list-item>
+                    <v-list-item v-bind="props" :title="item.raw.type_name" />
                 </template>
             </v-autocomplete>
         </v-col>
@@ -38,8 +35,8 @@
                 <v-select data-test="type" variant="outlined" label="시험타입" :items="questionTypes" v-model="selectType" :rules="rules" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
-                <v-autocomplete data-test="subject_id" variant="outlined" label="시험과목" item-title="subject" item-value="subject_id" :items="subjects"
-                v-model="selectSubjectId" />
+                <v-autocomplete data-test="subject_id" variant="outlined" label="시험과목"
+                :items="subjects" item-title="subject" item-value="subject_id" v-model="selectSubjectId" />
             </v-col>
             <v-col cols="2" class="py-0 pr-0">
                 <v-text-field data-test="point" variant="outlined" label="시험점수" type="number" v-model="questionPoint" :rules="rules" />
@@ -58,8 +55,8 @@
         <v-row>
             <v-col cols="9" class="pt-0" >
                 <h3>시험문제</h3>
-                <v-textarea data-test="question" variant="outlined" hide-details placeholder="예제) 다음 중 옳은 것을 선택하시오" v-model="question" 
-                :rules="rules" />
+                <v-textarea data-test="question" variant="outlined" hide-details placeholder="예제) 다음 중 옳은 것을 선택하시오"
+                v-model="question" :rules="rules" />
             </v-col>
             <v-col cols="3" class="pt-0">
                 <h3>정답</h3>

@@ -79,7 +79,7 @@
 
         <v-row class="px-3">
             <v-col cols="4">
-                <h3>시험 시간</h3>
+                <h3>시험 시간 (분)</h3>
             </v-col>
             <v-col cols="4">
                 <h3>시험 문제 수</h3>
