@@ -212,6 +212,7 @@ function selectedRoundAll() {
 }
 
 function showQuestion(rows, index) {
+    console.log(rows)
     router.push({
         path: '/problem-Process',
         query: {

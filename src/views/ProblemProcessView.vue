@@ -18,37 +18,25 @@
             </v-row>
 
             <v-row>
-                <v-col cols="2" class="px-0">
-                    <h3>유형 번호</h3>
-                </v-col>
-                <v-col cols="2" class="px-0 ml-3">
-                    <h3>유형 이름</h3>
-                </v-col>
-                <v-col cols="2" class="px-0 ml-3">
-                    <h3>시험 문제 수</h3>
-                </v-col>
-                <v-col cols="2" class="px-0 ml-3">
-                    <h3>작성자</h3>
-                </v-col>
-            </v-row>
-
-            <v-row id="exam">
-                <v-col cols="2" class="px-0 pt-0">
+                <v-col cols="6" lg="2" xs="6" class="px-0">
+                    <span class="titles">유형 번호</span>
                     <v-text-field hide-details variant="outlined" readonly 
                     :value="`${getUnix(questionStorage.create_date)}-${questionStorage.exam_id}`" />
                 </v-col>
-                <v-col cols="2" class="px-0 pt-0 ml-3">
+                <v-col cols="6" lg="2" xs="6" class="px-1">
+                    <span class="titles">유형 이름</span>
                     <v-text-field hide-details variant="outlined" readonly :value="questionStorage.exam_name" />
                 </v-col>
-                <v-col cols="2" class="px-0 pt-0 ml-3">
+                <v-col cols="4" lg="2" xs="4" class="px-0">
+                    <span class="titles">시험 문제 수</span>
                     <v-text-field hide-details variant="outlined" readonly :value="questionStorage.exam_total" />
                 </v-col>
-                <v-col cols="2" class="px-0 pt-0 ml-3">
+                <v-col cols="5" lg="2" xs="4" class="px-1">
+                    <span class="titles">작성자</span>
                     <v-text-field hide-details variant="outlined" readonly :value="questionStorage.user_id"/>
                 </v-col>
-
-                <v-col align="end">
-                    <v-btn data-test="deleteQuestion" color="red" @click="deleteQuestion">삭제</v-btn>
+                <v-col class="d-flex justify-end align-center mt-2" >
+                    <v-btn data-test="deleteQuestion" color="red" class="mt-2" @click="deleteQuestion">삭제</v-btn>
                 </v-col>
             </v-row>
 
@@ -59,46 +47,29 @@
             </v-row>
 
             <v-row>
-                <v-col cols="2" class="pl-0">
-                    <h3>번호</h3>
-                </v-col>
-                <v-col cols="2" class="pl-0">
-                    <h3>점수</h3>
-                </v-col>
-                <v-col cols="2" class="pl-0">
-                    <h3>년도</h3>
-                </v-col>
-                <v-col cols="2" class="pl-0">
-                    <h3>기출년도</h3>
-                </v-col>
-                <v-col cols="2" class="pl-0">
-                    <h3>레벨</h3>
-                </v-col>
-                <v-col cols="2" class="pl-0">
-                    <h3>시험과목</h3>
-                </v-col>
-            </v-row>
-
-            <v-row>
-                <v-col cols="2" class="pl-0 py-0">
+                <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
+                    <span class="titles">번호</span>
                     <v-text-field hide-details variant="outlined" readonly :value="`${questionStorage.create_date}-${questionStorage.question_id}`" />
                 </v-col>
-                <v-col cols="2" class="pl-0 pt-0">
+                <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
+                    <span class="titles">점수</span>
                     <v-text-field data-test="point" hide-details variant="outlined" type="number" v-model="questionStorage.question_point" />
                 </v-col>
-                <v-col cols="2" class="pl-0 pt-0">
+                <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
+                    <span class="titles">년도</span>
                     <v-select hide-details variant="outlined" :items="questionYears" v-model="questionStorage.question_year" />
                 </v-col>
-                <v-col cols="2" class="pl-0 pt-0">
-                    <v-select hide-details variant="outlined" :items="questionRounds" 
-                    v-model="questionStorage.question_round" />
+                <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
+                    <span class="titles">기출년도</span>
+                    <v-select hide-details variant="outlined" :items="questionRounds" v-model="questionStorage.question_round" />
                 </v-col>
-                <v-col cols="2" class="pl-0 pt-0">
+                <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
+                    <span class="titles">레벨</span>
                     <v-select hide-details variant="outlined" :items="questionLevels" v-model="questionStorage.question_level" />
                 </v-col>
-                <v-col cols="2" class="pl-0 pt-0">
-                    <v-autocomplete data-test="subject" variant="outlined" item-title="subject" item-value="subject_id" :items="subjects"
-                    v-model="questionStorage.subject" />
+                <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
+                    <span class="titles">시험과목</span>
+                    <v-autocomplete data-test="subject" variant="outlined" item-title="subject" item-value="subject_id" :items="subjects" v-model="questionStorage.subject" />
                 </v-col>
             </v-row>
 
@@ -109,28 +80,21 @@
             </v-row>
 
             <v-row>
-                <v-col cols="9" class="pl-0">
+                <v-col cols="12" lg="9" xs="12" class="pl-0">
                     <h3>문제</h3>
-                </v-col>
-                <v-col cols="3" class="pl-0">
-                    <h3>답</h3>
-                </v-col>
-            </v-row>
-
-            <v-row>
-                <v-col cols="9" class="pl-0 pt-0">
                     <v-textarea hide-details variant="outlined" v-model="questionStorage.question" />
                 </v-col>
-                <v-col cols="3" class="pl-0 pt-0">
+                <v-col cols="12" lg="3" xs="12" class="pl-0">
+                    <h3>답</h3>
                     <v-textarea hide-details variant="outlined"  v-model="questionStorage.answer" />
                 </v-col>
             </v-row>
 
             <v-row>
-                <v-col style="align-items: center;" class="pl-0 d-flex">
+                <v-col cols="12" class="pl-0 d-flex" style="align-items: center;">
                     <h3>시험문제 예문 & 코드</h3>
                     <FileUpload mode="basic" @select="onFileSelect" customUpload auto style="border: 1px solid black; border-radius: 9.8px;" 
-                    severity="secondary" class="p-button-outlined pa-2 ml-5" chooseLabel="change Upload" />
+                    severity="secondary" class="p-button-outlined pa-1 ml-5" chooseLabel="change Upload" />
                 </v-col>
             </v-row>
 
@@ -304,6 +268,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+.titles {
+    font-weight: bold;
+}
+
 .loading {
     text-align: center;
     align-content: center;
