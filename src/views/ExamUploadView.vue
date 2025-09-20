@@ -8,10 +8,10 @@
         <v-row>
             <v-col cols="12" class="mt-5 d-flex">
                 <h2>주제</h2>
-                <span style="align-content  : center;" class="ml-1">(띄워쓰기 사용금지)</span>
+                <span style="align-content  : center;" class="ml-1">(띄어쓰기 사용금지)</span>
             </v-col>
             <v-col cols="12" class="py-0">
-                <v-text-field data-test="search-input" variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터 2급, 등 새롭게 만들 시험 제목"
+                <v-text-field data-test="search-input" variant="outlined" placeholder="ex)정보처리기사, 리눅스마스터2급, 등 새롭게 만들 시험 제목"
                 v-model="examName" />
             </v-col>
             <v-col style="text-align: end;" class="py-0">

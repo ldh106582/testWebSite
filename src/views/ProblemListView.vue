@@ -7,127 +7,117 @@
         </v-row>
 
         <v-row>
-            <v-col cols="2">
-                <h3>Start Date</h3>
+            <v-col cols="6" lg="2" xs="6">
+                <span class="titles">Start Date</span>
             </v-col>
-            <v-col cols="2">
-                <h3>End Date</h3>
+            <v-col cols="6" lg="2" xs="6">
+                <span class="titles">End Date</span>
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="2" class="py-0 pl-2">
-                <v-text-field data-test="startDate" hide-details variant="outlined" type="date" :max="endDate" v-model="startDate"/>
+            <v-col cols="6" lg="2" xs="6" class="py-0 pl-2 titles">
+                <v-text-field data-test="startDate" variant="outlined" hide-details type="date"
+                :max="endDate" max="9999-12-31" v-model="startDate"/>
             </v-col>
-            <v-col cols="2" class="py-0 pl-2">
-                <v-text-field hide-details variant="outlined" type="date" :min="startDate" max="9999-12-31" v-model="endDate"/>
-            </v-col>
-        </v-row>
-
-        <v-row>
-            <v-col cols="2" class="pb-0">
-                <h3>시험 과목</h3>
-            </v-col>
-            <v-col cols="2" class="pb-0">
-                <h3>시험 타입</h3>
-            </v-col>
-            <v-col cols="2" class="pb-0">
-                <h3>시험 난이도</h3>
-            </v-col>
-            <v-col cols="2" class="pb-0">
-                <h3>기출 년도</h3>
-            </v-col>
-            <v-col cols="2" class="pb-0">
-                <h3>기출 회차</h3>
+            <v-col cols="6" lg="2" xs="6" class="py-0 pl-2 titles">
+                <v-text-field variant="outlined" hide-details type="date"
+                :min="startDate" max="9999-12-31" v-model="endDate"/>
             </v-col>
         </v-row>
 
         <v-row>
-            <v-col cols="2" class="pb-0">
-                <v-autocomplete data-test="examId" hide-details variant="outlined" :items="examStore.list" item-title="exam_name" item-value="exam_id" 
-                v-model="examStore.exam_id" />
+            <v-col cols="6" lg="2" xs="6" class="pb-0 titles">
+                <span class="titles" style="font-weight: bold;">시험 과목</span>
+                <v-autocomplete data-test="examId" variant="outlined" hide-details
+                :items="examStore.list" item-title="exam_name" item-value="exam_id" v-model="examStore.exam_id" />
             </v-col>
-            <v-col cols="2" class="pb-0">
-                <v-select data-test="type" hide-details variant="outlined" v-model="selectTypes" :items="questionTypes" multiple>
+            <v-col cols="6" lg="2" xs="6" class="pb-0 titles">
+                <span>시험 타입</span>
+                <v-select data-test="type" variant="outlined" hide-details v-model="selectTypes" :items="questionTypes" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedTypeAll">
                             <template v-slot:prepend>
-                                <v-checkbox-btn v-model="isTypeCheckAll"></v-checkbox-btn>
+                                <v-checkbox-btn v-model="isTypeCheckAll" />
                             </template>
                         </v-list-item>
-                        <v-divider class="mt-2"></v-divider>
+                        <v-divider class="mt-2" />
                     </template>
                     <template v-slot:selection="{ item, index }">
                         <v-chip v-if="index < 1">
                             <span>{{ isTypeCheckAll === true ? "All" : item.title }}</span>
                         </v-chip>
-                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                        (+{{ selectTypes.length - 1 }} others)
-                    </span>
+                        <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                            (+{{ selectTypes.length - 1 }} others)
+                        </span>
                     </template>
                 </v-select>
             </v-col>
-            <v-col cols="2" class="pb-0">
-                <v-select data-test="level" hide-details variant="outlined" v-model="selectLevels" :items="questionLevels" multiple>
+            <v-col cols="6" lg="2" xs="6" class="pb-0 titles">
+                <span>시험 난이도</span>
+                <v-select data-test="level" variant="outlined" hide-details :items="questionLevels" v-model="selectLevels" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedLevelAll">
                             <template v-slot:prepend>
-                                <v-checkbox-btn v-model="isLevelCheckAll"></v-checkbox-btn>
+                                <v-checkbox-btn v-model="isLevelCheckAll" />
                             </template>
                         </v-list-item>
-                        <v-divider class="mt-2"></v-divider>
+                        <v-divider class="mt-2" />
                     </template>
                     <template v-slot:selection="{ item, index }">
                         <v-chip v-if="index < 1">
                             <span>{{ isLevelCheckAll === true ? "All" : item.title }}</span>
                         </v-chip>
-                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                        (+{{ questionLevels.length - 1 }} others)
-                    </span>
+                        <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                            (+{{ questionLevels.length - 1 }} others)
+                        </span>
                     </template>
                 </v-select>
             </v-col>
-            <v-col cols="2">
-                <v-select data-test="year" hide-details variant="outlined" v-model="selectYears" :items="questionYears" multiple>
+            <v-col cols="6" lg="2" xs="6" class="pb-0 titles">
+                <span>기출 년도</span>
+                <v-select data-test="year" variant="outlined" hide-details :items="questionYears" v-model="selectYears" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedYearAll">
                             <template v-slot:prepend>
-                                <v-checkbox-btn v-model="isYearCheckAll"></v-checkbox-btn>
+                                <v-checkbox-btn v-model="isYearCheckAll" />
                             </template>
                         </v-list-item>
-                        <v-divider class="mt-2"></v-divider>
+                        <v-divider class="mt-2" />
                     </template>
                     <template v-slot:selection="{ item, index }">
                         <v-chip v-if="index < 1">
                             <span>{{ isYearCheckAll === true ? "All" : item.title }}</span>
                         </v-chip>
-                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                        (+{{ questionYears.length - 1 }} others)
-                    </span>
+                        <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                            (+{{ questionYears.length - 1 }} others)
+                        </span>
                     </template>
                 </v-select>
             </v-col>
-            <v-col cols="2">
-                <v-select data-test="academic" hide-details variant="outlined" v-model="selectRounds" :items="questionRounds" multiple>
+
+            <v-col cols="6" lg="2" xs="6" class="pb-0 titles">
+                <span>기출 회차</span>
+                <v-select data-test="academic" variant="outlined" hide-details :items="questionRounds" v-model="selectRounds" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedRoundAll">
                             <template v-slot:prepend>
-                                <v-checkbox-btn v-model="isRoundCheckAll"></v-checkbox-btn>
+                                <v-checkbox-btn v-model="isRoundCheckAll" />
                             </template>
                         </v-list-item>
-                        <v-divider class="mt-2"></v-divider>
+                        <v-divider class="mt-2" />
                     </template>
                     <template v-slot:selection="{ item, index }">
                         <v-chip v-if="index < 1">
                             <span>{{ isRoundCheckAll === true ? "All" : item.title }}</span>
                         </v-chip>
-                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                        (+{{ questionRounds.length - 1 }} others)
-                    </span>
+                        <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                            (+{{ questionRounds.length - 1 }} others)
+                        </span>
                     </template>
                 </v-select>
             </v-col>
-            <v-col class="search ml-3">
-                <v-btn data-test="search" color="primary" @click="search">검색</v-btn>
+            <v-col class="search ml-2 mt-5 py-0">
+                <v-btn data-test="search" color="primary" class="mt-3" @click="search">검색</v-btn>
             </v-col>
         </v-row>
 
@@ -139,12 +129,12 @@
                 <v-table>
                     <thead>
                         <tr class="question-header">
-                            <td class="question-content">Date</td>
-                            <td class="question-content">시험유형</td>
-                            <td class="question-content">난이도</td>
-                            <td class="question-content">출제년도</td>
-                            <td class="question-content">출제회차</td>
-                            <td class="question-question">시험문제</td>
+                            <td class="question-content" style="min-width: 120px;">Date</td>
+                            <td class="question-content" style="min-width: 100px;">시험유형</td>
+                            <td class="question-content" style="min-width: 80px;">난이도</td>
+                            <td class="question-content" style="min-width: 100px;">출제년도</td>
+                            <td class="question-content" style="min-width: 100px;">출제회차</td>
+                            <td class="question-question" style="min-width: 350px;">시험문제</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -165,7 +155,7 @@
                 <v-btn class="pagenation-btn" @click="prevent">이전</v-btn>
             </v-col>
             <v-col cols="2" class="pagenation"> 
-                <div> {{ page }} 페이지 </div>
+                <div> {{ page }} / {{ totalPage }} 페이지 </div>
             </v-col>
             <v-col cols="1" class="pagenation">
                 <v-btn class="pagenation-btn" @click="next">다음</v-btn>
@@ -201,6 +191,7 @@ const questions = ref([]);
 const page = ref(1);
 const countPage = ref(30);
 const startDate = ref();
+const totalPage = ref(0);
 const endDate = ref(moment().format('YYYY-MM-DD'));
 
 function selectedTypeAll() {
@@ -243,13 +234,16 @@ async function search() {
             page: ( page.value - 1),
             countPage: ( countPage.value - 1),
         }
-    }).then(async res => {
-        res.data.rows.forEach(q => {
+    }).then(res => {
+        const data = res.data;
+        totalPage.value = Math.ceil(data.total_page[0].total_page)
+
+        data.rows.forEach(q => {
             changeTable.forEach(t => {
                 q[t.key] = changeBactick(q[t.key]);
             });
         });
-        questions.value = await res.data.rows;
+        questions.value = data.rows;
     });
 }
 
@@ -261,8 +255,7 @@ function prevent() {
 
 function next() {
     const nextMsg = '마지막 페이지입니다.';
-    const lastNum = questions.value.length / 30;
-    lastNum <= 1 ? alert (nextMsg) : page.value++;
+    totalPage.value <= page.value ? alert (nextMsg) : page.value++;
     search();
 }
 
@@ -273,6 +266,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+.titles {
+    font-weight: bold;
+}
 
 .question-title {
     font-size: 35px;
