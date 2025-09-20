@@ -1,8 +1,8 @@
 <template>
-<v-container fluid fill-height>
+<v-container fluid class="ma-3">
     <v-row>
-        <v-col class="my-5  py-5 px-3">
-            <h1 style="border-bottom: 2px solid silver; width: 25%;">시험문제 출제 페이지</h1>
+        <v-col cols="12" xs="12" class="px-3">
+            <h1>시험문제 출제 페이지</h1>
         </v-col>
     </v-row>
 
@@ -31,34 +31,34 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="2" class="py-0 pr-0">
+            <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-select data-test="type" variant="outlined" label="시험타입" :items="questionTypes" v-model="selectType" :rules="rules" />
             </v-col>
-            <v-col cols="2" class="py-0 pr-0">
+            <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-autocomplete data-test="subject_id" variant="outlined" label="시험과목"
                 :items="subjects" item-title="subject" item-value="subject_id" v-model="selectSubjectId" />
             </v-col>
-            <v-col cols="2" class="py-0 pr-0">
+            <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-text-field data-test="point" variant="outlined" label="시험점수" type="number" v-model="questionPoint" :rules="rules" />
             </v-col>
-            <v-col cols="2" class="py-0 pr-0">
+            <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-select data-test="level" variant="outlined" label="시험난이도" :items="questionLevels" v-model="selectLevel" />
             </v-col>
-            <v-col cols="2" class="py-0 pr-0">
+            <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-select data-test="year" variant="outlined" label="기출년도" :items="questionYears" v-model="selectYear" />
             </v-col>
-            <v-col cols="2" class="py-0 pr-0">
+            <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-select data-test="academinYear" variant="outlined" label="기출회차" :items="questionRounds" v-model="selectRound" />
             </v-col>
         </v-row>
 
         <v-row>
-            <v-col cols="9" class="pt-0" >
+            <v-col cols="12" lg="9" xs="12" class="pt-0" >
                 <h3>시험문제</h3>
                 <v-textarea data-test="question" variant="outlined" hide-details placeholder="예제) 다음 중 옳은 것을 선택하시오"
                 v-model="question" :rules="rules" />
             </v-col>
-            <v-col cols="3" class="pt-0">
+            <v-col cols="12" lg="3" xs="12" class="pt-0">
                 <h3>정답</h3>
                 <v-textarea data-test="addResult" variant="outlined" hide-details
                 placeholder="복수 정답일 경우 2, 3 형식으로 입력해주세요." v-model="answer" :rules="rules"/>
@@ -66,7 +66,8 @@
         </v-row>
 
         <v-row>
-            <v-col cols="12" class="pt-0 d-flex">
+            <v-col cols="12" class="pt-0 d-flex" style="align-items: center;">
+                <h3>시험문제 예문 & 코드</h3>
                 <FileUpload mode="basic" @select="onFileSelect" customUpload auto 
                 style="border: 1px solid black; border-radius: 9.8px;" 
                 severity="secondary" class="p-button-outlined pa-2" chooseLabel="Image Upload" />

@@ -27,26 +27,17 @@
             </v-row>
             
             <v-row>
-                <v-col cols="4" class="py-0">
-                    <h3>시험시간</h3>
-                </v-col>
-                <v-col cols="4" class="py-0">
-                    <h3>시험 문제수</h3>
-                </v-col>
-                <v-col cols="4" class="py-0">
-                    <h3>합격 점수</h3>
-                </v-col>
-            </v-row>
-
-            <v-row>
-                <v-col cols="4">
+                <v-col cols="4" class="py-0 pr-0">
+                    <span class="titles">시간</span>
                     <v-text-field data-test="examTime" type="number" hide-details variant="outlined" placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
                     v-model="examTime" />
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="4" class="py-0 px-1">
+                    <span class="titles">문제 수</span>
                     <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="examTotal" />
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="4" class="py-0 pl-0">
+                    <span class="titles">합격 점수</span>
                     <v-text-field data-test="examTotal" type="number" hide-details variant="outlined" v-model="passScore" />
                 </v-col>
             </v-row>
@@ -59,29 +50,20 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="4" class="py-0 mt-3">
-                    <h3>시험과목</h3>
-                </v-col>
-                <v-col cols="4" class="py-0 mt-3">
-                    <h3>과목 출제 수</h3>
-                </v-col>
-                <v-col cols="4" class="py-0 mt-3">
-                    <h3>과목 별 합격 점수 (과락)</h3>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="4" class="pa-0">
+                <v-col cols="4" class="py-0 pr-0">
+                    <span class="titles">시험과목</span>
                     <v-list>
                         <v-list-item-group>
                             <v-list-item v-for="(subject, index) in subjects" :key="index">
-                                <v-text-field data-test="subjects" hide-details variant="outlined" 
+                                <v-text-field data-test="subjects" hide-details variant="outlined" class="pr-0"
                                 placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등 시험 진행 시 part 입력" 
                                 v-model="subjects[index]"/>  
                             </v-list-item>
                         </v-list-item-group>
                     </v-list>
                 </v-col>
-                <v-col cols="4" class="pa-0">
+                <v-col cols="4" class="py-0 px-1">
+                    <span class="titles">과목 출제 수</span>
                     <v-list>
                         <v-list-item-group>
                             <v-list-item v-for="(total, index) in subjectTotal" :key="index">
@@ -90,7 +72,8 @@
                         </v-list-item-group>
                     </v-list>
                 </v-col>
-                <v-col cols="4" class="pa-0">
+                <v-col cols="4" class="py-0 pl-0">
+                    <span class="titles">과목합격점수</span>
                     <v-list>
                         <v-list-item-group>
                             <v-list-item v-for="(score, index) in subjectScore" :key="index">
@@ -100,6 +83,7 @@
                     </v-list>
                 </v-col>
             </v-row>
+
             <v-row>
                 <v-col cols="12" align="end" class="py-0">
                     <v-btn data-test="addSubject" color="blue" @click="addSubject">추가</v-btn>
@@ -211,4 +195,11 @@ async function saveExam () {
 </script>
 
 <style scoped>
+.v-list-item {
+    padding: 0;
+}
+
+.titles {
+    font-weight: bold;
+}
 </style>
