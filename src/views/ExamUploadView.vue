@@ -143,10 +143,10 @@ function searchExam() {
         const data = res.data;
 
         if (data.result || data.rows.length === 0) {
-            alert (errorMsg);
+            alert(errorMsg);
             isSearch.value = false;
         } else {
-            alert (resultMsg);
+            alert(resultMsg);
             isSearch.value = true;
         }
     });

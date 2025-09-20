@@ -77,43 +77,30 @@
             </v-col>
         </v-row>
 
-        <v-row class="px-3">
-            <v-col cols="4">
-                <h3>시험 시간 (분)</h3>
+        <v-row>
+            <v-col cols="4" class="pr-0">
+                <span class="titles">시간 (분)</span>
+                <v-text-field data-test="examTime" type="number" variant="outlined" hide-details v-model="examStorages.exam_time" />
             </v-col>
-            <v-col cols="4">
-                <h3>시험 문제 수</h3>
+            <v-col cols="4" class="px-1">
+                <span class="titles">문제 수</span>
+                <v-text-field data-test="examTotal" type="number" variant="outlined" hide-details v-model="examStorages.exam_total" />
             </v-col>
-            <v-col cols="4">
-                <h3>시험 합격 점수</h3>
-            </v-col>
-        </v-row>
-
-        <v-row class="px-3">
-            <v-col class="px-1 py-0 d-flex">
-                <v-col cols="4" class="px-0 py-0">
-                    <v-text-field data-test="examTime" type="number" variant="outlined" hide-details v-model="examStorages.exam_time" />
-                </v-col>
-                <v-col cols="4" class="px-2 py-0">
-                    <v-text-field data-test="examTotal" type="number" variant="outlined" hide-details v-model="examStorages.exam_total" />
-                </v-col>
-                <v-col cols="4" class="px-2 py-0">
-                    <v-text-field data-test="examTotal" type="number" variant="outlined" hide-details v-model="examStorages.pass_score" />
-                </v-col>
+            <v-col cols="4" class="pl-0">
+                <span class="titles">합격 점수</span>
+                <v-text-field data-test="examTotal" type="number" variant="outlined" hide-details v-model="examStorages.pass_score" />
             </v-col>
         </v-row>
 
-        <v-row class="px-2">
-            <v-col>
-                <h3>시험 설명</h3>
-            </v-col>
-        </v-row>
-
-        <v-row class="px-2">
-            <v-col cols="12" class="px-1 py-0" >
+        <v-row class="px-0">
+            <v-col >
+                <span class="titles">시험 설명</span>
                 <v-textarea data-test="examDes" variant="outlined" hide-details label="시험설명" v-model="examStorages.exam_des" />
             </v-col>
-            <v-col class="px-1 pt-1 d-flex justify-end" >
+        </v-row>
+
+        <v-row class="px-2">
+            <v-col class="px-1 py-0 d-flex justify-end" >
                 <v-btn data-test="examSave" class="mr-3" color="primary" @click="examSave(examStorages.exam_id)">저장</v-btn>
                 <v-btn data-test="examDelete" color="red" @click="examDelete(examStorages.exam_id)">삭제</v-btn>
             </v-col>
@@ -147,7 +134,7 @@ function search () {
     const typeNameNull = '데이터를 먼저 입력해주세요.';
     subjectStorage.value = [];
 
-    if ( examStore.exam_id === undefined ) { return alert (typeNameNull) }
+    if (examStore.exam_id === undefined) { return alert(typeNameNull) }
 
     axios.get('/exam-join-subject', {
         params: {
@@ -182,8 +169,8 @@ function deleteSubject (index) {
     const succesMsg = '시험과목이 삭제되었습니다.';
     const errorMsg = '시험과목을 삭제하던 중 오류가 발생하였습니다. 다시 시도해주세요.';
     
-    if (!confirm (confirmMsg)) {
-        return alert (cancelMsg);
+    if (!confirm(confirmMsg)) {
+        return alert(cancelMsg);
     }
 
     axios.delete('/subject', {
@@ -198,7 +185,7 @@ function deleteSubject (index) {
             return alert (errorMsg);
         } else {
             subjectStorage.value.splice(index, 1);
-            return alert (succesMsg);
+            return alert(succesMsg);
         } 
     });
 }
@@ -209,7 +196,7 @@ function examDelete (id) {
     const errorMsg ='진행 중 오류를 발견하였습니다.';
     const succesMsg = '삭제되었습니다.';
 
-    if (!confirm (confirmMsg)) { return alert (cancelMsg) };
+    if (!confirm (confirmMsg)) { return alert(cancelMsg) };
     
     axios.delete('/exam', {
         params: {
@@ -217,7 +204,7 @@ function examDelete (id) {
         }
     }).then(res => {
         const data = res.data;
-        data.result === true ? alert (errorMsg) : alert (succesMsg);
+        data.result === true ? alert(errorMsg) : alert(succesMsg);
     });
 }
 
@@ -241,13 +228,17 @@ function examSave (id) {
         subject : subjectDatas
     }).then(res => {
         const data = res.data;
-        data.result === true ? alert (errorMsg) : alert (succesMsg);
+        data.result === true ? alert(errorMsg) : alert(succesMsg);
     });
 }
 
 </script>
 
 <style lang="css" scoped>
+.titles {
+    font-weight: bold;
+}
+
 .exam-search {
     font-weight: bold;
     font-size: 20px;
