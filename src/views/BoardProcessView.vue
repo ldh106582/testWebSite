@@ -2,7 +2,7 @@
     <v-container fluid>
         <div v-if="isCheckExist">
             <v-row>
-                <v-col>
+                <v-col cols="12">
                     <h1 style="font-size: 20px; font-weight: bold;">게시판 글쓰기</h1>
                 </v-col>
             </v-row>
@@ -10,8 +10,6 @@
             <v-row>
                 <v-col cols="12">
                     <h3>제목</h3>
-                </v-col>
-                <v-col cols="12">
                     <v-text-field variant="outlined" hide-details placeholder="글 제목을 작성해주세요." v-model="title" />
                 </v-col>
             </v-row>
@@ -19,8 +17,6 @@
             <v-row>
                 <v-col cols="12">
                     <h3>내용</h3>
-                </v-col>
-                <v-col cols="12" >
                     <v-textarea variant="outlined" hide-details placeholder="내용을 작성해주세요." v-model="contents" auto-grow/>
                 </v-col>
             </v-row>
@@ -34,7 +30,7 @@
 
         <div v-else>
             <v-row>
-                <v-col>
+                <v-col cols="12">
                     <h1 style="font-size: 20px; font-weight: bold;">작성한 글</h1>
                 </v-col>
             </v-row>
@@ -42,8 +38,6 @@
             <v-row>
                 <v-col cols="12">
                     <h3>제목</h3>
-                </v-col>
-                <v-col cols="12">
                     <v-text-field variant="outlined" hide-details v-model="list.board_title" />
                 </v-col>
             </v-row>
@@ -51,8 +45,6 @@
             <v-row>
                 <v-col cols="12">
                     <h3>내용</h3>
-                </v-col>
-                <v-col cols="12" >
                     <v-textarea variant="outlined" hide-details v-model="list.board_content" auto-grow/>
                 </v-col>
             </v-row>
@@ -84,6 +76,7 @@ import axios from '@/axios';
 import router from '@/router';
 import moment from 'moment';
 
+const pageTitle = ref('');
 const title = ref('');
 const contents = ref('');   
 const today = ref(moment().format('YYYY-MM-DD hh:mm:ss'));
@@ -145,13 +138,11 @@ function updateData() {
         list: list.value,
     }).then(res => {
         const data = res.data;
-
         data.result === true ? alert (sucessMSg) : alert (errorMsg);
     });
 }
 
 onMounted(async () => {
-    console.log(userId)
     const board_id = router.currentRoute.value.query.board_id ?? false;
 
     if (board_id) {

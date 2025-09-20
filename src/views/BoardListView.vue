@@ -7,42 +7,42 @@
         </v-row>
 
         <v-row>
-            <v-col cols="2">
+            <v-col cols="6" lg="2" xs="6" class="py-0 p">
                 <v-text-field variant="outlined" hide-details type="date" v-model="startDate" />
             </v-col>
-            <v-col cols="2">
+            <v-col cols="6" lg="2" xs="6" class="py-0">
                 <v-text-field variant="outlined" hide-details type="date" v-model="endDate" />
             </v-col>
         </v-row>
         
         <v-row>
-            <v-col cols="11">
+            <v-col cols="9" lg="11" xs="7" class="pr-0">
                 <v-text-field variant="outlined" hide-details v-model="searchData" />
             </v-col>
-            <v-col cols="1" align-self="center" style="text-align: end;">
+            <v-col cols="3" lg="1" xs="3" align-self="center" style="text-align: end;">
                 <v-btn text="검색" color="primary" @click="search" />
             </v-col>
         </v-row>
 
         <v-row>
             <v-col>
-                <v-table width="100%" height="300px" fixed-header>
+                <v-table height="300px" density="compact" fixed-header>
                     <thead>
                         <tr>
-                            <th class="title text-cneter" style="width: 10%;">
+                            <th class="title text-cneter" style="min-width: 30px;">
                                 No.
                             </th>
-                            <th class="title text-cneter" style="width: 15%;">
+                            <th class="title text-cneter" style="min-width: 120px;">
                                 등록일
                             </th>
-                            <th class="title text-cneter" style="width: 50%;">
+                            <th class="title text-cneter" style="min-width: 200px;">
                                 제목
                             </th>
-                            <th class="title text-cneter" style="width: 10%;">
-                                조회수
-                            </th>
-                            <th class="title text-cneter" style="width: 15%;">
+                            <th class="title text-cneter" style="min-width: 100px;">
                                 작성자
+                            </th>
+                            <th class="title text-cneter" style="min-width: 80px;">
+                                조회수
                             </th>
                         </tr>
                     </thead>
