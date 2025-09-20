@@ -151,13 +151,13 @@
             </v-col>
         </v-row>
         <v-row justify="center">
-            <v-col cols="1" class="pagenation">
+            <v-col cols="4" lg="1" xs="4" class="pagenation">
                 <v-btn class="pagenation-btn" @click="prevent">이전</v-btn>
             </v-col>
-            <v-col cols="2" class="pagenation"> 
+            <v-col cols="4" lg="1" xs="4" class="pagenation"> 
                 <div> {{ page }} / {{ totalPage }} 페이지 </div>
             </v-col>
-            <v-col cols="1" class="pagenation">
+            <v-col cols="4" lg="1" xs="4" class="pagenation">
                 <v-btn class="pagenation-btn" @click="next">다음</v-btn>
             </v-col>
         </v-row>
