@@ -136,7 +136,8 @@
 
             <v-row>
                 <v-col cols="12" class="pl-0 pt-0 d-flex" id="delete">
-                    <v-btn v-if="src || questionStorage.problem_image" class="pa-0" id="isDelete" size="10" @click="deleteImage">X</v-btn>
+                    <v-btn v-if="src || questionStorage.problem_image" text="X" 
+                    class="pa-0" id="isDelete" size="10" @click="deleteImage" />
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                     <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" 
                     class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
@@ -152,7 +153,7 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="12" class="pl-0 pt-0   ">
+                <v-col cols="12" class="pl-0 pt-0">
                     <v-textarea data-test="explanation" hide-details variant="outlined" v-model="questionStorage.problem_explanation" />
                 </v-col>
             </v-row>
@@ -164,7 +165,7 @@
             </v-row>
             <v-row>
                 <v-col cols="12" class="pl-0 pt-0">
-                    <v-textarea data-test="feedback" hide-details variant="outlined"  v-model="questionStorage.problem_feedback" />
+                    <v-textarea data-test="feedback" hide-details variant="outlined" v-model="questionStorage.problem_feedback" />
                 </v-col>
             </v-row>
 
