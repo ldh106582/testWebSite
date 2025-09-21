@@ -144,6 +144,7 @@ function updateData() {
 
 onMounted(async () => {
     const board_id = router.currentRoute.value.query.board_id ?? false;
+    console.log(board_id)
 
     if (board_id) {
         await getBoardData (board_id);
