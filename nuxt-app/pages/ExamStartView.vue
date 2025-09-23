@@ -1,36 +1,43 @@
 <template>
     <v-container fluid class="d-flex">
         <v-col cols="9">
-            <v-row v-for="(problem, index) in problems" :key="index">
-                <v-col cols="10">
-                    <span>{{ index + 1 }}번.   {{ problem.question }}</span>
-                </v-col>
-                <v-col cols="2" style="text-align: end; align-content: center;">
-                    <span>( {{ problem.question_point }} 점)</span>
-                </v-col>
-                
-                <v-col cols="12" class="d-flex pa-0" >
-                    <img v-if="problem.problem_image" :src="problem.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"
-                    style="width: 100%; max-height: 500px;" />
-                </v-col>
-
+            <v-row v-for="(problem, index) in problems" :key="index" class="mb-4">
                 <v-col cols="12">
-                    <v-textarea v-if="problem.problem" data-test="problem" variant="outlined" hide-details
-                    auto-grow v-model="problem.problem" readonly/>
+                    <v-row no-gutters class="align-center">
+                        <v-col cols="8" lg="9" xs="8">
+                            <span class="font-weight-bold">{{ index + 1 }}번. {{ problem.question }}</span>
+                        </v-col>
+                        <v-col cols="4" lg="3" xs="4" class="text-end">
+                            <span>( {{ problem.question_point }} 점)</span>
+                        </v-col>
+                    </v-row>
                 </v-col>
                 
-                <v-col cols="1" style="text-align: center; align-content: center;">
-                    <span>답 :  </span>
+                <v-col v-if="problem.problem_image" cols="12">
+                    <img :src="problem.problem_image" alt="Problem Image" class="shadow-md rounded-xl w-100"
+                        style="max-height: 500px; object-fit: contain;" />
                 </v-col>
 
-                <v-col cols="11">
-                    <v-text-field variant="outlined" hide-details v-model="answers[index]" />
+                <v-col v-if="problem.problem" cols="12">
+                    <v-textarea data-test="problem" variant="outlined" hide-details auto-grow 
+                        v-model="problem.problem" readonly />
+                </v-col>
+                
+                <v-col cols="12">
+                    <v-row no-gutters class="align-center">
+                        <v-col cols="auto" class="pr-3">
+                            <span>답 : </span>
+                        </v-col>
+                        <v-col>
+                            <v-text-field variant="outlined" hide-details v-model="answers[index]"  />
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
             
             <v-row>
                 <v-col style="text-align: end;">
-                    <v-btn color="indigo" @click="submit">제출</v-btn>
+                    <v-btn color="indigo" @click="submit" block>제출</v-btn>
                 </v-col>
             </v-row>
         </v-col>
