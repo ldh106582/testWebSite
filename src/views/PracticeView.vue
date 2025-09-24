@@ -148,7 +148,7 @@
         </v-table>
     </div> -->
 
-    <v-form >
+    <!-- <v-form >
         <v-row>
             <v-col class="d-flex align-center px-0" style="flex: 1;">
                 <h3 class="font-weight-bold">Total :</h3>
@@ -201,7 +201,11 @@
             <v-col cols="12" class="px-0 py-2">
             </v-col>
         </v-row>
-        </v-form>
+    </v-form> -->
+
+    <div class="test">
+        <p style="width: 10%;">test</p>
+    </div>
 </v-container>
 
     <!-- <div class="container">
@@ -384,5 +388,12 @@ test ();
     border: solid 1px rgb(118,118,118);
     border-radius: 5px;
     padding: 5px;
+}
+
+@media screen and (max-width: 800px) {
+    .test {
+        width: 100%;
+        display: none;
+    }
 }
 </style>
