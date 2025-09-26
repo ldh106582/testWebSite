@@ -102,8 +102,6 @@ async function search () {
     questionYear = router.currentRoute.value.query.question_year;
     questionRound = router.currentRoute.value.query.question_round;
 
-    console.log(examId, examTotal, subjectId, questionType, questionYear,questionRound )
-
     await axios.get('/start-exam', {
         params : {
             exam_id : examId,

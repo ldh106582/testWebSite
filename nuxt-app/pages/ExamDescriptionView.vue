@@ -1,39 +1,43 @@
 <template>
-    <v-container fluid>
-        <v-row >
-            <v-col style="text-align: center;">
-                <h1>{{ exam.exam_name }}</h1>
-                <h3>시간:  {{ exam.exam_time  }}</h3>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="6" lg="3" xs="6" class="py-0">
-                <v-autocomplete data-test="subject_id" label="시험과목"
-                item-title="subject" item-value="subject_id" :items="subjects"
-                v-model="subjects.subject_id" />
-            </v-col>
-            <v-col cols="6" lg="3" xs="6" class="py-0">
-                <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectType" />
-            </v-col>
-            <v-col cols="6" lg="3" xs="6" class="py-0">
-                <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectYear" />
-            </v-col>
-            <v-col ccols="6" lg="3" xs="6" class="py-0">
-                <v-select data-test="academinYear" label="기출회차" :items="questionRounds" v-model="selectRound" />
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col class="py-0" style="text-align: center;">
-                <v-textarea variant="outlined" :value="exam.exam_des" readonly></v-textarea>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12" class="py-0">
-                <v-btn style="width: 22%;" color="primary" @click="testStart" block>시험 시작하기</v-btn>
+    <v-container fluid class="d-flex align-center justify-center" style="height: 100vh;">
+        <v-row justify="center">
+            <v-col cols="12">
+                <v-row>
+                    <v-col style="text-align: center;">
+                        <h1>{{ exam.exam_name }}</h1>
+                        <h3>시간: {{ exam.exam_time }}</h3>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="6" lg="3" xs="6" class="py-0">
+                        <v-autocomplete data-test="subject_id" label="시험과목"
+                        :items="subjects" item-title="subject" item-value="subject_id" v-model="subjects.subject_id"/>
+                    </v-col>
+                    <v-col cols="6" lg="3" xs="6" class="py-0">
+                        <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectType" />
+                    </v-col>
+                    <v-col cols="6" lg="3" xs="6" class="py-0">
+                        <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectYear" />
+                    </v-col>
+                    <v-col cols="6" lg="3" xs="6" class="py-0">
+                        <v-select data-test="academinYear" label="기출회차" :items="questionRounds" v-model="selectRound" />
+                    </v-col>
+                </v-row>
+                <v-row>
+                <v-col class="py-0" style="text-align: center;">
+                    <v-textarea variant="outlined" :value="exam.exam_des" readonly />
+                </v-col>
+                </v-row>
+                <v-row justify="center">
+                <v-col cols="12" class="d-flex justify-center">
+                    <v-btn text="시험 시작하기" color="primary" @click="testStart" block />
+                </v-col>
+                </v-row>
             </v-col>
         </v-row>
     </v-container>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
