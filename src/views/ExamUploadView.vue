@@ -50,9 +50,9 @@
                     <h2>과목</h2>
                 </v-col>
             </v-row>
-            
+<!--             
             <v-row>
-                <v-col cols="4" class="py-0 px-0">
+                <v-col cols="4" xs="4" lg="4" class="py-0 px-0">
                     <span class="titles pl-2">시험과목</span>
                     <v-list class="pl-2">
                         <v-list-item-group>
@@ -64,7 +64,7 @@
                         </v-list-item-group>
                     </v-list>
                 </v-col>
-                <v-col cols="3" class="py-0 px-1">
+                <v-col cols="4" xs="2" lg="4" class="py-0 px-1">
                     <span class="titles">과목 출제 수</span>
                     <v-list>
                         <v-list-item-group>
@@ -74,8 +74,8 @@
                         </v-list-item-group>
                     </v-list>
                 </v-col>
-                <v-col cols="3" class="py-0 pl-0">
-                    <span class="titles">과목합격점수</span>
+                <v-col cols="3" xs="2" lg="3" class="py-0 pl-0 pr-1">
+                    <span class="titles" id="subject-point">과목합격점수</span>
                     <v-list>
                         <v-list-item-group>
                             <v-list-item v-for="(score, index) in subjectScore" :key="index">
@@ -84,19 +84,53 @@
                         </v-list-item-group>
                     </v-list>
                 </v-col>
-                <v-col cols="auto">
-                    <span class="titles">과목합격점수</span>
-                    <v-btn >
-
-                    </v-btn>
+                <v-col cols="2" xs="2" lg="2" class="py-0">
+                    <span class="titles" id="subject-delete">삭제</span>
+                    <v-btn text="삭제" color="red" class="mt-2" @click="deleteSubject" />
                 </v-col>
-            </v-row>
+            </v-row> -->
 
-            <v-row>
-                <v-col cols="12" align="end" class="py-0">
-                    <v-btn data-test="addSubject" text="추가" color="blue" @click="addSubject" />
+            <v-row class="mb-2">
+                <v-col cols="12" sm="4" md="4" class="py-0 px-0">
+                    <span class="titles pl-2">시험과목</span>
                 </v-col>
-            </v-row>
+                <v-col cols="12" sm="3" md="3" class="py-0 px-1">
+                    <span class="titles">과목 출제 수</span>
+                </v-col>
+                <v-col cols="12" sm="3" md="3" class="py-0 px-1">
+                    <span class="titles" id="subject-point">과목합격점수</span>
+                </v-col>
+                <v-col cols="12" sm="2" md="2" class="py-0">
+                    <span class="titles" id="subject-delete">관리</span>
+                </v-col>
+                </v-row>
+
+                <v-row v-for="(subject, index) in subjects" :key="index" class="mb-1 align-center">
+                    <v-col cols="12" sm="4" md="4" class="py-1 px-0">
+                        <v-text-field data-test="subjects" hide-details variant="outlined" class="pl-2"
+                            placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등"  v-model="subjects[index]" />  
+                    </v-col>
+                
+                    <v-col cols="12" sm="3" md="3" class="py-1 px-1">
+                        <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" 
+                        v-model="subjectTotal[index]" min="1" /> 
+                    </v-col>
+                
+                    <v-col cols="12" sm="3" md="3" class="py-1 px-1">
+                        <v-text-field data-test="subjectScore" type="number" hide-details variant="outlined" 
+                        v-model="subjectScore[index]" min="0" max="100" />
+                    </v-col>
+                
+                    <v-col cols="12" sm="2" md="2" class="py-1">
+                        <div class="d-flex">
+                            <v-btn class="mr-2" color="error" size="small" variant="outlined" :disabled="subjects.length <= 1"
+                                @click="deleteSubject(index)" icon="mdi-delete" />
+                            <v-btn v-if="index === subjects.length - 1" color="primary" size="small"
+                                variant="outlined" @click="addSubject" icon="mdi-plus" />
+                        </div>
+                    </v-col>
+                </v-row>
+            
 
             <v-spacer style="border: 1px solid silver;" class="my-5"/>
 
@@ -195,6 +229,12 @@ async function saveExam () {
     });
 };
 
+function deleteSubject(index) {
+    subjects.value.splice(index, 1);
+    subjectTotal.value.splice(index, 1);
+    subjectScore.value.splice(index, 1);
+}
+
 </script>
 
 <style scoped>
@@ -209,5 +249,15 @@ async function saveExam () {
 .v-list-item--density-default:not(.v-list-item--nav).v-list-item--one-line {
     padding-inline: 0px;
     padding-top: 5px;
+}
+
+@media (max-width: 787px) {
+    #subject-point {
+        font-size: 12.5px;
+    }
+
+    #subject-delete{
+        font-size: 14px;
+    }
 }
 </style>
