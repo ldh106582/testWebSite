@@ -28,8 +28,9 @@
             
             <v-row>
                 <v-col cols="4" class="py-0 pr-0">
-                    <span class="titles">시간</span>
-                    <v-text-field data-test="examTime" type="number" hide-details variant="outlined" placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
+                    <span class="titles">시간 (분)</span>
+                    <v-text-field data-test="examTime" type="number" hide-details variant="outlined"
+                    placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
                     v-model="examTime" />
                 </v-col>
                 <v-col cols="4" class="py-0 px-1">
@@ -49,20 +50,21 @@
                     <h2>과목</h2>
                 </v-col>
             </v-row>
+            
             <v-row>
-                <v-col cols="4" class="py-0 pr-0">
-                    <span class="titles">시험과목</span>
-                    <v-list>
+                <v-col cols="4" class="py-0 px-0">
+                    <span class="titles pl-2">시험과목</span>
+                    <v-list class="pl-2">
                         <v-list-item-group>
                             <v-list-item v-for="(subject, index) in subjects" :key="index">
-                                <v-text-field data-test="subjects" hide-details variant="outlined" class="pr-0"
+                                <v-text-field data-test="subjects" hide-details variant="outlined"
                                 placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등 시험 진행 시 part 입력" 
                                 v-model="subjects[index]"/>  
                             </v-list-item>
                         </v-list-item-group>
                     </v-list>
                 </v-col>
-                <v-col cols="4" class="py-0 px-1">
+                <v-col cols="3" class="py-0 px-1">
                     <span class="titles">과목 출제 수</span>
                     <v-list>
                         <v-list-item-group>
@@ -72,7 +74,7 @@
                         </v-list-item-group>
                     </v-list>
                 </v-col>
-                <v-col cols="4" class="py-0 pl-0">
+                <v-col cols="3" class="py-0 pl-0">
                     <span class="titles">과목합격점수</span>
                     <v-list>
                         <v-list-item-group>
@@ -82,11 +84,17 @@
                         </v-list-item-group>
                     </v-list>
                 </v-col>
+                <v-col cols="auto">
+                    <span class="titles">과목합격점수</span>
+                    <v-btn >
+
+                    </v-btn>
+                </v-col>
             </v-row>
 
             <v-row>
                 <v-col cols="12" align="end" class="py-0">
-                    <v-btn data-test="addSubject" color="blue" @click="addSubject">추가</v-btn>
+                    <v-btn data-test="addSubject" text="추가" color="blue" @click="addSubject" />
                 </v-col>
             </v-row>
 
@@ -126,6 +134,7 @@ function addSubject() {
     const subjectCopie = JSON.parse(JSON.stringify(newSubject.value));
     subjects.value.push(subjectCopie);
     subjectTotal.value.push(0);
+    subjectScore.value.push(0);
 }
 
 function searchExam() {
@@ -137,7 +146,7 @@ function searchExam() {
 
     axios.get('/exam', {
         params: {
-            exam_name : examName.value.replace(/ /g, '')
+            exam_name: examName.value.replace(/ /g, '')
         }
     }).then(res => {
         const data = res.data;
@@ -159,11 +168,8 @@ async function saveExam () {
     const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
     const nullMsg = '주제를 입력해주세요';
 
-    if (!confirm (confirmMsg)) {
-        return alert (cancelMsg);
-    } else if (examName.value === '') {
-        return alert (nullMsg);
-    }
+    if (!confirm(confirmMsg)) return alert(cancelMsg);
+    else if (examName.value === '') return alert(nullMsg);
 
     const examStorage = [
         { exam_name : examName.value.replace(/ /g, '') },
@@ -180,15 +186,12 @@ async function saveExam () {
     ];
 
     await axios.post('/exam', {
-        examStorage : examStorage,
-        subjectStorage : subjectStorage,
+        examStorage: examStorage,
+        subjectStorage: subjectStorage,
     }).then(res => {
         const data = res.data;        
-        if (data.result) {
-            alert (errorMsg);
-        } else {
-            alert (successMsg);
-        }
+        if (data.result) alert(errorMsg);
+        alert(successMsg);
     });
 };
 
@@ -201,5 +204,10 @@ async function saveExam () {
 
 .titles {
     font-weight: bold;
+}
+
+.v-list-item--density-default:not(.v-list-item--nav).v-list-item--one-line {
+    padding-inline: 0px;
+    padding-top: 5px;
 }
 </style>
