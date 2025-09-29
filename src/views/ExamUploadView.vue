@@ -50,45 +50,6 @@
                     <h2>과목</h2>
                 </v-col>
             </v-row>
-<!--             
-            <v-row>
-                <v-col cols="4" xs="4" lg="4" class="py-0 px-0">
-                    <span class="titles pl-2">시험과목</span>
-                    <v-list class="pl-2">
-                        <v-list-item-group>
-                            <v-list-item v-for="(subject, index) in subjects" :key="index">
-                                <v-text-field data-test="subjects" hide-details variant="outlined"
-                                placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등 시험 진행 시 part 입력" 
-                                v-model="subjects[index]"/>  
-                            </v-list-item>
-                        </v-list-item-group>
-                    </v-list>
-                </v-col>
-                <v-col cols="4" xs="2" lg="4" class="py-0 px-1">
-                    <span class="titles">과목 출제 수</span>
-                    <v-list>
-                        <v-list-item-group>
-                            <v-list-item v-for="(total, index) in subjectTotal" :key="index">
-                                <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" v-model="subjectTotal[index]"/>  
-                            </v-list-item>
-                        </v-list-item-group>
-                    </v-list>
-                </v-col>
-                <v-col cols="3" xs="2" lg="3" class="py-0 pl-0 pr-1">
-                    <span class="titles" id="subject-point">과목합격점수</span>
-                    <v-list>
-                        <v-list-item-group>
-                            <v-list-item v-for="(score, index) in subjectScore" :key="index">
-                                <v-text-field data-test="subjecScore" type="number" hide-details variant="outlined" v-model="subjectScore[index]"/>  
-                            </v-list-item>
-                        </v-list-item-group>
-                    </v-list>
-                </v-col>
-                <v-col cols="2" xs="2" lg="2" class="py-0">
-                    <span class="titles" id="subject-delete">삭제</span>
-                    <v-btn text="삭제" color="red" class="mt-2" @click="deleteSubject" />
-                </v-col>
-            </v-row> -->
 
             <v-row class="mb-2">
                 <v-col cols="12" sm="4" md="4" class="py-0 px-0">
@@ -103,34 +64,34 @@
                 <v-col cols="12" sm="2" md="2" class="py-0">
                     <span class="titles" id="subject-delete">관리</span>
                 </v-col>
-                </v-row>
+            </v-row>
 
-                <v-row v-for="(subject, index) in subjects" :key="index" class="mb-1 align-center">
-                    <v-col cols="12" sm="4" md="4" class="py-1 px-0">
-                        <v-text-field data-test="subjects" hide-details variant="outlined" class="pl-2"
-                            placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등"  v-model="subjects[index]" />  
-                    </v-col>
-                
-                    <v-col cols="12" sm="3" md="3" class="py-1 px-1">
-                        <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" 
-                        v-model="subjectTotal[index]" min="1" /> 
-                    </v-col>
-                
-                    <v-col cols="12" sm="3" md="3" class="py-1 px-1">
-                        <v-text-field data-test="subjectScore" type="number" hide-details variant="outlined" 
-                        v-model="subjectScore[index]" min="0" max="100" />
-                    </v-col>
-                
-                    <v-col cols="12" sm="2" md="2" class="py-1">
-                        <div class="d-flex">
-                            <v-btn class="mr-2" color="error" size="small" variant="outlined" :disabled="subjects.length <= 1"
-                                @click="deleteSubject(index)" icon="mdi-delete" />
-                            <v-btn v-if="index === subjects.length - 1" color="primary" size="small"
-                                variant="outlined" @click="addSubject" icon="mdi-plus" />
-                        </div>
-                    </v-col>
-                </v-row>
+            <v-row v-for="(subject, index) in subjects" :key="index" class="mb-1 align-center">
+                <v-col cols="12" sm="4" md="4" class="py-1 px-0">
+                    <v-text-field data-test="subjects" hide-details variant="outlined" class="pl-2"
+                        placeholder="ex)1과목, 2과목, 네트워크과목, 리눅스 과목 등"  v-model="subjects[index]" />  
+                </v-col>
             
+                <v-col cols="12" sm="3" md="3" class="py-1 px-1">
+                    <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" 
+                    v-model="subjectTotal[index]" min="1" /> 
+                </v-col>
+            
+                <v-col cols="12" sm="3" md="3" class="py-1 px-1">
+                    <v-text-field data-test="subjectScore" type="number" hide-details variant="outlined" 
+                    v-model="subjectScore[index]" min="0" max="100" />
+                </v-col>
+            
+                <v-col cols="12" sm="2" md="2" class="py-1">
+                    <div class="d-flex">
+                        <v-btn class="mr-2" color="error" size="small" variant="outlined" :disabled="subjects.length <= 1"
+                            @click="deleteSubject(index)" icon="mdi-delete" />
+                        <v-btn v-if="index === subjects.length - 1" color="primary" size="small"
+                            variant="outlined" @click="addSubject" icon="mdi-plus" />
+                    </div>
+                </v-col>
+            </v-row>
+        
 
             <v-spacer style="border: 1px solid silver;" class="my-5"/>
 
@@ -139,10 +100,11 @@
                     <h3>시험 진행 안내 사항</h3>
                 </v-col>
                 <v-col cols="12" class="pb-0" style="height: 100%;">
-                    <v-textarea data-test="examDes" variant="outlined" placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDes"></v-textarea>
+                    <v-textarea data-test="examDes" variant="outlined"
+                    placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDes" />
                 </v-col>
                 <v-col cols="12" class="py-0" style="text-align: end;">
-                    <v-btn data-test="saveExam" color="indigo" :disabled="isSearch" @click="saveExam">저장</v-btn>
+                    <v-btn data-test="saveExam" text="저장" color="indigo" @click="saveExam" :disabled="isSearch" />
                 </v-col>
             </v-row>
         </div>
