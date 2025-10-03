@@ -144,7 +144,7 @@ function search () {
         const data = res.data;
 
         if (data.result) {
-            alert (errorMsg);
+            alert(errorMsg);
         } else {
             examStorages.value = data.rows[0];
 
@@ -182,7 +182,7 @@ function deleteSubject (index) {
         const data = res.data;
 
         if (data.result) {
-            return alert (errorMsg);
+            return alert(errorMsg);
         } else {
             subjectStorage.value.splice(index, 1);
             return alert(succesMsg);

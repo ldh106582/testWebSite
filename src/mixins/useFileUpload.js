@@ -19,7 +19,7 @@ export default function useFileUpload () {
                 fd.append('image', file, fileName);
                 await callback({ fd: fd, result:result });
             } catch (error) {
-                alert (errorMsg);
+                alert(errorMsg);
                 console.log('err : ' , error);
             }
         };

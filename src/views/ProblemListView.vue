@@ -250,13 +250,13 @@ async function search() {
 
 function prevent() {
     const prvMsg = '첫 번째 페이지입니다.';
-    page.value <= 1 ? alert (prvMsg) : page.value--;
+    page.value <= 1 ? alert(prvMsg) : page.value--;
     search();
 }
 
 function next() {
     const nextMsg = '마지막 페이지입니다.';
-    totalPage.value <= page.value ? alert (nextMsg) : page.value++;
+    totalPage.value <= page.value ? alert(nextMsg) : page.value++;
     search();
 }
 

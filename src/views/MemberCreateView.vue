@@ -84,12 +84,12 @@ function errorMember (u) {
 
     if (hasKorean) {
         user.value.userId = '';
-        return alert (errorMsg);
+        return alert(errorMsg);
     }
     
     if (user.value[u].includes(" ")) {
         user.value[u] = user.value[u].replace(" ", "");
-        return alert (errorTrim);
+        return alert(errorTrim);
     }
 };
 
@@ -104,9 +104,9 @@ async function idCheck () {
     }).then((res) => {
         const data = res.data.rows;
         if (data.length > 0) {
-            return alert (existId);
+            return alert(existId);
         } else {
-            alert (useUserId);
+            alert(useUserId);
             checkId.value = true;
         }
     });
@@ -117,14 +117,12 @@ async function createMember() {
     const errorMember = '회원가입이 불가합니다. 잠시후 다시 시도해주시길 바랍니다.';
     const seccesMember = '회원가입이 완료 되었습니다.';
 
-    if (checkId.value === false) {
-        return alert (confirmId)
-    };
+    if (checkId.value === false) return alert(confirmId)
 
     if (user.value.userPw === "") {
-        return alert ('비밀번호를 반드시 입력해야 합니다.');
+        return alert('비밀번호를 반드시 입력해야 합니다.');
     } else if (user.value.userPw !== "" && user.value.userName === "") {
-        return alert ('이름을 반드시 입력해야 합니다.');
+        return alert('이름을 반드시 입력해야 합니다.');
     }
 
     await axios.post('/member-create', {
@@ -135,9 +133,9 @@ async function createMember() {
         const data = res.data.result;
         
         if (data) {
-            alert (errorMember);
+            alert(errorMember);
         } else {
-            alert (seccesMember);
+            alert(seccesMember);
             router.push('/member-page');
         }
     });

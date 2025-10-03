@@ -105,8 +105,8 @@ function upload () {
     const titleMsg = '제목은 반드시 입력해야 합니다.';
     const contentsMsg = '내용을 반드시 입력해야 합니다.';
 
-    if (title.value === '') return alert (titleMsg);
-    if (contents.value === '') return alert (contentsMsg);
+    if (title.value === '') return alert(titleMsg);
+    if (contents.value === '') return alert(contentsMsg);
 
     const list = {
         user_id : userId,
@@ -120,10 +120,10 @@ function upload () {
     }).then(res => {
         const data = res.data;
         if (data.result) {
-            alert (sucessMSg);
+            alert(sucessMSg);
             return router.push('/board-list');
         } else {
-            return alert (errorMsg);
+            return alert(errorMsg);
         }
     });
 }
@@ -138,7 +138,7 @@ function updateData() {
         list: list.value,
     }).then(res => {
         const data = res.data;
-        data.result === true ? alert (sucessMSg) : alert (errorMsg);
+        data.result === true ? alert(sucessMSg) : alert(errorMsg);
     });
 }
 

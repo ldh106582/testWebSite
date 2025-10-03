@@ -33,7 +33,7 @@ async function findPw () {
     const errorMsg = '존재하는 아이디가 없습니다.';
     const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
 
-    if (userId.value === '') return alert (checkId);
+    if (userId.value === '') return alert(checkId);
     
     temporaryPw.value = templatePw();
     
@@ -47,7 +47,7 @@ async function findPw () {
         const userInfo = res.data;
 
         if (data) {
-            return alert (errorMsg);
+            return alert(errorMsg);
         } else {
             auth.login (userInfo);
             router.push({ 
@@ -57,7 +57,7 @@ async function findPw () {
                     userPw : userInfo.user_pw,
                 } 
             });
-            return alert (confirmMsg);
+            return alert(confirmMsg);
         }
     });
 }

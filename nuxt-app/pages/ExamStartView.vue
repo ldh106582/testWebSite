@@ -115,7 +115,7 @@ async function search () {
         const data = res.data;
 
         if (data.rows.length === 0 || data.rows === true) {
-            return alert (errorMsg);
+            return alert(errorMsg);
         } else {
             data.rows.forEach(q => {
                 q.question = changeBactick(q.question);

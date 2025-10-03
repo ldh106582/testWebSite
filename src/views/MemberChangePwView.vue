@@ -49,9 +49,9 @@ function changePw() {
     const differencePw = '두 개의 비밀번호가 다릅니다. 다시 시도해주세요.';
 
     if (newPw.value === '') {
-        return alert (checkPw);
+        return alert(checkPw);
     } else if (newPw.value !== userPw) {
-        return alert (differencePw);
+        return alert(differencePw);
     }
 
     axios.put('/member-changepw', {
@@ -61,9 +61,9 @@ function changePw() {
         const data = res.data;
 
         if (data.result) {
-            return alert (errorMsg);
+            return alert(errorMsg);
         } else {
-            alert (successMsg);
+            alert(successMsg);
             return router.push('/');
         }
     });

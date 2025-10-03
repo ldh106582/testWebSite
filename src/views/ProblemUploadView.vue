@@ -252,7 +252,7 @@ async function save() {
         today : getFullDate(today),
     }).then(res => {
         const data = res.data;
-        data.result === true ? alert (errorMsg) : alert (sucessMsg);
+        data.result === true ? alert(errorMsg) : alert(sucessMsg);
     });
 }
 

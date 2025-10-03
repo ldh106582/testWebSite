@@ -207,7 +207,7 @@ function deleteQuestion() {
     }).then(res => {
         const data = res.data;
         if (data.result !== true) {
-            alert (sucessMsg);
+            alert(sucessMsg);
             router.push({ path: '/question-list' });
         } 
     });
@@ -236,7 +236,7 @@ async function save() {
         image : imagePath ?? questionStorage.value.problem_image
     }).then(res => {
         const data = res.data;
-        data.result !== true ? alert (sucessMsg) : alert (errorMsg);
+        data.result !== true ? alert(sucessMsg) : alert(errorMsg);
         search();
     });
 }

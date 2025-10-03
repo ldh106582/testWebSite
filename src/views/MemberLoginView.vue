@@ -37,21 +37,19 @@ function login () {
     const checkLogin = '아이디 비밀번호 모두 입력해야 합니다.';
     const errorLogin = '일치하는 아이디와 비밀번호가 없습니다.';
 
-    if (user.value.userId === '' || user.value.userPw == '') {
-        return alert (checkLogin);
-    }
+    if (user.value.userId === '' || user.value.userPw == '') return alert(checkLogin);
 
     axios.post('/login', {
-        userId : user.value.userId,
-        userPw : user.value.userPw
+        userId: user.value.userId,
+        userPw: user.value.userPw
     }).then((res) => {
         const data = res.data.result;
         const userInfo = res.data;
 
         if (data) {
-            return alert (errorLogin);
+            return alert(errorLogin);
         } else {
-            auth.login (userInfo);
+            auth.login(userInfo);
             return router.push('/');
         }
     });
