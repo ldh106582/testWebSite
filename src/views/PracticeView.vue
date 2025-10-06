@@ -287,7 +287,7 @@
     <span class="dot"></span> 
 </div> -->
 
-<div class="menu" @click="slide_menu">
+<!-- <div class="menu" @click="slide_menu">
     <span>Menu</span>
     <ul class="sub" ref="subBar">
         <li>
@@ -303,8 +303,31 @@
             <a href="#None">Dhd q</a>
         </li>
     </ul>
-</div>  
+</div> -->
 
+<div class="dropdown-wrapper">
+    <button @click="toggleDropdownCor" class="dropdown-trigger">
+        <span>Select an corporation</span>
+        <span class="ml-5">{{ selectedCor }}</span>
+    </button>
+    <ul v-if="isOpenCor" class="dropdown-menu">
+        <li v-for="item in corporation" :key="item" @click="selectCorporation(item)">
+        {{ item }}
+        </li>
+    </ul>
+</div>
+
+<div class="dropdown-wrapper">
+    <button @click="toggleDropdownItems" class="dropdown-trigger">
+        <span>Select an Items</span>
+        <span class="ml-5">{{ selectedItems }}</span>
+    </button>
+    <ul v-if="isOpenItems" class="dropdown-menu">
+        <li v-for="item in items" :key="item" @click="selectItems(item)">
+            {{ item }}
+        </li>
+    </ul>
+</div>
 
 
 </template>
@@ -313,27 +336,51 @@
 import { ref, onMounted, shallowRef } from 'vue';
 import axios from '@/axios';
 
-const subBar = ref(null);
-let subToggle = false;
 
-async function slide_menu() {
-    if (!subToggle) {
-        // 열기
-        for (let i = 0; i <= 120; i++) {
-            subBar.value.style.height = `${i}px`;
-        }
-    } else {
-        // 닫기
-        for (let i = 120; i >= 0; i--) {
-            subBar.value.style.height = `${i}px`;
-        }
-    }
-    subToggle = !subToggle;
+const isOpenCor = ref(false);
+const selectedCor = ref(null);
+const corporation = ['Apple', 'Samsung'];
+
+const toggleDropdownCor = () => {
+    isOpenCor.value = !isOpenCor.value;
+};
+
+const selectCorporation = (item) => {
+    selectedCor.value = item;
+    isOpenCor.value = false;
+};
+
+const isOpenItems = ref(false);
+const selectedItems = ref(null);
+const items = ['Tablet', 'Phone'];
+
+const toggleDropdownItems = () => {
+    isOpenItems.value = !isOpenItems.value;
 }
 
-onMounted(() => {
+const selectItems = (item) => {
+    selectedItems.value = item;
+    isOpenItems.value = false;
+};
 
-})
+// const subBar = ref(null);
+// let subToggle = false;
+
+// async function slide_menu() {
+//     const totalHeigth = subBar.value.style.height
+//     console.log(subBar.value.style.height)
+//     console.log(totalHeigth)
+//     if (!subToggle) {
+//         for (let i = 0; i <= 160; i++) {
+//             subBar.value.style.height = `${i}px`;
+//         }
+//     } else {
+//         for (let i = 160; i >= 0; i--) {
+//             subBar.value.style.height = `${i}px`;
+//         }
+//     }
+//     subToggle = !subToggle;
+// }
 
 // const persentage = ref(0);
 // const totalDuration = 10;
@@ -576,4 +623,29 @@ onMounted(() => {
 
 .mySlides {display: none;}
 img {vertical-align: middle;} */
+
+
+.dropdown-wrapper {
+    width: 100%;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu li {
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+    background-color: #ddd;
+}
 </style>
