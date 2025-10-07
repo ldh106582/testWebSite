@@ -310,9 +310,9 @@
         <span>Select an corporation</span>
         <span class="ml-5">{{ selectedCor }}</span>
     </button>
-    <ul v-if="isOpenCor" class="dropdown-menu">
-        <li v-for="item in corporation" :key="item" @click="selectCorporation(item)">
-        {{ item }}
+    <ul v-if="isOpenCor" class="dropdown-menu" style="display: flex;">
+        <li v-for="(item, index) in corporation" :key="item" @click="selectCorporation(item)">
+            <v-checkbox hide-details :label="item" :value="item" v-model="selectedCor"/>
         </li>
     </ul>
 </div>
@@ -322,9 +322,9 @@
         <span>Select an Items</span>
         <span class="ml-5">{{ selectedItems }}</span>
     </button>
-    <ul v-if="isOpenItems" class="dropdown-menu">
-        <li v-for="item in items" :key="item" @click="selectItems(item)">
-            {{ item }}
+    <ul v-if="isOpenItems" class="dropdown-menu" style="display: flex;">
+        <li v-for="(item, index) in items" :key="item" @click="selectItems(item)">
+            <v-checkbox hide-details :label="item"  v-model="selectedItems" />
         </li>
     </ul>
 </div>
@@ -347,7 +347,7 @@ const toggleDropdownCor = () => {
 
 const selectCorporation = (item) => {
     selectedCor.value = item;
-    isOpenCor.value = false;
+    // isOpenCor.value = false;
 };
 
 const isOpenItems = ref(false);
@@ -360,7 +360,7 @@ const toggleDropdownItems = () => {
 
 const selectItems = (item) => {
     selectedItems.value = item;
-    isOpenItems.value = false;
+    // isOpenItems.value = false;
 };
 
 // const subBar = ref(null);
@@ -497,34 +497,6 @@ const selectItems = (item) => {
 
 <style scope>
 
-*{
-    padding:0;
-    margin:0;
-}
-
-.menu{
-    width:300px;
-    height:40px;
-    text-align:center;
-    line-height: 40px;
-    background-color:brown;
-}
-
-.menu>.sub{
-    height:0;
-    list-style:none;
-    overflow:hidden;
-}
-
-.menu>.sub li{
-    background-color:orange;
-    border-top:1px white solid;
-}
-
-.menu>.sub li>a{
-    text-decoration:none;
-    color:black;
-}
 /*
 
 .loading-bar {
