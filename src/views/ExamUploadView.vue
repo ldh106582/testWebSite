@@ -78,8 +78,8 @@
                 </v-col>
             
                 <v-col cols="12" sm="3" md="3" class="py-1 px-1">
-                    <v-text-field data-test="subjectScore" type="number" hide-details variant="outlined" 
-                    v-model="subjectScore[index]" min="0" max="100" />
+                    <v-text-field data-test="min_score" type="number" hide-details variant="outlined" 
+                    v-model="min_score[index]" min="0" max="100" />
                 </v-col>
             
                 <v-col cols="12" sm="2" md="2" class="py-1">
@@ -104,7 +104,7 @@
                     placeholder="시험 진행 시 안내 및 주의사항 문구를 입력" v-model="examDes" />
                 </v-col>
                 <v-col cols="12" class="py-0" style="text-align: end;">
-                    <v-btn data-test="saveExam" text="저장" color="indigo" @click="saveExam" :disabled="isSearch" />
+                    <v-btn data-test="save" text="저장" color="indigo" @click="save" :disabled="isSearch" />
                 </v-col>
             </v-row>
         </div>
@@ -123,14 +123,14 @@ const isSearch = ref(true);
 const subjects = ref(['']);
 const newSubject = ref('');
 const subjectTotal = ref([0]);
-const subjectScore = ref([0]);
+const min_score = ref([0]);
 const passScore = ref(0);
 
 function addSubject() {
     const subjectCopie = JSON.parse(JSON.stringify(newSubject.value));
     subjects.value.push(subjectCopie);
     subjectTotal.value.push(0);
-    subjectScore.value.push(0);
+    min_score.value.push(0);
 }
 
 function searchExam() {
@@ -157,44 +157,70 @@ function searchExam() {
     });
 };
 
-async function saveExam () {
+async function save() {
     const confirmMsg = '데이터를 저장하시겠습니까?';
     const cancelMsg = '취소되었습니다.';
     const errorMsg = '시험유형을 생성하는데 실패하였습니다.';
     const successMsg = '시험 유형을 생성하는데 성공하였습니다.';
     const nullMsg = '주제를 입력해주세요';
+    let subjectStorage = [];
 
     if (!confirm(confirmMsg)) return alert(cancelMsg);
     else if (examName.value === '') return alert(nullMsg);
 
     const examStorage = [
-        { exam_name : examName.value.replace(/ /g, '') },
-        { exam_des : examDes.value },
-        { exam_time : examTime.value },
-        { exam_total : examTotal.value },
-        { pass_score : passScore.value }
+        { exam_name: examName.value.replace(/ /g, '') },
+        { exam_des: examDes.value },
+        { exam_time: examTime.value },
+        { exam_total: examTotal.value },
+        { pass_score: passScore.value }
     ];
 
-    const subjectStorage = [
-        { subject : subjects.value },
-        { subject_total : subjectTotal.value },
-        { subject_score : subjectScore.value },
-    ];
+    // subjectStorage = [
+    //     { subject: subjects.value },
+    //     { subject_total: subjectTotal.value },
+    //     { min_score: min_score.value },
+    // ];
 
-    await axios.post('/exam', {
-        examStorage: examStorage,
-        subjectStorage: subjectStorage,
-    }).then(res => {
-        const data = res.data;        
-        if (data.result) alert(errorMsg);
-        alert(successMsg);
-    });
+    for (let i = 0; i < subjects.value.length; i++) {
+        subjectStorage.push(
+            { subject: subjects.value[i] },
+            { subject_total: subjectTotal.value[i] },
+            { min_score: min_score.value[i] },
+        )
+    }
+
+    console.log(subjectStorage)
+
+    // const where_1 = [];
+    // const where_2 = [];
+    // let query_1 = '';
+    // subjectStorage.forEach(subject => {
+    //     Object.keys(subject).forEach(key => {
+    //         where_1.push(key);
+    //     });
+    //     Object.values(subject).forEach(value => {
+    //         where_2.push(`'${value}'`);
+    //     });
+    //     query_1 += `INSERT INTO subjects (${where_1.join(',')}) VALUES (${where_2.join(',')})`;
+    // });
+
+    // console.log(query_1)
+
+    // await axios.post('/exam', {
+    //     examStorage: examStorage,
+    //     subjectStorage: subjectStorage,
+    // }).then(res => {
+    //     const data = res.data;        
+    //     if (data.result) return alert(errorMsg);
+    //     alert(successMsg);
+    // });
 };
 
 function deleteSubject(index) {
     subjects.value.splice(index, 1);
     subjectTotal.value.splice(index, 1);
-    subjectScore.value.splice(index, 1);
+    min_score.value.splice(index, 1);
 }
 
 </script>

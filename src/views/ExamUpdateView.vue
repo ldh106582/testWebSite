@@ -144,7 +144,7 @@ function search () {
         const data = res.data;
 
         if (data.result) {
-            alert(errorMsg);
+            return alert(errorMsg);
         } else {
             examStorages.value = data.rows[0];
 
@@ -169,9 +169,7 @@ function deleteSubject (index) {
     const succesMsg = '시험과목이 삭제되었습니다.';
     const errorMsg = '시험과목을 삭제하던 중 오류가 발생하였습니다. 다시 시도해주세요.';
     
-    if (!confirm(confirmMsg)) {
-        return alert(cancelMsg);
-    }
+    if (!confirm(confirmMsg)) return alert(cancelMsg);
 
     axios.delete('/subject', {
         params: {
@@ -196,7 +194,7 @@ function examDelete (id) {
     const errorMsg ='진행 중 오류를 발견하였습니다.';
     const succesMsg = '삭제되었습니다.';
 
-    if (!confirm (confirmMsg)) { return alert(cancelMsg) };
+    if (!confirm (confirmMsg)) return alert(cancelMsg);
     
     axios.delete('/exam', {
         params: {
