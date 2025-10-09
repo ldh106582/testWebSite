@@ -183,38 +183,20 @@ async function save() {
     // ];
 
     for (let i = 0; i < subjects.value.length; i++) {
-        subjectStorage.push(
-            { subject: subjects.value[i] },
-            { subject_total: subjectTotal.value[i] },
-            { min_score: min_score.value[i] },
-        )
+        subjectStorage.push({ subject: subjects.value[i],
+            subject_total: subjectTotal.value[i],
+            min_score: min_score.value[i]
+        })
     }
 
-    console.log(subjectStorage)
-
-    // const where_1 = [];
-    // const where_2 = [];
-    // let query_1 = '';
-    // subjectStorage.forEach(subject => {
-    //     Object.keys(subject).forEach(key => {
-    //         where_1.push(key);
-    //     });
-    //     Object.values(subject).forEach(value => {
-    //         where_2.push(`'${value}'`);
-    //     });
-    //     query_1 += `INSERT INTO subjects (${where_1.join(',')}) VALUES (${where_2.join(',')})`;
-    // });
-
-    // console.log(query_1)
-
-    // await axios.post('/exam', {
-    //     examStorage: examStorage,
-    //     subjectStorage: subjectStorage,
-    // }).then(res => {
-    //     const data = res.data;        
-    //     if (data.result) return alert(errorMsg);
-    //     alert(successMsg);
-    // });
+    await axios.post('/exam', {
+        examStorage: examStorage,
+        subjectStorage: subjectStorage,
+    }).then(res => {
+        const data = res.data;        
+        if (data.result) return alert(errorMsg);
+        alert(successMsg);
+    });
 };
 
 function deleteSubject(index) {

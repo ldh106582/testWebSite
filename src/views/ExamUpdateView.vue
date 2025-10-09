@@ -95,7 +95,7 @@
         <v-row class="px-0">
             <v-col >
                 <span class="titles">시험 설명</span>
-                <v-textarea data-test="examDes" variant="outlined" hide-details label="시험설명" v-model="examStorages.exam_des" />
+                <v-textarea data-test="examDes" variant="outlined" hide-details v-model="examStorages.exam_des" />
             </v-col>
         </v-row>
 
