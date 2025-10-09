@@ -333,9 +333,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, shallowRef } from 'vue';
+import { ref, shallowRef } from 'vue';
 import axios from '@/axios';
-
 
 const isOpenCor = ref(false);
 const selectedCor = ref(null);

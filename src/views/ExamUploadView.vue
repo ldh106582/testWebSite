@@ -176,12 +176,6 @@ async function save() {
         { pass_score: passScore.value }
     ];
 
-    // subjectStorage = [
-    //     { subject: subjects.value },
-    //     { subject_total: subjectTotal.value },
-    //     { min_score: min_score.value },
-    // ];
-
     for (let i = 0; i < subjects.value.length; i++) {
         subjectStorage.push({ subject: subjects.value[i],
             subject_total: subjectTotal.value[i],
