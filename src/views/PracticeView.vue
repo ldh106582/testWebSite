@@ -305,19 +305,19 @@
     </ul>
 </div> -->
 
-<div class="dropdown-wrapper">
+<!-- <div class="dropdown-wrapper">
     <button @click="toggleDropdownCor" class="dropdown-trigger">
         <span>Select an corporation</span>
         <span class="ml-5">{{ selectedCor }}</span>
     </button>
     <ul v-if="isOpenCor" class="dropdown-menu" style="display: flex;">
-        <li v-for="(item, index) in corporation" :key="item" @click="selectCorporation(item)">
+        <li v-for="(item, index) in testItems" :key="item" @click="selectCorporation(item)">
             <v-checkbox hide-details :label="item" :value="item" v-model="selectedCor"/>
         </li>
     </ul>
-</div>
+</div> -->
 
-<div class="dropdown-wrapper">
+<!-- <div class="dropdown-wrapper">
     <button @click="toggleDropdownItems" class="dropdown-trigger">
         <span>Select an Items</span>
         <span class="ml-5">{{ selectedItems }}</span>
@@ -327,8 +327,49 @@
             <v-checkbox hide-details :label="item"  v-model="selectedItems" />
         </li>
     </ul>
-</div>
+</div> -->
 
+
+    <div class="dropdown-wrapper">
+        <button @click="toggleDropdownCor" class="dropdown-trigger">
+            <span>Select a corporation</span>
+            <span class="ml-5">{{ selectedCor?.company || 'None' }}</span>
+        </button>
+        <ul v-if="isOpenCor" class="dropdown-menu">
+            <li v-for="item in testItems" :key="item.company" @click="selectCorporation(item)">
+                <v-checkbox 
+                    hide-details 
+                    :label="item.company" 
+                    :model-value="selectedCor?.company === item.company"
+                    @click.stop
+                />
+            </li>
+        </ul>
+    </div>
+
+    <div class="dropdown-wrapper" v-if="selectedCor">
+        <button @click="toggleDropdownItems" class="dropdown-trigger">
+            <span>Select items</span>
+            <span class="ml-5">{{ selectedItems.length }} selected</span>
+        </button>
+        <ul v-if="isOpenItems" class="dropdown-menu">
+            <li v-for="item in getSelectedCompanyItems()" :key="item">
+                <v-checkbox 
+                    hide-details 
+                    :label="item" 
+                    :value="item" 
+                    v-model="selectedItems"
+                />
+            </li>
+        </ul>
+    </div>
+
+    <!-- <div v-if="selectedItems.length > 0" class="selected-items">
+        <h3>Selected Items:</h3>
+        <ul>
+            <li v-for="item in selectedItems" :key="item">{{ item }}</li>
+        </ul>
+    </div> -->
 
 </template>
 
@@ -337,30 +378,57 @@ import { ref, shallowRef } from 'vue';
 import axios from '@/axios';
 
 const isOpenCor = ref(false);
-const selectedCor = ref(null);
-const corporation = ['Apple', 'Samsung'];
-
-const toggleDropdownCor = () => {
-    isOpenCor.value = !isOpenCor.value;
-};
-
-const selectCorporation = (item) => {
-    selectedCor.value = item;
-    // isOpenCor.value = false;
-};
-
 const isOpenItems = ref(false);
+const selectedCor = ref(null);
 const selectedItems = ref(null);
-const items = ['Tablet', 'Phone'];
+const testItems = [
+    {
+        company: 'Apple',
+        items: ['Apple Tablet', 'Apple Phone', 'Apple Watch', 'Apple EarPhone']
+    },
+    {
+        company: 'Samsung',
+        items: ['Samsung Tablet', 'Samsung Phone', 'Samsung Watch', 'Samsung EarPhone']
+    }
+];
 
-const toggleDropdownItems = () => {
-    isOpenItems.value = !isOpenItems.value;
+function toggleDropdownCor() {
+    isOpenCor.value = !isOpenCor.value;
 }
 
-const selectItems = (item) => {
-    selectedItems.value = item;
-    // isOpenItems.value = false;
-};
+function selectCorporation(item) {
+    selectedCor.value = item;
+    selectedItems.value = [];
+    isOpenCor.value = false;
+    isOpenItems.value = true; 
+}
+
+function getSelectedCompanyItems() {
+    if (!selectedCor.value) return [];
+    const company = testItems.find(item => item.company === selectedCor.value.company);
+    return company ? company.items : [];
+}
+
+
+
+// const toggleDropdownCor = () => {
+//     isOpenCor.value = !isOpenCor.value;
+// };
+
+// const selectCorporation = (item) => {
+//     selectedCor.value = item;
+//     // isOpenCor.value = false;
+// };
+
+
+// const toggleDropdownItems = () => {
+//     isOpenItems.value = !isOpenItems.value;
+// }
+
+// const selectItems = (item) => {
+//     selectedItems.value = item;
+//     // isOpenItems.value = false;
+// };
 
 // const subBar = ref(null);
 // let subToggle = false;
