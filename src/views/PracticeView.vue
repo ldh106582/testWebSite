@@ -336,12 +336,12 @@
             <span class="ml-5">{{ selectedCor?.company || 'None' }}</span>
         </button>
         <ul v-if="isOpenCor" class="dropdown-menu">
-            <li v-for="item in testItems" :key="item.company" @click="selectCorporation(item)">
+            <li v-for="item in testItems" :key="item.company">
                 <v-checkbox 
                     hide-details 
                     :label="item.company" 
                     :model-value="selectedCor?.company === item.company"
-                    @click.stop
+                    @click="selectCorporation(item)"
                 />
             </li>
         </ul>
@@ -350,7 +350,6 @@
     <div class="dropdown-wrapper" v-if="selectedCor">
         <button @click="toggleDropdownItems" class="dropdown-trigger">
             <span>Select items</span>
-            <span class="ml-5">{{ selectedItems.length }} selected</span>
         </button>
         <ul v-if="isOpenItems" class="dropdown-menu">
             <li v-for="item in getSelectedCompanyItems()" :key="item">
@@ -397,6 +396,8 @@ function toggleDropdownCor() {
 }
 
 function selectCorporation(item) {
+    console.log("dh")
+
     selectedCor.value = item;
     selectedItems.value = [];
     isOpenCor.value = false;
