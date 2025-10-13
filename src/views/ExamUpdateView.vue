@@ -48,7 +48,7 @@
                     <v-col cols="3" class="px-2 py-1">
                         <h3>과목 문제 수</h3>
                     </v-col>
-                    <v-col cols="3" class="px-2 py-1">
+                    <v-col cols="3" class="px-0 py-1">
                         <h3>과목별 합격 점수 (과락)</h3>
                     </v-col>
                     <v-col cols="3" class="px-2 py-1">
@@ -65,7 +65,7 @@
                         <v-text-field data-test="subjectTotal" type="number" variant="outlined" hide-details class="pa-0" v-model="storage.subject_total" />
                     </v-col>
 
-                    <v-col v-if="isToggle" cols="3" class="px-2 py-1">
+                    <v-col v-if="isToggle" cols="3" class="px-0 py-1">
                         <v-text-field data-test="subjectTotal" type="number" variant="outlined" hide-details 
                         class="pa-0" v-model="storage.min_score" />
                     </v-col>
