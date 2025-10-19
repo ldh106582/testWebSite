@@ -119,17 +119,17 @@ const subjectStorage = ref([]);
 const isToggle = ref(true);
 const examStore = useExamStore();
 
-function toggleVisible () {
+function toggleVisible() {
     isToggle.value = !isToggle.value;
 }
 
-function addSubject () {
+function addSubject() {
     const subject = { subject : '', subject_total : 0};
     const copie = JSON.parse(JSON.stringify(subject));
     subjectStorage.value.push(copie);
 }
 
-function search () {
+function search() {
     const errorMsg = '알 수 없는 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const typeNameNull = '데이터를 먼저 입력해주세요.';
     subjectStorage.value = [];

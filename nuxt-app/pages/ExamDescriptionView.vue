@@ -55,7 +55,7 @@ const selectRound = ref('');
 
 const { questionTypes, questionYears, questionRounds } = useQuestionStorage();
 
-function getExamTypeStorage () {    
+function getExamTypeStorage() {
     examId.value = router.currentRoute.value.query.exam_id;
     userId.value = router.currentRoute.value.query.user_id;
     

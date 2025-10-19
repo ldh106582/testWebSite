@@ -86,7 +86,7 @@ const user_id = ref();
 
 const { userId } = useAuthStore();
 
-async function getBoardData (board_id) {
+async function getBoardData(board_id) {
     await axios.get('/board-data', {
         params : {
             board_id: board_id,
@@ -99,7 +99,7 @@ async function getBoardData (board_id) {
     
 }
 
-function upload () {
+function upload() {
     const sucessMSg = '등록되었습니다.';
     const errorMsg = '알 수 없는 오류가 발생하였습니다.';
     const titleMsg = '제목은 반드시 입력해야 합니다.';
@@ -133,7 +133,7 @@ function updateData() {
     const sucessMSg = '수정되었습니다.';
     const errorMsg = '오류가 발생하였습니다.';
 
-    if (!confirm (checkUpdateMsg)) return;
+    if (!confirm(checkUpdateMsg)) return;
     axios.put('/board', {
         list: list.value,
     }).then(res => {
@@ -147,7 +147,7 @@ onMounted(async () => {
     console.log(board_id)
 
     if (board_id) {
-        await getBoardData (board_id);
+        await getBoardData(board_id);
         isCheckExist.value = false;
     }
 });

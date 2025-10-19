@@ -33,7 +33,7 @@ const auth = useAuthStore();
 const router = useRouter();
 const user = ref([]);
 
-function login () {
+function login() {
     const checkLogin = '아이디 비밀번호 모두 입력해야 합니다.';
     const errorLogin = '일치하는 아이디와 비밀번호가 없습니다.';
 
@@ -55,11 +55,11 @@ function login () {
     });
 }
 
-function findPw () {
+function findPw() {
     router.push('/member-findpw');
 }
 
-function createMember () {
+function createMember() {
     router.push('/member-create');
 }
 

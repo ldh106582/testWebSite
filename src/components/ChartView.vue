@@ -27,7 +27,7 @@ Chart.register(...registerables);
 const myChart = ref(null);
 const result = ref();
 
-async function makeChartDate (params) {
+async function makeChartDate(params) {
     const labels = [params.question_year, question_round];
     
     const chartData = {
@@ -67,9 +67,6 @@ onMounted(async () => {
     }).then(res => {
         result.value = res.data.result;
     });
-
-    console.log(result.value)
-
     await makeChartDate(result);
 });
     

@@ -165,7 +165,7 @@ const { getInputFile } = useFileUpload();
 const { changeBactick, changeASCII, changeTable } = useChangeASCIIAndBactick();
 
 function onFileSelect(event) {
-    getInputFile (event, async (data) => {
+    getInputFile(event, async (data) => {
         src.value = await data.result;
         image.value = await data.fd;
     });
@@ -251,7 +251,7 @@ function deleteImage() {
         })
         .then(res => {
             if (!res.data.result) {
-                search ();
+                search();
             }
         });
     } else {

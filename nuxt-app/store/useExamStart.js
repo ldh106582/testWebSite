@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useExamStart = defineStore ('examStart', {
+export const useExamStart = defineStore('examStart', {
     state: () => ({
         problems : [],
         examResult : [],
@@ -10,7 +10,7 @@ export const useExamStart = defineStore ('examStart', {
     }),
 
     actions: {
-        setExamData (data) {
+        setExamData(data) {
             this.problems = data.problems;
             this.examResult = data.examResult;
             this.score = data.score;

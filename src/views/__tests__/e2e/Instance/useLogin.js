@@ -1,14 +1,14 @@
 class useLogin {
-    constructur (page) {
+    constructur(page) {
         this.page = page
     }
 
-    async gotoLoginPage () {
+    async gotoLoginPage() {
         const url = 'http://localhost:5173/member-login';
         await this.page.goto(url);
     }
 
-    async loginData () {
+    async loginData() {
         this.page.on('dialog', async dialog => {
             await dialog.accept();
         });

@@ -26,9 +26,9 @@ import router from '@/router';
 const userId = ref('');
 const temporaryPw = ref('');
 
-const auth = useAuthStore ();
+const auth = useAuthStore();
 
-async function findPw () {
+async function findPw() {
     const checkId = '아이디를 입력해주세요.';
     const errorMsg = '존재하는 아이디가 없습니다.';
     const confirmMsg = '작성하신 이메일로 임시 비밀번호를 전송하였습니다.';
@@ -49,7 +49,7 @@ async function findPw () {
         if (data) {
             return alert(errorMsg);
         } else {
-            auth.login (userInfo);
+            auth.login(userInfo);
             router.push({ 
                 path: '/member-changepw', 
                 query: { 
@@ -62,7 +62,7 @@ async function findPw () {
     });
 }
 
-function templatePw () {
+function templatePw() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*';
     const numbers = '123456789';
     let password = '';

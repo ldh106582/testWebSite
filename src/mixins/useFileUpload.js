@@ -5,8 +5,8 @@ const { getUnix } = useMoment();
 const today = moment().format('YYYY-MM-DD');
 const imageFormat = ['png', 'jpeg', 'jpg'];
 
-export default function useFileUpload () {
-    async function getInputFile (event, callback) {
+export default function useFileUpload() {
+    async function getInputFile(event, callback) {
         const errorMsg = '파일을 확인해주세요.';
         const file = event.files[0];
         const fileName = await getFileName(event.files[0].name);
@@ -18,7 +18,7 @@ export default function useFileUpload () {
             try {
                 fd.append('image', file, fileName);
                 await callback({ fd: fd, result:result });
-            } catch (error) {
+            } catch(error) {
                 alert(errorMsg);
                 console.log('err : ' , error);
             }
@@ -27,7 +27,7 @@ export default function useFileUpload () {
         reader.readAsDataURL(file);
     }
 
-    async function getFileName (data) {
+    async function getFileName(data) {
         const tempName = await data.toLowerCase();
         const frontCharLength = tempName.indexOf('.');
         const lastCharLength = tempName.length;

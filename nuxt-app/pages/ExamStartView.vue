@@ -77,7 +77,7 @@ import axios from '../../src/axios';
 import { useExamStart } from '../store/useExamStart';
 import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
-const examStore = useExamStart ();
+const examStore = useExamStart();
 const { changeBactick } = useChangeASCIIAndBactick();
 
 const userId = ref('');
@@ -92,7 +92,7 @@ let questionType = '';
 let questionYear = '';
 let questionRound = '';
 
-async function search () {
+async function search() {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
 
     const examId = router.currentRoute.value.query.exam_id;
@@ -130,7 +130,7 @@ async function search () {
     });
 }
 
-async function submit () {
+async function submit() {
     const problemAnswers = [];
     const list = [];
     const item = [];
@@ -142,9 +142,9 @@ async function submit () {
     });
 
     problemAnswers.forEach((p, index) => {
-        const point = getScore (p, index);
+        const point = getScore(p, index);
         item.push(point === 0 ? false : true);
-        score += getScore (p, index);
+        score += getScore(p, index);
     });
     passFail = passFail >= problems.value.pass_score ?  1 : 0;
 
@@ -163,7 +163,7 @@ async function submit () {
     }).then(res => {
         const data = res.data;
         if (!data.result) {
-            examStore.setExamData ({
+            examStore.setExamData({
                 problems : problems.value,
                 examResult : item,
                 answers : answers.value,
@@ -175,7 +175,7 @@ async function submit () {
     });
 }
 
-function getScore (params, index) {
+function getScore(params, index) {
     let score = 0;
     const value = answers.value[index];
     const problemAnswer = params.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word)) .map(word => word.replace(/,/g, ''));;
@@ -214,7 +214,7 @@ function getScore (params, index) {
     return Math.round(score * 10) / 10;
 }
 
-function timer () {
+function timer() {
     setInterval(() => {
     const remainingMs = examTime.value - Date.now();
     

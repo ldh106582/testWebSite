@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export default function useMoment () {
+export default function useMoment() {
 
     function getToday(date) {
         return moment(new Date())

@@ -69,7 +69,7 @@ const rulesPw = ref([
 
 const router = useRouter();
 
-function typing () {
+function typing() {
     if(index < intro.length) {
         typedText.value += intro.charAt(index);
         index++;
@@ -77,7 +77,7 @@ function typing () {
     }
 };
 
-function errorMember (u) {
+function errorMember(u) {
     const errorMsg = '한글은 입력하실 수 없습니다.';
     const errorTrim = '공백은 포함될 수 없습니다.';
     const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(user.value.userId);
@@ -93,7 +93,7 @@ function errorMember (u) {
     }
 };
 
-async function idCheck () {
+async function idCheck() {
     const existId = '이미 존재하는 아이디가 있습니다. 새로운 아이디를 설정해주세요.';
     const useUserId = '사용 가능한 아이디 입니다.';
 
@@ -142,7 +142,7 @@ async function createMember() {
 }
 
 onMounted (() => {
-    typing ();
+    typing();
 })
 
 </script>

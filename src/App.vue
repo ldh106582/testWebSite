@@ -15,15 +15,14 @@
     <v-navigation-drawer class="sideBar">
       <v-list>
         <v-list-item 
-        class="sideBar-text"
-        v-for="(item, i) in examStore.list ? examStore.list : ''"
-        :key="i"
-        :title="item.exam_name"
-        :value="item.exam_id"
-        prepend-icon="mdi-text-box-outline"
-        @click="e => getExamStorage(item, e)"
-        >
-        </v-list-item>
+          class="sideBar-text"
+          v-for="(item, i) in examStore.list ? examStore.list : ''"
+          :key="i"
+          :title="item.exam_name"
+          :value="item.exam_id"
+          prepend-icon="mdi-text-box-outline"
+          @click="e => getExamStorage(item, e)"
+        />
       </v-list>
     
       <v-list density="compact" nav v-if="auth.isManager === manager">
@@ -73,7 +72,7 @@
 
     
     <v-main class="sideBar-main align-center justify-center">
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </v-main>
   </v-layout>
 </template>
@@ -103,18 +102,20 @@ defineOptions({
   name: 'App',
 });
 
-function templateId () {
+function templateId() {
   auth.templateUser();
 }
 
-function getExamStorage (item , e) {
+function getExamStorage(item , e) {
+
   userId.value = auth.templateUser()
   router.push({
     path: '/exam-description',
     query: {
       exam_id: item.exam_id,
       user_id: auth.userId
-    }
+    },
+    force: true
   });
 }
 
@@ -129,26 +130,26 @@ function push(e, routeName) {
   });
 }
 
-function goBoardList () {
+function goBoardList() {
   router.push('/board-list');
 }
 
-function mainPage () {
+function mainPage() {
   router.push('/');
 }
 
-function createMember () {
+function createMember() {
   router.push('/member-create');
 };
 
-function logout () {
+function logout() {
   if (!confirm('로그아웃 하시겠습니까??')) return;
 
   auth.logout(auth.userId);
   router.push('/');
 }
 
-function goingPractice () {
+function goingPractice() {
   router.push({
     path: '/practice'
   })

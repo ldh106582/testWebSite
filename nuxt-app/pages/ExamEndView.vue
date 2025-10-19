@@ -64,7 +64,7 @@ const  classObject = ref( {
     'text-danger': false
 })
 
-function getProblem () {
+function getProblem() {
     
     problems.value = examStorePage.problems;
     answers.value = examStorePage.answers;
@@ -74,7 +74,7 @@ function getProblem () {
 }
 
 onMounted(() => {
-    getProblem ();
+    getProblem();
 });
 
 </script>

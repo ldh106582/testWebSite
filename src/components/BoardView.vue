@@ -27,7 +27,7 @@ import router from '@/router';
 
 const items = ref([]);
 
-function getBoard () {
+function getBoard() {
   const today = moment().format('YYYY-MM-DD');
   const countPage = 10;
   const page = 0;
@@ -43,7 +43,7 @@ function getBoard () {
   });
 }
 
-function getContent (rows) {
+function getContent(rows) {
   router.push({
     path: '/board-process',
     query: {

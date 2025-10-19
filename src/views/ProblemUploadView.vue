@@ -167,14 +167,14 @@ const rules = [
 ];
 
 async function onFileSelect(event) {
-    getInputFile (event, async (data) => {
+    getInputFile(event, async (data) => {
         src.value = await data.result;
         problemImage.value = await data.fd;
     });
 }
 
 async function onFileSelect_1(evnet) {
-    getInputFile (event, async (data) => {
+    getInputFile(event, async (data) => {
         src.value = await data.result;
         questionImage.value = await data.fd;
     });
@@ -185,7 +185,7 @@ function subjectSearch() {
         params : {
             exam_id : examStore.exam_id
         }
-    }).then (res => {
+    }).then(res => {
         subjects.value = res.data.rows;
         selectSubjectId.value = res.data.rows[0].subject_id;
         isCheckExamId.value = !isCheckExamId.value;

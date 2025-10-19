@@ -89,8 +89,8 @@ const startDate = ref('');
 const endDate = ref(moment().format('YYYY-MM-DD'));
 const searchData = ref('');
 
-function search () {
-    axios.get ('/board', {
+function search() {
+    axios.get('/board', {
         params: {
             start_date : startDate.value,
             end_date : endDate.value,
@@ -98,7 +98,7 @@ function search () {
             page : page.value,
             countPage : countPage.value
         }
-    }).then (res => {
+    }).then(res => {
         res.data.result.forEach(item => {
             item.board_checkNum = item.board_checkNum ?? 0,
             item.update_date = getFullDate(item.update_date)
@@ -107,7 +107,7 @@ function search () {
     });
 }
 
-function showBoard (rows) {
+function showBoard(rows) {
     router.push({
         path: '/board-process',
         query: {
@@ -117,14 +117,14 @@ function showBoard (rows) {
 
 }
 
-function writeBoard () {
+function writeBoard() {
     router.push({
         path: '/board-process',
     });
 }
 
-onMounted (() => {
-    search ();
+onMounted(() => {
+    search();
 });
 
 </script>

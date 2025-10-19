@@ -6,7 +6,7 @@ import useMoment from "@/mixins/useMoment";
 
 const { getUnix } = useMoment();
 
-export const useAuthStore = defineStore ('auth', () => {
+export const useAuthStore = defineStore('auth', () => {
     const today = moment();
     const isAuthenticated = ref(false);
     const userId = ref(null);
@@ -15,7 +15,7 @@ export const useAuthStore = defineStore ('auth', () => {
     const tempId = ref('');
     const isManager = ref(0);
 
-    async function login (userInfo) {
+    async function login(userInfo) {
         try {
             isAuthenticated.value = true;
             userId.value = userInfo.rows[0].user_id;
@@ -32,13 +32,13 @@ export const useAuthStore = defineStore ('auth', () => {
             }
             await getMemberInfo();
         
-        } catch (err) {
+        } catch(err) {
             console.error('Login error:', err);
             logout();
         }
     }
 
-    function logout () {
+    function logout() {
         isAuthenticated.value = false;
         userId.value = null;
         isManager.value = 0;
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore ('auth', () => {
         localStorage.removeItem('tempCreatedAt');
     }
     
-    async function getMemberInfo () {
+    async function getMemberInfo() {
 
         if (isCheckTemp.value) {
             return {
@@ -62,9 +62,7 @@ export const useAuthStore = defineStore ('auth', () => {
         }
 
         const token = localStorage.getItem('token');
-        if (!token) {
-            logout();
-        }
+        if (!token) logout();
             
         const config = {
             headers: {
@@ -75,12 +73,12 @@ export const useAuthStore = defineStore ('auth', () => {
         try {
             const response = await axios.get('/member-info', config);
             return response.data;
-        } catch (err) {
+        } catch(err) {
             console.error('Auth Error', err);
         }
     }
 
-    async function initialize () {
+    async function initialize() {
         const token = localStorage.getItem('token');
         const maintaindUserId = localStorage.getItem('userId'); 
         const maintainTempId = localStorage.getItem('tempUserId');
@@ -101,7 +99,7 @@ export const useAuthStore = defineStore ('auth', () => {
         }
     }
 
-    function templateUser () {
+    function templateUser() {
 
         if (userId.value === null) {
             tempId.value = `temp_${getUnix(today)}`;
