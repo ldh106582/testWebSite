@@ -32,7 +32,9 @@
         </v-row>
         <v-row>
             <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
-                <v-select data-test="type" variant="outlined" label="시험타입" :items="questionTypes" v-model="selectType" :rules="rules" />
+                <v-select data-test="type" variant="outlined" label="시험타입" 
+                :items="questionTypes" :item-title="questionTypes.title" :item-value="questionTypes.value"
+                v-model="selectType" :rules="rules" />
             </v-col>
             <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-autocomplete data-test="subject_id" variant="outlined" label="시험과목"
@@ -78,7 +80,7 @@
             </v-col>
         </v-row>
 
-        <v-row v-if="selectType === '객관식'">
+        <v-row v-if="selectType === 1">
             <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                 <label :for="index + 1" class="examQuestion-label">
@@ -135,7 +137,7 @@ const { getInputFile } = useFileUpload();
 const { changeASCII, changeTable } = useChangeASCIIAndBactick();
 
 const questionPoint = ref(0);
-const selectType = ref('');
+const selectType = ref(1);
 const selectSubjectId = ref('');
 const selectYear = ref('');
 const selectRound = ref('');

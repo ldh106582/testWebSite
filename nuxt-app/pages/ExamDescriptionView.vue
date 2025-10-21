@@ -14,7 +14,9 @@
                         :items="subjects" item-title="subject" item-value="subject_id" v-model="subjects.subject_id"/>
                     </v-col>
                     <v-col cols="6" lg="3" xs="6" class="py-0">
-                        <v-select data-test="type" label="시험타입" :items="questionTypes" v-model="selectType" />
+                        <v-select data-test="type" label="시험타입" 
+                        :items="questionTypes" :item-title="questionTypes.title" :item-value="questionTypes.value"
+                        v-model="selectType" />
                     </v-col>
                     <v-col cols="6" lg="3" xs="6" class="py-0">
                         <v-select data-test="year" label="기출년도" :items="questionYears" v-model="selectYear" />
@@ -49,7 +51,7 @@ const userId = ref('');
 const examId = ref(0);
 const exam = ref([]);
 const subjects = ref([]);
-const selectType = ref('');
+const selectType = ref(1);
 const selectYear = ref('');
 const selectRound = ref('');
 

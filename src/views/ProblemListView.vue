@@ -33,7 +33,8 @@
             </v-col>
             <v-col cols="6" lg="2" xs="6" class="pb-0 titles">
                 <span>시험 타입</span>
-                <v-select data-test="type" variant="outlined" hide-details v-model="selectTypes" :items="questionTypes" multiple>
+                <v-select data-test="type" variant="outlined" hide-details v-model="selectTypes" 
+                :items="questionTypes" :item-title="questionTypes.title" :item-value="questionTypes.value" multiple>
                     <template v-slot:prepend-item>
                         <v-list-item title="All" @click="selectedTypeAll">
                             <template v-slot:prepend>
@@ -140,7 +141,7 @@
                     <tbody>
                         <tr data-test="questions" v-for="(rows, index) in questions" :key="index" id="quesions" @click="showQuestion(rows, index)">
                             <td class="question-content"> {{ getFullDate(rows.create_date) }}</td>
-                            <td class="question-content">{{ rows.question_type}}</td>
+                            <td class="question-content">{{ questionTypes.find(q => q.value === rows.question_type)?.title }}</td>
                             <td class="question-content"> {{ rows.question_level }}</td>
                             <td class="question-content">{{ rows.question_year }}</td>
                             <td class="question-content">{{ rows.question_round }}</td>
