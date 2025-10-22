@@ -88,11 +88,11 @@
                 </label>
                 <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
             </v-col>
-            <v-col cols="8">
+            <!-- <v-col cols="8">
                 <FileUpload mode="basic" @select="onFileSelect_1" customUpload auto 
                 style="border: 1px solid black; border-radius: 9.8px;" 
                 severity="secondary" class="p-button-outlined pa-2" chooseLabel="Image Upload" />
-            </v-col>
+            </v-col> -->
         </v-row>
         
         <v-row>
@@ -150,7 +150,6 @@ const questionOptions = ref([
     {no1: '2', value: ''}, 
     {no1: '3', value: ''}, 
     {no1: '4', value: ''},
-    {no1: '5', value: ''} 
 ]);
 const question = ref('');
 const answer = ref('');
@@ -231,6 +230,8 @@ async function save() {
         });
     });
 
+    console.log(JSON.stringify(problem.value))
+
     problemStorages = [{ 
         problem: JSON.stringify(problem.value),
         problem_image: problemImagePath,
@@ -245,17 +246,17 @@ async function save() {
         });
     });
 
-    await axios.post('/question', {
-        exam_id : examStore.exam_id,
-        user_id : userId.value,
-        subject_id : selectSubjectId.value,
-        questionStorages : questionStorages,
-        problemStorages : problemStorages,
-        today : getFullDate(today),
-    }).then(res => {
-        const data = res.data;
-        data.result === true ? alert(errorMsg) : alert(sucessMsg);
-    });
+//     axios.post('/question', {
+//         exam_id : examStore.exam_id,
+//         user_id : userId.value,
+//         subject_id : selectSubjectId.value,
+//         questionStorages : questionStorages,
+//         problemStorages : problemStorages,
+//         today : getFullDate(today),
+//     }).then(res => {
+//         const data = res.data;
+//         data.result === true ? alert(errorMsg) : alert(sucessMsg);
+//     });
 }
 
 function deleteImage() {
