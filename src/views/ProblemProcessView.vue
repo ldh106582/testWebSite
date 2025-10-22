@@ -106,8 +106,11 @@
                     <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" 
                     class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                 </v-col>
-                <v-col cols="12" class="pa-0">
-                    <v-textarea hide-details variant="outlined" v-model="questionStorage.problem" />
+                <v-col v-if="questionStorage.question_type === 1" cols="12" class="pa-0">
+                    <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
+                </v-col>
+                <v-col v-else-if="questionStorage.question_type === 2" cols="12" class="pa-0">
+                    <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
                 </v-col>
             </v-row>
 
