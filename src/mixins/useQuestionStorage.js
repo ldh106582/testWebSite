@@ -3,10 +3,9 @@ import moment from "moment";
 
 export default function useQuestionStorage() {
     const questionTypes = ref([
-        {title: '주관식', value: 1}, 
-        {title: '객관식', value: 2}, 
+        {title: '객관식', value: 1}, 
+        {title: '단답형', value: 2},
         {title: '서술형', value: 3}, 
-        {title: '단답형', value: 4}
     ]);
     const questionYears = ref([]);
     const questionRounds = ref(['1회차', '2회차', '3회차', '4회차', '5회차', '자체출제']);

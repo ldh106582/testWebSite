@@ -33,7 +33,7 @@
         <v-row>
             <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-select data-test="type" variant="outlined" label="시험타입" 
-                :items="questionTypes" :item-title="questionTypes.title" :item-value="questionTypes.value"
+                :items="questionTypes" item-title="title" item-value="value"
                 v-model="selectType" :rules="rules" />
             </v-col>
             <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
@@ -68,31 +68,32 @@
         </v-row>
 
         <v-row>
-            <v-col cols="12" class="pt-0 d-flex" style="align-items: center;">
+            <v-col cols="12" class="py-0 d-flex" style="align-items: center;">
                 <h3>시험문제 예문 & 코드</h3>
                 <FileUpload mode="basic" @select="onFileSelect" customUpload auto 
                 style="border: 1px solid black; border-radius: 9.8px;" 
                 severity="secondary" class="p-button-outlined pa-2" chooseLabel="Image Upload" />
             </v-col>
-            <v-col cols="12" id="delete">
-                <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
-                <v-btn v-if="src" class="pa-0" id="isDelete" size="10" @click="deleteImage"> X </v-btn>
+            <v-col v-if="src" cols="12" id="delete">
+                <img  :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
+                <v-btn class="pa-0" id="isDelete" size="10" @click="deleteImage"> X </v-btn>
             </v-col>
         </v-row>
 
         <v-row v-if="selectType === 1">
-            <v-col v-for="(option, index) in questionOptions" :key="index" cols="8" class="d-flex align-center px-0">
+            <v-col v-for="(option, index) in problemOptions" :key="index" cols="12" class="d-flex align-center pt-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                 <label :for="index + 1" class="examQuestion-label">
                     <span class="examQuestion-Num">{{ option.no1 }}</span>
                 </label>
-                <v-text-field hide-details variant="outlined" placeholder="작성하고 싶은 예문 혹은 문제를 작성해주세요." v-model="option.value" />
+                <v-text-field hide-details variant="outlined" placeholder="예문 혹은 문제를 작성해주세요." v-model="option.value" />
             </v-col>
-            <!-- <v-col cols="8">
-                <FileUpload mode="basic" @select="onFileSelect_1" customUpload auto 
-                style="border: 1px solid black; border-radius: 9.8px;" 
-                severity="secondary" class="p-button-outlined pa-2" chooseLabel="Image Upload" />
-            </v-col> -->
+        </v-row>
+
+        <v-row v-else>
+            <v-col cols="12" class="d-flex align-center pt-0">
+                <v-textarea hide-details variant="outlined" placeholder="예문 혹은 문제를 작성해주세요." v-model="problem" />
+            </v-col>
         </v-row>
         
         <v-row>
@@ -128,13 +129,11 @@ import moment from 'moment';
 import useMoment from '@/mixins/useMoment';
 import FileUpload from 'primevue/fileupload';
 import useFileUpload from '@/mixins/useFileUpload';
-import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
 const examStore = useExamStore();
 const { questionTypes, questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getFullDate } = useMoment();
 const { getInputFile } = useFileUpload();
-const { changeASCII, changeTable } = useChangeASCIIAndBactick();
 
 const questionPoint = ref(0);
 const selectType = ref(1);
@@ -145,7 +144,7 @@ const selectLevel = ref('보통');
 const problemExplanation = ref('');
 const problemFeedback = ref('');
 const problem = ref('');
-const questionOptions = ref([
+const problemOptions = ref([
     {no1: '1', value: ''}, 
     {no1: '2', value: ''}, 
     {no1: '3', value: ''}, 
@@ -197,13 +196,12 @@ async function save() {
     const notInputMsg = '입력하지 않은 데이터가 존재합니다.';
     const errorMsg = '등록 중 오류가 발생하였습니다. 새로고침 후 다시 시도해주세요.';
     const sucessMsg = '등록되었습니다.';
-    let questionStorages = [];
-    let problemStorages = [];
     let qestionImagePath = null;
     let problemImagePath = null;
-    const questionValue = questionOptions.value[0].value === '' ? question.value : questionOptions.value;
+    const problemValue = selectType.value === 1 ? JSON.stringify(problemOptions.value) : question.value;
 
     if (selectType.value === '' || questionPoint.value === 0 || question.value === '' || answer.value === '') return alert(notInputMsg);
+
     if (problemImage.value) {
         await axios.post('/image-upload', problemImage.value).then(res => { 
             problemImagePath = res.data.imagePath;
@@ -214,7 +212,7 @@ async function save() {
         });
     }
 
-    questionStorages = [{ 
+    const questionStorages = [{ 
         question: question.value,
         question_point: questionPoint.value,
         question_type: selectType.value,
@@ -224,39 +222,25 @@ async function save() {
         question_image: qestionImagePath
     }];
 
-    questionStorages.forEach(q => {
-        changeTable.forEach(t => {
-            q[t.key] = changeASCII(q[t.key]);
-        });
-    });
-
-    console.log(JSON.stringify(problem.value))
-
-    problemStorages = [{ 
-        problem: JSON.stringify(problem.value),
+    const problemStorages = [{ 
+        problem: problemValue,
         problem_image: problemImagePath,
         answer: answer.value.toLowerCase(),
         problem_explanation: problemExplanation.value,
         problem_feedback: problemFeedback.value
     }];
 
-    problemStorages.forEach(p => {
-        changeTable.forEach(t => {
-            p[t.key] = changeASCII(p[t.key]);
-        });
+    axios.post('/question', {
+        exam_id: examStore.exam_id,
+        user_id: userId.value,
+        subject_id: selectSubjectId.value,
+        questionStorages: questionStorages,
+        problemStorages: problemStorages,
+        today: getFullDate(today),
+    }).then(res => {
+        const result = res.data.result;
+        result ? alert(errorMsg) : alert(sucessMsg);
     });
-
-//     axios.post('/question', {
-//         exam_id : examStore.exam_id,
-//         user_id : userId.value,
-//         subject_id : selectSubjectId.value,
-//         questionStorages : questionStorages,
-//         problemStorages : problemStorages,
-//         today : getFullDate(today),
-//     }).then(res => {
-//         const data = res.data;
-//         data.result === true ? alert(errorMsg) : alert(sucessMsg);
-//     });
 }
 
 function deleteImage() {
