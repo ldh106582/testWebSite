@@ -41,7 +41,8 @@
                 :items="subjects" item-title="subject" item-value="subject_id" v-model="selectSubjectId" />
             </v-col>
             <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
-                <v-text-field data-test="point" variant="outlined" label="시험점수" type="number" v-model="questionPoint" :rules="rules" />
+                <v-text-field data-test="point" variant="outlined" label="시험점수" type="number" 
+                :min="0" v-model="point" :rules="rules" />
             </v-col>
             <v-col cols="6" lg="2" xs="6" class="py-0 pr-0">
                 <v-select data-test="level" variant="outlined" label="시험난이도" :items="questionLevels" v-model="selectLevel" />
@@ -84,9 +85,9 @@
             <v-col v-for="(option, index) in problemOptions" :key="index" cols="12" class="d-flex align-center pt-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
                 <label :for="index + 1" class="examQuestion-label">
-                    <span class="examQuestion-Num">{{ option.no1 }}</span>
+                    <span class="examQuestion-Num">{{ index + 1 }}</span>
                 </label>
-                <v-text-field hide-details variant="outlined" placeholder="예문 혹은 문제를 작성해주세요." v-model="option.value" />
+                <v-text-field hide-details variant="outlined" placeholder="예문 혹은 문제를 작성해주세요." v-model="option.problem" />
             </v-col>
         </v-row>
 
@@ -99,14 +100,14 @@
         <v-row>
             <v-col cols="12" class="pt-0">
                 <h3>문제풀이</h3>
-                <v-textarea data-test="problemExplanation" variant="outlined" hide-details v-model="problemExplanation" />
+                <v-textarea data-test="problemExplanation" variant="outlined" hide-details v-model="explanation" />
             </v-col>
         </v-row>
 
         <v-row>
             <v-col class="py-0">
                 <h3>오답피드백</h3>
-                <v-textarea data-test="problemFeedback" variant="outlined" hide-details v-model="problemFeedback" />
+                <v-textarea data-test="problemFeedback" variant="outlined" hide-details v-model="Feedback" />
             </v-col>
         </v-row>
 
@@ -135,20 +136,20 @@ const { questionTypes, questionYears, questionRounds, questionLevels } = useQues
 const { getFullDate } = useMoment();
 const { getInputFile } = useFileUpload();
 
-const questionPoint = ref(0);
 const selectType = ref(1);
 const selectSubjectId = ref('');
 const selectYear = ref('');
 const selectRound = ref('');
 const selectLevel = ref('보통');
-const problemExplanation = ref('');
-const problemFeedback = ref('');
+const point = ref(0);
+const explanation = ref('');
+const Feedback = ref('');
 const problem = ref('');
 const problemOptions = ref([
-    {no1: '1', value: ''}, 
-    {no1: '2', value: ''}, 
-    {no1: '3', value: ''}, 
-    {no1: '4', value: ''},
+    {problem: ''},
+    {problem: ''},
+    {problem: ''},
+    {problem: ''},
 ]);
 const question = ref('');
 const answer = ref('');
@@ -200,7 +201,7 @@ async function save() {
     let problemImagePath = null;
     const problemValue = selectType.value === 1 ? JSON.stringify(problemOptions.value) : question.value;
 
-    if (selectType.value === '' || questionPoint.value === 0 || question.value === '' || answer.value === '') return alert(notInputMsg);
+    if (selectType.value === '' || point.value === 0 || question.value === '' || answer.value === '') return alert(notInputMsg);
 
     if (problemImage.value) {
         await axios.post('/image-upload', problemImage.value).then(res => { 
@@ -214,8 +215,8 @@ async function save() {
 
     const questionStorages = { 
         question: question.value,
-        question_point: questionPoint.value,
-        question_type: selectType.value,
+        question_point: parseInt(point.value),
+        question_type: parseInt(selectType.value),
         question_year: selectYear.value,
         question_round: selectRound.value,
         question_level: selectLevel.value,
@@ -226,11 +227,10 @@ async function save() {
         problem: problemValue,
         problem_image: problemImagePath,
         answer: answer.value.toLowerCase(),
-        problem_explanation: problemExplanation.value,
-        problem_feedback: problemFeedback.value
+        problem_explanation: explanation.value,
+        problem_feedback: Feedback.value
     };
-
-    console.log(problemOptions.value.value)
+    console.log(questionStorages)
 
     // axios.post('/question', {
     //     exam_id: examStore.exam_id,
