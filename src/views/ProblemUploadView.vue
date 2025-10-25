@@ -212,7 +212,7 @@ async function save() {
         });
     }
 
-    const questionStorages = [{ 
+    const questionStorages = { 
         question: question.value,
         question_point: questionPoint.value,
         question_type: selectType.value,
@@ -220,27 +220,29 @@ async function save() {
         question_round: selectRound.value,
         question_level: selectLevel.value,
         question_image: qestionImagePath
-    }];
+    };
 
-    const problemStorages = [{ 
+    const problemStorages = { 
         problem: problemValue,
         problem_image: problemImagePath,
         answer: answer.value.toLowerCase(),
         problem_explanation: problemExplanation.value,
         problem_feedback: problemFeedback.value
-    }];
+    };
 
-    axios.post('/question', {
-        exam_id: examStore.exam_id,
-        user_id: userId.value,
-        subject_id: selectSubjectId.value,
-        questionStorages: questionStorages,
-        problemStorages: problemStorages,
-        today: getFullDate(today),
-    }).then(res => {
-        const result = res.data.result;
-        result ? alert(errorMsg) : alert(sucessMsg);
-    });
+    console.log(problemOptions.value.value)
+
+    // axios.post('/question', {
+    //     exam_id: examStore.exam_id,
+    //     user_id: userId.value,
+    //     subject_id: selectSubjectId.value,
+    //     questionStorages: questionStorages,
+    //     problemStorages: problemStorages,
+    //     today: getFullDate(today),
+    // }).then(res => {
+    //     const result = res.data.result;
+    //     result ? alert(errorMsg) : alert(sucessMsg);
+    // });
 }
 
 function deleteImage() {
