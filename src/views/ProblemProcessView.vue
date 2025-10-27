@@ -104,7 +104,7 @@
                     <v-btn v-if="src || questionStorage.problem_image" text="X" 
                     class="pa-0" id="isDelete" size="10" @click="deleteImage" />
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
-                    <img v-if="questionStorage.problem_image" :src="questionStorage.problem_image" alt="Image" 
+                    <img v-if="questionStorage.image" :src="questionStorage.image" alt="Image" 
                     class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                 </v-col>
                 <v-col v-if="questionStorage.question_type === 1" cols="12" class="pa-0">
@@ -237,7 +237,7 @@ async function save() {
 
     axios.put('/question', {
         questionStorages : questionStorage.value,
-        image : imagePath ?? questionStorage.value.problem_image
+        image : imagePath ?? questionStorage.value.image
     }).then(res => {
         const data = res.data;
         data.result !== true ? alert(sucessMsg) : alert(errorMsg);
@@ -246,10 +246,10 @@ async function save() {
 }
 
 function deleteImage() {
-    if (questionStorage.value.problem_image) {
+    if (questionStorage.value.image) {
         axios.delete('/image-delete', {
             params : {
-                filename : questionStorage.value.problem_image,
+                filename : questionStorage.value.image,
                 problem_id : questionStorage.value.problem_id
             }
         })

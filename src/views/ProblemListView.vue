@@ -141,10 +141,10 @@
                     <tbody>
                         <tr data-test="questions" v-for="(rows, index) in questions" :key="index" id="quesions" @click="showQuestion(rows, index)">
                             <td class="question-content"> {{ getFullDate(rows.create_date) }}</td>
-                            <td class="question-content">{{ questionTypes.find(q => q.value === rows.question_type)?.title }}</td>
-                            <td class="question-content"> {{ rows.question_level }}</td>
-                            <td class="question-content">{{ rows.question_year }}</td>
-                            <td class="question-content">{{ rows.question_round }}</td>
+                            <td class="question-content">{{ questionTypes.find(q => q.value === rows.type)?.title }}</td>
+                            <td class="question-content"> {{ rows.level }}</td>
+                            <td class="question-content">{{ rows.year }}</td>
+                            <td class="question-content">{{ rows.round }}</td>
                             <td class="question-question">{{ rows.question }}</td>
                         </tr>
                     </tbody>
