@@ -51,9 +51,9 @@ def getQuestion() :
                     question = []
                     
                     if any(item in questionText for item in codeQuestion):
-                        question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
-                                        'question_level': '보통', 'question_type': '단답형',
-                                        'question_year': question_year, 'question_round': questionround })
+                        question.append({ 'question': changeBacktick(sliceText), 'point': 5,
+                                        'level': '보통', 'type': '단답형',
+                                        'year': question_year, 'round': questionround })
                         problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
                         
                         index += 1
@@ -68,9 +68,9 @@ def getQuestion() :
                                 'problemStorages': problem })
                         break
                     else : 
-                        question.append({ 'question': changeBacktick(sliceText), 'question_point': 5,
-                                        'question_level': '보통', 'question_type': '단답형',
-                                        'question_year': question_year, 'question_round': questionround })
+                        question.append({ 'question': changeBacktick(sliceText), 'point': 5,
+                                        'level': '보통', 'type': '단답형',
+                                        'year': question_year, 'round': questionround })
                         problem.append({ 'answer': changeBacktick(answer[index]) })
 
                         index += 1

@@ -113,7 +113,7 @@
 
         <v-row>
             <v-col style="text-align: end;">
-                <v-btn data-test="examCreateSave" color="indigo" type="submit">저장</v-btn>
+                <v-btn data-test="examCreateSave" text="저장" color="indigo" type="submit" />
             </v-col>
         </v-row>
     </v-form>
@@ -215,20 +215,20 @@ async function save() {
 
     const questionStorages = { 
         question: question.value,
-        question_point: parseInt(point.value),
-        question_type: parseInt(selectType.value),
-        question_year: selectYear.value,
-        question_round: selectRound.value,
-        question_level: selectLevel.value,
-        question_image: qestionImagePath
+        point: parseInt(point.value),
+        type: parseInt(selectType.value),
+        year: selectYear.value,
+        round: selectRound.value,
+        level: selectLevel.value,
+        image: qestionImagePath
     };
 
     const problemStorages = { 
         problem: problemValue,
-        problem_image: problemImagePath,
+        image: problemImagePath,
         answer: answer.value.toLowerCase(),
-        problem_explanation: explanation.value,
-        problem_feedback: Feedback.value
+        explanation: explanation.value,
+        feedback: Feedback.value
     };
     console.log(questionStorages)
 

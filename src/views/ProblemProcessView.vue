@@ -53,23 +53,24 @@
                 </v-col>
                 <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
                     <span class="titles">점수</span>
-                    <v-text-field data-test="point" hide-details variant="outlined" type="number" v-model="questionStorage.question_point" />
+                    <v-text-field data-test="point" hide-details variant="outlined" type="number" v-model="questionStorage.point" />
                 </v-col>
                 <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
                     <span class="titles">년도</span>
-                    <v-select hide-details variant="outlined" :items="questionYears" v-model="questionStorage.question_year" />
+                    <v-select hide-details variant="outlined" :items="questionYears" v-model="questionStorage.year" />
                 </v-col>
                 <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
                     <span class="titles">기출년도</span>
-                    <v-select hide-details variant="outlined" :items="questionRounds" v-model="questionStorage.question_round" />
+                    <v-select hide-details variant="outlined" :items="questionRounds" v-model="questionStorage.round" />
                 </v-col>
                 <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
                     <span class="titles">레벨</span>
-                    <v-select hide-details variant="outlined" :items="questionLevels" v-model="questionStorage.question_level" />
+                    <v-select hide-details variant="outlined" :items="questionLevels" v-model="questionStorage.level" />
                 </v-col>
                 <v-col cols="6" lg="2" xs="6" class="pl-0 py-2">
                     <span class="titles">시험과목</span>
-                    <v-autocomplete data-test="subject" variant="outlined" item-title="subject" item-value="subject_id" :items="subjects" v-model="questionStorage.subject" />
+                    <v-autocomplete data-test="subject" variant="outlined"
+                    item-title="subject" item-value="subject_id" :items="subjects" v-model="questionStorage.subject" />
                 </v-col>
             </v-row>
 
@@ -121,7 +122,7 @@
             </v-row>
             <v-row>
                 <v-col cols="12" class="pl-0 pt-0">
-                    <v-textarea data-test="explanation" hide-details variant="outlined" v-model="questionStorage.problem_explanation" />
+                    <v-textarea data-test="explanation" hide-details variant="outlined" v-model="questionStorage.explanation" />
                 </v-col>
             </v-row>
 
@@ -132,13 +133,13 @@
             </v-row>
             <v-row>
                 <v-col cols="12" class="pl-0 pt-0">
-                    <v-textarea data-test="feedback" hide-details variant="outlined" v-model="questionStorage.problem_feedback" />
+                    <v-textarea data-test="feedback" hide-details variant="outlined" v-model="questionStorage.feedback" />
                 </v-col>
             </v-row>
 
             <v-row>
                 <v-col align="end" class="pr-0">
-                    <v-btn data-test="save" color="blue" class="mr-3" @click="save">저장</v-btn>
+                    <v-btn data-test="save" text="저장" color="blue" class="mr-3" @click="save" />
                 </v-col>
             </v-row>
         </div>

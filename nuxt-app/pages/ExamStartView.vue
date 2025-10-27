@@ -8,7 +8,7 @@
                             <span class="font-weight-bold">{{ index + 1 }}번. {{ problem.question }}</span>
                         </v-col>
                         <v-col cols="4" lg="3" xs="4" class="text-end">
-                            <span>( {{ problem.question_point }} 점)</span>
+                            <span>( {{ problem.point }} 점)</span>
                         </v-col>
                     </v-row>
                 </v-col>
