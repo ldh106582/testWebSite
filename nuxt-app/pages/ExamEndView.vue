@@ -22,7 +22,7 @@
                 </v-col>
 
                 <v-col cols="12" class="d-flex pa-0" >
-                    <img v-if="problem.problem_image" :src="problem.problem_image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"
+                    <img v-if="problem.image" :src="problem.image" alt="Image" class="shadow-md rounded-xl w-full sm:w-64"
                     style="width: 100%; max-height: 500px;" />
                 </v-col>
 
