@@ -4,7 +4,10 @@
             <v-row v-for="(problem, index) in problems" :key="index" class="mb-4">
                 <v-col cols="12">
                     <v-row no-gutters class="align-center">
-                        <v-col cols="8" lg="9" xs="8">
+                        <v-col v-if="problem.type === 1" cols="8" lg="9" xs="8">
+                            <span class="font-weight-bold">{{ index + 1 }}번. {{ problem.question }}</span>
+                        </v-col>
+                        <v-col v-else cols="8" lg="9" xs="8">
                             <span class="font-weight-bold">{{ index + 1 }}번. {{ problem.question }}</span>
                         </v-col>
                         <v-col cols="4" lg="3" xs="4" class="text-end">
