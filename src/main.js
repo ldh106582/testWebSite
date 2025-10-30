@@ -5,6 +5,7 @@ import vuetify from './plugins/vuetify';
 import router from './router/index';
 import { useAuthStore } from '@/stores/useAuthStore';
 import PrimeVue from 'primevue/config';
+import InstantSearch from 'vue-instantsearch/vue3/es'
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -18,3 +19,4 @@ authStore.initialize();
 
 app.mount('#app');
 app.use(PrimeVue);
+app.use(InstantSearch)

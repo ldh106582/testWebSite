@@ -16,6 +16,7 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@primeuix/themes": "^1.0.0",
+    "algoliasearch": "^4.25.2",
     "axios": "^1.7.7",
     "chart.js": "^4.4.6",
     "firebase": "^11.0.2",
@@ -24,6 +25,7 @@
     "pinia": "^2.2.6",
     "primevue": "^4.3.2",
     "vue": "^3.5.12",
+    "vue-instantsearch": "^4.22.0",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
