@@ -463,11 +463,8 @@
 
 <script setup>
 import { ref, shallowRef } from 'vue';
-import algoliasearch from 'algoliasearch';
-import {   AisInstantSearch,
-  AisSearchBox,
-  AisHits,
-  AisPagination, } from 'vue-instantsearch';
+// import algoliasearch from 'algoliasearch';
+// import { AisInstantSearch, AisSearchBox, AisHits, AisPagination, } from 'vue-instantsearch';
 
 const isOpenProducts = ref(false);
 const isOpenPin = ref(false);
@@ -481,10 +478,10 @@ const products = ['Housing', 'Connector', 'Terminal', 'TPA'];
 const pin = ['2', '3', '4', '5', '6', '7', '8'];
 const color = ['Black', 'White', 'Natural', 'Red', 'Blue'];
 
-const searchClient = algoliasearch(
-    'TXR99WRW8L', 
-    'a7d8dc0446ef5b356aee0baa1a0f16f1' 
-);
+// const searchClient = algoliasearch(
+//     'TXR99WRW8L', 
+//     'a7d8dc0446ef5b356aee0baa1a0f16f1' 
+// );
 
 // function manualSearch(query) {
 //     setUiState({
