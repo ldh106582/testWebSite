@@ -8,7 +8,6 @@
                 </v-col>
             </v-row>
             <v-row v-for="(problem, index) in problems" :key="index">
-                
                 <v-col cols="12" style="position: relative;">
                     <v-col v-if="examResult[index]" style="height: 50px; top: 0%; left: 0%; position: absolute;">
                         <div>
@@ -41,6 +40,14 @@
                     <v-text-field data-test="problem" variant="outlined" hide-details
                     auto-grow class="pa-0" :value="problem.answer" />
                 </v-col>
+                <v-col cols="11">
+                    <v-text-field data-test="problem" variant="outlined" hide-details
+                    auto-grow class="pa-0" :value="problem.desc" />
+                </v-col>
+                <v-col cols="11">
+                    <v-text-field data-test="problem" variant="outlined" hide-details
+                    auto-grow class="pa-0" :value="problem.ai" />
+                </v-col>
             </v-row>
         </v-col>
     </v-container>
@@ -50,7 +57,6 @@
 import { ref, onMounted } from 'vue';
 import axios from '../../src/axios';
 import { useExamStart } from '../store/useExamStart'; 
-import colors from 'vuetify/lib/util/colors';
 
 const examStorePage = useExamStart();
 
@@ -65,12 +71,22 @@ const  classObject = ref( {
 })
 
 function getProblem() {
-    
+
     problems.value = examStorePage.problems;
     answers.value = examStorePage.answers;
     examResult.value = examStorePage.examResult;
     score.value = examStorePage.score;
     passFail.value = examStorePage.passFail === 0 ? '불합격' : '합격';
+}
+
+function getAIAnswer() {
+    axios.post('/get-ai', {
+        question_id: examStorePage.question_id,
+        answers: answers.value
+    }).then(res => {
+        const result = res.data.result;
+        
+    });
 }
 
 onMounted(() => {
