@@ -1,4 +1,4 @@
-<template>
+    <template>
     <v-container fluid class="d-flex">
         <v-col cols="9">
             <v-row v-for="(problem, index) in problems" :key="index" class="mb-4">
@@ -22,8 +22,8 @@
                 </v-col>
 
                 <v-col v-if="problem.problem" cols="12">
-                    <v-textarea data-test="problem" variant="outlined" hide-details auto-grow 
-                        v-model="problem.problem" readonly />
+                    <v-textarea data-test="problem" variant="outlined" hide-details
+                        v-model="problem.problem" auto-grow readonly />
                 </v-col>
                 
                 <v-col cols="12">
@@ -40,7 +40,7 @@
             
             <v-row>
                 <v-col style="text-align: end;">
-                    <v-btn color="indigo" @click="submit" block>제출</v-btn>
+                    <v-btn text="제출" color="indigo" @click="submit" block />
                 </v-col>
             </v-row>
         </v-col>
@@ -95,17 +95,17 @@ let questionType = '';
 let questionYear = '';
 let questionRound = '';
 
-async function search() {
+function search() {
     const errorMsg = '해당하는 문제가 존재하지 않습니다. 잠시 후 다시 시도해주세요.';
 
     const examId = router.currentRoute.value.query.exam_id;
     const examTotal = router.currentRoute.value.query.exam_total;
     const subjectId = router.currentRoute.value.query.subject_id;
-    questionType = router.currentRoute.value.query.question_type;
-    questionYear = router.currentRoute.value.query.question_year;
-    questionRound = router.currentRoute.value.query.question_round;
+    questionType = router.currentRoute.value.query.type;
+    questionYear = router.currentRoute.value.query.year;
+    questionRound = router.currentRoute.value.query.round;
 
-    await axios.get('/start-exam', {
+    axios.get('/start-exam', {
         params : {
             exam_id : examId,
             subject_id : subjectId,
@@ -126,7 +126,6 @@ async function search() {
             });
 
             problems.value = data.rows;
-            
             const examTimeInMinutes = parseInt(problems.value[0].exam_time);
             examTime.value = Date.now() + (examTimeInMinutes * 60 * 1000);
         }
@@ -152,13 +151,13 @@ async function submit() {
     passFail = passFail >= problems.value.pass_score ?  1 : 0;
 
     list.push(
-        { exam_id : examId },
-        { question_type : questionType === '' ? null : questionType },
-        { question_year : questionYear === '' ? null : questionYear },
-        { question_round : questionRound === '' ? null : questionRound },
-        { score : score },
-        { user_id : userId.value },
-        { pass_fail : passFail }
+        { exam_id: examId },
+        { type: questionType === '' ? null : questionType },
+        { year: questionYear === '' ? null : questionYear },
+        { round: questionRound === '' ? null : questionRound },
+        { score: score },
+        { user_id: userId.value },
+        { pass_fail: passFail }
     );
 
     await axios.post('/save-exam-result', {
@@ -184,10 +183,8 @@ function getScore(params, index) {
     const problemAnswer = params.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word)) .map(word => word.replace(/,/g, ''));;
     const userAnswer = value !== undefined ? value.split(/\s+/).filter(word => word.length > 0).filter(word => !/^\d+\.$/.test(word)) : [];
     const intersecter = [];
-    userAnswer.forEach((problem, index) => {
-        if (problemAnswer.includes(problem)) {
-            intersecter.push(problem);
-        }
+    userAnswer.forEach(problem => {
+        if (problemAnswer.includes(problem)) intersecter.push(problem);
     });
 
     const totalAnswers = problemAnswer.length;
@@ -198,20 +195,13 @@ function getScore(params, index) {
     if (totalAnswers <= 2) {
         score = correctAnswers * 2.5;
     } else if (totalAnswers === 3) {
-        if (correctAnswers === 1) {
-            score = 1;
-        } else if (correctAnswers === 2) {
-            score = 3;
-        } else if (correctAnswers === 3) {
-            score = 5;
-        }
+        if (correctAnswers === 1) score = 1;
+        else if (correctAnswers === 2) score = 3;
+        else if (correctAnswers === 3) score = 5;
     } else {
         const correct = ((correctAnswers / userAnswer.length) * 100);
-        if (correct > 80) {
-            score = 5;
-        } else {
-            score = (correctAnswers / totalAnswers) * 5;
-        }
+        if (correct > 80) score = 5;
+        else score = (correctAnswers / totalAnswers) * 5;
     }
 
     return Math.round(score * 10) / 10;
@@ -219,17 +209,14 @@ function getScore(params, index) {
 
 function timer() {
     setInterval(() => {
-    const remainingMs = examTime.value - Date.now();
-    
-    if (remainingMs <= 0) {
-        clearInterval(timer);
-        return;
-    }
-    
-    const seconds = Math.floor((remainingMs / 1000) % 60);
-    const minutes = Math.floor((remainingMs / (1000 * 60)) % 60);
-    const hours = Math.floor(remainingMs / (1000 * 60 * 60));
-    remainingTime.value = `${hours}:${minutes}:${seconds}`
+        const remainingMs = examTime.value - Date.now();
+        
+        if (remainingMs <= 0) return clearInterval(timer);
+        
+        const seconds = Math.floor((remainingMs / 1000) % 60);
+        const minutes = Math.floor((remainingMs / (1000 * 60)) % 60);
+        const hours = Math.floor(remainingMs / (1000 * 60 * 60));
+        remainingTime.value = `${hours}:${minutes}:${seconds}`
     }, 1000);
 }
 
@@ -237,7 +224,6 @@ onMounted(() => {
     search();
     userId.value = router.currentRoute.value.query.user_id;
     timer();
-    
 });
 
 </script>
@@ -251,6 +237,5 @@ onMounted(() => {
     border: 1px solid black;
     border-radius: 1.53%;
 }
-
 
 </style>

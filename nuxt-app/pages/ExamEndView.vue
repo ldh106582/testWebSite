@@ -79,10 +79,10 @@ function getProblem() {
     passFail.value = examStorePage.passFail === 0 ? '불합격' : '합격';
 }
 
-function getAIAnswer() {
-    axios.post('/get-ai', {
-        question_id: examStorePage.question_id,
-        answers: answers.value
+function getAIAnswer(index) {
+    axios.post('/ai-answer', {
+        question_id: examStorePage.problems[index],
+        answers: answers.value[index]
     }).then(res => {
         const result = res.data.result;
         
