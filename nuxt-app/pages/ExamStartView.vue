@@ -166,11 +166,11 @@ async function submit() {
         const result = res.data.result;
         if (!result) {
             examStore.setExamData({
-                problems : problems.value,
-                examResult : item,
-                answers : answers.value,
-                score : score,
-                passFail : passFail
+                problems: problems.value,
+                examResult: item,
+                answers: answers.value,
+                score: score,
+                passFail: passFail
             });
             router.push('/exam-end');
         }
