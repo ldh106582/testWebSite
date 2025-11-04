@@ -163,8 +163,8 @@ async function submit() {
     await axios.post('/save-exam-result', {
         list : list
     }).then(res => {
-        const data = res.data;
-        if (!data.result) {
+        const result = res.data.result;
+        if (!result) {
             examStore.setExamData({
                 problems : problems.value,
                 examResult : item,
