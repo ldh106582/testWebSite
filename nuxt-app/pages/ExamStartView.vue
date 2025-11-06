@@ -109,9 +109,9 @@ function search() {
         params : {
             exam_id : examId,
             subject_id : subjectId,
-            question_type : questionType,
-            question_year : questionYear,
-            question_round : questionRound,
+            type : questionType,
+            year : questionYear,
+            round : questionRound,
             exam_total : examTotal
         }
     }).then(res => {
