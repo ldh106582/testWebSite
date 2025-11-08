@@ -115,17 +115,17 @@ function search() {
             exam_total : examTotal
         }
     }).then(res => {
-        const data = res.data;
+        const rows = res.data.rows;
 
-        if (data.rows.length === 0 || data.rows === true) {
+        if (rows.length === 0 || rows) {
             return alert(errorMsg);
         } else {
-            data.rows.forEach(q => {
+            rows.forEach(q => {
                 q.question = changeBactick(q.question);
                 q.problem = changeBactick(q.problem);
             });
 
-            problems.value = data.rows;
+            problems.value = rows;
             const examTimeInMinutes = parseInt(problems.value[0].exam_time);
             examTime.value = Date.now() + (examTimeInMinutes * 60 * 1000);
         }
