@@ -110,7 +110,7 @@
                 <v-col v-if="questionStorage.type === 1" cols="12" class="pa-0">
                     <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
                 </v-col>
-                <v-col v-else-if="questionStorage.type === 2" cols="12" class="pa-0">
+                <v-col v-else cols="12" class="pa-0">
                     <div v-for="(value, index) in questionStorage.problem" key="index">
                         <div >
                             {{  vlaue  }}
@@ -186,8 +186,8 @@ async function search() {
 
     await axios.get('/qeustion-with-problem', {
         params : {
-            question_id : questionId,
-            exam_id : examId
+            question_id: questionId,
+            exam_id: examId
         }
     }).then(async res => {
         const data = await res.data;
@@ -195,9 +195,29 @@ async function search() {
 
         await data.exams.forEach(q => {
             changeTable.forEach(t => {
-                q[t.key] = changeBactick(q[t.key]) ?? '';
+                const key = t.key;
+                q[key] = changeBactick(q[key]) ?? '';
+                if (key === 'problem') {
+                    let value = data.exams[0][key];
+  value = value
+    .replace(/\s+/g, '')           // 공백 제거
+    .replace(/(\w+):/g, '"$1":')   // 키에 따옴표
+    .replace(/:(\w+)/g, ':"$1"');  // 값에 따옴표
+  
+  q[key] = JSON.parse(value);
+  
+  console.log('✅ 성공!');
+  console.log(typeof q[key]);  // "object"
+  console.log(Array.isArray(q[key]));  // true
+                }
             });
         });
+
+        // console.log(data.exams)
+
+        // const test = (data.exams[0].problem).replace(/\\"/g, '"')
+        // const test1 = 
+        // console.log(JSON.parse(test1))
 
         questionStorage.value = await data.exams[0];
     });
