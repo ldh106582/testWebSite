@@ -107,12 +107,12 @@ function search() {
 
     axios.get('/start-exam', {
         params : {
-            exam_id : examId,
-            subject_id : subjectId,
-            type : questionType,
-            year : questionYear,
-            round : questionRound,
-            exam_total : examTotal
+            exam_id: examId,
+            subject_id: subjectId,
+            type: questionType,
+            year: questionYear,
+            round: questionRound,
+            exam_total: examTotal
         }
     }).then(res => {
         const rows = res.data.rows;

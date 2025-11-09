@@ -101,17 +101,22 @@
 
             <v-row>
                 <v-col cols="12" class="pl-0 pt-0 d-flex" id="delete">
-                    <v-btn v-if="src || questionStorage.problem_image" text="X" 
+                    <v-btn v-if="src || questionStorage.image" text="X" 
                     class="pa-0" id="isDelete" size="10" @click="deleteImage" />
                     <img v-if="src" :src="src" alt="Image" class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                     <img v-if="questionStorage.image" :src="questionStorage.image" alt="Image" 
                     class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                 </v-col>
-                <v-col v-if="questionStorage.question_type === 1" cols="12" class="pa-0">
+                <v-col v-if="questionStorage.type === 1" cols="12" class="pa-0">
                     <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
                 </v-col>
-                <v-col v-else-if="questionStorage.question_type === 2" cols="12" class="pa-0">
-                    <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
+                <v-col v-else-if="questionStorage.type === 2" cols="12" class="pa-0">
+                    <div v-for="(value, index) in questionStorage.problem" key="index">
+                        <div >
+                            {{  vlaue  }}
+                        </div>
+                    </div>
+                    <!-- <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" /> -->
                 </v-col>
             </v-row>
 
