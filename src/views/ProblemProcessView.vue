@@ -199,26 +199,10 @@ async function search() {
                 q[key] = changeBactick(q[key]) ?? '';
                 if (key === 'problem') {
                     let value = data.exams[0][key];
-  value = value
-    .replace(/\s+/g, '')           // 공백 제거
-    .replace(/(\w+):/g, '"$1":')   // 키에 따옴표
-    .replace(/:(\w+)/g, ':"$1"');  // 값에 따옴표
-  
-  q[key] = JSON.parse(value);
-  
-  console.log('✅ 성공!');
-  console.log(typeof q[key]);  // "object"
-  console.log(Array.isArray(q[key]));  // true
+                    q[key] = JSON.parse(value);
                 }
             });
         });
-
-        // console.log(data.exams)
-
-        // const test = (data.exams[0].problem).replace(/\\"/g, '"')
-        // const test1 = 
-        // console.log(JSON.parse(test1))
-
         questionStorage.value = await data.exams[0];
     });
 }
