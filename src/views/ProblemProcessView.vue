@@ -112,9 +112,9 @@
                 </v-col>
                 <v-col v-else cols="12" class="pa-0">
                     <div v-for="(value, index) in questionStorage.problem" key="index">
-                        <div >
+                        <p>
                             {{ index + 1 }}{{  vlaue  }}
-                        </div>
+                        </p>
                     </div>
                     <!-- <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" /> -->
                 </v-col>
