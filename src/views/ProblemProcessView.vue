@@ -116,7 +116,6 @@
                             {{ index + 1 }}{{  vlaue  }}
                         </p>
                     </div>
-                    <!-- <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" /> -->
                 </v-col>
             </v-row>
 
