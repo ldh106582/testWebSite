@@ -30,8 +30,7 @@
                 <v-col cols="4" class="py-0 pr-0">
                     <span class="titles">시간 (분)</span>
                     <v-text-field data-test="examTime" type="number" hide-details variant="outlined"
-                    placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함" 
-                    v-model="examTime" />
+                    placeholder="ex)'100', '60' 등 분 기준 시험 시간 기재 '분' 미포함"  v-model="examTime" />
                 </v-col>
                 <v-col cols="4" class="py-0 px-1">
                     <span class="titles">문제 수</span>
@@ -177,19 +176,20 @@ async function save() {
     ];
 
     for (let i = 0; i < subjects.value.length; i++) {
-        subjectStorage.push({ subject: subjects.value[i],
+        subjectStorage.push({
+            subject: subjects.value[i],
             subject_total: subjectTotal.value[i],
             min_score: min_score.value[i]
-        })
+        });
     }
 
     await axios.post('/exam', {
         examStorage: examStorage,
         subjectStorage: subjectStorage,
     }).then(res => {
-        const data = res.data;        
-        if (data.result) return alert(errorMsg);
-        alert(successMsg);
+        const result = res.data.result;        
+        if (result) return alert(successMsg);
+        alert(errorMsg);
     });
 };
 
