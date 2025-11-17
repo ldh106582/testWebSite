@@ -58,8 +58,8 @@
                     <span class="titles">과목 출제 수</span>
                 </v-col>
                 <v-col cols="12" sm="3" md="3" class="py-0 px-1">
-                    <span class="titles" id="subject-point">과목합격점수</span>
-                </v-col>
+                    <span class="titles" id="subject-point">과목합격수</span>
+                </v-col>점
                 <v-col cols="12" sm="2" md="2" class="py-0">
                     <span class="titles" id="subject-delete">관리</span>
                 </v-col>
@@ -121,14 +121,14 @@ const examTotal = ref(0);
 const isSearch = ref(true);
 const subjects = ref(['']);
 const newSubject = ref('');
-const subjectTotal = ref([0]);
+const count = ref([0]);
 const min_score = ref([0]);
 const passScore = ref(0);
 
 function addSubject() {
     const subjectCopie = JSON.parse(JSON.stringify(newSubject.value));
     subjects.value.push(subjectCopie);
-    subjectTotal.value.push(0);
+    count.value.push(0);
     min_score.value.push(0);
 }
 
@@ -178,7 +178,7 @@ async function save() {
     for (let i = 0; i < subjects.value.length; i++) {
         subjectStorage.push({
             subject: subjects.value[i],
-            subject_total: subjectTotal.value[i],
+            count: subjectTotal.value[i],
             min_score: min_score.value[i]
         });
     }
