@@ -73,7 +73,7 @@
             
                 <v-col cols="12" sm="3" md="3" class="py-1 px-1">
                     <v-text-field data-test="subjectTotal" type="number" hide-details variant="outlined" 
-                    v-model="subjectTotal[index]" min="1" /> 
+                    v-model="count[index]" min="1" /> 
                 </v-col>
             
                 <v-col cols="12" sm="3" md="3" class="py-1 px-1">
@@ -178,7 +178,7 @@ async function save() {
     for (let i = 0; i < subjects.value.length; i++) {
         subjectStorage.push({
             subject: subjects.value[i],
-            count: subjectTotal.value[i],
+            count: count.value[i],
             min_score: min_score.value[i]
         });
     }
