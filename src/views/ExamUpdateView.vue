@@ -62,7 +62,7 @@
                     </v-col>
 
                     <v-col v-if="isToggle" cols="3" class="px-2 py-1">
-                        <v-text-field data-test="subjectTotal" type="number" variant="outlined" hide-details class="pa-0" v-model="storage.subject_total" />
+                        <v-text-field data-test="subjectTotal" type="number" variant="outlined" hide-details class="pa-0" v-model="storage.count" />
                     </v-col>
 
                     <v-col v-if="isToggle" cols="3" class="px-0 py-1">
@@ -124,7 +124,7 @@ function toggleVisible() {
 }
 
 function addSubject() {
-    const subject = { subject : '', subject_total : 0};
+    const subject = { subject : '', count : 0};
     const copie = JSON.parse(JSON.stringify(subject));
     subjectStorage.value.push(copie);
 }
@@ -153,7 +153,7 @@ function search() {
                     exam_id : d.exam_id,
                     subject_id : d.subject_id,
                     subject : d.subject,
-                    subject_total : d.subject_total,
+                    count : d.count,
                     min_score : d.min_score,
                     isEmpty : true
                 });
@@ -213,7 +213,7 @@ function examSave (id) {
     const subjectDatas = [];
 
     subjectStorage.value.forEach(s => {
-        subjectDatas.push({ subject_id: s.subject_id, subject : s.subject, subject_total : s.subject_total, min_score : s.min_score });
+        subjectDatas.push({ subject_id: s.subject_id, subject : s.subject, count : s.count, min_score : s.min_score });
     });
 
     axios.put('/exam', {
@@ -225,8 +225,9 @@ function examSave (id) {
         pass_score : examStorages.value.pass_score,
         subject : subjectDatas
     }).then(res => {
-        const data = res.data;
-        data.result === true ? alert(errorMsg) : alert(succesMsg);
+        const result  = res.data.result;
+        console.log(result  )
+        result ? alert(errorMsg) : alert(succesMsg);
     });
 }
 
