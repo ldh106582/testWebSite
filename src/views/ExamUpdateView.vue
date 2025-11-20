@@ -217,13 +217,13 @@ function examSave (id) {
     });
 
     axios.put('/exam', {
-        exam_id : id,
-        exam_name : examStorages.value.exam_name,
-        exam_des : examStorages.value.exam_des,
-        exam_total : examStorages.value.exam_total,
-        exam_time : examStorages.value.exam_time,
-        pass_score : examStorages.value.pass_score,
-        subject : subjectDatas
+        exam_id: id,
+        exam_name: examStorages.value.exam_name,
+        exam_des: examStorages.value.exam_des,
+        exam_total: examStorages.value.exam_total,
+        exam_time: examStorages.value.exam_time,
+        pass_score: examStorages.value.pass_score,
+        subject: subjectDatas
     }).then(res => {
         const result  = res.data.result;
         console.log(result  )
