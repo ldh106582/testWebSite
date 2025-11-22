@@ -216,18 +216,21 @@ function examSave (id) {
         subjectDatas.push({ subject_id: s.subject_id, subject : s.subject, count : s.count, min_score : s.min_score });
     });
 
+    const examStorage = [
+        {exam_name : examStorages.value.exam_name},
+        {exam_des : examStorages.value.exam_des},
+        {exam_total : examStorages.value.exam_total},
+        {exam_time : examStorages.value.exam_time},
+        {pass_score : examStorages.value.pass_score},
+    ];
+
     axios.put('/exam', {
         exam_id: id,
-        exam_name: examStorages.value.exam_name,
-        exam_des: examStorages.value.exam_des,
-        exam_total: examStorages.value.exam_total,
-        exam_time: examStorages.value.exam_time,
-        pass_score: examStorages.value.pass_score,
+        examStorage: examStorage,
         subject: subjectDatas
     }).then(res => {
         const result  = res.data.result;
-        console.log(result  )
-        result ? alert(errorMsg) : alert(succesMsg);
+        result ? alert(succesMsg) : alert(errorMsg);
     });
 }
 
