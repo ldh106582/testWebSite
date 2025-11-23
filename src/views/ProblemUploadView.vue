@@ -84,9 +84,9 @@
         <v-row v-if="selectType === 1">
             <v-col v-for="(option, index) in problemOptions" :key="index" cols="12" class="d-flex align-center pt-0">
                 <input :id="index + 1" :value="index + 1"  type="radio" name="examQuestion" class="examQuestion" />
-                <label :for="index + 1" class="examQuestion-label">
-                    <span class="examQuestion-Num">{{ index + 1 }}</span>
-                </label>
+                    <label :for="'option-' + (index + 1)" class="examQuestion-label">
+                        <span class="examQuestion-Num">{{ option.label }}</span>
+                    </label>
                 <v-text-field hide-details variant="outlined" placeholder="예문 혹은 문제를 작성해주세요." v-model="option.problem" />
             </v-col>
         </v-row>
@@ -146,10 +146,10 @@ const explanation = ref('');
 const Feedback = ref('');
 const problem = ref('');
 const problemOptions = ref([
-    {problem: ''},
-    {problem: ''},
-    {problem: ''},
-    {problem: ''},
+    {label: '①', problem: ''},
+    {label:'②', problem: ''},
+    {label:'③', problem: ''},
+    {label:'④', problem: ''},
 ]);
 const question = ref('');
 const answer = ref('');
@@ -199,7 +199,9 @@ async function save() {
     const sucessMsg = '등록되었습니다.';
     let qestionImagePath = null;
     let problemImagePath = null;
-    const problemValue = selectType.value === 1 ? JSON.stringify(problemOptions.value) : question.value;
+    const problemValue = selectType.value === 1 
+    ? JSON.stringify(problemOptions.value.map(opt => ({ [opt.label]: opt.problem }))) 
+    : question.value;
 
     if (selectType.value === '' || point.value === 0 || question.value === '' || answer.value === '') return alert(notInputMsg);
 
@@ -230,19 +232,18 @@ async function save() {
         explanation: explanation.value,
         feedback: Feedback.value
     };
-    console.log(questionStorages)
 
-    // axios.post('/question', {
-    //     exam_id: examStore.exam_id,
-    //     user_id: userId.value,
-    //     subject_id: selectSubjectId.value,
-    //     questionStorages: questionStorages,
-    //     problemStorages: problemStorages,
-    //     today: getFullDate(today),
-    // }).then(res => {
-    //     const result = res.data.result;
-    //     result ? alert(errorMsg) : alert(sucessMsg);
-    // });
+    axios.post('/question', {
+        exam_id: examStore.exam_id,
+        user_id: userId.value,
+        subject_id: selectSubjectId.value,
+        questionStorages: questionStorages,
+        problemStorages: problemStorages,
+        today: getFullDate(today),
+    }).then(res => {
+        const result = res.data.result;
+        result ? alert(errorMsg) : alert(sucessMsg);
+    });
 }
 
 function deleteImage() {
