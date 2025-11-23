@@ -2,7 +2,7 @@
     <v-container fluid class="mx-2">
         <v-row>
             <v-col class="px-3">
-                <h1>시험 문제 리스트</h1>
+                <h1>시험 문제 조회</h1>
             </v-col>
         </v-row>
 
@@ -124,9 +124,6 @@
 
         <v-row>
             <v-col cols="12">
-                <div>
-                    <p class="question-title">시험 문제 리스트</p>
-                </div>
                 <v-table>
                     <thead>
                         <tr class="question-header">

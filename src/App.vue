@@ -93,7 +93,7 @@ const exams = [
 ];
 const questions = [
   ['문제 출제', 'mdi-pencil', (e) => push(e, '/problem-upload')],
-  ['문제 리스트', 'mdi-pencil', (e) => push(e, '/problem-list')],
+  ['문제 조회', 'mdi-pencil', (e) => push(e, '/problem-list')],
 ];
 const today = moment().format('YYYY-MM-DD');
 const userId = ref('');

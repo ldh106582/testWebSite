@@ -16,7 +16,7 @@ export default function useQuestionStorage() {
         const currentYear = moment().format('YYYY');
 
         for (let startYear = 2020; startYear <= parseInt(currentYear); startYear++) {
-            questionYears.value.push(startYear);
+            questionYears.value.push(`${startYear}`);
         }
         questionYears.value.push('자체출제');
     }

@@ -124,7 +124,6 @@
 import { ref } from 'vue';
 import axios from '@/axios';
 import { useExamStore } from '@/stores/useExamStore';
-import router from '@/router';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import moment from 'moment';
 import useMoment from '@/mixins/useMoment';
@@ -154,7 +153,6 @@ const problemOptions = ref([
 const question = ref('');
 const answer = ref('');
 const subjects = ref([]);
-const userId = ref(router.currentRoute.value.query.userId);
 const today = ref(moment().format('YYYY-MM-DD'));
 const isCheckExamId = ref(false);
 const src = ref(null);
@@ -228,21 +226,20 @@ async function save() {
     const problemStorages = { 
         problem: problemValue,
         image: problemImagePath,
-        answer: answer.value.toLowerCase(),
+        answer: JSON.stringify(answer.value.toLowerCase()),
         explanation: explanation.value,
         feedback: Feedback.value
     };
 
     axios.post('/question', {
         exam_id: examStore.exam_id,
-        user_id: userId.value,
         subject_id: selectSubjectId.value,
         questionStorages: questionStorages,
         problemStorages: problemStorages,
         today: getFullDate(today),
     }).then(res => {
         const result = res.data.result;
-        result ? alert(errorMsg) : alert(sucessMsg);
+        result ? alert(sucessMsg) : alert(errorMsg);
     });
 }
 
