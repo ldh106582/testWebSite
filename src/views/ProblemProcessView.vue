@@ -107,14 +107,15 @@
                     <img v-if="questionStorage.image" :src="questionStorage.image" alt="Image" 
                     class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                 </v-col>
-                <v-col v-if="questionStorage.type === 1" cols="12" class="pa-0">
+                <!-- <v-col v-if="questionStorage.type === 1" cols="12" class="pa-0">
                     <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
-                </v-col>
-                <v-col v-else cols="12" class="pa-0">
-                    <div v-for="(value, index) in questionStorage.problem" key="index">
-                        <p>
-                            {{ index + 1 }}{{  vlaue  }}
-                        </p>
+                </v-col> -->
+                <v-col v-if="questionStorage.type === 1" cols="12" class="pa-0">
+                    <div v-for="(value, index) in questionStorage.problem" :key="value.label" class="d-flex pb-1">
+                        <span style="width: 5%; text-align: center; align-content: center;">{{ value.label }}</span>
+                        <span style="width: 95%;">
+                            <v-text-field variant="outlined" hide-details v-model="value.problem"></v-text-field>
+                        </span>
                     </div>
                 </v-col>
             </v-row>
@@ -159,7 +160,6 @@ import useMoment from '@/mixins/useMoment';
 import useQuestionStorage from '@/mixins/useQuestionStorage';
 import FileUpload from 'primevue/fileupload';
 import useFileUpload from '@/mixins/useFileUpload';
-import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
 const questionStorage = ref([]);
 const subjects = ref([]);
@@ -170,7 +170,6 @@ const image = ref('');
 const { questionYears, questionRounds, questionLevels } = useQuestionStorage();
 const { getUnix } = useMoment();
 const { getInputFile } = useFileUpload();
-const { changeBactick, changeASCII, changeTable } = useChangeASCIIAndBactick();
 
 function onFileSelect(event) {
     getInputFile(event, async (data) => {
@@ -179,30 +178,18 @@ function onFileSelect(event) {
     });
 }
 
-async function search() {
-    const questionId = router.currentRoute.value.query.question_id;
+function search() {
+    const subjectId = router.currentRoute.value.query.subject_id;
     const examId = router.currentRoute.value.query.exam_id;
 
-    await axios.get('/qeustion-with-problem', {
+    axios.get('/qeustion-with-problem', {
         params : {
-            question_id: questionId,
+            subject_id: subjectId,
             exam_id: examId
         }
-    }).then(async res => {
-        const data = await res.data;
-        subjects.value = await data.subjects;
-
-        await data.exams.forEach(q => {
-            changeTable.forEach(t => {
-                const key = t.key;
-                q[key] = changeBactick(q[key]) ?? '';
-                if (key === 'problem') {
-                    let value = data.exams[0][key];
-                    q[key] = JSON.parse(value);
-                }
-            });
-        });
-        questionStorage.value = await data.exams[0];
+    }).then(res => {
+        const rows = res.data.rows[0];
+        questionStorage.value = rows;
     });
 }
 

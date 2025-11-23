@@ -210,12 +210,11 @@ function selectedRoundAll() {
 }
 
 function showQuestion(rows, index) {
-    console.log(rows)
     router.push({
         path: '/problem-Process',
         query: {
             exam_id: rows.exam_id,
-            question_id: rows.question_id 
+            subject_id: rows.subject_id 
         }
     });
 }
@@ -223,12 +222,12 @@ function showQuestion(rows, index) {
 async function search() {
     await axios.get('/question-problem-group-desc', {
         params: {
-            start_date : startDate.value,
-            end_date : endDate.value,
-            question_type : selectTypes.value,
-            question_year : selectYears.value,
-            question_round : selectRounds.value,
-            question_level : selectLevels.value,
+            start_date: startDate.value,
+            end_date: endDate.value,
+            question_type: selectTypes.value,
+            question_year: selectYears.value,
+            question_round: selectRounds.value,
+            question_level: selectLevels.value,
             exam_id: examStore.exam_id === undefined ? undefined : examStore.exam_id,
             page: ( page.value - 1),
             countPage: ( countPage.value - 1),

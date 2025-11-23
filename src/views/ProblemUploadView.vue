@@ -146,9 +146,9 @@ const Feedback = ref('');
 const problem = ref('');
 const problemOptions = ref([
     {label: '①', problem: ''},
-    {label:'②', problem: ''},
-    {label:'③', problem: ''},
-    {label:'④', problem: ''},
+    {label: '②', problem: ''},
+    {label: '③', problem: ''},
+    {label: '④', problem: ''},
 ]);
 const question = ref('');
 const answer = ref('');
@@ -197,9 +197,7 @@ async function save() {
     const sucessMsg = '등록되었습니다.';
     let qestionImagePath = null;
     let problemImagePath = null;
-    const problemValue = selectType.value === 1 
-    ? JSON.stringify(problemOptions.value.map(opt => ({ [opt.label]: opt.problem }))) 
-    : question.value;
+    const problemValue = selectType.value === 1 ? JSON.stringify(problemOptions.value) : question.value;
 
     if (selectType.value === '' || point.value === 0 || question.value === '' || answer.value === '') return alert(notInputMsg);
 
@@ -266,15 +264,15 @@ function deleteImage() {
     top: 50%;
     transform: translateY(-50%);
     transform: translateX(-50%);
-    width: 20px; /* 체크박스의 너비 */
-    height: 20px; /* 체크박스의 높이 */
+    width: 20px;
+    height: 20px;
 }
 
 input[type="radio"]:checked + .examQuestion-label::before {
-    content: '✔'; /* 체크 마크 */
-    color: red; /* 체크 마크 색상 */
+    content: '✔';
+    color: red;
     text-align: center;
-    line-height: 20px; /* 세로 정렬 */
+    line-height: 20px;
 }
 
 .examQuestion-Num:hover {
