@@ -197,7 +197,7 @@ async function save() {
     const sucessMsg = '등록되었습니다.';
     let qestionImagePath = null;
     let problemImagePath = null;
-    const problemValue = selectType.value === 1 ? JSON.stringify(problemOptions.value) : question.value;
+    const problemValue = JSON.stringify(problemOptions.value);
 
     if (selectType.value === '' || point.value === 0 || question.value === '' || answer.value === '') return alert(notInputMsg);
 

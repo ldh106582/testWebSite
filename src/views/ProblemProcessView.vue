@@ -107,9 +107,6 @@
                     <img v-if="questionStorage.image" :src="questionStorage.image" alt="Image" 
                     class="shadow-md rounded-xl w-full sm:w-64" style="width: 100%; max-height: 300px;"/>
                 </v-col>
-                <!-- <v-col v-if="questionStorage.type === 1" cols="12" class="pa-0">
-                    <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
-                </v-col> -->
                 <v-col v-if="questionStorage.type === 1" cols="12" class="pa-0">
                     <div v-for="(value, index) in questionStorage.problem" :key="value.label" class="d-flex pb-1">
                         <span style="width: 5%; text-align: center; align-content: center;">{{ value.label }}</span>
@@ -117,6 +114,9 @@
                             <v-text-field variant="outlined" hide-details v-model="value.problem"></v-text-field>
                         </span>
                     </div>
+                </v-col>
+                <v-col v-else cols="12" class="pa-0">
+                    <v-textarea variant="outlined" hide-details v-model="questionStorage.problem" />
                 </v-col>
             </v-row>
 
@@ -200,14 +200,14 @@ function deleteQuestion() {
     if (!confirm(confirmMsg)) return;
     axios.delete('/question', {
         params : {
-            question_id : questionStorage.value.question_id,
-            problem_id : questionStorage.value.problem_id,
+            question_id: questionStorage.value.question_id,
+            problem_id: questionStorage.value.problem_id,
         }
     }).then(res => {
-        const data = res.data;
-        if (data.result !== true) {
+        const result = res.data.result;
+        if (!result) {
             alert(sucessMsg);
-            router.push({ path: '/question-list' });
+            router.push({ path: '/problem-list' });
         } 
     });
 }
@@ -216,12 +216,9 @@ async function save() {
     const errorMsg = '저장 하는 중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.';
     const sucessMsg = '저장되었습니다.';
     let imagePath = null;
-    
-    [questionStorage.value].forEach(q => {
-        changeTable.forEach(t => {
-            q[t.key] = changeASCII(q[t.key])
-        })
-    });
+    const problems = questionStorage.value;
+    problems.problem = JSON.stringify(problems.problem);
+    problems.answer = JSON.stringify(problems.answer);
 
     if (image.value) {
         await axios.post('/image-upload', image.value)
@@ -231,11 +228,11 @@ async function save() {
     }
 
     axios.put('/question', {
-        questionStorages : questionStorage.value,
-        image : imagePath ?? questionStorage.value.image
+        questionStorages: questionStorage.value,
+        image: imagePath ?? questionStorage.value.image
     }).then(res => {
-        const data = res.data;
-        data.result !== true ? alert(sucessMsg) : alert(errorMsg);
+        const result = res.data.result;
+        result ? alert(sucessMsg) : alert(errorMsg);
         search();
     });
 }
@@ -244,14 +241,13 @@ function deleteImage() {
     if (questionStorage.value.image) {
         axios.delete('/image-delete', {
             params : {
-                filename : questionStorage.value.image,
-                problem_id : questionStorage.value.problem_id
+                filename: questionStorage.value.image,
+                problem_id: questionStorage.value.problem_id
             }
         })
         .then(res => {
-            if (!res.data.result) {
-                search();
-            }
+            const result = res.data.result;
+            if (result) search();
         });
     } else {
         src.value = null;
