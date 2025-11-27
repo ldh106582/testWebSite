@@ -4,7 +4,7 @@ from datetime import date
 import re
 
 nodeUrl = 'http://localhost:3000'
-questionround = '4회차'
+questionround = '1회차'
 question_year = '2020'
 today = date.today().isoformat()
 lastNum = [196, 195, 194, 192, 191, 210, 217, 271, 423, 424, 372, 420, 453, 476, 483, 495, 540, 554]
@@ -51,10 +51,10 @@ def getQuestion() :
                     question = []
                     
                     if any(item in questionText for item in codeQuestion):
-                        question.append({ 'question': changeBacktick(sliceText), 'point': 5,
+                        question.append({ 'question': sliceText, 'point': 5,
                                         'level': '보통', 'type': '단답형',
                                         'year': question_year, 'round': questionround })
-                        problem.append({ 'problem' : changeBacktick(code[index_code]), 'answer' : changeBacktick(answer[index]) })
+                        problem.append({ 'problem' : code[index_code], 'answer' : answer[index] })
                         
                         index += 1
                         index_code += 1
@@ -68,10 +68,10 @@ def getQuestion() :
                                 'problemStorages': problem })
                         break
                     else : 
-                        question.append({ 'question': changeBacktick(sliceText), 'point': 5,
+                        question.append({ 'question': sliceText, 'point': 5,
                                         'level': '보통', 'type': '단답형',
                                         'year': question_year, 'round': questionround })
-                        problem.append({ 'answer': changeBacktick(answer[index]) })
+                        problem.append({ 'answer': answer[index] })
 
                         index += 1
                         requests.post(f'{nodeUrl}/question', 
