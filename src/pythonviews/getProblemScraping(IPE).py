@@ -37,6 +37,7 @@ def getQuestion() :
         index = 0
         index_code = 0
         answer = getAnswer(soup)
+        print('result : ',li, year, round, answer)
         code = getCodeQuestion(soup)
         for i in range(20) :
             num.append(f'{i+1}.')
@@ -47,10 +48,19 @@ def getQuestion() :
             questionText = p.get_text()
             for n in num:
                 if n in questionText:
-                    firstIndex = questionText.index('. ')
-                    sliceText = questionText[(firstIndex + 2) : -1]
-                    problem = {}
-                    question = {}
+                    sliceText = ''
+                    try:
+                        firstIndex = questionText.index('. ')
+                        sliceText = questionText[(firstIndex + 2) : -1]
+                        problem = {}
+                        question = {}
+                    except ValueError:
+                        if '.' in questionText:
+                            firstIndex = questionText.index('.')
+                            sliceText = questionText[(firstIndex + 1) : -1].strip()
+                        else:
+                            print(f"문제 형식 오류: {questionText}")
+                        break
                     
                     if any(item in questionText for item in codeQuestion):
                         question = { 'question': sliceText, 'point': 5, 'level': '보통', 'type': 2,'year': year, 'round': round }
@@ -81,37 +91,56 @@ def getCodeQuestion(soup) :
     
     return codeList
 
-def getAnswer(soup) :
-    targetColor = '#009a87;'
-    raw_texts = []
-    num = []
-    for i in range(20) :
-        num.append(f'{i+1}.')
-    
-    test = soup.find_all(lambda tag: tag.has_attr("style"))
-    for t in test :
-        temp = []
-        style = t.get('style')
-        if f"color: {targetColor}" in style :
-            text =  t.get_text(strip=True)
-            if ('기출문제이면서' not in text) and ('답' not in text):
-                raw_texts.append(text)
+def getAnswer(soup):
     merged = []
-    buffer = []
-    pattern = re.compile(r"^\d+\.\s")
     
-    for item in raw_texts :
-        if pattern.match(item) :
-            buffer.append(item)
-        else :
-            if buffer :
-                merged.append(', ' .join(buffer))
-                buffer = []
-            merged.append(item)
+    # moreless-content 클래스를 가진 모든 div 찾기
+    answer_blocks = soup.find_all('div', class_='moreless-content')
+    
+    exclude_texts = ['해당 복원된 기출문제가 많은 분들에게', '도움이 되었으면 좋겠습니다.']
+    exclude_keywords = ['기출문제이면서', '답']
+    
+    for block in answer_blocks:
+        # 블록 안의 모든 텍스트 가져오기
+        block_texts = []
         
-    if buffer:
-        merged.append(', '.join(buffer))
-
+        # p 태그들 찾기
+        paragraphs = block.find_all(['p', 'span'])
+        
+        for para in paragraphs:
+            text = para.get_text(strip=True)
+            
+            # 빈 텍스트는 스킵
+            if not text:
+                continue
+            
+            # 제외 키워드가 포함된 텍스트는 스킵
+            if any(keyword in text for keyword in exclude_keywords):
+                continue
+            
+            # 제외 텍스트 목록에 있으면 스킵
+            if text in exclude_texts:
+                continue
+            
+            block_texts.append(text)
+        
+        # 한 블록 안의 텍스트들을 합치기
+        if block_texts:
+            # <br> 태그로 구분된 경우 처리
+            if len(block_texts) == 1 and '\n' in block_texts[0]:
+                # 줄바꿈이 있으면 ' / '로 구분
+                merged.append(' / '.join(block_texts[0].split('\n')))
+            elif len(block_texts) == 1:
+                merged.append(block_texts[0])
+            else:
+                # 여러 개면 합치기
+                is_all_numbers = all(
+                    all(c.isdigit() or c in [',', ' ', '/', '%', '(', ')'] for c in txt) 
+                    for txt in block_texts
+                )
+                separator = ' / ' if is_all_numbers else ', '
+                merged.append(separator.join(block_texts))
+    
     return merged
 
 def changeBacktick(params) :
