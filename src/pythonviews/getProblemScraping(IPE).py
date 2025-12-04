@@ -37,7 +37,6 @@ def getQuestion() :
         index = 0
         index_code = 0
         answer = getAnswer(soup)
-        print('result : ',li, year, round, answer)
         code = getCodeQuestion(soup)
         for i in range(20) :
             num.append(f'{i+1}.')
