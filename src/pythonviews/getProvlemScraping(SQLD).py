@@ -12,7 +12,13 @@ def getQuestion():
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
     
+    answer = getAnswer(soup)
+    
     return "dh"
     
+    
+    
+def getAnswer(params) :
+    return "dh"
     
 getQuestion()
