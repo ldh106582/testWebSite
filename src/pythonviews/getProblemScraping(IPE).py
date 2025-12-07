@@ -62,7 +62,8 @@ def getQuestion() :
                         break
                     
                     if any(item in questionText for item in codeQuestion):
-                        question = { 'question': sliceText, 'point': 5, 'level': '보통', 'type': 2,'year': year, 'round': round }
+                        question = { 'question': sliceText, 'point': 5, 'level': '보통', 'type': 2,
+                        'year': year, 'round': round }
                         problem = { 'problem': code[index_code], 'answer': json.dumps(answer[index]) }
                         
                         index += 1
@@ -73,7 +74,8 @@ def getQuestion() :
                                 'questionStorages': question, 'problemStorages': problem })
                         break
                     else : 
-                        question = { 'question': sliceText, 'point': 5, 'level': '보통', 'type': 2, 'year': year, 'round': round }
+                        question = { 'question': sliceText, 'point': 5, 'level': '보통', 'type': 2, 
+                        'year': year, 'round': round }
                         problem = { 'answer': json.dumps(answer[index]) }
 
                         index += 1

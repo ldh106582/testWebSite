@@ -78,10 +78,8 @@ import { ref, onMounted } from 'vue';
 import router from '@/router';
 import axios from '../../src/axios';
 import { useExamStart } from '../store/useExamStart';
-import useChangeASCIIAndBactick from '@/mixins/useChangeASCIIAndBactick';
 
 const examStore = useExamStart();
-const { changeBactick } = useChangeASCIIAndBactick();
 
 const userId = ref('');
 const problems = ref([]);
@@ -117,15 +115,12 @@ function search() {
     }).then(res => {
         const rows = res.data.rows;
 
-        if (rows.length === 0 || rows) {
+        if (rows.length === 0) {
             return alert(errorMsg);
         } else {
-            rows.forEach(q => {
-                q.question = changeBactick(q.question);
-                q.problem = changeBactick(q.problem);
-            });
-
             problems.value = rows;
+            console.log(problems.value)
+
             const examTimeInMinutes = parseInt(problems.value[0].exam_time);
             examTime.value = Date.now() + (examTimeInMinutes * 60 * 1000);
         }
