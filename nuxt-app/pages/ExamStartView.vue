@@ -156,10 +156,10 @@ async function submit() {
     );
 
     await axios.post('/save-exam-result', {
-        list : list
+        list: list
     }).then(res => {
         const result = res.data.result;
-        if (!result) {
+        if (result) {
             examStore.setExamData({
                 problems: problems.value,
                 examResult: item,

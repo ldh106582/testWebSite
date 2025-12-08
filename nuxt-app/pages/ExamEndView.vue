@@ -68,7 +68,7 @@ const passFail = ref('');
 const  classObject = ref( {
     isActive: true,
     'text-danger': false
-})
+});
 
 function getProblem() {
 
