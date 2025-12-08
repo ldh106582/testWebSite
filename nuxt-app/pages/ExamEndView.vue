@@ -40,13 +40,19 @@
                     <v-text-field data-test="problem" variant="outlined" hide-details
                     auto-grow class="pa-0" :value="problem.answer" />
                 </v-col>
-                <v-col cols="11">
-                    <v-text-field data-test="problem" variant="outlined" hide-details
-                    auto-grow class="pa-0" :value="problem.desc" />
+                <v-col cols="12" class="answer py-0">
+                    <span> 해 설 : </span>
                 </v-col>
-                <v-col cols="11">
-                    <v-text-field data-test="problem" variant="outlined" hide-details
-                    auto-grow class="pa-0" :value="problem.ai" />
+                <v-col cols="12">
+                    <v-textarea data-test="problem" variant="outlined" hide-details
+                    auto-grow class="pa-0" :value="problem.explanation" />
+                </v-col>
+                <v-col cols="12" class="answer py-0">
+                    <span> Feedback : </span>
+                </v-col>
+                <v-col cols="12">
+                    <v-textarea data-test="problem" variant="outlined" hide-details
+                    auto-grow class="pa-0" :value="problem.feedback" />
                 </v-col>
             </v-row>
         </v-col>
