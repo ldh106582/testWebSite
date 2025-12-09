@@ -48,7 +48,7 @@
                     auto-grow class="pa-0" :value="problem.explanation" />
                 </v-col>
                 <v-col cols="12" class="answer py-0">
-                    <span> Feedback : </span>
+                    <span style="font-weight: bold; font-size: large;"> Feedback : </span>
                 </v-col>
                 <v-col cols="12">
                     <v-textarea data-test="problem" variant="outlined" hide-details
