@@ -26,7 +26,7 @@
                 </v-col>
 
                 <v-col cols="1" class="answer py-0">
-                    <span> 제출 : </span>
+                    <span class="title"> 제출 : </span>
                 </v-col>
                 <v-col cols="11">
                     <v-text-field data-test="problem" variant="outlined" hide-details
@@ -34,21 +34,21 @@
                 </v-col>
 
                 <v-col cols="1  " class="answer py-0">
-                    <span> 정 답 : </span>
+                    <span class="title"> 정 답 : </span>
                 </v-col>
                 <v-col cols="11">
                     <v-text-field data-test="problem" variant="outlined" hide-details
                     auto-grow class="pa-0" :value="problem.answer" />
                 </v-col>
                 <v-col cols="12" class="answer py-0">
-                    <span> 해 설 : </span>
+                    <span class="title" > 해 설 : </span>
                 </v-col>
                 <v-col cols="12">
                     <v-textarea data-test="problem" variant="outlined" hide-details
                     auto-grow class="pa-0" :value="problem.explanation" />
                 </v-col>
                 <v-col cols="12" class="answer py-0">
-                    <span style="font-weight: bold; font-size: large;"> Feedback : </span>
+                    <span class="title" style="font-weight: bold; font-size: large;"> Feedback : </span>
                 </v-col>
                 <v-col cols="12">
                     <v-textarea data-test="problem" variant="outlined" hide-details
