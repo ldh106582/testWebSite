@@ -26,7 +26,7 @@
                 </v-col>
 
                 <v-col cols="1" class="answer py-0">
-                    <span class="title"> 제출 : </span>
+                    <span class="title"> 제 출 : </span>
                 </v-col>
                 <v-col cols="11">
                     <v-text-field data-test="problem" variant="outlined" hide-details
@@ -71,7 +71,7 @@ const answers = ref([]);
 const examResult = ref([]);
 const score = ref(0);
 const passFail = ref('');
-const  classObject = ref( {
+const classObject = ref( {
     isActive: true,
     'text-danger': false
 });
