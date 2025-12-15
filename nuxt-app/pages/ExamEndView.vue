@@ -71,13 +71,12 @@ const answers = ref([]);
 const examResult = ref([]);
 const score = ref(0);
 const passFail = ref('');
-const classObject = ref( {
+const classObject = ref({
     isActive: true,
     'text-danger': false
 });
 
 function getProblem() {
-
     problems.value = examStorePage.problems;
     answers.value = examStorePage.answers;
     examResult.value = examStorePage.examResult;

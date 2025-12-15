@@ -119,8 +119,6 @@ function search() {
             return alert(errorMsg);
         } else {
             problems.value = rows;
-            console.log(problems.value)
-
             const examTimeInMinutes = parseInt(problems.value[0].exam_time);
             examTime.value = Date.now() + (examTimeInMinutes * 60 * 1000);
         }
