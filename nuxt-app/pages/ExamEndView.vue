@@ -69,6 +69,7 @@ const examStorePage = useExamStart();
 const problems = ref([]);
 const answers = ref([]);
 const examResult = ref([]);
+const aiAnswer = ref([]);
 const score = ref(0);
 const passFail = ref('');
 const classObject = ref({
@@ -90,7 +91,7 @@ function getAIAnswer(index) {
         answers: answers.value[index]
     }).then(res => {
         const result = res.data.result;
-        
+        aiAnswer.value = result;
     });
 }
 
