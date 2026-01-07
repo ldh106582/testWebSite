@@ -11,7 +11,8 @@
     "mixinstest": "vitest --environment jsdom src/mixins/__tests__",
     "unittest": "vitest --environment jsdom src/views/__tests__/unit",
     "e2etest": "vitest --environment jsdom src/views/__tests__/e2e",
-    "test-ct": "playwright test -c playwright-ct.config.ts"
+    "test-ct": "playwright test -c playwright-ct.config.ts",
+    "hosting": "npm run build && npx firebase deploy"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
