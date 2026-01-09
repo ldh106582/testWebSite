@@ -5,7 +5,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const instance = axios.create({
   baseURL: isProduction 
-    ? 'http://134.185.97.170:3000/' 
+    ? 'http://144.24.83.203:3000/' 
     : 'http://localhost:3000/'
 });
 
