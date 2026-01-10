@@ -60,9 +60,11 @@ async function makeChartDate(params) {
 
 onMounted(async () => {
 
+    if (auth.userId?.value === null || auth.userId?.value === undefined) return;
+
     await axios.get('/chart', {
         params : {
-            user_id : auth.userId.value
+            user_id : auth.userId?.value
         }
     }).then(res => {
         result.value = res.data.result;
