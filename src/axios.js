@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// 현재 환경이 'production'인지 확인 (npm run build 등으로 실행 시 자동 설정됨)
 const isProduction = process.env.NODE_ENV === 'production';
 
 // const instance = axios.create({
@@ -9,7 +8,8 @@ const isProduction = process.env.NODE_ENV === 'production';
 //     : 'http://localhost:3000/'
 // });
 const instance = axios.create({
-  baseURL: 'https://examsite.duckdns.org' // 일단 무조건 오라클 서버로 가게 수정
+  baseURL: isProduction ? "https://examwebsite-1993.duckdns.org" : '/',
+  withCredentials: true
 });
 
 instance.interceptors.request.use(
